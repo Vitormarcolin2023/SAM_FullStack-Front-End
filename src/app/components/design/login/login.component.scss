@@ -3,7 +3,7 @@ h3{
 }
 
 .btn-logar{
-    background-color:#1ce897;
+    background-color:rgb(28, 232, 151);
     width: 445px;
     height: 33px;
     border-radius: 5px;
@@ -11,12 +11,13 @@ h3{
 
 }
 .btn-logar:hover{
-    background-color:#17d88b;;
+    background-color:#00995E;
     cursor: pointer;
 }
 
 .background {
-  background-color: #DEDEDE;
+  background-image: url('/public/imagens/backgroundLight.jpg');
+  background-size: cover;       /* cobre toda a tela */
   background-position: center;  /* centraliza a imagem */
   background-repeat: no-repeat; /* evita repetição */
   min-height: 100vh;            /* altura mínima de 100% da tela */
