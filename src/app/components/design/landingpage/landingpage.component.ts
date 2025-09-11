@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 
 @Component({
   selector: 'app-landingpage',
-  imports: [],
+  imports: [MdbCarouselModule],
   templateUrl: './landingpage.component.html',
   styleUrl: './landingpage.component.scss'
 })

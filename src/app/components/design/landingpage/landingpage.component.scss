@@ -1,0 +1,52 @@
+.landing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #e6e6e6 0%, #cfcfcf 100%);
+}
+
+.carousel-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* ocupa toda a largura para centralizar */
+}
+
+.card-custom {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+
+  /* 👇 controla tamanho e centralização */
+  width: 400px;      /* largura fixa em desktop */
+  max-width: 90%;    /* adapta em telas pequenas */
+  margin: auto;      /* garante que fique no centro */
+}
+
+
+.card-custom h3 {
+  color: #00995E;
+  margin-bottom: 15px;
+}
+
+.card-custom p {
+  color: #333;
+}
+
+.btn-card {
+  background-color: #00E88F;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-card:hover {
+  background-color: #00995E;
+}
