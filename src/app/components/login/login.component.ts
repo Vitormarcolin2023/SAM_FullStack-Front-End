@@ -14,6 +14,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 export class LoginComponent {
   email: string = '';
   senha: string = '';
+tipoUsuario: any;
 
   constructor(private router: Router) {}
 
