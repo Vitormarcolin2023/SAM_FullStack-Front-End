@@ -7,5 +7,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'landing', component: LandingpageComponent },
   { path: '', component: LandingpageComponent },
-   { path: '**', redirectTo: '' } // fallback (se digitar rota errada, volta pra landing)
+  { path: '**', redirectTo: '' } // fallback (se digitar rota errada, volta pra landing)
 ];
