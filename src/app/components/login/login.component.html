@@ -6,6 +6,7 @@
       <div class="card-body">
         <h3 class="text-center mb-4">Login - SAM</h3>
         <form class="form">
+          
           <!-- Tipo de usuário -->
           <mdb-form-control class="mb-4">
             <select mdbInput id="tipoUsuario" name="tipoUsuario" class="form-control" [(ngModel)]="tipoUsuario">
@@ -16,6 +17,12 @@
               <option value="ALUNO">Aluno</option>
             </select>
             <label mdbLabel class="form-label" for="tipoUsuario">Tipo de Usuário</label>
+          </mdb-form-control>
+
+          <!-- Email input -->
+          <mdb-form-control class="mb-4">
+            <input mdbInput type="email" id="email" name="email" class="form-control" [(ngModel)]="email"/>
+            <label mdbLabel class="form-label" for="email">Email</label>
           </mdb-form-control>
 
           <!-- Password input -->
