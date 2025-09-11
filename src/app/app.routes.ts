@@ -3,6 +3,7 @@ import { LoginComponent } from './components/design/login/login.component';
 import { LandingpageComponent } from './components/design/landingpage/landingpage.component';
 
 
+
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'landing', component: LandingpageComponent },
