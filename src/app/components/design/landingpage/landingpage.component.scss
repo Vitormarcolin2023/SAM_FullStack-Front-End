@@ -15,14 +15,16 @@
 
 .card-custom {
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
+  border-radius: 25px;
   padding: 30px;
   text-align: center;
-  box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 10px rgba(76, 76, 76, 0.2);
 
-  /* 👇 controla tamanho e centralização */
+  /*controla tamanho e centralização */
   width: 400px;      /* largura fixa em desktop */
   max-width: 90%;    /* adapta em telas pequenas */
+  max-height: 250px;
+  min-height: 250px; /* garante que todos tenham pelo menos 350px de altura */
   margin: auto;      /* garante que fique no centro */
 }
 
@@ -42,11 +44,13 @@
   border-radius: 8px;
   padding: 10px 20px;
   margin-top: 20px;
-  color: #fff;
+  color: #005434;
   font-weight: bold;
   cursor: pointer;
 }
 
 .btn-card:hover {
  background-color:#00995E;
+ color: white;
 }
+
