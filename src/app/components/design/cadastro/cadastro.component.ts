@@ -1,15 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-tela-cadastro',
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './tela-cadastro.component.html',
-  styleUrl: './cadastro.scss'
+  selector: 'app-cadastro',
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './cadastro.component.html',
+  styleUrl: './cadastro.component.scss'
 })
-export class TelaCadastroComponent implements OnInit {
-   
+export class CadastroComponent implements OnInit {
   cadastroMentorForm!: FormGroup;
 
   constructor(private fb: FormBuilder) { } //Injetar o FormBuilder
