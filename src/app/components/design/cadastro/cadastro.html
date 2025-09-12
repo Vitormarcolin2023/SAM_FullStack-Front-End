@@ -1,0 +1,45 @@
+<p>tela-cadastro works!</p>
+<div class="container">
+  <form [formGroup]="cadastroMentorForm" (ngSubmit)="onSubmit()">
+    <h2>Cadastro Mentor</h2>
+    <div class="form-group">
+      <label for="firstName">Primeiro nome</label>
+      <input id="firstName" type="text" formControlName="firstName">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Sobrenome</label>
+      <input id="lastName" type="text" formControlName="lastName">
+    </div>
+
+    <div class="form-group">
+      <label for="companyName">Nome da empresa</label>
+      <input id="companyName" type="text" formControlName="companyName">
+    </div>
+    
+    <div class="form-group">
+      <label for="address">Endereço</label>
+      <input id="address" type="text" formControlName="address">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Telefone</label>
+      <input id="phone" type="tel" formControlName="phone">
+    </div>
+
+    <div class="form-group">
+      <label for="additionalInformation">Informações adicionais</label>
+      <textarea id="additionalInformation" formControlName="additionalInformation"></textarea>
+    </div>
+
+    <div class="buttons-container">
+      <button type="button" (click)="onVoltar()">Voltar</button>
+      <button type="submit" [disabled]="cadastroMentorForm.invalid">Salvar</button>
+    </div>
+  </form>
+</div>
