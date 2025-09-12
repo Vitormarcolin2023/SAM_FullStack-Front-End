@@ -1,54 +1,73 @@
-/* src/app/app.component.css */
-.container {
+.form-container {
   max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
+  margin: 50px auto;
+  background: #f0f0f0;
+  padding: 25px;
+  border-radius: 15px;
+  font-family: 'Arial', sans-serif;
+  color: #00995E;
 
-h2 {
-  text-align: center;
-  color: #4CAF50;
-}
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-.form-group {
-  margin-bottom: 15px;
-}
+  fieldset {
+    border: none;
+    margin-bottom: 20px;
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box; /* Garante que padding e border estão incluídos na largura total */
-}
+    legend {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
+    .form-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
+      label {
+        flex: 1 1 45%;
+        display: flex;
+        align-items: center;
+        background: #e0e0e0;
+        padding: 10px;
+        border-radius: 8px;
 
-button[type="button"] { /* Botão Voltar */
-  background-color: #ddd;
-  color: #333;
-}
+        i {
+          margin-right: 8px;
+        }
 
-button[type="submit"] { /* Botão Salvar */
-  background-color: #4CAF50;
-  color: white;
+        input, select {
+          border: none;
+          outline: none;
+          background: transparent;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      padding: 10px 25px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-back {
+      background: #fff;
+      color: #00995E;
+    }
+
+    .btn-save {
+      background: #00FF91;
+      color: #fff;
+    }
+  }
 }
