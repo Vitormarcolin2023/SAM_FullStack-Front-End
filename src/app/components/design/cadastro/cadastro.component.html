@@ -1,0 +1,58 @@
+<form [formGroup]="cadastroMentorForm" (ngSubmit)="onSubmit()">
+  <div>
+    <input type="text" placeholder="Nome" formControlName="nome">
+    <div *ngIf="hasError('nome', 'required')">Nome é obrigatório</div>
+  </div>
+
+  <div>
+    <input type="text" placeholder="CPF" formControlName="cpf">
+    <div *ngIf="hasError('cpf', 'required')">CPF é obrigatório</div>
+  </div>
+
+  <div>
+    <input type="email" placeholder="Email" formControlName="email">
+    <div *ngIf="hasError('email', 'required')">Email é obrigatório</div>
+    <div *ngIf="hasError('email', 'email')">Email inválido</div>
+  </div>
+
+  <div>
+    <input type="password" placeholder="Senha" formControlName="senha">
+    <div *ngIf="hasError('senha', 'required')">Senha é obrigatória</div>
+  </div>
+
+  <div>
+    <input type="text" placeholder="Telefone" formControlName="telefone">
+  </div>
+
+  <div>
+    <input type="text" placeholder="Cidade" formControlName="cidade">
+    <select formControlName="estado">
+      <option value="">Selecione um estado</option>
+      <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
+    </select>
+  </div>
+
+  <div>
+    <input type="text" placeholder="Bairro" formControlName="bairro">
+    <input type="text" placeholder="Número" formControlName="numero">
+    <input type="text" placeholder="Rua" formControlName="rua">
+    <input type="text" placeholder="CEP" formControlName="cep">
+  </div>
+
+  <div>
+    <input type="text" placeholder="Tempo de Experiência" formControlName="tempoExperiencia">
+    <select formControlName="areaAtuacao">
+      <option value="">Selecione a área de atuação</option>
+      <option *ngFor="let area of areasAtuacao" [value]="area">{{area}}</option>
+    </select>
+  </div>
+
+  <div>
+    <select formControlName="tipoVinculo">
+      <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
+    </select>
+  </div>
+
+  <button type="submit">Enviar</button>
+  <button type="button" (click)="onVoltar()">Voltar</button>
+</form>
