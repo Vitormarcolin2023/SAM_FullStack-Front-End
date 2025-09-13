@@ -8,39 +8,68 @@
 
         <div class="form-step">
           <h3>Dados Pessoais</h3>
-          <input type="text" placeholder="Nome" formControlName="nome">
-          <input type="text" placeholder="CPF" formControlName="cpf">
-          <input type="email" placeholder="Email" formControlName="email">
-          <input type="password" placeholder="Senha" formControlName="senha">
-          <input type="text" placeholder="Telefone" formControlName="telefone">
+          <label for="nome">Nome</label>
+          <input id="nome" type="text" formControlName="nome">
+
+          <label for="cpf">CPF</label>
+          <input id="cpf" type="text" formControlName="cpf">
+
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email">
+
+          <label for="senha">Senha</label>
+          <input id="senha" type="password" formControlName="senha">
+
+          <label for="telefone">Telefone</label>
+          <input id="telefone" type="text" formControlName="telefone">
         </div>
 
         <div class="form-step">
           <h3>Endereço</h3>
-          <input type="text" placeholder="Cidade" formControlName="cidade">
-          <select formControlName="estado">
+          <label for="cidade">Cidade</label>
+          <input id="cidade" type="text" formControlName="cidade">
+
+          <label for="estado">Estado</label>
+          <select id="estado" formControlName="estado">
             <option value="">Selecione um estado</option>
             <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
           </select>
-          <input type="text" placeholder="Bairro" formControlName="bairro">
-          <input type="text" placeholder="Número" formControlName="numero">
-          <input type="text" placeholder="Rua" formControlName="rua">
-          <input type="text" placeholder="CEP" formControlName="cep">
+
+          <label for="bairro">Bairro</label>
+          <input id="bairro" type="text" formControlName="bairro">
+
+          <label for="numero">Número</label>
+          <input id="numero" type="text" formControlName="numero">
+
+          <label for="rua">Rua</label>
+          <input id="rua" type="text" formControlName="rua">
+
+          <label for="cep">CEP</label>
+          <input id="cep" type="text" formControlName="cep">
         </div>
 
         <div class="form-step">
           <h3>Vínculo</h3>
-          <input type="text" placeholder="Tempo de Experiência" formControlName="tempoExperiencia">
-          <select formControlName="areaAtuacao">
+          <label for="tempoExperiencia">Tempo de Experiência</label>
+          <input id="tempoExperiencia" type="text" formControlName="tempoExperiencia">
+
+          <label for="tipoVinculo">Tipo de Vínculo</label>
+          <select id="tipoVinculo" formControlName="tipoVinculo">
+            <option value="">Selecione o tipo de vínculo</option>
+            <option value="AUTONOMO">Autônomo</option>
+            <option value="PJ">PJ</option>
+            <option value="CLT">CLT</option>
+          </select>
+
+          <label for="areaAtuacao">Área de Atuação</label>
+          <select id="areaAtuacao" formControlName="areaAtuacao">
             <option value="">Selecione a área de atuação</option>
             <option *ngFor="let area of areasAtuacao" [value]="area">{{area}}</option>
           </select>
-          <select formControlName="tipoVinculo">
-            <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
-          </select>
         </div>
+
       </div>
-      
+
       <div class="form-buttons-container">
         <div class="buttons-row">
           <button type="button" class="btn-back" (click)="goToLanding()">Voltar à Home</button>
