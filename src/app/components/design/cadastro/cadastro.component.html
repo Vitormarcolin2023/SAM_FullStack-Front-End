@@ -4,48 +4,46 @@
 
     <form [formGroup]="cadastroMentorForm" (ngSubmit)="onSubmit()">
 
-      <!-- Step 1: Dados pessoais -->
-      <div *ngIf="step === 1">
-        <input type="text" placeholder="Nome" formControlName="nome">
-        <input type="text" placeholder="CPF" formControlName="cpf">
-        <input type="email" placeholder="Email" formControlName="email">
-        <input type="password" placeholder="Senha" formControlName="senha">
-        <input type="text" placeholder="Telefone" formControlName="telefone">
+      <input type="text" placeholder="Nome" formControlName="nome">
+      <div class="error" *ngIf="hasError('nome', 'required')">Nome é obrigatório</div>
 
-        <button type="button" (click)="nextStep()">Próximo</button>
-      </div>
+      <input type="text" placeholder="CPF" formControlName="cpf">
+      <div class="error" *ngIf="hasError('cpf', 'required')">CPF é obrigatório</div>
 
-      <!-- Step 2: Endereço -->
-      <div *ngIf="step === 2">
+      <input type="email" placeholder="Email" formControlName="email">
+      <div class="error" *ngIf="hasError('email', 'required')">Email é obrigatório</div>
+      <div class="error" *ngIf="hasError('email', 'email')">Email inválido</div>
+
+      <input type="password" placeholder="Senha" formControlName="senha">
+      <div class="error" *ngIf="hasError('senha', 'required')">Senha é obrigatória</div>
+
+      <input type="text" placeholder="Telefone" formControlName="telefone">
+
+      <div class="row">
         <input type="text" placeholder="Cidade" formControlName="cidade">
         <select formControlName="estado">
           <option value="">Selecione um estado</option>
           <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
         </select>
-        <input type="text" placeholder="Bairro" formControlName="bairro">
-        <input type="text" placeholder="Número" formControlName="numero">
-        <input type="text" placeholder="Rua" formControlName="rua">
-        <input type="text" placeholder="CEP" formControlName="cep">
-
-        <button type="button" (click)="prevStep()">Voltar</button>
-        <button type="button" (click)="nextStep()">Próximo</button>
       </div>
 
-      <!-- Step 3: Vínculo -->
-      <div *ngIf="step === 3">
-        <input type="text" placeholder="Tempo de Experiência" formControlName="tempoExperiencia">
-        <select formControlName="areaAtuacao">
-          <option value="">Selecione a área de atuação</option>
-          <option *ngFor="let area of areasAtuacao" [value]="area">{{area}}</option>
-        </select>
-        <select formControlName="tipoVinculo">
-          <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
-        </select>
+      <input type="text" placeholder="Bairro" formControlName="bairro">
+      <input type="text" placeholder="Número" formControlName="numero">
+      <input type="text" placeholder="Rua" formControlName="rua">
+      <input type="text" placeholder="CEP" formControlName="cep">
 
-        <button type="button" (click)="prevStep()">Voltar</button>
-        <button type="submit">Finalizar Cadastro</button>
-      </div>
+      <input type="text" placeholder="Tempo de Experiência" formControlName="tempoExperiencia">
+      <select formControlName="areaAtuacao">
+        <option value="">Selecione a área de atuação</option>
+        <option *ngFor="let area of areasAtuacao" [value]="area">{{area}}</option>
+      </select>
 
+      <select formControlName="tipoVinculo">
+        <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
+      </select>
+
+      <button type="submit">Cadastrar</button>
+      <button type="button" (click)="onVoltar()" class="btn-back">Voltar</button>
     </form>
   </div>
 </div>
