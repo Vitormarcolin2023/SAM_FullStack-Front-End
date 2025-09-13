@@ -1,76 +1,70 @@
-
-.form-container {
-  max-width: 400px; /* menor que 600px */
-  margin: 50px auto;
-  padding: 20px; /* menos espaçamento interno */
-  border-radius: 15px;
-  font-family: 'Arial', sans-serif;
-  color: #00995E;
-}
-
-.form-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.form-container fieldset {
-  border: none;
-  margin-bottom: 20px;
-}
-
-.form-container fieldset legend {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.form-container .form-group {
+.cadastro-container {
   display: flex;
-  gap: 5px; /* antes era 10px */
-  flex-wrap: wrap;
-  margin-bottom: 10px; /* antes era 20px */
-}
-
-
-.form-container .form-group label {
-  flex: 1 1 45%;
-  display: flex;
+  justify-content: center;
   align-items: center;
-  background: #e0e0e0;
-  padding: 10px;
-  border-radius: 8px;
+  height: 100vh;
+
+  background-image: url('/backgroundLight.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
-.form-container .form-group label i {
-  margin-right: 8px;
-}
-
-.form-container .form-group label input,
-.form-container .form-group label select {
-  border: none;
-  outline: none;
-  background: transparent;
-  width: 100%;
-}
-
-.form-container .form-buttons {
+.form-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
   display: flex;
-  justify-content: space-between;
-}
+  flex-direction: column;
+  gap: 15px;
 
-.form-container .form-buttons button {
-  padding: 10px 25px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00995E;
+  }
 
-.form-container .form-buttons .btn-back {
-  background: #fff;
-  color: #00995E;
-}
+  input, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
+  }
 
-.form-container .form-buttons .btn-save {
-  background: #00FF91;
-  color: #fff;
+  .row {
+    display: flex;
+    gap: 10px;
+
+    input, select {
+      flex: 1;
+    }
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+  }
+
+  button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button[type="submit"] {
+    background-color: #00FF91;
+    color: #fff;
+  }
+
+  .btn-back {
+    background-color: #ccc;
+    color: #333;
+    margin-top: 5px;
+  }
 }
