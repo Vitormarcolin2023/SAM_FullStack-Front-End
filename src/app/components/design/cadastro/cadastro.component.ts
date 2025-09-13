@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class CadastroComponent implements OnInit {
   cadastroMentorForm!: FormGroup;
+  formSubmitted = false;
 
   estados = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
   tiposVinculo = ['PENDENTE_APROVACAO', 'COMPLETO'];
@@ -38,23 +39,23 @@ export class CadastroComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.formSubmitted = true;
     if (this.cadastroMentorForm.valid) {
       console.log('Formulário enviado!', this.cadastroMentorForm.value);
-      // Aqui você pode chamar o service para enviar os dados para a API
+      // Chamar service para enviar os dados para a API
     } else {
       console.log('Formulário inválido.');
-      this.cadastroMentorForm.markAllAsTouched(); // marca todos os campos para exibir erros
+      this.cadastroMentorForm.markAllAsTouched();
     }
   }
 
   onVoltar(): void {
     console.log('Botão Voltar clicado');
-    // Aqui você pode navegar para outra página se quiser
+    // Navegação para outra página, se necessário
   }
 
-  // Função auxiliar para facilitar verificação de erro no template
   hasError(field: string, error: string) {
     const control = this.cadastroMentorForm.get(field);
-    return control && control.touched && control.hasError(error);
+    return control && (control.touched || this.formSubmitted) && control.hasError(error);
   }
 }

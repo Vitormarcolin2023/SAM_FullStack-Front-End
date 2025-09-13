@@ -1,58 +1,103 @@
-<form [formGroup]="cadastroMentorForm" (ngSubmit)="onSubmit()">
-  <div>
-    <input type="text" placeholder="Nome" formControlName="nome">
-    <div *ngIf="hasError('nome', 'required')">Nome é obrigatório</div>
-  </div>
+<div class="form-container">
+  <h2>Cadastro de Mentor</h2>
+  <form [formGroup]="cadastroMentorForm" (ngSubmit)="onSubmit()">
 
-  <div>
-    <input type="text" placeholder="CPF" formControlName="cpf">
-    <div *ngIf="hasError('cpf', 'required')">CPF é obrigatório</div>
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="text" placeholder="Nome" formControlName="nome">
+      </label>
+      <div class="error" *ngIf="(cadastroMentorForm.get('nome')?.touched || formSubmitted) && hasError('nome', 'required')">
+        Nome é obrigatório
+      </div>
+    </div>
 
-  <div>
-    <input type="email" placeholder="Email" formControlName="email">
-    <div *ngIf="hasError('email', 'required')">Email é obrigatório</div>
-    <div *ngIf="hasError('email', 'email')">Email inválido</div>
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="text" placeholder="CPF" formControlName="cpf">
+      </label>
+      <div class="error" *ngIf="(cadastroMentorForm.get('cpf')?.touched || formSubmitted) && hasError('cpf', 'required')">
+        CPF é obrigatório
+      </div>
+    </div>
 
-  <div>
-    <input type="password" placeholder="Senha" formControlName="senha">
-    <div *ngIf="hasError('senha', 'required')">Senha é obrigatória</div>
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="email" placeholder="Email" formControlName="email">
+      </label>
+      <div class="error" *ngIf="(cadastroMentorForm.get('email')?.touched || formSubmitted) && hasError('email', 'required')">
+        Email é obrigatório
+      </div>
+      <div class="error" *ngIf="(cadastroMentorForm.get('email')?.touched || formSubmitted) && hasError('email', 'email')">
+        Email inválido
+      </div>
+    </div>
 
-  <div>
-    <input type="text" placeholder="Telefone" formControlName="telefone">
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="password" placeholder="Senha" formControlName="senha">
+      </label>
+      <div class="error" *ngIf="(cadastroMentorForm.get('senha')?.touched || formSubmitted) && hasError('senha', 'required')">
+        Senha é obrigatória
+      </div>
+    </div>
 
-  <div>
-    <input type="text" placeholder="Cidade" formControlName="cidade">
-    <select formControlName="estado">
-      <option value="">Selecione um estado</option>
-      <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="text" placeholder="Telefone" formControlName="telefone">
+      </label>
+    </div>
 
-  <div>
-    <input type="text" placeholder="Bairro" formControlName="bairro">
-    <input type="text" placeholder="Número" formControlName="numero">
-    <input type="text" placeholder="Rua" formControlName="rua">
-    <input type="text" placeholder="CEP" formControlName="cep">
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="text" placeholder="Cidade" formControlName="cidade">
+      </label>
+      <label>
+        <select formControlName="estado">
+          <option value="">Selecione um estado</option>
+          <option *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
+        </select>
+      </label>
+    </div>
 
-  <div>
-    <input type="text" placeholder="Tempo de Experiência" formControlName="tempoExperiencia">
-    <select formControlName="areaAtuacao">
-      <option value="">Selecione a área de atuação</option>
-      <option *ngFor="let area of areasAtuacao" [value]="area">{{area}}</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="text" placeholder="Bairro" formControlName="bairro">
+      </label>
+      <label>
+        <input type="text" placeholder="Número" formControlName="numero">
+      </label>
+      <label>
+        <input type="text" placeholder="Rua" formControlName="rua">
+      </label>
+      <label>
+        <input type="text" placeholder="CEP" formControlName="cep">
+      </label>
+    </div>
 
-  <div>
-    <select formControlName="tipoVinculo">
-      <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label>
+        <input type="text" placeholder="Tempo de Experiência" formControlName="tempoExperiencia">
+      </label>
+      <label>
+        <select formControlName="areaAtuacao">
+          <option value="">Selecione a área de atuação</option>
+          <option *ngFor="let area of areasAtuacao" [value]="area">{{area}}</option>
+        </select>
+      </label>
+    </div>
 
-  <button type="submit">Enviar</button>
-  <button type="button" (click)="onVoltar()">Voltar</button>
-</form>
+    <div class="form-group">
+      <label>
+        <select formControlName="tipoVinculo">
+          <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-save">Enviar</button>
+      <button type="button" class="btn-back" (click)="onVoltar()">Voltar</button>
+    </div>
+
+  </form>
+</div>
