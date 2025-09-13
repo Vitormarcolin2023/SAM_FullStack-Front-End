@@ -36,6 +36,8 @@
             ],
             "scripts": [
               "node_modules/chart.js/dist/chart.js"
+            
+              "node_modules/chart.js/dist/chart.js"
             ]
           },
           "configurations": {
@@ -100,6 +102,9 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "031fe3c8-ab66-4b19-b293-c3b86db8dea8"
   },
   "cli": {
     "analytics": false
