@@ -4,6 +4,7 @@
     align-items: flex-start; /* Mantém o card no topo quando houver scroll */
     min-height: 100vh;
     padding: 20px; /* Espaço para scroll */
+    margin-top: 60px;
     
     background-image: url('/backgroundLight.jpg');
     background-size: cover;
@@ -15,7 +16,7 @@
 .form-box {
     background: rgba(255, 255, 255, 0.95);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 80%;
     max-width: 800px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
