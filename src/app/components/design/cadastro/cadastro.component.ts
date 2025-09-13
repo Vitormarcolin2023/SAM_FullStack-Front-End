@@ -12,10 +12,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class CadastroComponent implements OnInit {
   cadastroMentorForm!: FormGroup;
   formSubmitted = false;
+  step: number = 1; // etapa atual (1 = dados pessoais, 2 = endereço, 3 = vínculo)
 
-  estados = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+  estados = [
+    'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT',
+    'MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO',
+    'RR','SC','SP','SE','TO'
+  ];
   tiposVinculo = ['PENDENTE_APROVACAO', 'COMPLETO'];
-  areasAtuacao = ['TI', 'Saúde', 'Educação', 'Engenharia', 'Outros']; // Exemplo
+  areasAtuacao = ['TI', 'Saúde', 'Educação', 'Engenharia', 'Outros'];
 
   constructor(private fb: FormBuilder) {}
 
@@ -26,32 +31,41 @@ export class CadastroComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required],
       telefone: ['', Validators.required],
-      cidade: [''],
-      estado: [''],
-      bairro: [''],
-      numero: [''],
-      rua: [''],
-      cep: [''],
-      tempoExperiencia: [''],
-      areaAtuacao: [''],
+      cidade: ['', Validators.required],
+      estado: ['', Validators.required],
+      bairro: ['', Validators.required],
+      numero: ['', Validators.required],
+      rua: ['', Validators.required],
+      cep: ['', Validators.required],
+      tempoExperiencia: ['', Validators.required],
+      areaAtuacao: ['', Validators.required],
       tipoVinculo: ['PENDENTE_APROVACAO']
     });
+  }
+
+  // 🔹 Mock dos métodos para não quebrar
+  nextStep(): void {
+    if (this.step < 3) {
+      this.step++;
+    }
+    console.log('Avançou para step:', this.step);
+  }
+
+  prevStep(): void {
+    if (this.step > 1) {
+      this.step--;
+    }
+    console.log('Voltou para step:', this.step);
   }
 
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.cadastroMentorForm.valid) {
       console.log('Formulário enviado!', this.cadastroMentorForm.value);
-      // Chamar service para enviar os dados para a API
     } else {
       console.log('Formulário inválido.');
       this.cadastroMentorForm.markAllAsTouched();
     }
-  }
-
-  onVoltar(): void {
-    console.log('Botão Voltar clicado');
-    // Navegação para outra página, se necessário
   }
 
   hasError(field: string, error: string) {
