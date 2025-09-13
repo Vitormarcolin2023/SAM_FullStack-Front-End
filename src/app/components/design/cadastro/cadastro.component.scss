@@ -11,17 +11,17 @@
 
 .form-box {
   background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
+  padding: 15px;
   border-radius: 10px;
-  width: 400px;
+  width: 600px;
 
-  max-height: 405px;
-  min-height: 405px;
+  max-height: 400px;
+  min-height: 475px;
 
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
   h2 {
     text-align: center;
@@ -35,6 +35,8 @@
     border-radius: 5px;
     width: 100%;
     font-size: 14px;
+    gap: 10px;
+    margin-bottom: 10px
   }
 
   .row {
@@ -54,7 +56,7 @@
   }
 
   button {
-    padding: 10px;
+    padding: 7px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -69,6 +71,7 @@
   .btn-back {
     background-color: #ccc;
     color: #333;
+    
   }
 
   /* 🔹 NOVO: botões lado a lado */
@@ -85,14 +88,16 @@
   }
 
   .buttons-row button:not(.btn-back) {
-    background-color: #00E88F;
-    color:  #00613c;
+    background-color:  #00E88F;
+    color: #006e44;
+    
   }
 
-  .buttons-row button:not(.btn-back):hover {
+   .buttons-row button:not(.btn-back):hover {
   background-color: #00995E; /* cor ao passar o mouse */
   color: #fff;               /* muda a cor do texto*/
 }
+
 
   .buttons-row button.btn-back {
     background-color: #ccc;
