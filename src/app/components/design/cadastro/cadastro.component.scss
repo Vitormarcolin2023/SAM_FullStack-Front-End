@@ -15,13 +15,13 @@
   border-radius: 10px;
   width: 400px;
 
-  max-height: 410px;
-  min-height: 410px; 
+  max-height: 405px;
+  min-height: 405px;
 
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 
   h2 {
     text-align: center;
@@ -69,6 +69,33 @@
   .btn-back {
     background-color: #ccc;
     color: #333;
-    margin-top: 5px;
+  }
+
+  /* 🔹 NOVO: botões lado a lado */
+  .buttons-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .buttons-row button {
+    flex: 1;
+    font-size: 14px;
+  }
+
+  .buttons-row button:not(.btn-back) {
+    background-color: #00E88F;
+    color:  #00613c;
+  }
+
+  .buttons-row button:not(.btn-back):hover {
+  background-color: #00995E; /* cor ao passar o mouse */
+  color: #fff;               /* muda a cor do texto*/
+}
+
+  .buttons-row button.btn-back {
+    background-color: #ccc;
+    color: #333;
   }
 }

@@ -12,7 +12,10 @@
         <input type="password" placeholder="Senha" formControlName="senha">
         <input type="text" placeholder="Telefone" formControlName="telefone">
 
-        <button type="button" (click)="nextStep()">Próximo</button>
+        <div class="buttons-row">
+          <button type="button" class="btn-back" (click)="goToLanding()">Voltar à Home</button>
+          <button type="button" (click)="nextStep()">Próximo</button>
+        </div>
       </div>
 
       <!-- Step 2: Endereço -->
@@ -27,8 +30,10 @@
         <input type="text" placeholder="Rua" formControlName="rua">
         <input type="text" placeholder="CEP" formControlName="cep">
 
-        <button type="button" (click)="prevStep()">Voltar</button>
-        <button type="button" (click)="nextStep()">Próximo</button>
+        <div class="buttons-row">
+          <button type="button" (click)="prevStep()">Voltar</button>
+          <button type="button" (click)="nextStep()">Próximo</button>
+        </div>
       </div>
 
       <!-- Step 3: Vínculo -->
@@ -42,8 +47,10 @@
           <option *ngFor="let tipo of tiposVinculo" [value]="tipo">{{tipo}}</option>
         </select>
 
-        <button type="button" (click)="prevStep()">Voltar</button>
-        <button type="submit">Finalizar Cadastro</button>
+        <div class="buttons-row">
+          <button type="button" (click)="prevStep()">Voltar</button>
+          <button type="submit">Finalizar Cadastro</button>
+        </div>
       </div>
 
     </form>

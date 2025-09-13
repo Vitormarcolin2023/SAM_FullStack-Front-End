@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -22,7 +23,7 @@ export class CadastroComponent implements OnInit {
   tiposVinculo = ['PENDENTE_APROVACAO', 'COMPLETO'];
   areasAtuacao = ['TI', 'Saúde', 'Educação', 'Engenharia', 'Outros'];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.cadastroMentorForm = this.fb.group({
@@ -43,7 +44,7 @@ export class CadastroComponent implements OnInit {
     });
   }
 
-  // 🔹 Mock dos métodos para não quebrar
+  // 🔹 Navegação entre steps
   nextStep(): void {
     if (this.step < 3) {
       this.step++;
@@ -58,6 +59,12 @@ export class CadastroComponent implements OnInit {
     console.log('Voltou para step:', this.step);
   }
 
+  // 🔹 Botão de voltar para Landing Page
+  goToLanding(): void {
+    this.router.navigate(['/landing']); // ajuste se a sua rota for diferente
+  }
+
+  // 🔹 Submit final
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.cadastroMentorForm.valid) {
