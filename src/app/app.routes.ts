@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { LoginComponent } from './components/design/login/login.component';
-import { LandingpageComponent } from './components/design/landingpage/landingpage.component';
-import { CadastroComponent } from './components/design/cadastro/cadastro.component';
+import { LoginComponent } from './components/telas-iniciais/login/login.component';
+import { LandingpageComponent } from './components/telas-iniciais/landingpage/landingpage.component';
+import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro.component';
 
 // Layout com sidebar
 import { DashboardDesignComponent } from './components/design/dashboard-design/dashboard-design.component';
@@ -18,7 +18,7 @@ export const routes: Routes = [
   {
     path: 'tela-inicial',
     loadComponent: () =>
-      import('./components/design/tela-inicial/tela-inicial.component').then(
+      import('./components/telas-internas/tela-inicial/tela-inicial.component').then(
         m => m.TelaInicialComponent
       )
   },
@@ -29,7 +29,7 @@ export const routes: Routes = [
       {
         path: 'home',
         loadComponent: () =>
-          import('./components/design/tela-inicial/tela-inicial.component').then(
+          import('./components/telas-internas/tela-inicial/tela-inicial.component').then(
             m => m.TelaInicialComponent
           )
       }
