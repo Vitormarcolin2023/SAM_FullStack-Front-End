@@ -20,9 +20,24 @@ export class LoginService {
   }
 
   getToken(): string | null {
-  const token = localStorage.getItem('token'); 
-  return token ? JSON.parse(token) : null;      
-}
+    const token = localStorage.getItem('token'); 
+    return token ? JSON.parse(token) : null;      
+  }
 
+  deleteToken(){
+    localStorage.removeItem('token');
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return Date.now() > payload.exp * 1000;
+    } catch {
+      return true; // token inválido
+    }
+  }
 
 }

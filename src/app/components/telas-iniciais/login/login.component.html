@@ -9,6 +9,11 @@
 
         <!-- Formulário -->
         <form class="form">
+
+          <!-- Mensagem de erro -->
+          <div class="mb-4 erro" id="erro">
+          
+          </div>
           
           <!-- Tipo de usuário -->
           <mdb-form-control class="mb-4">
@@ -35,7 +40,7 @@
           </mdb-form-control>
 
           <!-- Botão de login -->
-          <button mdbRipple (click)="logar()" type="button" class="btn-logar w-100">
+          <button mdbRipple (click)="logar()" type="button" class="btn-logar w-100" id="btn-logar">
             <b>Acessar</b>
           </button>
         </form>
