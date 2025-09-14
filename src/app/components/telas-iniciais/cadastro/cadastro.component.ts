@@ -152,7 +152,7 @@ export class CadastroComponent implements OnInit {
 
     this.mentorService.save(novoMentor).subscribe({
       next: (mentorSalvo) => {
-        // Se der certo, fecha o 'loading' e mostra o alerta de sucesso.
+       
         Swal.fire({
           icon: 'success',
           title: 'Cadastro Realizado!',
@@ -161,7 +161,7 @@ export class CadastroComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        // Se der erro, fecha o 'loading' e mostra o alerta de erro.
+      
         const errorMessage =
           err.error?.message ||
           'Não foi possível realizar o cadastro. Verifique os dados e tente novamente.';
