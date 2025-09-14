@@ -16,6 +16,8 @@ export class LoginComponent {
   senha: string = '';
   tipoUsuario: any;
 
+  // subindo
+
   constructor(private router: Router) {}
 
   logar() {
