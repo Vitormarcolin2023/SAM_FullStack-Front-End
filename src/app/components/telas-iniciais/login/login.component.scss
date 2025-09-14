@@ -1,18 +1,21 @@
+@use '../../../../styles/variaveis' as *;
+
+
 h3{
-    color: #00995E;
+    color: $titulos-verde;
 }
 
 .btn-logar{
-    background-color:rgb(28, 232, 151);
+    background-color: $btn-acao;
     width: 445px;
     height: 33px;
     border-radius: 5px;
     border: none;
-    color: #005434;;
+    color: $btn-color-verde;
 
 }
 .btn-logar:hover{
-    background-color:#00995E;
+    background-color: $btn-hover;
     cursor: pointer;
     color: white;
 }
