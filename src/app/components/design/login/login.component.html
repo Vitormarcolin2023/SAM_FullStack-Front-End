@@ -12,8 +12,8 @@
           
           <!-- Tipo de usuário -->
           <mdb-form-control class="mb-4">
-            <select mdbInput id="tipoUsuario" name="tipoUsuario" class="form-control" [(ngModel)]="tipoUsuario">
-              <option value="" disabled selected>Selecione o tipo de usuário</option>
+            <select mdbInput id="tipoUsuario" name="tipoUsuario" class="form-control" [(ngModel)]="login.role">
+              <option value="" disabled selected></option>
               <option value="MENTOR">Mentor</option>
               <option value="COORDENADOR">Coordenador</option>
               <option value="PROFESSOR">Professor</option>
@@ -24,13 +24,13 @@
 
           <!-- Email input -->
           <mdb-form-control class="mb-4">
-            <input mdbInput type="email" id="email" name="email" class="form-control" [(ngModel)]="email"/>
+            <input mdbInput type="email" id="email" name="email" class="form-control" [(ngModel)]="login.email"/>
             <label mdbLabel class="form-label" for="email">Email</label>
           </mdb-form-control>
 
           <!-- Password input -->
           <mdb-form-control class="mb-4">
-            <input mdbInput type="password" id="senha" name="senha" class="form-control" [(ngModel)]="senha"/>
+            <input mdbInput type="password" id="senha" name="senha" class="form-control" [(ngModel)]="login.senha"/>
             <label mdbLabel class="form-label" for="senha">Senha</label>
           </mdb-form-control>
 
