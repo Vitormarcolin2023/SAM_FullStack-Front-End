@@ -21,6 +21,7 @@ export class LoginComponent {
     role: ''
   }
   loginService = inject(LoginService);
+  router = inject(Router);
 
 
   logar() {
@@ -35,7 +36,8 @@ export class LoginComponent {
         this.loginService.setToken(token);
         // habilita o bootão novamente
         this.estadoBotao(btnLogar, false);
-
+        // redireciona o usuário para página inicial
+        this.router.navigate(["tela-inicial"]);
       },
       error : erro => {
         // chama a função para mostrar o erro retornado do back para o usuário - o erro retorna no campo token da mensagem
@@ -60,7 +62,13 @@ export class LoginComponent {
 
     if (quadroErro) {
       quadroErro.style.display = "flex";
-      quadroErro.innerText = `${erro}`;
+
+      if(erro == undefined){
+        quadroErro.innerText = "Não foi possível conectar ao servidor. Tente novamente mais tarde.";
+      }
+      else{
+        quadroErro.innerText = `${erro}`;
+      }
     }
   }
 
