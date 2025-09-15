@@ -1,0 +1,58 @@
+.perfil-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #e6e6e6;
+  border-radius: 50px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.foto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ccc;
+}
+
+.foto-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #555;
+  border: 4px dashed #aaa;
+  margin-bottom: 5px;
+}
+
+.dados-mentor h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #22c55e; // Verde
+}
+
+.dados-mentor h3 {
+  margin: 5px 0;
+  font-size: 18px;
+  color: #3b82f6; // Azul
+}
+
+.dados-mentor p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+}
