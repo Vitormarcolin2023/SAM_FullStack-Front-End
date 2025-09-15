@@ -33,14 +33,15 @@ export class CadastroComponent implements OnInit {
   isLoadingCep = false;
   areasDeAtuacao: AreaDeAtuacao[] = [];
 
-  // Injeção de dependências moderna
+  // NOVA PROPRIEDADE: Controla o estado 'readonly' dos campos de rua e bairro.
+  isRuaBairroReadonly = true;
+
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private mentorService = inject(MentorService);
   private areaDeAtuacaoService = inject(AreaDeAtuacaoService);
   private viaCepService = inject(ViaCepService);
 
-  // Mapeamento dos nomes técnicos para nomes amigáveis para o usuário
   private friendlyFieldNames: { [key: string]: string } = {
     nome: 'Nome',
     cpf: 'CPF',
@@ -110,6 +111,16 @@ export class CadastroComponent implements OnInit {
                 cidade: data.localidade,
                 estado: data.uf,
               });
+
+              // --- INÍCIO DA CORREÇÃO ---
+              // Se a API não retornar rua/bairro (CEP genérico), permite a edição.
+              if (data.logradouro === '' || data.bairro === '') {
+                this.isRuaBairroReadonly = false;
+              } else {
+                this.isRuaBairroReadonly = true;
+              }
+              // --- FIM DA CORREÇÃO ---
+
             } else {
               Swal.fire(
                 'CEP não encontrado',
@@ -126,11 +137,10 @@ export class CadastroComponent implements OnInit {
 
   onSubmit(): void {
     this.formSubmitted = true;
-    this.cadastroMentorForm.markAllAsTouched(); // Mostra os erros nos campos
+    this.cadastroMentorForm.markAllAsTouched();
 
     if (this.cadastroMentorForm.invalid) {
       const errors: string[] = [];
-
       Object.keys(this.cadastroMentorForm.controls).forEach((key) => {
         const control = this.cadastroMentorForm.get(key);
         if (control && control.invalid) {
@@ -138,7 +148,6 @@ export class CadastroComponent implements OnInit {
           errors.push(friendlyName);
         }
       });
-
       const errorHtml = `
         <div style="text-align: left; margin-top: 15px;">
           <strong>Por favor, preencha os seguintes campos obrigatórios:</strong>
@@ -147,17 +156,14 @@ export class CadastroComponent implements OnInit {
           </ul>
         </div>
       `;
-
       Swal.fire({
         icon: 'warning',
         title: 'Formulário Incompleto',
         html: errorHtml,
       });
-
       return;
     }
 
-    // O restante do código de salvamento só executa se o formulário for válido
     Swal.fire({
       title: 'Cadastrando Mentor...',
       text: 'Por favor, aguarde um momento.',
