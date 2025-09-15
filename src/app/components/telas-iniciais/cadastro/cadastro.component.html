@@ -97,14 +97,19 @@
             id="bairro"
             type="text"
             formControlName="bairro"
-            [readonly]="true"
+            [readonly]="isRuaBairroReadonly"
           />
           @if(hasError('bairro', 'required')){
           <small class="error-message">Bairro é obrigatório.</small>
           }
 
           <label for="rua">Rua</label>
-          <input id="rua" type="text" formControlName="rua" [readonly]="true" />
+          <input
+            id="rua"
+            type="text"
+            formControlName="rua"
+            [readonly]="isRuaBairroReadonly"
+          />
           @if(hasError('rua', 'required')){
           <small class="error-message">Rua é obrigatória.</small>
           }
@@ -127,12 +132,12 @@
           />
 
           <label for="tipoVinculo">Tipo de Vínculo</label>
-          <select id="tipoVinculo" formControlName="tipoDeVinculo">
+          <select id="tipoVinculo" formControlName="tipoVinculo">
             <option value="CLT">CLT</option>
             <option value="PJ">PJ</option>
             <option value="VOLUNTARIO">Voluntário</option>
           </select>
-          @if(hasError('tipoDeVinculo', 'required')){
+          @if(hasError('tipoVinculo', 'required')){
           <small class="error-message">Tipo de vínculo é obrigatório.</small>
           }
 
@@ -156,7 +161,6 @@
           <button type="button" class="btn-back" (click)="goToLanding()">
             Voltar à Home
           </button>
-
           <button type="submit">Finalizar Cadastro</button>
         </div>
       </div>
