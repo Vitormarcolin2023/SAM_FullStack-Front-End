@@ -112,14 +112,11 @@ export class CadastroComponent implements OnInit {
                 estado: data.uf,
               });
 
-              // --- INÍCIO DA CORREÇÃO ---
-              // Se a API não retornar rua/bairro (CEP genérico), permite a edição.
               if (data.logradouro === '' || data.bairro === '') {
                 this.isRuaBairroReadonly = false;
               } else {
                 this.isRuaBairroReadonly = true;
               }
-              // --- FIM DA CORREÇÃO ---
             } else {
               Swal.fire(
                 'CEP não encontrado',
