@@ -1,0 +1,21 @@
+/*
+    Classe para armazenar as cores do cliente que serão utilizadas no site, fontes e dimensões.
+    Importar no arquivo Scss de cada component para utilizar
+*/
+
+//botões
+$btn-acao: rgb(28, 232, 151);
+$btn-hover: #00995E;
+$btn-color-verde: #005434;
+
+//fundos
+$fundo-elemento: #dedede; // utilizar em fundos de elementos, por exemplo: fundo do quadro de cadastro de mentores
+$background-geral: #f0f0f0;
+$background-elemento-transp: rgba(0, 232, 143, 0.75); // com transparencia para elementos com sobreposição
+
+
+//títulos
+$titulos-verde: #00995E;
+
+//textos
+$tabelas-mdb: #4f4f4f;
