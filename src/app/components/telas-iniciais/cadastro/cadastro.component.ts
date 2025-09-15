@@ -1,83 +1,245 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
 import { NavbarComponent } from "../../design/navbar/navbar.component";
+=======
+import Swal from 'sweetalert2';
+import { finalize } from 'rxjs/operators';
+import {
+  AreaDeAtuacao,
+  Endereco,
+  Mentor,
+  TipoDeVinculo,
+} from '../../../models/mentor/mentor';
+import { MentorService } from '../../../services/mentores/mentores.service';
+import { AreaDeAtuacaoService } from '../../../services/areaDeAtuacao/area-de-atuacao.service';
+import { ViaCepService } from '../../../services/viaCep/via-cep.service';
+>>>>>>> 9004e2a00fa1e1ab8dce8a42f21f54d2d0850780
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
   templateUrl: './cadastro.component.html',
-  styleUrls: ['./cadastro.component.scss']
+  styleUrls: ['./cadastro.component.scss'],
 })
 export class CadastroComponent implements OnInit {
   cadastroMentorForm!: FormGroup;
   formSubmitted = false;
-  step: number = 1; // etapa atual (1 = dados pessoais, 2 = endereço, 3 = vínculo)
+  step: number = 1;
+  isLoadingCep = false;
+  areasDeAtuacao: AreaDeAtuacao[] = [];
 
-  estados = [
-    'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT',
-    'MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO',
-    'RR','SC','SP','SE','TO'
-  ];
-  tiposVinculo = ['PENDENTE_APROVACAO', 'COMPLETO'];
-  areasAtuacao = ['TI', 'Saúde', 'Educação', 'Engenharia', 'Outros'];
+  // NOVA PROPRIEDADE: Controla o estado 'readonly' dos campos de rua e bairro.
+  isRuaBairroReadonly = true;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private mentorService = inject(MentorService);
+  private areaDeAtuacaoService = inject(AreaDeAtuacaoService);
+  private viaCepService = inject(ViaCepService);
+
+  private friendlyFieldNames: { [key: string]: string } = {
+    nome: 'Nome',
+    cpf: 'CPF',
+    email: 'Email',
+    senha: 'Senha',
+    telefone: 'Telefone',
+    cep: 'CEP',
+    estado: 'Estado',
+    cidade: 'Cidade',
+    bairro: 'Bairro',
+    rua: 'Rua',
+    numero: 'Número',
+    tipoDeVinculo: 'Tipo de Vínculo',
+    areaDeAtuacao: 'Área de Atuação',
+  };
 
   ngOnInit(): void {
     this.cadastroMentorForm = this.fb.group({
       nome: ['', Validators.required],
       cpf: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', Validators.required],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
       telefone: ['', Validators.required],
-      cidade: ['', Validators.required],
-      estado: ['', Validators.required],
-      bairro: ['', Validators.required],
-      numero: ['', Validators.required],
-      rua: ['', Validators.required],
       cep: ['', Validators.required],
-      tempoExperiencia: ['', Validators.required],
-      areaAtuacao: ['', Validators.required],
-      tipoVinculo: ['PENDENTE_APROVACAO']
+      estado: ['', Validators.required],
+      cidade: ['', Validators.required],
+      bairro: ['', Validators.required],
+      rua: ['', Validators.required],
+      numero: ['', Validators.required],
+      tempoDeExperiencia: [''],
+      tipoDeVinculo: [TipoDeVinculo.CLT, Validators.required],
+      areaDeAtuacao: [null, Validators.required],
+    });
+
+    this.loadAreasDeAtuacao();
+  }
+
+  loadAreasDeAtuacao(): void {
+    this.areaDeAtuacaoService.findAll().subscribe({
+      next: (data) => {
+        this.areasDeAtuacao = data;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar áreas de atuação', err);
+        Swal.fire(
+          'Falha na Conexão',
+          'Não foi possível carregar as áreas de atuação.',
+          'error'
+        );
+      },
     });
   }
 
-  // 🔹 Navegação entre steps
-  nextStep(): void {
-    if (this.step < 3) {
-      this.step++;
+  buscarCep(): void {
+    const cep = this.cadastroMentorForm.get('cep')?.value;
+    if (cep && cep.replace(/\D/g, '').length === 8) {
+      this.isLoadingCep = true;
+      this.viaCepService
+        .buscar(cep)
+        .pipe(finalize(() => (this.isLoadingCep = false)))
+        .subscribe({
+          next: (data) => {
+            if (!data.erro) {
+              this.cadastroMentorForm.patchValue({
+                rua: data.logradouro,
+                bairro: data.bairro,
+                cidade: data.localidade,
+                estado: data.uf,
+              });
+
+              if (data.logradouro === '' || data.bairro === '') {
+                this.isRuaBairroReadonly = false;
+              } else {
+                this.isRuaBairroReadonly = true;
+              }
+            } else {
+              Swal.fire(
+                'CEP não encontrado',
+                'Por favor, verifique o CEP digitado.',
+                'error'
+              );
+            }
+          },
+          error: () =>
+            Swal.fire('Erro', 'Não foi possível consultar o CEP.', 'error'),
+        });
     }
-    console.log('Avançou para step:', this.step);
   }
 
-  prevStep(): void {
-    if (this.step > 1) {
-      this.step--;
-    }
-    console.log('Voltou para step:', this.step);
-  }
-
-  // 🔹 Botão de voltar para Landing Page
-  goToLanding(): void {
-    this.router.navigate(['/landing']); // ajuste se a sua rota for diferente
-  }
-
-  // 🔹 Submit final
   onSubmit(): void {
     this.formSubmitted = true;
-    if (this.cadastroMentorForm.valid) {
-      console.log('Formulário enviado!', this.cadastroMentorForm.value);
-    } else {
-      console.log('Formulário inválido.');
-      this.cadastroMentorForm.markAllAsTouched();
+
+    this.cadastroMentorForm.markAllAsTouched();
+
+    if (this.cadastroMentorForm.invalid) {
+      const errors: string[] = [];
+      Object.keys(this.cadastroMentorForm.controls).forEach((key) => {
+        const control = this.cadastroMentorForm.get(key);
+        if (control && control.invalid) {
+          const friendlyName = this.friendlyFieldNames[key] || key;
+          errors.push(friendlyName);
+        }
+      });
+
+      const errorHtml = `
+        <div style="text-align: left; margin-top: 15px;">
+          <strong>Por favor, preencha os seguintes campos obrigatórios:</strong>
+          <ul style="list-style-type: disc; padding-left: 20px; margin-top: 10px;">
+            ${errors.map((error) => `<li>${error}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulário Incompleto',
+        html: errorHtml,
+      });
+
+      return;
     }
+
+    // O restante do código de salvamento só executa se o formulário for válido
+    Swal.fire({
+      title: 'Cadastrando Mentor...',
+      text: 'Por favor, aguarde um momento.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    const endereco: Endereco = {
+      cidade: this.cadastroMentorForm.value.cidade,
+      estado: this.cadastroMentorForm.value.estado,
+      bairro: this.cadastroMentorForm.value.bairro,
+      numero: this.cadastroMentorForm.value.numero,
+      rua: this.cadastroMentorForm.value.rua,
+      cep: this.cadastroMentorForm.value.cep,
+    };
+
+    const novoMentor: Mentor = {
+      nome: this.cadastroMentorForm.value.nome,
+      cpf: this.cadastroMentorForm.value.cpf,
+      email: this.cadastroMentorForm.value.email,
+      senha: this.cadastroMentorForm.value.senha,
+      telefone: this.cadastroMentorForm.value.telefone,
+      tempoDeExperiencia: this.cadastroMentorForm.value.tempoDeExperiencia,
+      tipoDeVinculo: this.cadastroMentorForm.value.tipoDeVinculo,
+      statusMentor: 'PENDENTE',
+      endereco: endereco,
+      areaDeAtuacao: { id: this.cadastroMentorForm.value.areaDeAtuacao },
+    };
+
+    this.mentorService.save(novoMentor).subscribe({
+      next: (mentorSalvo) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cadastro Realizado!',
+          text: `O mentor foi cadastrado com sucesso!`,
+        });
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        const errorMessage =
+          err.error?.message ||
+          'Não foi possível realizar o cadastro. Verifique os dados e tente novamente.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro no Cadastro',
+          text: errorMessage,
+        });
+        console.error(err);
+      },
+    });
+  }
+
+  // Funções de navegação e validação
+  nextStep() {
+    if (this.step < 3) this.step++;
+  }
+  prevStep() {
+    if (this.step > 1) this.step--;
+  }
+  goToLanding() {
+    this.router.navigate(['/landing']);
   }
 
   hasError(field: string, error: string) {
     const control = this.cadastroMentorForm.get(field);
-    return control && (control.touched || this.formSubmitted) && control.hasError(error);
+    return (
+      control &&
+      (control.touched || this.formSubmitted) &&
+      control.hasError(error)
+    );
   }
 }
