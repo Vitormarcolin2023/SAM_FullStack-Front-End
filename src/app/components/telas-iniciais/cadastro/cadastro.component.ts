@@ -18,6 +18,7 @@ import {
 import { MentorService } from '../../../services/mentores/mentores.service';
 import { AreaDeAtuacaoService } from '../../../services/areaDeAtuacao/area-de-atuacao.service';
 import { ViaCepService } from '../../../services/viaCep/via-cep.service';
+
 @Component({
   selector: 'app-cadastro',
   standalone: true,
@@ -30,7 +31,6 @@ export class CadastroComponent implements OnInit {
   formSubmitted = false;
   step: number = 1;
   isLoadingCep = false;
-
   areasDeAtuacao: AreaDeAtuacao[] = [];
 
   // Injeção de dependências moderna
@@ -39,6 +39,23 @@ export class CadastroComponent implements OnInit {
   private mentorService = inject(MentorService);
   private areaDeAtuacaoService = inject(AreaDeAtuacaoService);
   private viaCepService = inject(ViaCepService);
+
+  // Mapeamento dos nomes técnicos para nomes amigáveis para o usuário
+  private friendlyFieldNames: { [key: string]: string } = {
+    nome: 'Nome',
+    cpf: 'CPF',
+    email: 'Email',
+    senha: 'Senha',
+    telefone: 'Telefone',
+    cep: 'CEP',
+    estado: 'Estado',
+    cidade: 'Cidade',
+    bairro: 'Bairro',
+    rua: 'Rua',
+    numero: 'Número',
+    tipoDeVinculo: 'Tipo de Vínculo',
+    areaDeAtuacao: 'Área de Atuação',
+  };
 
   ngOnInit(): void {
     this.cadastroMentorForm = this.fb.group({
@@ -109,16 +126,38 @@ export class CadastroComponent implements OnInit {
 
   onSubmit(): void {
     this.formSubmitted = true;
+    this.cadastroMentorForm.markAllAsTouched(); // Mostra os erros nos campos
+
     if (this.cadastroMentorForm.invalid) {
-      this.cadastroMentorForm.markAllAsTouched();
-      Swal.fire(
-        'Atenção!',
-        'Por favor, verifique os campos em vermelho.',
-        'warning'
-      );
+      const errors: string[] = [];
+
+      Object.keys(this.cadastroMentorForm.controls).forEach((key) => {
+        const control = this.cadastroMentorForm.get(key);
+        if (control && control.invalid) {
+          const friendlyName = this.friendlyFieldNames[key] || key;
+          errors.push(friendlyName);
+        }
+      });
+
+      const errorHtml = `
+        <div style="text-align: left; margin-top: 15px;">
+          <strong>Por favor, preencha os seguintes campos obrigatórios:</strong>
+          <ul style="list-style-type: disc; padding-left: 20px; margin-top: 10px;">
+            ${errors.map((error) => `<li>${error}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulário Incompleto',
+        html: errorHtml,
+      });
+
       return;
     }
 
+    // O restante do código de salvamento só executa se o formulário for válido
     Swal.fire({
       title: 'Cadastrando Mentor...',
       text: 'Por favor, aguarde um momento.',
@@ -152,7 +191,6 @@ export class CadastroComponent implements OnInit {
 
     this.mentorService.save(novoMentor).subscribe({
       next: (mentorSalvo) => {
-       
         Swal.fire({
           icon: 'success',
           title: 'Cadastro Realizado!',
@@ -161,7 +199,6 @@ export class CadastroComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-      
         const errorMessage =
           err.error?.message ||
           'Não foi possível realizar o cadastro. Verifique os dados e tente novamente.';
