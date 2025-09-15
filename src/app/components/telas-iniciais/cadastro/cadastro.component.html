@@ -70,7 +70,6 @@
           <small class="error-message">CEP é obrigatório.</small>
           }
 
-          <!-- CORRIGIDO: Campo de texto 'readonly' preenchido pela API -->
           <label for="estado">Estado</label>
           <input
             id="estado"
@@ -138,7 +137,7 @@
           }
 
           <label for="areaAtuacao">Área de Atuação</label>
-          <select id="areaAtuacao" formControlName="areaDeAtuacao">
+          <select id="areaAtuacao" formControlName="areaAtuacao">
             <option [ngValue]="null" disabled>
               Selecione a área de atuação
             </option>
@@ -157,9 +156,8 @@
           <button type="button" class="btn-back" (click)="goToLanding()">
             Voltar à Home
           </button>
-          <button type="submit" [disabled]="cadastroMentorForm.invalid">
-            Finalizar Cadastro
-          </button>
+
+          <button type="submit">Finalizar Cadastro</button>
         </div>
       </div>
     </form>
