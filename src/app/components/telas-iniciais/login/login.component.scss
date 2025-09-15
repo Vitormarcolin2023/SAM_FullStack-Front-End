@@ -1,18 +1,21 @@
+@use '../../../../styles/variaveis' as *;
+
+
 h3{
-    color: #00995E;
+    color: $titulos-verde;
 }
 
 .btn-logar{
-    background-color:rgb(28, 232, 151);
+    background-color: $btn-acao;
     width: 445px;
     height: 33px;
     border-radius: 5px;
     border: none;
-    color: #005434;;
+    color: $btn-color-verde;
 
 }
 .btn-logar:hover{
-    background-color:#00995E;
+    background-color: $btn-hover;
     cursor: pointer;
     color: white;
 }
@@ -30,4 +33,15 @@ h3{
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.erro{
+  display: none;
+  background-color: rgba(255, 0, 0, 0.299);
+  outline: 0.5px solid rgba(188, 0, 0, 0.437);
+  border-radius: 3px;
+  padding-left: 8px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  justify-content: center;
 }
