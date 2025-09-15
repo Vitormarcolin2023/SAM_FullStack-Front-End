@@ -47,7 +47,9 @@ body {
   transition: background-color var(--transition-speed) ease,
     color var(--transition-speed) ease;
   cursor: pointer;
+  margin-bottom: 20px;
 }
+
 
 .nav-link:hover,
 .menu-item:hover {
@@ -62,7 +64,6 @@ body {
   text-align: center;
   margin-right: 15px;
   color: #fff; /* Cor dos ícones */
-  margin-bottom: 15px;
 }
 
 /* Texto começa oculto */
