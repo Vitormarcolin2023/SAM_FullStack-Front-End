@@ -134,20 +134,18 @@
           />
 
           <label for="tipoVinculo">Tipo de Vínculo</label>
-          <select id="tipoVinculo" formControlName="tipoVinculo">
+          <select id="tipoVinculo" formControlName="tipoDeVinculo">
             <option value="CLT">CLT</option>
             <option value="PJ">PJ</option>
             <option value="VOLUNTARIO">Voluntário</option>
           </select>
-          @if(hasError('tipoVinculo', 'required')){
+          @if(hasError('tipoDeVinculo', 'required')){
           <small class="error-message">Tipo de vínculo é obrigatório.</small>
           }
 
           <label for="areaAtuacao">Área de Atuação</label>
-          <select id="areaAtuacao" formControlName="areaAtuacao">
-            <option [ngValue]="null" disabled>
-              Selecione a área de atuação
-            </option>
+          <select id="areaAtuacao" formControlName="areaDeAtuacao">
+            <option value="" disabled>Selecione a área de atuação</option>
             <option *ngFor="let area of areasDeAtuacao" [value]="area.id">
               {{ area.nome }}
             </option>
