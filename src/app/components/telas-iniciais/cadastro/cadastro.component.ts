@@ -18,7 +18,7 @@ import {
 import { MentorService } from '../../../services/mentores/mentores.service';
 import { AreaDeAtuacaoService } from '../../../services/areaDeAtuacao/area-de-atuacao.service';
 import { ViaCepService } from '../../../services/viaCep/via-cep.service';
-import { NavbarComponent } from '../../design/navbar/navbar.component';
+import { NavbarComponent } from "../../design/navbar/navbar.component";
 
 @Component({
   selector: 'app-cadastro',
@@ -33,8 +33,6 @@ export class CadastroComponent implements OnInit {
   step: number = 1;
   isLoadingCep = false;
   areasDeAtuacao: AreaDeAtuacao[] = [];
-
-  // NOVA PROPRIEDADE: Controla o estado 'readonly' dos campos de rua e bairro.
   isRuaBairroReadonly = true;
 
   private fb = inject(FormBuilder);
@@ -74,7 +72,7 @@ export class CadastroComponent implements OnInit {
       numero: ['', Validators.required],
       tempoDeExperiencia: [''],
       tipoDeVinculo: [TipoDeVinculo.CLT, Validators.required],
-      areaDeAtuacao: [null, Validators.required],
+      areaDeAtuacao: ['', Validators.required],
     });
 
     this.loadAreasDeAtuacao();
@@ -112,7 +110,6 @@ export class CadastroComponent implements OnInit {
                 cidade: data.localidade,
                 estado: data.uf,
               });
-
               if (data.logradouro === '' || data.bairro === '') {
                 this.isRuaBairroReadonly = false;
               } else {
@@ -134,7 +131,6 @@ export class CadastroComponent implements OnInit {
 
   onSubmit(): void {
     this.formSubmitted = true;
-
     this.cadastroMentorForm.markAllAsTouched();
 
     if (this.cadastroMentorForm.invalid) {
@@ -146,7 +142,6 @@ export class CadastroComponent implements OnInit {
           errors.push(friendlyName);
         }
       });
-
       const errorHtml = `
         <div style="text-align: left; margin-top: 15px;">
           <strong>Por favor, preencha os seguintes campos obrigatórios:</strong>
@@ -155,17 +150,14 @@ export class CadastroComponent implements OnInit {
           </ul>
         </div>
       `;
-
       Swal.fire({
         icon: 'warning',
         title: 'Formulário Incompleto',
         html: errorHtml,
       });
-
       return;
     }
 
-    // O restante do código de salvamento só executa se o formulário for válido
     Swal.fire({
       title: 'Cadastrando Mentor...',
       text: 'Por favor, aguarde um momento.',
