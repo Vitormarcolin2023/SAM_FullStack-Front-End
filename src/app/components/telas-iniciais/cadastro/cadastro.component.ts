@@ -7,9 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-<<<<<<< HEAD
-import { NavbarComponent } from "../../design/navbar/navbar.component";
-=======
 import Swal from 'sweetalert2';
 import { finalize } from 'rxjs/operators';
 import {
@@ -21,7 +18,7 @@ import {
 import { MentorService } from '../../../services/mentores/mentores.service';
 import { AreaDeAtuacaoService } from '../../../services/areaDeAtuacao/area-de-atuacao.service';
 import { ViaCepService } from '../../../services/viaCep/via-cep.service';
->>>>>>> 9004e2a00fa1e1ab8dce8a42f21f54d2d0850780
+import { NavbarComponent } from '../../design/navbar/navbar.component';
 
 @Component({
   selector: 'app-cadastro',
