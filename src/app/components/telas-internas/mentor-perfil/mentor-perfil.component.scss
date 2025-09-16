@@ -1,19 +1,12 @@
 @use '../../../../styles/variaveis' as *;
 
-
-.boxes {
-  display: flex;
-  justify-content: flex-end; // joga tudo para a direita
-  gap: 20px; 
-  padding-top: 25px;                // espaço entre eles
-}
-
 .background {
   background-color: #fff;
   min-height: 100vh;
   padding-top: 20px;
 }
 
+//card do mentor
 .perfil-card {
   background-color: #dedede;
   border-radius: 10px;
@@ -24,26 +17,34 @@
   padding: 20px;    // espaço interno
 }
 
+//cards dos boxes
+/*
+.boxes {
+  display: flex;
+  justify-content: flex-end; // joga tudo para a direita
+  gap: 10px; 
+  padding-top: 15px; // espaço entre eles
+}
 
 .box {
   background-color: #e6e6e6;
   border-radius: 8px 8px 0 0;
-  height: 150px;
+  height: 100px; //Reduzindo a altura do box
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
- 
+  width: 100%; //Garantir que o box ocupe a largura total da sua coluna
 
   img {
-    max-height: 140px;
+    max-height: 80px; // Ajustando a altura máxima da imagem
     max-width: 90%;
     object-fit: contain;
   }
 }
 
 .plus {
-  font-size: 2rem;
+  font-size: 1.5rem; // Reduzindo o tamanho do sinal de mais
   font-weight: bold;
   color: #333;
 }
@@ -51,7 +52,24 @@
 .box-footer {
   background-color: black;
   color: white;
-  padding: 8px 12px;
-  font-size: 0.9rem;
+  padding: 6px 10px; // Reduzindo o padding do rodapé
+  font-size: 0.8rem; // Reduzindo o tamanho da fonte do rodapé
   border-radius: 0 0 8px 8px;
+  width: 100%; // Garantir que o rodapé ocupe a largura total da sua coluna
+// Novo estilo para o container dos boxes, para controlar o espaçamento e largura
+.boxes-container {
+    padding: 0 15px; // Adiciona um padding para controlar a largura total dentro do col-lg-10
 }
+
+.row.boxes-row {
+    margin-left: 0;   
+    margin-right: 0;  
+    gap: 8px;         // define espaçamento entre colunas
+}
+
+.row.boxes-row > div[class*="col-"] {
+    padding-left: 4px;  // menos padding para aproximar
+    padding-right: 4px;
+}
+
+*/
