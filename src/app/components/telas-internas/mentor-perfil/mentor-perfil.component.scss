@@ -41,6 +41,15 @@
     border-radius: 50%;
 }
 
+.foto-mentor {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;   // deixa circular
+  object-fit: cover;    // mantém proporção, preenche cortando excesso
+  object-position: center; // centraliza a imagem
+}
+
+
 //cards dos boxes
 /*
 .boxes {
