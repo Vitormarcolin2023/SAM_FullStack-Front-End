@@ -1,21 +1,39 @@
 <app-navbar-telas-internas></app-navbar-telas-internas>
 <app-sidebar></app-sidebar>
 
-<div class="perfil-container">
-  <!-- Foto -->
-  <div class="foto-container">
-    <img *ngIf="fotoUrl; else placeholder" [src]="fotoUrl" class="foto-perfil" />
-    <ng-template #placeholder>
-      <div class="foto-placeholder">+</div>
-    </ng-template>
-    <input type="file" (change)="onFotoSelecionada($event)" />
+<div class="row min-vh-100 align-items-center background">
+  <div class="col-lg-3"></div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-lg p-4 rounded-4 border-0 card-mentor">
+      <div class="card-body text-center">
+
+        <!-- Foto do Mentor -->
+        <div class="avatar mb-3">
+          <img [src]="fotoUrl || '/default-mentor.png'" 
+               alt="Foto do Mentor" 
+               class="rounded-circle img-fluid" 
+               width="100" height="100">
+        </div>
+
+        <!-- Upload da foto -->
+        <div class="mb-3">
+          <input type="file" accept="image/*" (change)="onFotoSelecionada($event)" />
+        </div>
+
+        <!-- Nome e Área -->
+        <h4 class="fw-bold mb-1">{{ nome }}</h4>
+        <p class="text-muted mb-3">{{ area }}</p>
+
+        <!-- Sobre o Mentor -->
+        <h6 class="fw-bold text-success text-start">Sobre o Mentor</h6>
+        <p class="text-muted text-start">
+          {{ resumo }}
+        </p>
+
+      </div>
+    </div>
   </div>
 
-  <!-- Dados -->
-  <div class="dados-mentor">
-    <h2>{{ nome }}</h2>
-    <h3>{{ area }}</h3>
-    <p>{{ resumo }}</p>
-  </div>
+  <div class="col-lg-3"></div>
 </div>
-

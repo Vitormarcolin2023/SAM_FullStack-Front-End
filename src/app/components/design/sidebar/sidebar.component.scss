@@ -1,3 +1,4 @@
+@use '../../../../styles/variaveis' as *;
 /* Variáveis para fácil personalização */
 :root {
   --sidebar-width: 60px; /* Barra fechada */
@@ -54,7 +55,7 @@ body {
 .nav-link:hover,
 .menu-item:hover {
   background-color: #333;
-  color: #2e8b57;
+  color: rgb(28, 232, 151);
 }
 
 /* Ícones sempre brancos */

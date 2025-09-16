@@ -12,15 +12,20 @@ import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 })
 export class MentorPerfilComponent {
 
-  fotoUrl: string = ''; // Pode começar vazio e o usuário faz upload
+  // Dados do mentor
+  fotoUrl: string = ''; 
   nome: string = 'Nome do Mentor';
   area: string = 'Área de Atuação';
   resumo: string = 'Escreva aqui um breve resumo sobre o mentor.';
 
-   // Método para trocar foto
-  onFotoSelecionada(event: any) {
-    const file = event.target.files[0];
-    if (file) {
+  /**
+   * Método para trocar a foto do mentor.
+   * Atualiza a URL de exibição após o upload.
+   */
+  onFotoSelecionada(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
       this.fotoUrl = URL.createObjectURL(file);
     }
   }
