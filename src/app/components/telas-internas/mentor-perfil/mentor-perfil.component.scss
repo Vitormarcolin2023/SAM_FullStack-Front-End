@@ -1,5 +1,13 @@
 @use '../../../../styles/variaveis' as *;
 
+
+.boxes {
+  display: flex;
+  justify-content: flex-end; // joga tudo para a direita
+  gap: 20px; 
+  padding-top: 25px;                // espaço entre eles
+}
+
 .background {
   background-color: #fff;
   min-height: 100vh;
@@ -10,10 +18,9 @@
   background-color: #dedede;
   border-radius: 10px;
   margin-top: 70px;
-  width: 70%;       // ocupa só 70% da largura do container
+  width: 85%;       // ocupa só 85% da largura do container
   max-width: 900px; // nunca passa disso
   margin-left: auto;
-  margin-right: auto; // centraliza no meio
   padding: 20px;    // espaço interno
 }
 
