@@ -17,6 +17,23 @@
   padding: 20px;    // espaço interno
 }
 
+.photo-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.upload-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #000000; /* Cor de fundo do ícone */
+  color: white;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 1.2rem;
+  border: 2px solid white;
+}
+
 //cards dos boxes
 /*
 .boxes {
