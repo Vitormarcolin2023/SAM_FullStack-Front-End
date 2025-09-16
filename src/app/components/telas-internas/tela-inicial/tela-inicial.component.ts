@@ -9,5 +9,5 @@ import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas
   styleUrl: './tela-inicial.component.scss'
 })
 export class TelaInicialComponent {
-
+    
 }
