@@ -1,23 +1,50 @@
 @use '../../../../styles/variaveis' as *;
 
-.card-mentor {
-  border-radius: 15px;
-  background: white;
-}
-
-.avatar img {
-  border: 3px solid $btn-acao; // cor que você já usa nos botões
-  padding: 3px;
-}
-
-h4 {
-  color: $titulos-verde;
-}
-
 .background {
   background-color: #fff;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   min-height: 100vh;
+  padding-top: 20px;
+}
+
+.perfil-card {
+  background-color: #dedede;
+  border-radius: 10px;
+  margin-top: 70px;
+  width: 70%;       // ocupa só 70% da largura do container
+  max-width: 900px; // nunca passa disso
+  margin-left: auto;
+  margin-right: auto; // centraliza no meio
+  padding: 20px;    // espaço interno
+}
+
+
+.box {
+  background-color: #e6e6e6;
+  border-radius: 8px 8px 0 0;
+  height: 150px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+
+  img {
+    max-height: 140px;
+    max-width: 90%;
+    object-fit: contain;
+  }
+}
+
+.plus {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.box-footer {
+  background-color: black;
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 0 0 8px 8px;
 }
