@@ -49,6 +49,16 @@
   object-position: center; // centraliza a imagem
 }
 
+.edit-icon {
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.edit-icon:hover {
+  color: #198754; // verde no hover
+}
+
 
 //cards dos boxes
 /*
