@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 import Swal from 'sweetalert2';
-import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-mentor-perfil',
@@ -13,19 +12,18 @@ import { ViewEncapsulation } from '@angular/core';
   styleUrls: ['./mentor-perfil.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MentorPerfilComponent implements OnInit { // Adicione a interface OnInit
+export class MentorPerfilComponent implements OnInit {
+
   fotoUrl: string = '';
   nome: string = '';
   area: string = '';
   resumo: string = '';
   minicurriculo: string = '';
 
-  // Adicione a função ngOnInit para carregar os dados
   ngOnInit(): void {
     this.carregarDados();
   }
 
-  // Função para carregar os dados do localStorage
   private carregarDados(): void {
     const dadosSalvos = localStorage.getItem('perfilMentor');
     if (dadosSalvos) {
@@ -38,7 +36,6 @@ export class MentorPerfilComponent implements OnInit { // Adicione a interface O
     }
   }
 
-  // Função para salvar todos os dados no localStorage
   private salvarDados(): void {
     const perfil = {
       fotoUrl: this.fotoUrl,
@@ -54,11 +51,10 @@ export class MentorPerfilComponent implements OnInit { // Adicione a interface O
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      // Salva a foto como uma URL base64 para persistir no localStorage
       const reader = new FileReader();
       reader.onload = () => {
         this.fotoUrl = reader.result as string;
-        this.salvarDados(); // Salva os dados após a foto ser carregada
+        this.salvarDados();
       };
       reader.readAsDataURL(file);
     }
@@ -95,7 +91,7 @@ export class MentorPerfilComponent implements OnInit { // Adicione a interface O
         this.nome = result.value.nome;
         this.area = result.value.area;
         this.resumo = result.value.resumo;
-        this.salvarDados(); // Salva os dados no localStorage
+        this.salvarDados();
         Swal.fire('Salvo!', 'As informações foram atualizadas.', 'success');
       }
     });
@@ -133,7 +129,7 @@ export class MentorPerfilComponent implements OnInit { // Adicione a interface O
     }).then(result => {
       if (result.isConfirmed && result.value !== undefined) {
         this.minicurriculo = result.value;
-        this.salvarDados(); // Salva os dados no localStorage
+        this.salvarDados();
         Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
       }
     });
