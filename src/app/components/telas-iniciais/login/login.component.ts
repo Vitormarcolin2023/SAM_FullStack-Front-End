@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { LoginService } from '../../../services/login.service';
+import { LoginService } from '../../../services/login/login.service';
 import { LoginDto } from '../../../models/login-dto';
 
 @Component({
