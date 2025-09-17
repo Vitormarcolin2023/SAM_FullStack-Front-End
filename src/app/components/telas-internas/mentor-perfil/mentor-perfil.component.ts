@@ -15,9 +15,9 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class MentorPerfilComponent {
   fotoUrl: string = '';
-  nome: string = 'Nome do Mentor';
-  area: string = 'Área de Atuação';
-  resumo: string = 'Escreva aqui um breve resumo sobre o mentor.';
+  nome: string = '';   // começa vazio
+  area: string = '';   // começa vazio
+  resumo: string = ''; // começa vazio
 
   onFotoSelecionada(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -31,18 +31,19 @@ export class MentorPerfilComponent {
     Swal.fire({
       title: 'Editar Informações',
       html: `
-        <input id="swal-nome" class="swal2-input" placeholder="Nome" value="${this.nome}">
-        <input id="swal-area" class="swal2-input" placeholder="Área" value="${this.area}">
-        <textarea id="swal-resumo" class="swal2-textarea" placeholder="Resumo">${this.resumo}</textarea>
+        <input id="swal-nome" class="swal2-input" placeholder="Nome do Mentor" value="${this.nome || ''}">
+        <input id="swal-area" class="swal2-input" placeholder="Área de Atuação" value="${this.area || ''}">
+        <textarea id="swal-resumo" class="swal2-textarea"
+          placeholder="Escreva aqui um breve resumo sobre o mentor">${this.resumo || ''}</textarea>
       `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
-        const nome = (document.getElementById('swal-nome') as HTMLInputElement).value;
-        const area = (document.getElementById('swal-area') as HTMLInputElement).value;
-        const resumo = (document.getElementById('swal-resumo') as HTMLTextAreaElement).value;
+        const nome = (document.getElementById('swal-nome') as HTMLInputElement).value.trim();
+        const area = (document.getElementById('swal-area') as HTMLInputElement).value.trim();
+        const resumo = (document.getElementById('swal-resumo') as HTMLTextAreaElement).value.trim();
 
         if (!nome || !area) {
           Swal.showValidationMessage('Nome e área são obrigatórios');

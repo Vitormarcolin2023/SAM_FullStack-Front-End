@@ -18,16 +18,29 @@
 
           <!-- Infos do mentor -->
           <div>
-            <h4 class="fw-bold">{{ nome }}</h4>
-            <p class="text-muted mb-1">{{ area }}</p>
+            <!-- Nome -->
+            <h4 class="fw-bold" *ngIf="nome; else semNome">{{ nome }}</h4>
+            <ng-template #semNome>
+              <h4 class="fw-bold text-muted fst-italic">Nome do mentor não informado</h4>
+            </ng-template>
 
+            <!-- Área -->
+            <p class="text-muted mb-1" *ngIf="area; else semArea">{{ area }}</p>
+            <ng-template #semArea>
+              <p class="text-muted mb-1 fst-italic">Área de atuação não informada</p>
+            </ng-template>
+
+            <!-- Resumo -->
             <div class="d-flex align-items-center">
               <h6 class="fw-bold text-success mb-0 me-2">Sobre o Mentor</h6>
               <!-- Ícone de edição chama o SweetAlert -->
               <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarInfos()"></i>
             </div>
 
-            <p class="text-muted mb-0">{{ resumo }}</p>
+            <p class="text-muted mb-0" *ngIf="resumo; else semResumo">{{ resumo }}</p>
+            <ng-template #semResumo>
+              <p class="text-muted mb-0 fst-italic">Nenhum resumo cadastrado.</p>
+            </ng-template>
           </div>
 
         </div>
