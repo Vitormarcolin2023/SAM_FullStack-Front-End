@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 import Swal from 'sweetalert2';
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-mentor-perfil',
   standalone: true,
   imports: [CommonModule, NavbarTelasInternasComponent, SidebarComponent],
   templateUrl: './mentor-perfil.component.html',
-  styleUrls: ['./mentor-perfil.component.scss']
+  styleUrls: ['./mentor-perfil.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MentorPerfilComponent {
   fotoUrl: string = '';
