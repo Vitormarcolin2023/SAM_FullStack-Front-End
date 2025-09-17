@@ -7,6 +7,7 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 
 // Páginas privadas (com sidebar)
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
+import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
 
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
 
   // Páginas internas
   { path: 'tela-inicial', component: TelaInicialComponent },
+  { path: 'mentor-perfil', component: MentorPerfilComponent },
   
 
  
