@@ -6,18 +6,16 @@
   padding-top: 20px;
 }
 
-
-//card do mentor
+// card do mentor e minicurrículo
 .perfil-card {
   background-color: #dedede;
   border-radius: 10px;
-  margin-top: 70px;
-  width: 85%;       // ocupa só 85% da largura do container
-  max-width: 900px; // nunca passa disso
+  margin-top: 20px;
+  width: 85%;
+  max-width: 900px;
   margin-left: auto;
-  padding: 20px;    // espaço interno
+  padding: 20px;
 
-  // Garantir responsividade do conteúdo
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
@@ -34,7 +32,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #000000; /* Cor de fundo do ícone */
+  background-color: #000000;
   color: white;
   border-radius: 50%;
   padding: 6px;
@@ -43,18 +41,18 @@
 }
 
 .photo-placeholder {
-    width: 100px;
-    height: 100px;
-    background-color: #ccc; /* Ou qualquer cor cinza que você preferir */
-    border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 50%;
 }
 
 .foto-mentor {
   width: 100px;
   height: 100px;
-  border-radius: 50%;   // deixa circular
-  object-fit: cover;    // mantém proporção, preenche cortando excesso
-  object-position: center; // centraliza a imagem
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .edit-icon {

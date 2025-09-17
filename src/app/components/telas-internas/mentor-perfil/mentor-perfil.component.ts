@@ -15,9 +15,10 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class MentorPerfilComponent {
   fotoUrl: string = '';
-  nome: string = '';   // começa vazio
-  area: string = '';   // começa vazio
-  resumo: string = ''; // começa vazio
+  nome: string = '';
+  area: string = '';
+  resumo: string = '';
+  minicurriculo: string = ''; // 🔹 novo campo
 
   onFotoSelecionada(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -58,6 +59,23 @@ export class MentorPerfilComponent {
         this.area = result.value.area;
         this.resumo = result.value.resumo;
         Swal.fire('Salvo!', 'As informações foram atualizadas.', 'success');
+      }
+    });
+  }
+
+  editarMinicurriculo(): void {
+    Swal.fire({
+      title: 'Editar Minicurrículo',
+      input: 'textarea',
+      inputPlaceholder: 'Escreva aqui o seu minicurrículo',
+      inputValue: this.minicurriculo || '',
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.isConfirmed && result.value !== undefined) {
+        this.minicurriculo = result.value;
+        Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
       }
     });
   }
