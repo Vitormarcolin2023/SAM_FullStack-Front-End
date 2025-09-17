@@ -1,0 +1,99 @@
+@use '../../../../styles/variaveis' as *;
+
+.background {
+  background-color: #fff;
+  min-height: 100vh;
+  padding-top: 20px;
+}
+
+//card do mentor
+.perfil-card {
+  background-color: #dedede;
+  border-radius: 10px;
+  margin-top: 70px;
+  width: 85%;       // ocupa só 85% da largura do container
+  max-width: 900px; // nunca passa disso
+  margin-left: auto;
+  padding: 20px;    // espaço interno
+}
+
+.photo-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.upload-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #000000; /* Cor de fundo do ícone */
+  color: white;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 1.2rem;
+  border: 2px solid white;
+}
+
+.photo-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc; /* Ou qualquer cor cinza que você preferir */
+    border-radius: 50%;
+}
+
+//cards dos boxes, deixar o box de mini curriculo maior
+/*
+.boxes {
+  display: flex;
+  justify-content: flex-end; // joga tudo para a direita
+  gap: 10px; 
+  padding-top: 15px; // espaço entre eles
+}
+
+.box {
+  background-color: #e6e6e6;
+  border-radius: 8px 8px 0 0;
+  height: 100px; //Reduzindo a altura do box
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; //Garantir que o box ocupe a largura total da sua coluna
+
+  img {
+    max-height: 80px; // Ajustando a altura máxima da imagem
+    max-width: 90%;
+    object-fit: contain;
+  }
+}
+
+.plus {
+  font-size: 1.5rem; // Reduzindo o tamanho do sinal de mais
+  font-weight: bold;
+  color: #333;
+}
+
+.box-footer {
+  background-color: black;
+  color: white;
+  padding: 6px 10px; // Reduzindo o padding do rodapé
+  font-size: 0.8rem; // Reduzindo o tamanho da fonte do rodapé
+  border-radius: 0 0 8px 8px;
+  width: 100%; // Garantir que o rodapé ocupe a largura total da sua coluna
+// Novo estilo para o container dos boxes, para controlar o espaçamento e largura
+.boxes-container {
+    padding: 0 15px; // Adiciona um padding para controlar a largura total dentro do col-lg-10
+}
+
+.row.boxes-row {
+    margin-left: 0;   
+    margin-right: 0;  
+    gap: 8px;         // define espaçamento entre colunas
+}
+
+.row.boxes-row > div[class*="col-"] {
+    padding-left: 4px;  // menos padding para aproximar
+    padding-right: 4px;
+}
+
+*/
