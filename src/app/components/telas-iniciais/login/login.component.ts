@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { LoginService } from '../../../services/login.service';
-import { LoginDto } from '../../../models/login-dto';
+import { LoginDto } from '../../../models/login/login-dto';
 import { NavbarComponent } from "../../design/navbar/navbar.component";
 
 @Component({
