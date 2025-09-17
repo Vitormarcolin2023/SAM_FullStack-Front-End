@@ -15,66 +15,78 @@ import { NavbarComponent } from "../../design/navbar/navbar.component";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  
+
   login: LoginDto = {
     email: '',
     senha: '',
     role: ''
-  }
+  };
+
   loginService = inject(LoginService);
   router = inject(Router);
 
-
   logar() {
-
     // desabilita o botão para evitar diversas requisições
     const btnLogar = document.getElementById("btn-logar");
     this.estadoBotao(btnLogar, true);
 
     this.loginService.login(this.login).subscribe({
-      next : token => {
-        // setta o token em local storage para futuras requisições
+      next: response => {
+        // response vem do back no formato RespostaLoginDTO { token: "..." }
+        const token = response.token;
+
+        // salva o token
         this.loginService.setToken(token);
-        // habilita o bootão novamente
+
+        // salva também role e email no localStorage (para uso futuro)
+        localStorage.setItem('role', this.login.role ?? '');
+        localStorage.setItem('emailLogado', this.login.email ?? '');
+
+        // habilita o botão novamente
         this.estadoBotao(btnLogar, false);
-        // redireciona o usuário para página inicial
-        this.router.navigate(["tela-inicial"]);
+
+        // redireciona conforme o role
+        if ((this.login.role ?? '').toUpperCase() === 'MENTOR') {
+          this.router.navigate(['perfil-mentor']);
+        } else {
+          this.router.navigate(['tela-inicial']);
+        }
       },
-      error : erro => {
-        // chama a função para mostrar o erro retornado do back para o usuário - o erro retorna no campo token da mensagem
-       this.mostrarErro(erro.error.token);
-       // chama a função para habilitar o botão novamente
-       this.estadoBotao(btnLogar, false);
+      error: erro => {
+        // mostra mensagem de erro retornada do back
+        this.mostrarErro(erro.error?.token ?? erro.error?.message);
 
-       // limpa os campos
-       this.login = {
-        email: '',
-        senha: '',
-        role: ''
-       }
+        // habilita o botão novamente
+        this.estadoBotao(btnLogar, false);
 
-       this.loginService.deleteToken();
+        // limpa os campos de login
+        this.login = {
+          email: '',
+          senha: '',
+          role: ''
+        };
+
+        this.loginService.deleteToken();
       }
-    })
+    });
   }
 
-  mostrarErro(erro: string){
+  mostrarErro(erro: string) {
     const quadroErro = document.getElementById("erro");
 
     if (quadroErro) {
       quadroErro.style.display = "flex";
 
-      if(erro == undefined){
+      if (erro == undefined) {
         quadroErro.innerText = "Não foi possível conectar ao servidor. Tente novamente mais tarde.";
-      }
-      else{
+      } else {
         quadroErro.innerText = `${erro}`;
       }
     }
   }
 
-  estadoBotao(btn: any, desabilita: boolean){
+  estadoBotao(btn: any, desabilita: boolean) {
     btn.disabled = desabilita;
-    btn.innerText = desabilita ? "Carregando..." : "Acessar"
+    btn.innerText = desabilita ? "Carregando..." : "Acessar";
   }
 }
