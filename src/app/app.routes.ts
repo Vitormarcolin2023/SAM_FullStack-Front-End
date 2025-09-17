@@ -9,6 +9,9 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
 import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
 
+//componentes
+import { MentorDashboardComponent } from './components/mentor/mentor-dashboard/mentor-dashboard.component';
+
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -20,6 +23,7 @@ export const routes: Routes = [
   // Páginas internas
   { path: 'tela-inicial', component: TelaInicialComponent },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
+  { path: 'mentor-dashboard', component: MentorDashboardComponent },
   
 
  

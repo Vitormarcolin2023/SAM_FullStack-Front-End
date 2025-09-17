@@ -1,0 +1,20 @@
+<div class="mentor-dashboard">
+  <div *ngIf="mentor">
+    <h2>Bem-vindo(a), {{ mentor?.nome }}!</h2>
+    <p><strong>Email:</strong> {{ mentor?.email }}</p>
+    <p><strong>CPF:</strong> {{ mentor?.cpf }}</p>
+    <p><strong>Telefone:</strong> {{ mentor?.telefone }}</p>
+
+    <h3>Detalhes do Endereço</h3>
+    <p><strong>Rua:</strong> {{ mentor?.endereco?.rua }}</p>
+    <p><strong>Número:</strong> {{ mentor?.endereco?.numero }}</p>
+    <p><strong>Bairro:</strong> {{ mentor?.endereco?.bairro }}</p>
+    <p><strong>Cidade:</strong> {{ mentor?.endereco?.cidade }}</p>
+    <p><strong>Estado:</strong> {{ mentor?.endereco?.estado }}</p>
+    <p><strong>CEP:</strong> {{ mentor?.endereco?.cep }}</p>
+  </div>
+
+  <div *ngIf="!mentor">
+    <p>Carregando dados do mentor...</p>
+  </div>
+</div>
