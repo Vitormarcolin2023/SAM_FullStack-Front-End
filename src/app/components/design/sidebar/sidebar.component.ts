@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TokenDecode } from '../../../models/token/token-decode';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
+
+  tokenService = inject(TokenDecode);
+
+  userRole = this.tokenService.getRole();
 
 }

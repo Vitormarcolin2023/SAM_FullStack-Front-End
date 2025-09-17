@@ -1,5 +1,6 @@
 export interface TokenInterface {
 
-    subj: string;
+    sub: string;
     Role: string;
+    exp: number;
 }

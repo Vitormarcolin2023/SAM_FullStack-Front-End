@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
+import { TokenDecode } from '../../../models/token/token-decode';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-tela-inicial',
@@ -10,4 +12,12 @@ import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas
 })
 export class TelaInicialComponent {
     
+  tokenService = inject(TokenDecode);
+
+  userRole = this.tokenService.getRole();
+
+  ngOnInit(){
+    console.log(this.userRole);
+  }
+
 }
