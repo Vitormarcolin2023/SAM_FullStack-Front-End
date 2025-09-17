@@ -6,6 +6,7 @@
   padding-top: 20px;
 }
 
+
 //card do mentor
 .perfil-card {
   background-color: #dedede;
@@ -15,6 +16,13 @@
   max-width: 900px; // nunca passa disso
   margin-left: auto;
   padding: 20px;    // espaço interno
+
+  // Garantir responsividade do conteúdo
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  box-sizing: border-box;
 }
 
 .photo-container {
@@ -58,6 +66,7 @@
 .swal2-confirm {
   background-color: #4CAF50 !important;
 }
+
 
 
 
