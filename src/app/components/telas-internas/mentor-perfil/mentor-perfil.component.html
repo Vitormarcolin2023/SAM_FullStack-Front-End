@@ -49,22 +49,15 @@
   </div>
 
   <!-- Card Minicurrículo -->
-<div class="row justify-content-center mt-4">
-  <div class="col-lg-10">
-    <div class="card p-4 shadow-sm border-0 perfil-card">
-      <!-- Título + ícone de edição -->
-      <div class="d-flex align-items-center mb-2">
-        <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
-        <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarMinicurriculo()"></i>
-      </div>
-
-      <!-- Texto do minicurrículo -->
-      <p class="text-muted mb-0" *ngIf="minicurriculo; else semMinicurriculo">{{ minicurriculo }}</p>
-      <ng-template #semMinicurriculo>
-        <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
-      </ng-template>
-    </div>
+<div class="card p-4 shadow-sm border-0 perfil-card minicurriculo-card">
+  <div class="d-flex align-items-center mb-2">
+    <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
+    <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarMinicurriculo()"></i>
   </div>
+  <p class="text-muted mb-0" *ngIf="minicurriculo; else semMinicurriculo">{{ minicurriculo }}</p>
+  <ng-template #semMinicurriculo>
+    <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
+  </ng-template>
 </div>
 
 
