@@ -4,17 +4,24 @@
   background-color: #fff;
   min-height: 100vh;
   padding-top: 20px;
+  position: relative;
+  z-index: 0;
 }
 
-// card do mentor e minicurrículo
+// card padrão
 .perfil-card {
   background-color: #dedede;
   border-radius: 10px;
-  margin-top: 20px;
   width: 85%;
   max-width: 900px;
   margin-left: auto;
+  margin-right: auto;
   padding: 20px;
+  position: relative;
+   z-index: 1;
+
+  // Espaçamento superior maior
+  margin-top: 80px; 
 
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -64,7 +71,6 @@
 .swal2-confirm {
   background-color: #4CAF50 !important;
 }
-
 
 
 
