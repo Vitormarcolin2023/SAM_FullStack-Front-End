@@ -14,31 +14,34 @@
   border-radius: 10px;
   width: 85%;
   max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+  
+  /* Ajusta o alinhamento para a direita */
+  margin-left: 145px;
+  margin-right: auto; 
+  
   padding: 20px;
   position: relative;
   z-index: 1;
-
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
   white-space: normal;
   box-sizing: border-box;
-
-  /* Espaçamento superior maior */
+  
+  /* Espaçamento superior do seu código */
   margin-top: 100px;
 }
 
-//minicurriculo
+// minicurriculo
 .minicurriculo-card {
-  width: 85%; /* Reduza a largura para 60% */
-  max-width: 870px; /* Reduza o tamanho máximo */
+  width: 85%;
+  max-width: 870px; 
   margin-top: 30px;
-  margin-left: auto;
+  
+  /* Usa o mesmo valor para a margem esquerda para alinhar com o card do mentor */
+  margin-left: 250px;
   margin-right: auto;
 }
-
 
 /* Foto do mentor */
 .photo-container {
@@ -92,6 +95,10 @@
 
 .swal2-confirm {
   background-color: #4CAF50 !important;
+}
+
+.swal2-container-modal {
+  z-index: 1200 !important;
 }
 
 //cards dos boxes
