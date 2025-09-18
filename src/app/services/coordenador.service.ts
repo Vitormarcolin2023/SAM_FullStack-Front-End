@@ -15,14 +15,12 @@ export class CoordenadorService {
 
 
   ativarMentor(mentorId: number | undefined): Observable<any> {
-    // Exemplo de uma requisição PUT para atualizar o status
-    // O endpoint e o formato do body podem variar dependendo da sua API
-    const body = { statusMentor: 'CONCLUIDO' }; 
+    const body = { statusMentor: 'ATIVO' }; 
     return this.http.put(this.apiUrl+"/ativarMentor/"+mentorId, body);
   }
 
   desativarMentor(mentorId: number | undefined): Observable<any> {
-    const body = {statusMentor: 'PENDENTE'};
+    const body = {statusMentor: 'INATIVO'};
     return this.http.put(this.apiUrl+"/desativarMentor/"+mentorId, body);
   }
 }
