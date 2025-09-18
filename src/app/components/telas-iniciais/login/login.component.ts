@@ -30,7 +30,8 @@ export class LoginComponent {
   loginService = inject(LoginService);
   router = inject(Router);
 
-  logar() {
+logar() {
+    
     const btnLogar = document.getElementById("btn-logar") as HTMLButtonElement | null;
     if (btnLogar) btnLogar.disabled = true;
 
@@ -39,12 +40,19 @@ export class LoginComponent {
         const token = response.token;
         this.loginService.setToken(token);
 
-        // salva role e email no localStorage
-        localStorage.setItem('role', this.login.role ?? '');
-        localStorage.setItem('emailLogado', this.login.email ?? '');
+        // Salva role, email e o status da resposta do backend
+        localStorage.setItem('role', response.role ?? ''); 
+        localStorage.setItem('emailLogado', response.email ?? '');
+        localStorage.setItem('mentorStatus', response.status ?? ''); 
 
-        // redireciona conforme o role
-        if ((this.login.role ?? '').toUpperCase() === 'MENTOR') {
+        // Lógica de redirecionamento que usa os dados da resposta
+        const role = (response.role ?? '').toUpperCase();
+        const status = response.status;
+        
+        console.log('Valor da role:', role);
+        console.log('Valor do status:', status);
+
+        if (role === 'MENTOR' && status === 'CONCLUIDO') {
           this.router.navigate(['mentor-perfil']);
         } else {
           this.router.navigate(['tela-inicial']);
@@ -61,4 +69,5 @@ export class LoginComponent {
       }
     });
   }
+
 }
