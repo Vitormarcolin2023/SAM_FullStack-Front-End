@@ -31,20 +31,7 @@
         <li><a href="#">Minhas Configurações</a></li>
       </ul>
     </li>
-    <li class="has-submenu">
-      <input type="checkbox" id="projects-toggle" class="submenu-toggle">
-      <label for="projects-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-folder-open"></i>
-        </span>
-        <span class="text">Projetos</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li><a href="#">Meus Projetos</a></li>
-        <li><a href="#">Criar Novo</a></li>
-      </ul>
-    </li>
+
     <!-- REUNIÃO EM STANDBY POR ENQUANTO
     <li class="has-submenu">
       <input type="checkbox" id="meetings-toggle" class="submenu-toggle">
@@ -63,6 +50,20 @@
   -->
     <!-- campo de grupos  -->
      @if (userRole == 'ALUNO') {
+          <li class="has-submenu">
+      <input type="checkbox" id="projects-toggle" class="submenu-toggle">
+      <label for="projects-toggle" class="nav-link">
+        <span class="icon">
+          <i class="fas fa-folder-open"></i>
+        </span>
+        <span class="text">Projetos</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+      </label>
+      <ul class="submenu">
+        <li><a href="#">Meus Projetos</a></li>
+        <li><a href="#">Criar Novo</a></li>
+      </ul>
+    </li>
     <li>
       <a href="#" class="nav-link">
         <span class="icon">
@@ -71,6 +72,29 @@
         <span class="text">Grupo</span>
       </a>
     </li>
+    }
+     @if (userRole == 'COORDENADOR') {
+      <li>
+        <a href="/tela-inicial/ativar-mentor" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-user-plus"></i> </span>
+          <span class="text">Ativar Mentor</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-users-cog"></i> </span>
+          <span class="text">Visualizar Mentores</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-project-diagram"></i> </span>
+          <span class="text">Visualizar Projetos</span>
+        </a>
+      </li>
     }
     <li>
       <a href="#" class="nav-link">

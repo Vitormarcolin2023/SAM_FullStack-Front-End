@@ -16,4 +16,9 @@ export class MentorService {
       responseType: 'text',
     });
   }
+
+    listAll(): Observable<Mentor[]>{
+    return this.http.get<Mentor[]>(this.apiUrl+"/findAll");
+  }
+
 }

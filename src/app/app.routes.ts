@@ -8,6 +8,7 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 // Páginas privadas (com sidebar)
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
 import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
+import { AtivarmentorComponent } from './components/coordenacao/ativarmentor/ativarmentor.component';
 
 
 export const routes: Routes = [
@@ -18,7 +19,9 @@ export const routes: Routes = [
   { path: 'cadastro', component: CadastroComponent },
 
   // Páginas internas
-  { path: 'tela-inicial', component: TelaInicialComponent },
+  { path: 'tela-inicial', component: TelaInicialComponent, children: [
+    { path: 'ativar-mentor', component: AtivarmentorComponent}
+  ] },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
   
 
