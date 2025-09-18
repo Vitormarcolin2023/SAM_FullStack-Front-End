@@ -12,10 +12,10 @@ import Swal from 'sweetalert2';
   selector: 'app-login',
   standalone: true,
   imports: [
-    FormsModule,        // necessário para ngModel
-    CommonModule,       // básico do Angular
-    MdbFormsModule,     // necessário para mdb-form-control
-    NavbarComponent     // necessário para app-navbar
+    FormsModule,        
+    CommonModule,      
+    MdbFormsModule,    
+    NavbarComponent    
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -50,7 +50,7 @@ logar() {
       console.log('Valor da role:', role);
       console.log('Valor do status:', status);
 
-      if (role === 'MENTOR' && status === 'CONCLUIDO') {
+      if (role === 'MENTOR' && status === 'ATIVO') {
         this.router.navigate(['mentor-perfil']);
       } else if (role === 'MENTOR' && status === 'PENDENTE') {
         Swal.fire({

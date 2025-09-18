@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginDto } from '../models/login/login-dto';
+import { Mentor } from '../models/mentor/mentor';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,16 @@ export class LoginService {
     } catch {
       return true; // token inválido
     }
+  }
+
+  getMentorProfile(): Observable<Mentor> {
+    const token = this.getToken();
+    
+    // Configura o cabeçalho de autorização com o token JWT
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    // Faz a chamada GET para o novo endpoint seguro /me
+    return this.http.get<Mentor>(`${this.apiUrl}/me`, { headers });
   }
 
 }
