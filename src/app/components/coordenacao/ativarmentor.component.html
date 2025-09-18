@@ -1,0 +1,49 @@
+<div class="tabela-card" style="margin-top: 75px">
+  <table class="table tabela-card-interna">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Área de Atuação</th>
+        <th scope="col">Status</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (mentor of mentores; track mentor.id) {
+      <tr>
+        <th scope="row">{{ mentor.id }}</th>
+        <td>{{ mentor.nome }}</td>
+        <td>{{ mentor.email }}</td>
+        <td>{{ mentor.telefone }}</td>
+        <td>{{ mentor.areaDeAtuacao.nome }}</td>
+        <td>
+          <span
+            class="status-badge 
+            {{
+              mentor.statusMentor === 'PENDENTE'
+                ? 'status-pendente'
+                : mentor.statusMentor === 'ATIVO'
+                ? 'status-ativo'
+                : mentor.statusMentor === 'INATIVO'
+                ? 'status-inativo'
+                : ''
+            }}"
+          >
+            {{ mentor.statusMentor }}
+          </span>
+        </td>
+        <td>
+          @if (mentor.statusMentor === 'PENDENTE') {
+          <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
+            Ativar Mentor
+          </button>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

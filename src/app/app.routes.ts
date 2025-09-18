@@ -8,7 +8,7 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 // Páginas privadas (com sidebar)
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
 import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
-import { AtivarmentorComponent } from './components/coordenacao/ativarmentor/ativarmentor.component';
+import { AtivarmentorComponent } from './components/coordenacao/ativarmentor.component';
 
 
 export const routes: Routes = [
