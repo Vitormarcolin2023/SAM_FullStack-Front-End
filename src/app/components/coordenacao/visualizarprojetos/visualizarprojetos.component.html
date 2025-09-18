@@ -1,0 +1,47 @@
+<div class="tabela-card" style="margin-top: 80px; margin-left: 230px">
+  <table class="table tabela-card-interna">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome do Projeto</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Área de Atuação</th>
+        <th scope="col">Data de Início</th>
+        <th scope="col">Data de Fim</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>     <!-- 
+        
+        
+        @for (projeto of projetos; track projeto.id) {
+      <tr>
+        <th scope="row">{{ projeto.id }}</th>
+        <td>{{ projeto.nomeDoProjeto }}</td>
+        <td>{{ projeto.descricao }}</td>
+        <td>{{ projeto.areaDeAtuacao.nome }}</td>
+        <td>{{ projeto.dataInicioProjeto | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ projeto.dataFinalProjeto | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <span
+            class="status-badge 
+            {{
+              projeto.statusProjeto === 'ATIVO'
+                ? 'status-ativo'
+                : projeto.statusProjeto === 'CONCLUIDO'
+                ? 'status-concluido'
+                : 'status-pendente'
+            }}"
+          >
+            {{ projeto.statusProjeto }}
+          </span>
+        </td>
+      </tr>
+      }
+        
+        -->
+
+      
+    </tbody>
+  </table>
+</div>

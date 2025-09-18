@@ -1,4 +1,4 @@
-<div class="tabela-card" style="margin-top: 75px">
+<div class="tabela-card" style="margin-top: 80px; margin-left: 230px">
   <table class="table tabela-card-interna">
     <thead>
       <tr>
@@ -13,40 +13,55 @@
     </thead>
     <tbody>
       @for (mentor of mentores; track mentor.id) {
-      <tr>
-        <th scope="row">{{ mentor.id }}</th>
-        <td>{{ mentor.nome }}</td>
-        <td>{{ mentor.email }}</td>
-        <td>{{ mentor.telefone }}</td>
-        <td>{{ mentor.areaDeAtuacao.nome }}</td>
-        <td>
-          <span
-            class="status-badge 
-            {{
-              mentor.statusMentor === 'PENDENTE'
-                ? 'status-pendente'
-                : mentor.statusMentor === 'ATIVO'
-                ? 'status-ativo'
-                : mentor.statusMentor === 'INATIVO'
-                ? 'status-inativo'
-                : ''
-            }}"
-          >
-            {{ mentor.statusMentor }}
-          </span>
-        </td>
-        <td>
-          @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
-          <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
-            Ativar
-          </button>
-          } @if (mentor.statusMentor === 'ATIVO') {
-          <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
-            Desativar
-          </button>
-          }
-        </td>
-      </tr>
+        @if ($index === 0 || mentores[$index - 1].statusMentor !== mentor.statusMentor) {
+          <tr class="status-header">
+            <td colspan="7">
+              <h3>
+                @if (mentor.statusMentor === 'PENDENTE') {
+                  Pendentes
+                } @else if (mentor.statusMentor === 'ATIVO') {
+                  Ativos
+                } @else {
+                  Inativos
+                }
+              </h3>
+            </td>
+          </tr>
+        }
+        <tr>
+          <th scope="row">{{ mentor.id }}</th>
+          <td>{{ mentor.nome }}</td>
+          <td>{{ mentor.email }}</td>
+          <td>{{ mentor.telefone }}</td>
+          <td>{{ mentor.areaDeAtuacao.nome }}</td>
+          <td>
+            <span
+              class="status-badge 
+              {{
+                mentor.statusMentor === 'PENDENTE'
+                  ? 'status-pendente'
+                  : mentor.statusMentor === 'ATIVO'
+                  ? 'status-ativo'
+                  : mentor.statusMentor === 'INATIVO'
+                  ? 'status-inativo'
+                  : ''
+              }}"
+            >
+              {{ mentor.statusMentor }}
+            </span>
+          </td>
+          <td>
+            @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
+              <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
+                Ativar
+              </button>
+            } @if (mentor.statusMentor === 'ATIVO') {
+              <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
+                Desativar
+              </button>
+            }
+          </td>
+        </tr>
       }
     </tbody>
   </table>
