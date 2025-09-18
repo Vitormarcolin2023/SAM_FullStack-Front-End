@@ -31,43 +31,43 @@ export class LoginComponent {
   router = inject(Router);
 
 logar() {
-    
-    const btnLogar = document.getElementById("btn-logar") as HTMLButtonElement | null;
-    if (btnLogar) btnLogar.disabled = true;
+  const btnLogar = document.getElementById("btn-logar") as HTMLButtonElement | null;
+  if (btnLogar) btnLogar.disabled = true;
 
-    this.loginService.login(this.login).subscribe({
-      next: response => {
-        const token = response.token;
-        this.loginService.setToken(token);
+  this.loginService.login(this.login).subscribe({
+    next: response => {
+      const token = response.token;
+      this.loginService.setToken(token);
 
-        // Salva role, email e o status da resposta do backend
-        localStorage.setItem('role', response.role ?? ''); 
-        localStorage.setItem('emailLogado', response.email ?? '');
-        localStorage.setItem('mentorStatus', response.status ?? ''); 
+      localStorage.setItem('role', response.role ?? ''); 
+      localStorage.setItem('emailLogado', response.email ?? '');
+      localStorage.setItem('mentorStatus', response.status ?? ''); 
 
-        // Lógica de redirecionamento que usa os dados da resposta
-        const role = (response.role ?? '').toUpperCase();
-        const status = response.status;
-        
-        console.log('Valor da role:', role);
-        console.log('Valor do status:', status);
+      const role = (response.role ?? '').toUpperCase();
+      const status = response.status;
+      
+      console.log('Valor da role:', role);
+      console.log('Valor do status:', status);
 
-        if (role === 'MENTOR' && status === 'CONCLUIDO') {
-          this.router.navigate(['mentor-perfil']);
-        } else {
-          this.router.navigate(['tela-inicial']);
-        }
-
-        if (btnLogar) btnLogar.disabled = false;
-      },
-      error: erro => {
-        alert(erro.error?.token ?? erro.error?.message ?? 'Erro ao logar');
-
-        if (btnLogar) btnLogar.disabled = false;
-        this.login = { email: '', senha: '', role: '' };
-        this.loginService.deleteToken();
+      if (role === 'MENTOR' && status === 'CONCLUIDO') {
+        this.router.navigate(['mentor-perfil']);
+      } else if (role === 'MENTOR' && status === 'PENDENTE') {
+        // --- AQUI ESTÁ A ALTERAÇÃO ---
+        alert('A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.');
+      } else {
+        this.router.navigate(['landing-page']);
       }
-    });
-  }
+
+      if (btnLogar) btnLogar.disabled = false;
+    },
+    error: erro => {
+      alert(erro.error?.token ?? erro.error?.message ?? 'Erro ao logar');
+
+      if (btnLogar) btnLogar.disabled = false;
+      this.login = { email: '', senha: '', role: '' };
+      this.loginService.deleteToken();
+    }
+  });
+}
 
 }
