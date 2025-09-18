@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TelaCadastroComponent } from './cadastroTela';
+import { GrupoDetailsComponent } from './grupo-details.component';
 
-describe('TelaCadastroComponent', () => {
-  let component: TelaCadastroComponent;
-  let fixture: ComponentFixture<TelaCadastroComponent>;
+describe('GrupoDetailsComponent', () => {
+  let component: GrupoDetailsComponent;
+  let fixture: ComponentFixture<GrupoDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TelaCadastroComponent]
+      imports: [GrupoDetailsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TelaCadastroComponent);
+    fixture = TestBed.createComponent(GrupoDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,39 @@
+/* navbar.component.scss */
+.navbar {
+  background-color: #000; /* fundo preto */
+  padding: 10px 20px;
+  font-family: Arial, sans-serif;
+  position: fixed;   /* fixa a navbar na tela */
+  top: 0;            /* topo da tela */
+  left: 0;
+  width: 100%;       /* ocupa toda a largura */
+  z-index: 1100;     /* fica acima dos outros elementos */
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between; /* logo à esquerda, links à direita */
+  align-items: center;
+}
+
+
+.logo {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border: 2px solid #fff; /* contorno branco */
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.nav-links a {
+  color: #fff;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #00E88F; /* muda a cor ao passar o mouse */
+}

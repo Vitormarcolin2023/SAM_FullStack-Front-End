@@ -1,0 +1,16 @@
+@use "../../../../../styles/variaveis.scss" as *;
+
+.card{
+    width: 80%;
+}
+
+.grupo-icon{
+    color: $icons;
+    font-size: 4vh;
+}
+
+.text{
+    font-weight: bold;
+    font-size: 22px;
+    margin-left: 2vh;
+}

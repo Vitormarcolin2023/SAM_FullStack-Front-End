@@ -9,7 +9,11 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+<<<<<<< HEAD:src/app/models/interceptor.ts
 import { LoginService } from '../services/login/login.service';
+=======
+import { LoginService } from '../../services/login.service';
+>>>>>>> edd2c6930a21f743e50edee82bf129286a49a974:src/app/models/interceptor/interceptor.ts
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {

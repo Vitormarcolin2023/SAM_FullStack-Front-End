@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GrupoPostComponent } from './grupo-post.component';
+import { MentorPerfilComponent } from './mentor-perfil.component';
 
-describe('GrupoPostComponent', () => {
-  let component: GrupoPostComponent;
-  let fixture: ComponentFixture<GrupoPostComponent>;
+describe('MentorPerfilComponent', () => {
+  let component: MentorPerfilComponent;
+  let fixture: ComponentFixture<MentorPerfilComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GrupoPostComponent]
+      imports: [MentorPerfilComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GrupoPostComponent);
+    fixture = TestBed.createComponent(MentorPerfilComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

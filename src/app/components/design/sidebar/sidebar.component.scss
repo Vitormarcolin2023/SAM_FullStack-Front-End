@@ -1,32 +1,30 @@
+@use '../../../../styles/variaveis' as *;
 /* Variáveis para fácil personalização */
 :root {
   --sidebar-width: 60px; /* Barra fechada */
   --sidebar-expanded-width: 250px; /* Barra expandida */
-  --bg-color: #000; /* Barra preta */
-  --text-color: #fff; /* Ícones e texto brancos */
-  --hover-color: #333;
-  --active-color: #2e8b57;
   --transition-speed: 0.3s;
 }
 
 body {
   margin: 0;
   font-family: sans-serif;
-  background-color: #222;
-  color: var(--text-color);
+  color: #fff; /* Ícones e texto brancos */
 }
 
 .sidebar {
   width: var(--sidebar-width);
-  background-color: var(--bg-color);
+  background-color: black;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   transition: width var(--transition-speed) ease;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-  overflow: hidden; /* esconde conteúdo ao contrair */
+  overflow: hidden; 
+  z-index: 1050;  // Garante que fique sobre os cards
 }
+
 
 /* Expande a barra ao passar o mouse */
 .sidebar:hover {
@@ -45,19 +43,21 @@ body {
   display: flex;
   align-items: center;
   padding: 15px 20px;
-  color: var(--text-color);
+  color: #fff; /* Cor do texto e ícones */
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
   transition: background-color var(--transition-speed) ease,
-              color var(--transition-speed) ease;
+    color var(--transition-speed) ease;
   cursor: pointer;
+  margin-bottom: 20px;
 }
+
 
 .nav-link:hover,
 .menu-item:hover {
-  background-color: var(--hover-color);
-  color: var(--active-color);
+  background-color: #333;
+  color: $btn-acao;
 }
 
 /* Ícones sempre brancos */
@@ -66,7 +66,7 @@ body {
   width: 24px;
   text-align: center;
   margin-right: 15px;
-  color: var(--text-color);
+  color: #fff; /* Cor dos ícones */
 }
 
 /* Texto começa oculto */
@@ -86,7 +86,7 @@ body {
 .arrow {
   margin-left: auto;
   transition: transform var(--transition-speed) ease;
-  color: var(--text-color);
+  color: #fff; /* Cor da seta */
 }
 
 /* Esconde seta quando a barra está contraída */
@@ -114,13 +114,13 @@ body {
 .submenu li a {
   display: block;
   padding: 10px 20px 10px 60px;
-  color: var(--text-color);
+  color: #fff; /* Cor do texto no submenu */
   text-decoration: none;
   white-space: nowrap;
 }
 
 .submenu li a:hover {
-  background-color: var(--hover-color);
+  background-color: #333;
 }
 
 /* Expande o submenu quando marcado */
