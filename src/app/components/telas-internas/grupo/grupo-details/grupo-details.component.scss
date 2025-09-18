@@ -1,7 +1,13 @@
 @use "../../../../../styles/variaveis.scss" as *;
 
 .card{
-    width: 80%;
+    width: 100%;
+    display: flex;
+}
+
+
+.titulo{
+    justify-self: center;
 }
 
 .grupo-icon{
@@ -13,4 +19,13 @@
     font-weight: bold;
     font-size: 22px;
     margin-left: 2vh;
+}
+
+.container-info{
+    display: flex;
+    flex-direction: row;
+}
+
+.alunos, .projetos {
+    flex: 1;
 }
