@@ -36,9 +36,13 @@
           </span>
         </td>
         <td>
-          @if (mentor.statusMentor === 'PENDENTE') {
+          @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
           <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
-            Ativar Mentor
+            Ativar
+          </button>
+          } @if (mentor.statusMentor === 'ATIVO') {
+          <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
+            Desativar
           </button>
           }
         </td>

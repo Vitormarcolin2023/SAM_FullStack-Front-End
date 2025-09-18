@@ -20,4 +20,9 @@ export class CoordenadorService {
     const body = { statusMentor: 'CONCLUIDO' }; 
     return this.http.put(this.apiUrl+"/ativarMentor/"+mentorId, body);
   }
+
+  desativarMentor(mentorId: number | undefined): Observable<any> {
+    const body = {statusMentor: 'PENDENTE'};
+    return this.http.put(this.apiUrl+"/desativarMentor/"+mentorId, body);
+  }
 }
