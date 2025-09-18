@@ -50,16 +50,18 @@ logar() {
       console.log('Valor da role:', role);
       console.log('Valor do status:', status);
 
+      
       if (role === 'MENTOR' && status === 'CONCLUIDO') {
         this.router.navigate(['mentor-perfil']);
       } else if (role === 'MENTOR' && status === 'PENDENTE') {
         Swal.fire({
           icon: 'info',
           title: 'Perfil em Análise',
-          text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.'
+          text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.',
+          confirmButtonColor: '#4CAF50'
         });
       } else {
-        this.router.navigate(['landing-page']);
+        this.router.navigate(['tela-inicial']);
       }
 
       if (btnLogar) btnLogar.disabled = false;
