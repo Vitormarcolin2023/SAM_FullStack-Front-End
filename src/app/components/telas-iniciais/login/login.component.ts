@@ -6,6 +6,7 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { LoginService } from '../../../services/login.service';
 import { LoginDto } from '../../../models/login/login-dto';
 import { NavbarComponent } from '../../design/navbar/navbar.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -52,8 +53,11 @@ logar() {
       if (role === 'MENTOR' && status === 'CONCLUIDO') {
         this.router.navigate(['mentor-perfil']);
       } else if (role === 'MENTOR' && status === 'PENDENTE') {
-        // --- AQUI ESTÁ A ALTERAÇÃO ---
-        alert('A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.');
+        Swal.fire({
+          icon: 'info',
+          title: 'Perfil em Análise',
+          text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.'
+        });
       } else {
         this.router.navigate(['landing-page']);
       }
@@ -61,7 +65,11 @@ logar() {
       if (btnLogar) btnLogar.disabled = false;
     },
     error: erro => {
-      alert(erro.error?.token ?? erro.error?.message ?? 'Erro ao logar');
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao logar',
+        text: erro.error?.message ?? 'Erro ao logar'
+      });
 
       if (btnLogar) btnLogar.disabled = false;
       this.login = { email: '', senha: '', role: '' };
