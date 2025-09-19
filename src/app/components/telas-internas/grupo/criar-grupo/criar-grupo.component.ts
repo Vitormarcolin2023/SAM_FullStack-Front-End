@@ -13,30 +13,26 @@ import Swal from 'sweetalert2';
 })
 
 export class CriarGrupoComponent {
-   abrirModal() {
+  abrirModal() {
     Swal.fire({
       title: 'Criar Novo Grupo',
       html: `
-        <div class="form-section" style="text-align: left;">
-          <div class="form-group">
-            <label for="group-name">Nome do Grupo</label>
-            <input id="group-name" type="text" class="swal2-input" placeholder="Digite o nome do grupo" />
-          </div>
+        <div style="display: flex; flex-direction: column; gap: 8px; text-align: left;">
 
-          <div class="form-group">
-            <label for="students-count">Quantidade de Alunos (2-5)</label>
-            <select id="students-count" class="swal2-input">
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
+          <label for="group-name">Nome do Grupo</label>
+          <input id="group-name" type="text" class="swal2-input" placeholder="Digite o nome do grupo" />
 
-          <div class="form-group">
-            <label for="course">Curso</label>
-            <input id="course" type="text" class="swal2-input" placeholder="Digite o curso" />
-          </div>
+          <label for="students-count">Quantidade de Alunos (2-5)</label>
+          <select id="students-count" class="swal2-select">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
+          <label for="course">Curso</label>
+          <input id="course" type="text" class="swal2-input" placeholder="Digite o curso" />
+
         </div>
       `,
       showCancelButton: true,
@@ -44,8 +40,8 @@ export class CriarGrupoComponent {
       cancelButtonText: 'Cancelar',
       confirmButtonColor: 'rgb(28, 232, 151)',
       cancelButtonColor: '#a3a3a3ff',
-      reverseButtons: true, //inverte a ordem dos botoes
-      
+      reverseButtons: true,
+
       preConfirm: () => {
         const groupName = (document.getElementById('group-name') as HTMLInputElement).value;
         const studentsCount = (document.getElementById('students-count') as HTMLSelectElement).value;
@@ -60,7 +56,6 @@ export class CriarGrupoComponent {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('Grupo criado:', result.value);
         Swal.fire({
           icon: 'success',
           title: 'Grupo criado com sucesso!',

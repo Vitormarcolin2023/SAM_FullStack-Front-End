@@ -22,21 +22,33 @@ h3{
 }
 
 
-//estilo do modal
+/* Estilo do modal SweetAlert2 */
 .swal2-popup {
   border-radius: 12px !important;
+  width: 320px !important; /* define largura menor e fixa */
+  padding: 20px 15px !important; /* reduz padding lateral */
+  box-sizing: border-box; /* garante que padding não aumente a largura */
 }
 
+/* Título do modal */
 .swal2-title {
   color: #00995E !important;
   font-weight: 700;
+  text-align: center; /* opcional, deixa título centralizado */
 }
 
-.swal2-input, .swal2-select {
+/* Inputs e selects dentro do modal */
+.swal2-input,
+.swal2-select {
   border-radius: 6px !important;
   border: 1px solid #ccc !important;
   font-size: 0.95rem !important;
   color: #222 !important;
   background-color: #f7f7f7 !important;
+  width: 100% !important;        /* ocupa toda largura do modal */
+  box-sizing: border-box !important; /* importante para não ultrapassar a largura */
+  margin-top: 4px !important; /* espaço entre label e input */
+  margin-bottom: 8px !important; /* espaço abaixo do input */
+  padding: 6px !important; /* deixa os inputs menores */
 }
 
