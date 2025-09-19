@@ -16,13 +16,12 @@ export class CoordenadorService {
 
   ativarMentor(mentorId: number | undefined): Observable<any> {
     const body = { statusMentor: 'ATIVO' }; 
-    return this.http.put(this.apiUrl+"/ativarMentor/"+mentorId, body);
+    return this.http.put(this.apiUrl+"/ativarMentor/"+mentorId, body, {responseType: 'text' as 'json'});
   }
 
-  desativarMentor(mentorId: number | undefined): Observable<any> {
-    const body = {statusMentor: 'INATIVO'};
-    return this.http.put(this.apiUrl+"/desativarMentor/"+mentorId, body);
-  }
+inativarMentor(mentorId: number): Observable<any> {
+  return this.http.put(`${this.apiUrl}/inativarMentor/${mentorId}`, {}, {responseType: 'text' as 'json'});
+}
 
   save(coordenador: any): Observable<any> {
     console.log(coordenador);
