@@ -63,14 +63,14 @@
   -->
     <!-- campo de grupos  -->
      @if (userRole == 'ALUNO') {
-    <li>
-      <a href="#" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-users"></i>
-        </span>
-        <span class="text">Grupo</span>
-      </a>
-    </li>
+      <li>
+        <a mdbRipple (click)="acessarGrupo()" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-users"></i>
+          </span>
+          <span class="text">Grupo</span>
+        </a>
+      </li>
     }
     <li>
       <a href="#" class="nav-link">

@@ -12,6 +12,7 @@ import { mentorStatusGuard } from './guards/mentor-status.guard';
 import { CriarGrupoComponent } from './components/telas-internas/criar-grupo/criar-grupo.component';
 
 
+import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
 
 
 export const routes: Routes = [
@@ -24,10 +25,11 @@ export const routes: Routes = [
   // Páginas internas
   { path: 'tela-inicial', component: TelaInicialComponent },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
-
   
-  // Rota protegida pelo mentorStatusGuard
+  // Rota protegida por guard (mentorStatusGuard)
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
+  { path: 'grupo-details', component: GrupoDetailsComponent, canActivate: [mentorStatusGuard] },
+
   { path: 'criar-grupo', component: CriarGrupoComponent, canActivate: [mentorStatusGuard] },
   
 
