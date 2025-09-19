@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './criar-grupo.component.scss',
   standalone: true
 })
+
 export class CriarGrupoComponent {
   groupName = signal('');
   projectName = signal('');
@@ -17,8 +18,9 @@ export class CriarGrupoComponent {
   objectives = signal('');
   startDate = signal('');
   endDate = signal('');
+  studentsCount = signal(2); // Valor padrão de 2
+  course = signal('');
 
-  
   onSubmit() {
     const newGroup = {
       groupName: this.groupName(),
@@ -26,7 +28,9 @@ export class CriarGrupoComponent {
       description: this.description(),
       objectives: this.objectives(),
       startDate: this.startDate(),
-      endDate: this.endDate()
+      endDate: this.endDate(),
+      studentsCount: this.studentsCount(),
+      course: this.course()
     };
     
     // Simulação do envio de dados
@@ -37,6 +41,4 @@ export class CriarGrupoComponent {
     
     alert('Grupo criado com sucesso!');
   }
-
-
 }

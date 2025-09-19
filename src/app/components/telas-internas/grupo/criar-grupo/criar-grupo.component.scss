@@ -59,7 +59,8 @@
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select { /* Adicionado o seletor para o campo select */
   padding: 10px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;

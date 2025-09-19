@@ -33,11 +33,28 @@
 
       <!-- Período -->
       <div class="form-group">
-        <label for="period">Período</label>
+        <label for="period">Período do Projeto</label>
         <div style="display: flex; gap: 10px;">
           <input type="date" [(ngModel)]="startDate" name="startDate" required />
           <input type="date" [(ngModel)]="endDate" name="endDate" required />
         </div>
+      </div>
+
+      <!-- Quantidade de Alunos -->
+      <div class="form-group">
+        <label for="students-count">Quantidade de Alunos (2-5)</label>
+        <select id="students-count" [(ngModel)]="studentsCount" name="studentsCount" required>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <!-- Curso -->
+      <div class="form-group">
+        <label for="course">Curso</label>
+        <input id="course" type="text" [(ngModel)]="course" name="course" required />
       </div>
 
       <button type="submit" class="btn-submit">Criar Grupo</button>
