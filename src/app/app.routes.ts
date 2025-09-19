@@ -9,6 +9,8 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
 import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
 import { mentorStatusGuard } from './guards/mentor-status.guard'; 
+import { CriarGrupoComponent } from './components/telas-internas/criar-grupo/criar-grupo.component';
+
 
 
 
@@ -26,7 +28,9 @@ export const routes: Routes = [
   
   // Rota protegida pelo mentorStatusGuard
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
- 
-  // Fallback (rota não encontrada)
+  { path: 'criar-grupo', component: CriarGrupoComponent, canActivate: [mentorStatusGuard] },
+  
+
+  // Fallback (rota não encontrada) //nao adicionar paginas embaixo dessa linha se nao nao funciona
   { path: '**', redirectTo: '' }
 ];
