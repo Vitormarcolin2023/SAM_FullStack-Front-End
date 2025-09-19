@@ -2,54 +2,63 @@
 <app-sidebar></app-sidebar>
 
 <div class="card">
-  <!-- Título -->
-  <div class="titulo">
-    <i class="fas fa-users grupo-icon"></i>
-    <span class="text">Nome do grupo</span>
-  </div>
+  <!-- Título do grupo -->
+  <h2>Cloude 7</h2>
+  <hr class="divisor" />
 
-  <!-- Conteúdo -->
-  <div class="container-info">
-    <!-- Seção alunos -->
-    <div class="alunos">
-      <div class="info-titulo">Alunos</div>
-      <div class="info-conteudo">
-        <table>
-          <tbody>
-            <!-- ADICIONAR *ngFor -->
-            <tr>
-              <td>50147</td>
-              <td>Otto Ramón</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>50215</td>
-              <td>Angela Raissa</td>
-              <td><span class="badge">Líder</span></td>
-            </tr>
-          </tbody>
-        </table>
+  <!-- Grupo -->
+  <div class="info-section">
+    <i class="fas fa-users"></i>
+    <div class="info-content">
+      <h4>Grupo 8</h4>
+      <div class="avatars">
+        <img src="assets/aluno1.jpg" alt="Aluno 1" class="avatar" />
+        <img src="assets/aluno2.jpg" alt="Aluno 2" class="avatar" />
+        <img src="assets/aluno3.jpg" alt="Aluno 3" class="avatar" />
       </div>
     </div>
+  </div>
+  <hr class="divisor" />
 
-    <!-- Seção projetos -->
-    <div class="projetos">
-      <div class="info-titulo">
-        <i class="fas fa-book-open grupo-icon"></i>
-        <span>Projetos</span>
-      </div>
-      <div class="info-conteudo">
-        <table>
-          <tbody>
-            <!-- ADICIONAR *ngFor -->
-            <tr>
-              <td>50147</td>
-              <td>Otto Ramón</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- Descrição -->
+  <div class="info-section">
+    <div class="info-content">
+      <h4>Descrição</h4>
+      <p class="descricao">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod
+        tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
+        nisi ut aliquid ex ea commodi consequatur.
+      </p>
+    </div>
+  </div>
+  <hr class="divisor" />
+
+  <!-- Mentor -->
+  <div class="info-section">
+    <i class="fas fa-user"></i>
+    <div class="info-content">
+      <h4>Mentor</h4>
+      <img src="assets/mentor.jpg" alt="Mentor" class="avatar" />
+    </div>
+  </div>
+  <hr class="divisor" />
+
+  <!-- Período -->
+  <div class="info-section">
+    <i class="fas fa-calendar"></i>
+    <div class="info-content">
+      <h4>Período</h4>
+      <p>23/02/2025 - 28/07/2025</p>
+    </div>
+  </div>
+  <hr class="divisor" />
+
+  <!-- Reuniões -->
+  <div class="info-section">
+    <div class="info-content">
+      <h4>Reuniões</h4>
+      <p class="reunioes">Nenhuma reunião cadastrada ainda.</p>
     </div>
   </div>
 </div>
