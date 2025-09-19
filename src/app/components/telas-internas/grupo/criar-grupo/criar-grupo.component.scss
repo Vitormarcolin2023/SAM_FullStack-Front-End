@@ -1,44 +1,16 @@
-/* Centraliza o card */
-.d-flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* ocupa a tela inteira */
-  background-color: #f5f5f5; /* fundo suave */
+.swal2-popup {
+  border-radius: 12px !important;
 }
 
-/* Card */
-.card {
-  background-color: #dedede;
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  text-align: center;
+.swal2-title {
+  color: #00995E !important;
+  font-weight: 700;
 }
 
-/* Título */
-.card h3 {
-  font-size: 1.5rem;
-  color: #00995E;
-  margin-bottom: 20px;
-}
-
-/* Botão */
-.card button {
-  background-color: rgb(28, 232, 151);
-  border: none;
-  border-radius: 8px;
-  padding: 8px 10px;   /* altura e largura menores */
-  color: #00633d;
-  font-size: 0.9rem;   /* fonte um pouco menor */
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-  width: auto;         /* deixa só do tamanho do texto */
-  min-width: 120px;    /* garante que não fique pequeno demais */
-}
-
-.card button:hover {
-  background-color:  #00995E;
-  color: white;
+.swal2-input, .swal2-select {
+  border-radius: 6px !important;
+  border: 1px solid #ccc !important;
+  font-size: 0.95rem !important;
+  color: #222 !important;
+  background-color: #f7f7f7 !important;
 }
