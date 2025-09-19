@@ -1,92 +1,44 @@
+/* Centraliza o card */
+.d-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ocupa a tela inteira */
+  background-color: #f5f5f5; /* fundo suave */
+}
+
+/* Card */
 .card {
-  width: 100%;
-  max-width: 900px;
   background-color: #dedede;
-  border-radius: 12px;
-  padding: 24px 28px;
-  margin: 60px auto;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-@media (min-width: 992px) {
-  .card {
-    margin-left: 280px;
-    margin-top: 80px;
-  }
-}
-
-@media (max-width: 768px) {
-  .card {
-    padding: 16px;
-    margin: 20px 12px;
-    border-radius: 8px;
-  }
-}
-
-.card h2 {
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 24px;
   text-align: center;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 8px;
+}
+
+/* Título */
+.card h3 {
+  font-size: 1.5rem;
   color: #00995E;
+  margin-bottom: 20px;
 }
 
-.divisor {
-  border: none;
-  border-top: 1px solid #000;
-  margin: 8px 0;
-}
-
-.form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-group label {
-  font-weight: 600;
-  font-size: 1rem;
-  color: #00995E;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select { /* Adicionado o seletor para o campo select */
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 0.95rem;
-  color: #222;
-  background-color: #f7f7f7;
-}
-
-.form-group textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.btn-submit {
-  background-color: #00995E;
-  color: white;
-  padding: 12px 24px;
+/* Botão */
+.card button {
+  background-color: rgb(28, 232, 151);
   border: none;
   border-radius: 8px;
+  padding: 8px 10px;   /* altura e largura menores */
+  color: #00633d;
+  font-size: 0.9rem;   /* fonte um pouco menor */
+  font-weight: 600;
+  transition: background-color 0.3s ease;
   cursor: pointer;
-  font-weight: 700;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
-  margin-top: 10px;
+  width: auto;         /* deixa só do tamanho do texto */
+  min-width: 120px;    /* garante que não fique pequeno demais */
 }
 
-.btn-submit:hover {
-  background-color: #007a4b;
+.card button:hover {
+  background-color:  #00995E;
+  color: white;
 }
