@@ -24,6 +24,9 @@ export const routes: Routes = [
   { path: 'tela-inicial', component: TelaInicialComponent },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
   
+  // Rota protegida por guard (mentorStatusGuard)
+  { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
+  { path: 'grupo-details', component: GrupoDetailsComponent, canActivate: [mentorStatusGuard] },
 
  
   // Fallback (rota não encontrada)

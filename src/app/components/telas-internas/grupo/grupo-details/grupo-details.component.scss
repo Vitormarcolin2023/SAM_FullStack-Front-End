@@ -1,27 +1,25 @@
-@use "../../../../../styles/variaveis.scss";
-
 .card {
   width: 100%;
   max-width: 700px; // limite do card para não esticar muito
-  background-color: white;
+  background-color: #dedede; // cinza claro no fundo
   border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  padding: 20px;
-  margin: 30px auto; // centralizado dentro do espaço
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  margin: 70px auto; // centralizado dentro do espaço
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 
-  // Ajuste quando sidebar e navbar estiverem fixas
+  // Ajustar quando sidebar e navbar estiverem fixas
   @media (min-width: 992px) {
     margin-left: 280px; // espaço lateral da sidebar
-    margin-top: 80px;   // espaço para a navbar fixa
+    margin-top: 100px;   // espaço para a navbar fixa
   }
 
   @media (max-width: 768px) {
-    padding: 16px;
-    margin: 20px 12px;
+    padding: 14px;
+    margin: 20px 10px;
     border-radius: 12px;
   }
 }
@@ -31,19 +29,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 10px;
   text-align: center;
+  color: #00995E;
 
   .grupo-icon {
-    color: $icons;
-    font-size: 3.5vh;
+    color: #444;
+    font-size: 2.4rem; // menor que antes
   }
 
   .text {
     font-weight: 700;
-    font-size: clamp(1.4rem, 2vw, 2rem);
-    color: $texto-primario;
+    font-size: clamp(1.2rem, 2vw, 1.6rem); // reduzido
     text-transform: uppercase;
   }
 }
@@ -51,7 +49,7 @@
 // --- Container de informações
 .container-info {
   display: grid;
-  gap: 20px;
+  gap: 16px;
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
@@ -62,30 +60,29 @@
 .alunos,
 .projetos {
   flex: 1;
-  padding: 16px;
-  border: 1px solid $borda;
-  border-radius: 10px;
-  background: $branco;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff; 
   transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   }
 }
 
 // --- Textos internos
 .info-titulo {
-  font-size: 1.6rem;
+  font-size: 1.4rem; // menor
   font-weight: 600;
-  color: $texto-secundario;
+  color: #666;
   margin-bottom: 6px;
   text-align: center;
 }
 
 .info-conteudo {
-  font-size: 1.4rem;
-  color: $texto-primario;
+  font-size: 1.2rem; // menor
+  color: #222;
   text-align: center;
 }
-

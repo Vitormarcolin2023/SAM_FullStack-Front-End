@@ -2,19 +2,21 @@
 <app-sidebar></app-sidebar>
 
 <div class="card">
-  <div class="card-body">
-    <div class="titulo">
-      <span class="icon">
-        <i class="fas fa-users grupo-icon"></i>
-      </span>
-      <span class="text">Nome do grupo</span>
-    </div>
+  <!-- Título -->
+  <div class="titulo">
+    <i class="fas fa-users grupo-icon"></i>
+    <span class="text">Nome do grupo</span>
+  </div>
 
-    <div class="container-info">
-      <div class="alunos">
-        <table class="table">
+  <!-- Conteúdo -->
+  <div class="container-info">
+    <!-- Seção alunos -->
+    <div class="alunos">
+      <div class="info-titulo">Alunos</div>
+      <div class="info-conteudo">
+        <table>
           <tbody>
-            <!-- ADICIONAR UM FOR -->
+            <!-- ADICIONAR *ngFor -->
             <tr>
               <td>50147</td>
               <td>Otto Ramón</td>
@@ -23,24 +25,23 @@
             <tr>
               <td>50215</td>
               <td>Angela Raissa</td>
-              <td>
-                <span class="badge badge-warning rounded-pill d-inline"
-                  >líder</span
-                >
-              </td>
+              <td><span class="badge">Líder</span></td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
 
-      <div class="projetos">
-        <span>
-          <i class="fas fa-book-open grupo-icon"></i>
-        </span>
-        <span class="text">Projetos</span>
-        <table class="table">
+    <!-- Seção projetos -->
+    <div class="projetos">
+      <div class="info-titulo">
+        <i class="fas fa-book-open grupo-icon"></i>
+        <span>Projetos</span>
+      </div>
+      <div class="info-conteudo">
+        <table>
           <tbody>
-            <!-- ADICIONAR UM FOR -->
+            <!-- ADICIONAR *ngFor -->
             <tr>
               <td>50147</td>
               <td>Otto Ramón</td>
