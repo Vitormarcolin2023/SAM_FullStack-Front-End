@@ -9,8 +9,7 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
 import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
 import { mentorStatusGuard } from './guards/mentor-status.guard'; 
-import { CriarGrupoComponent } from './components/telas-internas/criar-grupo/criar-grupo.component';
-
+import { CriarGrupoComponent } from './components/telas-internas/grupo/criar-grupo/criar-grupo.component';
 
 import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
 

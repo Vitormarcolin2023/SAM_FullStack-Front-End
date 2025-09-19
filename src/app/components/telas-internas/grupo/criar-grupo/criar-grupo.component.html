@@ -1,1 +1,46 @@
-<h1>FUNCIONA</h1>
+<app-navbar-telas-internas></app-navbar-telas-internas>
+<app-sidebar></app-sidebar>
+
+<div class="card">
+  <h2>Criar Novo Grupo</h2>
+  <hr class="divisor" />
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-section">
+      <!-- Nome do Grupo -->
+      <div class="form-group">
+        <label for="group-name">Nome do Grupo</label>
+        <input id="group-name" type="text" [(ngModel)]="groupName" name="groupName" required />
+      </div>
+
+      <!-- Nome do Projeto -->
+      <div class="form-group">
+        <label for="project-name">Nome do Projeto</label>
+        <input id="project-name" type="text" [(ngModel)]="projectName" name="projectName" required />
+      </div>
+
+      <!-- Descrição -->
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea id="description" [(ngModel)]="description" name="description" required></textarea>
+      </div>
+
+      <!-- Objetivos -->
+      <div class="form-group">
+        <label for="objectives">Objetivos do Projeto</label>
+        <textarea id="objectives" [(ngModel)]="objectives" name="objectives" required></textarea>
+      </div>
+
+      <!-- Período -->
+      <div class="form-group">
+        <label for="period">Período</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="date" [(ngModel)]="startDate" name="startDate" required />
+          <input type="date" [(ngModel)]="endDate" name="endDate" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Criar Grupo</button>
+    </div>
+  </form>
+</div>
