@@ -21,6 +21,8 @@ export const routes: Routes = [
   // Páginas internas
   { path: 'tela-inicial', component: TelaInicialComponent },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
+
+  { path: 'grupo-details', component: GrupoDetailsComponent },
   
 
  

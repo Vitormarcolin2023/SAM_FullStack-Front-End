@@ -1,31 +1,91 @@
-@use "../../../../../styles/variaveis.scss" as *;
+@use "../../../../../styles/variaveis.scss";
 
-.card{
-    width: 100%;
-    display: flex;
+.card {
+  width: 100%;
+  max-width: 700px; // limite do card para não esticar muito
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  padding: 20px;
+  margin: 30px auto; // centralizado dentro do espaço
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  // Ajuste quando sidebar e navbar estiverem fixas
+  @media (min-width: 992px) {
+    margin-left: 280px; // espaço lateral da sidebar
+    margin-top: 80px;   // espaço para a navbar fixa
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    margin: 20px 12px;
+    border-radius: 12px;
+  }
 }
 
+// --- Título
+.titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  text-align: center;
 
-.titulo{
-    justify-self: center;
-}
-
-.grupo-icon{
+  .grupo-icon {
     color: $icons;
-    font-size: 4vh;
+    font-size: 3.5vh;
+  }
+
+  .text {
+    font-weight: 700;
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    color: $texto-primario;
+    text-transform: uppercase;
+  }
 }
 
-.text{
-    font-weight: bold;
-    font-size: 22px;
-    margin-left: 2vh;
+// --- Container de informações
+.container-info {
+  display: grid;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.container-info{
-    display: flex;
-    flex-direction: row;
+// --- Seções
+.alunos,
+.projetos {
+  flex: 1;
+  padding: 16px;
+  border: 1px solid $borda;
+  border-radius: 10px;
+  background: $branco;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
 }
 
-.alunos, .projetos {
-    flex: 1;
+// --- Textos internos
+.info-titulo {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $texto-secundario;
+  margin-bottom: 6px;
+  text-align: center;
 }
+
+.info-conteudo {
+  font-size: 1.4rem;
+  color: $texto-primario;
+  text-align: center;
+}
+
