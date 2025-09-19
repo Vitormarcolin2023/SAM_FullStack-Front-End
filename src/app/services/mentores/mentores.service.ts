@@ -23,4 +23,9 @@ export class MentorService {
   getMentorById(id: number): Observable<Mentor> {
     return this.http.get<Mentor>(`${this.apiUrl}/findById/${id}`);
   }
+
+    listAll(): Observable<Mentor[]>{
+    return this.http.get<Mentor[]>(this.apiUrl+"/findAll");
+  }
+
 }
