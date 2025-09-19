@@ -23,4 +23,9 @@ export class CoordenadorService {
     const body = {statusMentor: 'INATIVO'};
     return this.http.put(this.apiUrl+"/desativarMentor/"+mentorId, body);
   }
+
+  save(coordenador: any): Observable<any> {
+    console.log(coordenador);
+    return this.http.post<any>(this.apiUrl+"/save", coordenador);
+  }
 }
