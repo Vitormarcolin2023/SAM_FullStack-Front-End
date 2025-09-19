@@ -1,3 +1,28 @@
+/* Estilo do botão */
+.btn-custom {
+  background-color: rgb(28, 232, 151); /* Cor de fundo do botão (verde) */
+  color: #005434; /* Cor do texto do botão */
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Adiciona uma transição suave */
+}
+
+/* Efeito hover no botão */
+.btn-custom:hover {
+  background-color:  #00995E; /* Cor de fundo mais escura ao passar o mouse */
+    color: #fff; /* Cor do texto ao passar o mouse */
+}
+
+/* Estilo do card */
+.card-custom {
+  background-color: #dedede; /* Cor de fundo do card */
+  border: 1px solid #ccc; /* Adiciona uma borda sutil ao card */
+}
+
+h3{
+    color: #00995E; /* Cor do título */
+}
+
+
+//estilo do modal
 .swal2-popup {
   border-radius: 12px !important;
 }
@@ -14,3 +39,4 @@
   color: #222 !important;
   background-color: #f7f7f7 !important;
 }
+

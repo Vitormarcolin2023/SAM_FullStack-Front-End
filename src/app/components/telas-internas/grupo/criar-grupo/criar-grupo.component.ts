@@ -42,8 +42,10 @@ export class CriarGrupoComponent {
       showCancelButton: true,
       confirmButtonText: 'Criar Grupo',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#00995E',
-      cancelButtonColor: '#ccc',
+      confirmButtonColor: 'rgb(28, 232, 151)',
+      cancelButtonColor: '#a3a3a3ff',
+      reverseButtons: true, //inverte a ordem dos botoes
+      
       preConfirm: () => {
         const groupName = (document.getElementById('group-name') as HTMLInputElement).value;
         const studentsCount = (document.getElementById('students-count') as HTMLSelectElement).value;
@@ -62,7 +64,7 @@ export class CriarGrupoComponent {
         Swal.fire({
           icon: 'success',
           title: 'Grupo criado com sucesso!',
-          confirmButtonColor: '#00995E'
+          confirmButtonColor: 'rgb(28, 232, 151)'
         });
       }
     });
