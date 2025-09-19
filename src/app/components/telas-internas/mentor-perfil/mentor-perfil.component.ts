@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 import Swal from 'sweetalert2';
-import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-mentor-perfil',
@@ -13,18 +12,51 @@ import { ViewEncapsulation } from '@angular/core';
   styleUrls: ['./mentor-perfil.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MentorPerfilComponent {
+export class MentorPerfilComponent implements OnInit {
+
   fotoUrl: string = '';
   nome: string = '';
   area: string = '';
   resumo: string = '';
   minicurriculo: string = '';
 
+  ngOnInit(): void {
+    this.carregarDados();
+  }
+
+  private carregarDados(): void {
+    const dadosSalvos = localStorage.getItem('perfilMentor');
+    if (dadosSalvos) {
+      const perfil = JSON.parse(dadosSalvos);
+      this.fotoUrl = perfil.fotoUrl || '';
+      this.nome = perfil.nome || '';
+      this.area = perfil.area || '';
+      this.resumo = perfil.resumo || '';
+      this.minicurriculo = perfil.minicurriculo || '';
+    }
+  }
+
+  private salvarDados(): void {
+    const perfil = {
+      fotoUrl: this.fotoUrl,
+      nome: this.nome,
+      area: this.area,
+      resumo: this.resumo,
+      minicurriculo: this.minicurriculo,
+    };
+    localStorage.setItem('perfilMentor', JSON.stringify(perfil));
+  }
+
   onFotoSelecionada(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      this.fotoUrl = URL.createObjectURL(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.fotoUrl = reader.result as string;
+        this.salvarDados();
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -41,7 +73,7 @@ export class MentorPerfilComponent {
       showCancelButton: true,
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
-      customClass: { container: 'swal2-container-modal' }, // garante que fique acima da navbar
+      customClass: { container: 'swal2-container-modal' },
       preConfirm: () => {
         const nome = (document.getElementById('swal-nome') as HTMLInputElement).value.trim();
         const area = (document.getElementById('swal-area') as HTMLInputElement).value.trim();
@@ -59,46 +91,47 @@ export class MentorPerfilComponent {
         this.nome = result.value.nome;
         this.area = result.value.area;
         this.resumo = result.value.resumo;
+        this.salvarDados();
         Swal.fire('Salvo!', 'As informações foram atualizadas.', 'success');
       }
     });
   }
 
   editarMinicurriculo(): void {
-  Swal.fire({
-    title: 'Editar Minicurrículo',
-    html: `
-      <textarea id="swal-minicurriculo" class="swal2-textarea" placeholder="Escreva aqui o seu minicurrículo">${this.minicurriculo || ''}</textarea>
-      <div id="char-count" style="text-align:right; font-size:0.8rem; color:#888; margin-top:4px;">${this.minicurriculo ? this.minicurriculo.length : 0}/100</div>
-    `,
-    showCancelButton: true,
-    confirmButtonText: 'Salvar',
-    cancelButtonText: 'Cancelar',
-    focusConfirm: false,
-    customClass: { container: 'swal2-container-modal' },
-    preConfirm: () => {
-      const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
-      const value = textarea.value.trim();
-      if (value.length < 100) {
-        Swal.showValidationMessage(`O minicurrículo deve ter pelo menos 100 caracteres (${value.length}/100)`);
-        return false;
+    Swal.fire({
+      title: 'Editar Minicurrículo',
+      html: `
+        <textarea id="swal-minicurriculo" class="swal2-textarea" placeholder="Escreva aqui o seu minicurrículo">${this.minicurriculo || ''}</textarea>
+        <div id="char-count" style="text-align:right; font-size:0.8rem; color:#888; margin-top:4px;">${this.minicurriculo ? this.minicurriculo.length : 0}/100</div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar',
+      focusConfirm: false,
+      customClass: { container: 'swal2-container-modal' },
+      preConfirm: () => {
+        const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
+        const value = textarea.value.trim();
+        if (value.length < 100) {
+          Swal.showValidationMessage(`O minicurrículo deve ter pelo menos 100 caracteres (${value.length}/100)`);
+          return false;
+        }
+        return value;
+      },
+      didOpen: () => {
+        const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
+        const charCount = document.getElementById('char-count') as HTMLDivElement;
+
+        textarea.addEventListener('input', () => {
+          charCount.textContent = `${textarea.value.length}/100`;
+        });
       }
-      return value;
-    },
-    didOpen: () => {
-      const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
-      const charCount = document.getElementById('char-count') as HTMLDivElement;
-
-      textarea.addEventListener('input', () => {
-        charCount.textContent = `${textarea.value.length}/100`;
-      });
-    }
-  }).then(result => {
-    if (result.isConfirmed && result.value !== undefined) {
-      this.minicurriculo = result.value;
-      Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
-    }
-  });
-}
-
+    }).then(result => {
+      if (result.isConfirmed && result.value !== undefined) {
+        this.minicurriculo = result.value;
+        this.salvarDados();
+        Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
+      }
+    });
+  }
 }

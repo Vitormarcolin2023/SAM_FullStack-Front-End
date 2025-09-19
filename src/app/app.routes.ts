@@ -8,6 +8,8 @@ import { CadastroComponent } from './components/telas-iniciais/cadastro/cadastro
 // Páginas privadas (com sidebar)
 import { TelaInicialComponent } from './components/telas-internas/tela-inicial/tela-inicial.component';
 import { MentorPerfilComponent } from './components/telas-internas/mentor-perfil/mentor-perfil.component';
+import { mentorStatusGuard } from './guards/mentor-status.guard'; 
+
 import { AtivarmentorComponent } from './components/coordenacao/ativarmentor.component';
 import { VisualizarprojetosComponent } from './components/coordenacao/visualizarprojetos/visualizarprojetos.component';
 import { CadastroCoordenacaoComponent } from './components/coordenacao/cadastro-coordenacao/cadastro-coordenacao.component';
@@ -26,6 +28,10 @@ export const routes: Routes = [
     { path: 'visualizar-projetos', component: VisualizarprojetosComponent}
   ] },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
+
+  
+  // Rota protegida pelo mentorStatusGuard
+  { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent},
   
 

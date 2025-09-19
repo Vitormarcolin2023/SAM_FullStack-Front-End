@@ -35,3 +35,8 @@ export interface Endereco {
   estado: string;
 }
 
+export enum StatusMentor {
+  PENDENTE = 'PENDENTE',
+  PROCESSANDO = 'PROCESSANDO',
+  CONCLUIDO = 'CONCLUIDO',
+}
