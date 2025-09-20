@@ -18,6 +18,7 @@ import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-d
 import { AlunoPrincipalComponent } from './components/telas-internas/aluno-principal/aluno-principal.component';
 import { AlunoBemVindoComponent } from './components/telas-internas/aluno-principal/aluno-bem-vindo/aluno-bem-vindo.component';
 import { AlunoPerfilComponent } from './components/telas-internas/aluno-principal/aluno-perfil/aluno-perfil.component';
+import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -42,6 +43,7 @@ export const routes: Routes = [
     children: [
       { path: 'aluno-bem-vindo', component: AlunoBemVindoComponent },
       { path: 'aluno-perfil', component: AlunoPerfilComponent },
+      { path: 'aluno-editar/:id', component: AlunoDetaisComponent },
     ],
   },
 

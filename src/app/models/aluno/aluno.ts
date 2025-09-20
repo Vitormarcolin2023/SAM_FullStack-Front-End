@@ -1,5 +1,5 @@
-import { Curso } from "../curso/curso";
-import { Grupo } from "../grupo/grupo";
+import { Curso } from '../curso/curso';
+import { Grupo } from '../grupo/grupo';
 
 export enum StatusAlunoGrupo {
   ATIVO = 'ATIVO',
