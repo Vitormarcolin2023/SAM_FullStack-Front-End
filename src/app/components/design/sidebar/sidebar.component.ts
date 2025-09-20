@@ -33,7 +33,7 @@ export class SidebarComponent {
   userPerfil(){
     switch (this.userRole){
       case 'ALUNO':
-        // rediecionar para rota de perfil aluno
+        this.router.navigate(["/aluno/aluno-perfil"]);
       break;
       case 'COORDENADOR':
         
