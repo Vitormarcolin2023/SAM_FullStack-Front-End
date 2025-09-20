@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginDto } from '../models/login/login-dto';
+import { LoginDto } from '../../models/login/login-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class LoginService {
   }
 
   setToken(token: string){
-    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('token', token);
   }
 
   getToken(): string | null {

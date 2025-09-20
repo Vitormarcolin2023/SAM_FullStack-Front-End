@@ -4,19 +4,46 @@
   background-color: #fff;
   min-height: 100vh;
   padding-top: 20px;
+  position: relative;
+  z-index: 0;
 }
 
-//card do mentor
+/* Card padrão para mentor e minicurrículo */
 .perfil-card {
   background-color: #dedede;
   border-radius: 10px;
-  margin-top: 70px;
-  width: 85%;       // ocupa só 85% da largura do container
-  max-width: 900px; // nunca passa disso
-  margin-left: auto;
-  padding: 20px;    // espaço interno
+  width: 85%;
+  max-width: 900px;
+  
+  /* Ajusta o alinhamento para a direita */
+  margin-left: 145px;
+  margin-right: auto; 
+  
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  box-sizing: border-box;
+  
+  /* Espaçamento superior do seu código */
+  margin-top: 100px;
 }
 
+// minicurriculo
+.minicurriculo-card {
+  width: 85%;
+  max-width: 870px; 
+  margin-top: 30px;
+  
+  /* Usa o mesmo valor para a margem esquerda para alinhar com o card do mentor */
+  margin-left: 250px;
+  margin-right: auto;
+}
+
+/* Foto do mentor */
 .photo-container {
   position: relative;
   cursor: pointer;
@@ -26,7 +53,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #000000; /* Cor de fundo do ícone */
+  background-color: #000000;
   color: white;
   border-radius: 50%;
   padding: 6px;
@@ -35,65 +62,43 @@
 }
 
 .photo-placeholder {
-    width: 100px;
-    height: 100px;
-    background-color: #ccc; /* Ou qualquer cor cinza que você preferir */
-    border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 50%;
 }
 
-//cards dos boxes, deixar o box de mini curriculo maior
-/*
-.boxes {
-  display: flex;
-  justify-content: flex-end; // joga tudo para a direita
-  gap: 10px; 
-  padding-top: 15px; // espaço entre eles
+.foto-mentor {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
 
-.box {
-  background-color: #e6e6e6;
-  border-radius: 8px 8px 0 0;
-  height: 100px; //Reduzindo a altura do box
-  text-align: center;
+/* Ícone de edição */
+.edit-icon {
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+/* Títulos dentro do card */
+.perfil-card h6,
+.minicurriculo-card h6 {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 100%; //Garantir que o box ocupe a largura total da sua coluna
-
-  img {
-    max-height: 80px; // Ajustando a altura máxima da imagem
-    max-width: 90%;
-    object-fit: contain;
-  }
-}
-
-.plus {
-  font-size: 1.5rem; // Reduzindo o tamanho do sinal de mais
   font-weight: bold;
-  color: #333;
+  color: #4CAF50; /* verde para destacar */
+  margin-bottom: 10px;
 }
 
-.box-footer {
-  background-color: black;
-  color: white;
-  padding: 6px 10px; // Reduzindo o padding do rodapé
-  font-size: 0.8rem; // Reduzindo o tamanho da fonte do rodapé
-  border-radius: 0 0 8px 8px;
-  width: 100%; // Garantir que o rodapé ocupe a largura total da sua coluna
-// Novo estilo para o container dos boxes, para controlar o espaçamento e largura
-.boxes-container {
-    padding: 0 15px; // Adiciona um padding para controlar a largura total dentro do col-lg-10
+.swal2-confirm {
+  background-color: #4CAF50 !important;
 }
 
-.row.boxes-row {
-    margin-left: 0;   
-    margin-right: 0;  
-    gap: 8px;         // define espaçamento entre colunas
+.swal2-container-modal {
+  z-index: 1200 !important;
 }
 
-.row.boxes-row > div[class*="col-"] {
-    padding-left: 4px;  // menos padding para aproximar
-    padding-right: 4px;
-}
 
-*/
