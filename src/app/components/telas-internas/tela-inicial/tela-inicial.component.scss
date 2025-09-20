@@ -1,0 +1,19 @@
+.layout {
+  display: flex;
+  height: 100vh; // ocupar a tela toda
+}
+
+app-sidebar {
+  width: 80px; // largura fixa da sidebar
+  background: black;
+  color: white;
+}
+
+.content {
+  flex: 1; // ocupa o espaço restante
+  background: #f5f5f5;
+  overflow-y: auto;
+  margin-top: 13vh;
+  margin-left: 13vh;
+  margin-right: 3vh;
+}

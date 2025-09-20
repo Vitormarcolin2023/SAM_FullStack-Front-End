@@ -1,0 +1,85 @@
+.card {
+  width: 100%;
+  max-width: 900px; // mais largo como no Figma
+  background-color: #dedede;
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 60px auto; // centralizado
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  @media (min-width: 992px) {
+    margin-left: 280px; // quando sidebar fixa
+    margin-top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    margin: 20px 12px;
+    border-radius: 8px;
+  }
+}
+
+.badge {
+  background-color: #00995E; 
+  color: #ffffff; /* Cor do texto */
+  border-radius: 10px;
+}
+
+
+/* --- Título principal --- */
+.card h2 {
+  text-align: center;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #00995E;
+}
+
+/* Linha divisória */
+.divisor {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 8px 0;
+}
+
+/* --- Seções de info (Grupo, Mentor, Período etc) --- */
+.info-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.info-section i {
+  font-size: 1.3rem;
+  color: #000;
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-content h4 {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 1rem;
+  color: #00995E;
+}
+
+.info-content p {
+  font-size: 0.95rem;
+  color: #222;
+}
+
+/* Descrição e Reuniões ficam em blocos */
+.descricao,
+.reunioes {
+  font-size: 0.95rem;
+  color: #222;
+  line-height: 1.4;
+}
+

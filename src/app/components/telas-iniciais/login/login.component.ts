@@ -3,78 +3,81 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { LoginService } from '../../../services/login.service';
 import { LoginDto } from '../../../models/login/login-dto';
-import { NavbarComponent } from "../../design/navbar/navbar.component";
+import { NavbarComponent } from '../../design/navbar/navbar.component';
+import Swal from 'sweetalert2';
+import { LoginService } from '../../../services/login/login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, MdbFormsModule, NavbarComponent],
+  imports: [
+    FormsModule,        // necessário para ngModel
+    CommonModule,       // básico do Angular
+    MdbFormsModule,     // necessário para mdb-form-control
+    NavbarComponent     // necessário para app-navbar
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  
+
   login: LoginDto = {
     email: '',
     senha: '',
     role: ''
-  }
+  };
+
   loginService = inject(LoginService);
   router = inject(Router);
 
+logar() {
+  const btnLogar = document.getElementById("btn-logar") as HTMLButtonElement | null;
+  if (btnLogar) btnLogar.disabled = true;
 
-  logar() {
+  this.loginService.login(this.login).subscribe({
+    next: response => {
+      const token = response.token;
+      this.loginService.setToken(token);
 
-    // desabilita o botão para evitar diversas requisições
-    const btnLogar = document.getElementById("btn-logar");
-    this.estadoBotao(btnLogar, true);
+      localStorage.setItem('role', response.role ?? ''); 
+      localStorage.setItem('emailLogado', response.email ?? '');
+      localStorage.setItem('mentorStatus', response.status ?? ''); 
 
-    this.loginService.login(this.login).subscribe({
-      next : token => {
-        // setta o token em local storage para futuras requisições
-        this.loginService.setToken(token);
-        // habilita o bootão novamente
-        this.estadoBotao(btnLogar, false);
-        // redireciona o usuário para página inicial
-        this.router.navigate(["tela-inicial"]);
-      },
-      error : erro => {
-        // chama a função para mostrar o erro retornado do back para o usuário - o erro retorna no campo token da mensagem
-       this.mostrarErro(erro.error.token);
-       // chama a função para habilitar o botão novamente
-       this.estadoBotao(btnLogar, false);
+      const role = (response.role ?? '').toUpperCase();
+      const status = response.status;
+      
+      console.log('Valor da role:', role);
+      console.log('Valor do status:', status);
 
-       // limpa os campos
-       this.login = {
-        email: '',
-        senha: '',
-        role: ''
-       }
-
-       this.loginService.deleteToken();
+      
+      if (role === 'MENTOR' && status === 'CONCLUIDO') {
+        this.router.navigate(['mentor-perfil']);
+      } else if (role === 'MENTOR' && status === 'PENDENTE') {
+        Swal.fire({
+          icon: 'info',
+          title: 'Perfil em Análise',
+          text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.',
+          confirmButtonColor: '#4CAF50'
+        });
+      } else {
+        this.router.navigate(['tela-inicial']);
       }
-    })
-  }
 
-  mostrarErro(erro: string){
-    const quadroErro = document.getElementById("erro");
+      if (btnLogar) btnLogar.disabled = false;
+    },
+    error: erro => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao logar',
+        text: erro.error?.message ?? 'Erro ao logar'
+      });
 
-    if (quadroErro) {
-      quadroErro.style.display = "flex";
-
-      if(erro == undefined){
-        quadroErro.innerText = "Não foi possível conectar ao servidor. Tente novamente mais tarde.";
-      }
-      else{
-        quadroErro.innerText = `${erro}`;
-      }
+      if (btnLogar) btnLogar.disabled = false;
+      this.login = { email: '', senha: '', role: '' };
+      this.loginService.deleteToken();
     }
-  }
+  });
+}
 
-  estadoBotao(btn: any, desabilita: boolean){
-    btn.disabled = desabilita;
-    btn.innerText = desabilita ? "Carregando..." : "Acessar"
-  }
 }

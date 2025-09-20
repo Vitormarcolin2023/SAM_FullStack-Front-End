@@ -1,32 +1,137 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mentor-perfil',
   standalone: true,
   imports: [CommonModule, NavbarTelasInternasComponent, SidebarComponent],
   templateUrl: './mentor-perfil.component.html',
-  styleUrls: ['./mentor-perfil.component.scss']
+  styleUrls: ['./mentor-perfil.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class MentorPerfilComponent {
+export class MentorPerfilComponent implements OnInit {
 
-  // Dados do mentor
-  fotoUrl: string = ''; 
-  nome: string = 'Nome do Mentor';
-  area: string = 'Área de Atuação';
-  resumo: string = 'Escreva aqui um breve resumo sobre o mentor.';
+  fotoUrl: string = '';
+  nome: string = '';
+  area: string = '';
+  resumo: string = '';
+  minicurriculo: string = '';
 
-  /**
-   * Método para trocar a foto do mentor.
-   * Atualiza a URL de exibição após o upload.
-   */
+  ngOnInit(): void {
+    this.carregarDados();
+  }
+
+  private carregarDados(): void {
+    const dadosSalvos = localStorage.getItem('perfilMentor');
+    if (dadosSalvos) {
+      const perfil = JSON.parse(dadosSalvos);
+      this.fotoUrl = perfil.fotoUrl || '';
+      this.nome = perfil.nome || '';
+      this.area = perfil.area || '';
+      this.resumo = perfil.resumo || '';
+      this.minicurriculo = perfil.minicurriculo || '';
+    }
+  }
+
+  private salvarDados(): void {
+    const perfil = {
+      fotoUrl: this.fotoUrl,
+      nome: this.nome,
+      area: this.area,
+      resumo: this.resumo,
+      minicurriculo: this.minicurriculo,
+    };
+    localStorage.setItem('perfilMentor', JSON.stringify(perfil));
+  }
+
   onFotoSelecionada(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      this.fotoUrl = URL.createObjectURL(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.fotoUrl = reader.result as string;
+        this.salvarDados();
+      };
+      reader.readAsDataURL(file);
     }
+  }
+
+  editarInfos(): void {
+    Swal.fire({
+      title: 'Editar Informações',
+      html: `
+        <input id="swal-nome" class="swal2-input" placeholder="Nome do Mentor" value="${this.nome || ''}">
+        <input id="swal-area" class="swal2-input" placeholder="Área de Atuação" value="${this.area || ''}">
+        <textarea id="swal-resumo" class="swal2-textarea"
+          placeholder="Escreva aqui um breve resumo sobre o mentor">${this.resumo || ''}</textarea>
+      `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar',
+      customClass: { container: 'swal2-container-modal' },
+      preConfirm: () => {
+        const nome = (document.getElementById('swal-nome') as HTMLInputElement).value.trim();
+        const area = (document.getElementById('swal-area') as HTMLInputElement).value.trim();
+        const resumo = (document.getElementById('swal-resumo') as HTMLTextAreaElement).value.trim();
+
+        if (!nome || !area) {
+          Swal.showValidationMessage('Nome e área são obrigatórios');
+          return false;
+        }
+
+        return { nome, area, resumo };
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value) {
+        this.nome = result.value.nome;
+        this.area = result.value.area;
+        this.resumo = result.value.resumo;
+        this.salvarDados();
+        Swal.fire('Salvo!', 'As informações foram atualizadas.', 'success');
+      }
+    });
+  }
+
+  editarMinicurriculo(): void {
+    Swal.fire({
+      title: 'Editar Minicurrículo',
+      html: `
+        <textarea id="swal-minicurriculo" class="swal2-textarea" placeholder="Escreva aqui o seu minicurrículo">${this.minicurriculo || ''}</textarea>
+        <div id="char-count" style="text-align:right; font-size:0.8rem; color:#888; margin-top:4px;">${this.minicurriculo ? this.minicurriculo.length : 0}/100</div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar',
+      focusConfirm: false,
+      customClass: { container: 'swal2-container-modal' },
+      preConfirm: () => {
+        const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
+        const value = textarea.value.trim();
+        if (value.length < 100) {
+          Swal.showValidationMessage(`O minicurrículo deve ter pelo menos 100 caracteres (${value.length}/100)`);
+          return false;
+        }
+        return value;
+      },
+      didOpen: () => {
+        const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
+        const charCount = document.getElementById('char-count') as HTMLDivElement;
+
+        textarea.addEventListener('input', () => {
+          charCount.textContent = `${textarea.value.length}/100`;
+        });
+      }
+    }).then(result => {
+      if (result.isConfirmed && result.value !== undefined) {
+        this.minicurriculo = result.value;
+        this.salvarDados();
+        Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
+      }
+    });
   }
 }
