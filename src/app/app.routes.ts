@@ -38,9 +38,9 @@ export const routes: Routes = [
 
  
   // Fallback (rota não encontrada)
-  { path: 'grupo-details', component: GrupoDetailsComponent, canActivate: [mentorStatusGuard] },
+  { path: 'grupo-details', component: GrupoDetailsComponent},
 
-  { path: 'criar-grupo', component: CriarGrupoComponent, canActivate: [mentorStatusGuard] },
+  { path: 'criar-grupo', component: CriarGrupoComponent},
   
 
   // Fallback (rota não encontrada) //nao adicionar paginas embaixo dessa linha se nao nao funciona

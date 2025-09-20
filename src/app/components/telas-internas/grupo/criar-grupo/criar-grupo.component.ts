@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavbarTelasInternasComponent } from "../../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../../design/sidebar/sidebar.component";
 import { FormsModule } from '@angular/forms';
@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
 import { GrupoDto } from '../../../../models/grupo/grupo';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-criar-grupo',
@@ -14,10 +15,12 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './criar-grupo.component.scss',
   standalone: true
 })
-
 export class CriarGrupoComponent {
 
-  constructor(private grupoService: GrupoService) { }
+  constructor(
+    private grupoService: GrupoService,
+    private router: Router
+  ) {}
 
   abrirModal() {
     Swal.fire({
@@ -62,12 +65,16 @@ export class CriarGrupoComponent {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         this.grupoService.criarGrupo(result.value as GrupoDto).subscribe({
-          next: (response: string) => { // Tipagem explícita para o 'response'
+          next: (response: any) => {
             console.log('Grupo criado com sucesso!', response);
+
             Swal.fire({
               icon: 'success',
               title: 'Grupo criado com sucesso!',
               confirmButtonColor: 'rgb(28, 232, 151)'
+            }).then(() => {
+              // 🚀 redireciona para os detalhes do grupo
+              this.router.navigate(['/grupo-details', response.id]);
             });
           },
           error: (error: any) => {
