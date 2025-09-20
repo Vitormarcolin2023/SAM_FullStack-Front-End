@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 import Swal from 'sweetalert2';
+import { Mentor } from '../../../models/mentor/mentor';
+import { MentorService } from '../../../services/mentores/mentores.service';
 
 @Component({
   selector: 'app-mentor-perfil',
