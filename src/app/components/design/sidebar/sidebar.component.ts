@@ -28,4 +28,58 @@ export class SidebarComponent {
   acessarGrupo() {
     this.grupoSelecionado.emit(); 
   }
+
+  // criar uma função com switch case para redirecionamento correto de rotas conforme o usuário
+  userPerfil(){
+    switch (this.userRole){
+      case 'ALUNO':
+        // rediecionar para rota de perfil aluno
+      break;
+      case 'COORDENADOR':
+        
+      break;
+      case 'MENTOR':
+
+      break;
+      case 'PROFESSOR':
+    
+      break;
+    }
+  }
+
+  atualizarPerfil(){
+     switch (this.userRole){
+      case 'ALUNO':
+        // rediecionar para rota de edição de perfil aluno
+      break;
+      case 'COORDENADOR':
+        
+      break;
+      case 'MENTOR':
+
+      break;
+      case 'PROFESSOR':
+    
+      break;
+    }
+  }
+
+  visualizarProjetos(){
+    switch (this.userRole){
+      case 'ALUNO':
+      this.router.navigate(["/tela-inicial/visualizar-projetos" ]);
+      break;
+      case 'COORDENADOR':
+        
+      break;
+      case 'MENTOR':
+
+      break;
+      case 'PROFESSOR':
+    
+      break;
+    }
+  }
+
+
 }

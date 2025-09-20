@@ -49,36 +49,50 @@
     </li>
   -->
     <!-- campo de grupos  -->
-    @if (userRole === 'ALUNO' && userEmail) {
     <li class="has-submenu">
-      <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
-      <label for="profile-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-user-circle"></i>
-        </span>
-        <span class="text">Meu Perfil</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li>
-          <a [routerLink]="['/aluno/aluno-editar', userEmail]">Alterar Dados</a>
-        </li>
-      </ul>
+        <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
+        <label for="profile-toggle" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-user-circle"></i>
+          </span>
+          <span class="text">Meu Perfil</span>
+          <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+        </label>
+        <ul class="submenu">
+          <li>
+            <a (click)="userPerfil()">Visualizar perfil</a>
+          </li>
+          <li>
+            <a (click)="atualizarPerfil()">Alterar Dados</a>
+          </li>
+        </ul>
     </li>
-    }@if (userRole == 'COORDENADOR') {
+    @if (userRole == 'COORDENADOR') {
     <li>
       <a href="/tela-inicial/ativar-mentor" class="nav-link">
         <span class="icon"> <i class="fas fa-user-plus"></i> </span>
         <span class="text">Visualizar Mentores</span>
       </a>
     </li>
+    }
+
     <li>
-      <a href="/tela-inicial/visualizar-projetos" class="nav-link">
+      <a (click)="visualizarProjetos()" class="nav-link">
         <span class="icon"> <i class="fas fa-project-diagram"></i> </span>
         <span class="text">Visualizar Projetos</span>
       </a>
     </li>
+
+    <!--  GRUPOS -->
+    @if (userRole == 'ALUNO') {
+    <li>
+      <a class="nav-link" routerLink="/grupo-details">
+        <span class="icon"><i class="fas fa-users"></i></span>
+        <span class="text">Grupo</span>
+      </a>
+    </li>
     }
+
     <li>
       <a href="#" class="nav-link">
         <span class="icon">
