@@ -27,7 +27,7 @@ export class Grupo {
   }
 }
 
-export interface GrupoDtoPayload {
+export interface GrupoDto {
   nome: string;
   alunoAdminId: number;
   alunosIds: number[];

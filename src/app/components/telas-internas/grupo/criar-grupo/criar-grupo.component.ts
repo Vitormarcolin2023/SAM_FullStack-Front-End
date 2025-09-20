@@ -4,7 +4,7 @@ import { SidebarComponent } from "../../../design/sidebar/sidebar.component";
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
-import { GrupoDTO } from '../../../../models/grupo/grupo';
+import { GrupoDto } from '../../../../models/grupo/grupo';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -52,7 +52,7 @@ export class CriarGrupoComponent {
 
         const alunosIds = alunosIdsString.split(',').map(id => parseInt(id.trim(), 10));
 
-        const novoGrupoDTO: GrupoDTO = {
+        const novoGrupoDTO: GrupoDto = {
           nome: groupName,
           alunoAdminId: parseInt(alunoAdminId, 10),
           alunosIds: alunosIds
@@ -61,7 +61,7 @@ export class CriarGrupoComponent {
       }
     }).then((result) => {
       if (result.isConfirmed && result.value) {
-        this.grupoService.criarGrupo(result.value as GrupoDTO).subscribe({
+        this.grupoService.criarGrupo(result.value as GrupoDto).subscribe({
           next: (response: string) => { // Tipagem explícita para o 'response'
             console.log('Grupo criado com sucesso!', response);
             Swal.fire({
