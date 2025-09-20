@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Importe o CommonModule para usar @if no template
+import { CommonModule } from '@angular/common'; 
 import Swal from 'sweetalert2';
-import { firstValueFrom } from 'rxjs'; // 1. IMPORTE o 'firstValueFrom'
+import { firstValueFrom } from 'rxjs'; 
 
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 
 @Component({
   selector: 'app-aluno-perfil',
-  standalone: true, // 2. DEFINA O COMPONENTE COMO STANDALONE
-  imports: [
-    CommonModule, // Necessário para diretivas como @if
-    RouterLink,
-  ],
+  standalone: true, 
+  imports: [CommonModule,RouterLink,],
   templateUrl: './aluno-perfil.component.html',
   styleUrls: ['./aluno-perfil.component.scss'],
 })
@@ -26,7 +23,6 @@ export class AlunoPerfilComponent implements OnInit {
     this.abrirModalEmail();
   }
 
-
   async abrirModalEmail(): Promise<void> {
     const result = await Swal.fire({
       title: 'Identificação do Aluno',
@@ -37,7 +33,11 @@ export class AlunoPerfilComponent implements OnInit {
       allowEscapeKey: false,
       confirmButtonText: 'Buscar Informações',
       showLoaderOnConfirm: true,
-
+      
+      // Adicionando o botão de cancelamento
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+       reverseButtons: true,
 
       preConfirm: async (email) => {
         if (!email) {
@@ -46,7 +46,6 @@ export class AlunoPerfilComponent implements OnInit {
         }
 
         try {
-          
           const alunoEncontrado = await firstValueFrom(
             this.alunoService.getAlunoPorEmail(email)
           );
@@ -60,7 +59,6 @@ export class AlunoPerfilComponent implements OnInit {
       },
     });
 
-  
     if (result.isConfirmed && result.value) {
       this.aluno = result.value;
 
@@ -71,6 +69,12 @@ export class AlunoPerfilComponent implements OnInit {
         timer: 2000,
         showConfirmButton: false,
       });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Ação quando o botão "Cancelar" é clicado
+        // Aqui você pode adicionar a lógica de redirecionamento ou qualquer outra ação
+        console.log('Busca de e-mail cancelada pelo usuário.');
+        // Por exemplo, você pode redirecionar para uma outra página se necessário
+        // this.router.navigate(['/outra-pagina']);
     }
   }
 }
