@@ -37,6 +37,6 @@ export interface Endereco {
 
 export enum StatusMentor {
   PENDENTE = 'PENDENTE',
-  PROCESSANDO = 'PROCESSANDO',
-  CONCLUIDO = 'CONCLUIDO',
+  ATIVO = 'ATIVO',
+  INATIVO = 'INATIVO',
 }

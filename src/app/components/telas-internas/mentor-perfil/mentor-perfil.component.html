@@ -17,48 +17,49 @@
             <input type="file" #fileInput (change)="onFotoSelecionada($event)" style="display: none;">
           </div>
 
+         
           <!-- Infos do mentor -->
-          <div>
-            <!-- Nome -->
-            <h4 class="fw-bold" *ngIf="nome; else semNome">{{ nome }}</h4>
-            <ng-template #semNome>
-              <h4 class="fw-bold text-muted fst-italic">Nome do mentor não informado</h4>
-            </ng-template>
+            <div>
+              <!-- Nome (somente leitura) -->
+              <h4 class="fw-bold" *ngIf="nome; else semNome">{{ nome }}</h4>
+              <ng-template #semNome>
+                <h4 class="fw-bold text-muted fst-italic">Nome do mentor não informado</h4>
+              </ng-template>
 
-            <!-- Área -->
-            <p class="text-muted mb-1" *ngIf="area; else semArea">{{ area }}</p>
-            <ng-template #semArea>
-              <p class="text-muted mb-1 fst-italic">Área de atuação não informada</p>
-            </ng-template>
+              <!-- Área de Atuação (somente leitura) -->
+              <p class="text-muted mb-1" *ngIf="area; else semArea">{{ area }}</p>
+              <ng-template #semArea>
+                <p class="text-muted mb-1 fst-italic">Área de atuação não informada</p>
+              </ng-template>
 
-            <!-- Resumo -->
-            <div class="d-flex align-items-center">
-              <h6 class="fw-bold text-success mb-0 me-2">Sobre o Mentor</h6>
-              <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarInfos()"></i>
+              <!-- Resumo (editável) -->
+              <div class="d-flex align-items-center">
+                <h6 class="fw-bold text-success mb-0 me-2">Sobre o Mentor</h6>
+                <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarInfos()"></i>
+              </div>
+
+              <p class="text-muted mb-0" *ngIf="resumo; else semResumo">{{ resumo }}</p>
+              <ng-template #semResumo>
+                <p class="text-muted mb-0 fst-italic">Nenhum resumo cadastrado.</p>
+              </ng-template>
             </div>
 
-            <p class="text-muted mb-0" *ngIf="resumo; else semResumo">{{ resumo }}</p>
-            <ng-template #semResumo>
-              <p class="text-muted mb-0 fst-italic">Nenhum resumo cadastrado.</p>
-            </ng-template>
-          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card Minicurrículo -->
-<div class="card p-4 shadow-sm border-0 perfil-card minicurriculo-card">
-  <div class="d-flex align-items-center mb-2">
-    <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
-    <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarMinicurriculo()"></i>
-  </div>
-  <p class="text-muted mb-0" *ngIf="minicurriculo; else semMinicurriculo">{{ minicurriculo }}</p>
-  <ng-template #semMinicurriculo>
-    <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
-  </ng-template>
-</div>
+              <!-- Card Minicurrículo -->
+            <div class="card p-4 shadow-sm border-0 perfil-card minicurriculo-card">
+              <div class="d-flex align-items-center mb-2">
+                <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
+                <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarMinicurriculo()"></i>
+              </div>
+              <p class="text-muted mb-0" *ngIf="minicurriculo; else semMinicurriculo">{{ minicurriculo }}</p>
+              <ng-template #semMinicurriculo>
+                <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
+              </ng-template>
+            </div>
 
 
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
+import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Mentor } from '../../../models/mentor/mentor';
 import { MentorService } from '../../../services/mentores/mentores.service';
@@ -22,17 +23,39 @@ export class MentorPerfilComponent implements OnInit {
   resumo: string = '';
   minicurriculo: string = '';
 
+  mentorId!: number; // vem da rota
+
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
-    this.carregarDados();
+    this.mentorId = Number(this.route.snapshot.paramMap.get('id')); // pega o id da URL
+    this.carregarDadosBack();
+    this.carregarDadosLocal();
   }
 
-  private carregarDados(): void {
-    const dadosSalvos = localStorage.getItem('perfilMentor');
+  /** Busca nome e área do mentor no back-end */
+  private carregarDadosBack(): void {
+    this.http.get<any>(`http://localhost:8080/mentores/${this.mentorId}`)
+      .subscribe({
+        next: (mentor) => {
+          this.nome = mentor.nome;
+          this.area = mentor.areaDeAtuacao?.nome || ''; // depende de como está o model no back
+        },
+        error: (err) => {
+          console.error('Erro ao buscar mentor:', err);
+        }
+      });
+  }
+
+  /** Carrega resumo, minicurrículo e foto do localStorage */
+  private carregarDadosLocal(): void {
+    const dadosSalvos = localStorage.getItem(`perfilMentor_${this.mentorId}`);
     if (dadosSalvos) {
       const perfil = JSON.parse(dadosSalvos);
       this.fotoUrl = perfil.fotoUrl || '';
-      this.nome = perfil.nome || '';
-      this.area = perfil.area || '';
       this.resumo = perfil.resumo || '';
       this.minicurriculo = perfil.minicurriculo || '';
     }
@@ -41,12 +64,10 @@ export class MentorPerfilComponent implements OnInit {
   private salvarDados(): void {
     const perfil = {
       fotoUrl: this.fotoUrl,
-      nome: this.nome,
-      area: this.area,
       resumo: this.resumo,
       minicurriculo: this.minicurriculo,
     };
-    localStorage.setItem('perfilMentor', JSON.stringify(perfil));
+    localStorage.setItem(`perfilMentor_${this.mentorId}`, JSON.stringify(perfil));
   }
 
   onFotoSelecionada(event: Event): void {
@@ -66,8 +87,6 @@ export class MentorPerfilComponent implements OnInit {
     Swal.fire({
       title: 'Editar Informações',
       html: `
-        <input id="swal-nome" class="swal2-input" placeholder="Nome do Mentor" value="${this.nome || ''}">
-        <input id="swal-area" class="swal2-input" placeholder="Área de Atuação" value="${this.area || ''}">
         <textarea id="swal-resumo" class="swal2-textarea"
           placeholder="Escreva aqui um breve resumo sobre o mentor">${this.resumo || ''}</textarea>
       `,
@@ -75,23 +94,12 @@ export class MentorPerfilComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
-      customClass: { container: 'swal2-container-modal' },
       preConfirm: () => {
-        const nome = (document.getElementById('swal-nome') as HTMLInputElement).value.trim();
-        const area = (document.getElementById('swal-area') as HTMLInputElement).value.trim();
         const resumo = (document.getElementById('swal-resumo') as HTMLTextAreaElement).value.trim();
-
-        if (!nome || !area) {
-          Swal.showValidationMessage('Nome e área são obrigatórios');
-          return false;
-        }
-
-        return { nome, area, resumo };
+        return { resumo };
       }
     }).then(result => {
       if (result.isConfirmed && result.value) {
-        this.nome = result.value.nome;
-        this.area = result.value.area;
         this.resumo = result.value.resumo;
         this.salvarDados();
         Swal.fire('Salvo!', 'As informações foram atualizadas.', 'success');
@@ -110,7 +118,6 @@ export class MentorPerfilComponent implements OnInit {
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
       focusConfirm: false,
-      customClass: { container: 'swal2-container-modal' },
       preConfirm: () => {
         const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
         const value = textarea.value.trim();
