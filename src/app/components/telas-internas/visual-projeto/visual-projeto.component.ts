@@ -13,16 +13,19 @@ import { SidebarComponent } from "../../design/sidebar/sidebar.component";
   templateUrl: './visual-projeto.component.html',
   styleUrl: './visual-projeto.component.scss',
   standalone: true,
-  imports: [CommonModule, MdbModalModule, ReactiveFormsModule, NavbarTelasInternasComponent, SidebarComponent],
+  imports: [CommonModule, MdbModalModule, ReactiveFormsModule, NavbarTelasInternasComponent, SidebarComponent, ProjetoDetalhesComponent],
 })
  export class VisualProjetoComponent implements OnInit{
+  
+  projetoService = inject(ProjetoService);
+  modalService = inject(MdbModalService);
+  modalRef!: MdbModalRef<ProjetoDetalhesComponent>;
   
   projetos: Projeto[] = [];
   filtroNome = new FormControl('');
   filtroAtuacao = new FormControl('');
   todasAtuacoes: string[] = [];
 
-  constructor(private projetoService: ProjetoService) {}
 
   ngOnInit() {
     this.carregarProjetos();
@@ -43,12 +46,15 @@ import { SidebarComponent } from "../../design/sidebar/sidebar.component";
       .subscribe(projs => this.projetos = projs);
   }
 
-    trackByProjetoId(index: number, projeto: Projeto): number | undefined {
-        return projeto.id;
-      }
-       abrirDetalhes(projeto: Projeto) {
-   
-       console.log('Detalhes do projeto:', projeto);
+   abrirDetalhes(projeto: Projeto) {
+    this.modalRef = this.modalService.open(ProjetoDetalhesComponent, {
+      data: { projeto },
+      modalClass: 'modal-lg'
+    });
+  }
+
+  trackByProjetoId(index: number, projeto: Projeto): number | undefined {
+    return projeto.id;
   }
 }
     

@@ -22,7 +22,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
           <p class="card-text">{{ projeto.descricao || 'Sem descrição.' }}</p>
-          <p><strong>Área:</strong> {{ projeto.areaDeAtuacao?.nome || projeto.areaDeAtuacao }}</p>
+          <p><strong>Área:</strong> {{ projeto.areaDeAtuacao.nome || projeto.areaDeAtuacao }}</p>
           <p *ngIf="projeto.mentor"><strong>Mentor:</strong> {{ projeto.mentor.nome }}</p>
         </div>
         <div class="card-footer bg-transparent border-top-0">

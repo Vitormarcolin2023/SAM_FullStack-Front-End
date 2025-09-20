@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-projeto-detalhes',
-  imports: [CommonModule],
   templateUrl: './projeto-detalhes.component.html',
-  styleUrl: './projeto-detalhes.component.scss'
+  styleUrl: './projeto-detalhes.component.scss',
+  standalone: true,
+  imports: [CommonModule],
 })
 export class ProjetoDetalhesComponent {
   @Input() projeto!: Projeto;

@@ -82,10 +82,5 @@ export class SidebarComponent {
   }
 
 
-    this.grupoSelecionado.emit(); // dispara o evento para o pai
-  }
-   acessarCriarProjeto() {
-    this.router.navigate(['/criar-projeto']);
-  }
 }
  

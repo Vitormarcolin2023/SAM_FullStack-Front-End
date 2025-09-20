@@ -22,6 +22,7 @@ import { AlunoDetaisComponent } from './components/telas-internas/aluno-principa
 
 import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
 import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
+import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -60,6 +61,7 @@ export const routes: Routes = [
 
    {path: 'visual-projeto', component: VisualProjetoComponent},
    {path: 'criar-projeto', component: CriarProjetoComponent},
+    {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
   
   // Rota protegida pelo mentorStatusGuard
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
