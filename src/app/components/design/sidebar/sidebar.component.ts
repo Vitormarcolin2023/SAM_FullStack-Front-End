@@ -11,14 +11,8 @@ import { Router } from '@angular/router';
 })
 export class SidebarComponent {
   tokenService = inject(TokenDecode);
-<<<<<<< HEAD
-<<<<<<< HEAD
   router = inject(Router);
 
-=======
->>>>>>> ccb95e0956c81cb7818570fd14ba00a8b6b8a14b
-=======
->>>>>>> feature-18-interceptor
   userRole = this.tokenService.getRole();
 
   @Output() grupoSelecionado = new EventEmitter<void>();
