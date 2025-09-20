@@ -2,7 +2,6 @@ import { Aluno } from "../aluno/aluno";
 import { Projeto } from "../projeto/projeto";
 import { Reuniao } from "../reuniao/reuniao";
 
-
 export class Grupo {
   id?: number;
   nome: string;
@@ -26,4 +25,10 @@ export class Grupo {
     this.reunioes = reunioes;
     this.projetos = projetos;
   }
+}
+
+export interface GrupoDtoPayload {
+  nome: string;
+  alunoAdminId: number;
+  alunosIds: number[];
 }
