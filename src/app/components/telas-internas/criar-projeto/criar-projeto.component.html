@@ -1,0 +1,74 @@
+ <app-navbar-telas-internas></app-navbar-telas-internas>
+<app-sidebar></app-sidebar>
+
+<div class="cadastro-container">
+  <div class="form-box">
+    <h2>Cadastro de Projeto</h2>
+
+    <form [formGroup]="formProjeto" (ngSubmit)="onSubmit()">
+      <div class="form-scroll-content">
+        <!--DADOS DO PROJETO-->
+        <div class="form-step">
+          <h3>Dados do Projeto</h3>
+           <label for="nomeDoProjeto">Nome do Projeto</label>
+          <input id="nomeDoProjeto" type="text" formControlName="nomeDoProjeto" />
+          <small *ngIf="hasError('nomeDoProjeto', 'required')" class="error-message">
+            Nome do projeto é obrigatório.
+          </small>
+           <label for="descricao">Descrição</label>
+          <textarea id="descricao" formControlName="descricao"></textarea>
+
+          <label for="periodo">Período</label>
+          <input id="periodo" type="text" formControlName="periodo" />
+        </div>
+
+        <!-- DATAS -->
+        <div class="form-step">
+          <h3>Datas</h3>
+
+          <label for="dataInicioProjeto">Data de Início</label>
+          <input id="dataInicioProjeto" type="date" formControlName="dataInicioProjeto" />
+
+          <label for="dataFinalProjeto">Data de Final</label>
+          <input id="dataFinalProjeto" type="date" formControlName="dataFinalProjeto" />
+        </div>
+        
+        <!-- RELACIONAMENTOS -->
+          <div class="form-step">
+          <h3>Relacionamentos</h3>
+
+        </div>
+
+     <!-- Área de Atuação -->
+          <label for="areaDeAtuacao">Área de Atuação</label>
+          <select id="areaDeAtuacao" formControlName="areaDeAtuacao">
+            <option value="" disabled>Selecione a área</option>
+            <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">{{ area.nome }}</option>
+          </select>
+          <small *ngIf="hasError('areaDeAtuacao', 'required')" class="error-message">
+            Área de atuação é obrigatória.
+          </small>
+
+           <!-- Mentor -->
+          <label for="mentor">Mentor</label>
+          <select id="mentor" formControlName="mentor">
+            <option value="" disabled>Selecione o mentor</option>
+            <option *ngFor="let mentor of mentores" [ngValue]="mentor">{{ mentor.nome }}</option>
+          </select>
+
+           <!-- Grupo -->
+          <label for="grupo">Grupo</label>
+          <select id="grupo" formControlName="grupo">
+            <option value="" disabled>Selecione o grupo</option>
+            <!--<option *ngFor="let grupo of grupos" [ngValue]="grupo">{{ grupo.nome }}</option>-->
+          </select>
+        </div>
+       <div class="form-buttons-container">
+        <div class="buttons-row">
+          <button type="button" class="btn-back" (click)="voltar()">Voltar</button>
+          <button type="submit" [disabled]="formProjeto.invalid">Salvar Projeto</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

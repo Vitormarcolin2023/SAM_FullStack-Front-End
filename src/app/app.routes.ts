@@ -17,7 +17,7 @@ import { CadastroCoordenacaoComponent } from './components/coordenacao/cadastro-
 import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
 
 import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
-import { CriarProjetosComponent } from './components/telas-internas/criar-projetos/criar-projetos.component';
+import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -34,8 +34,8 @@ export const routes: Routes = [
   { path: 'mentor-perfil', component: MentorPerfilComponent },
   
   // Rota protegida por guard (mentorStatusGuard)
-  {path: 'visual-projeto', component: VisualProjetoComponent},
-   {path: 'criar-projetos', component: CriarProjetosComponent},
+   {path: 'visual-projeto', component: VisualProjetoComponent},
+   {path: 'criar-projeto', component: CriarProjetoComponent},
   
   // Rota protegida pelo mentorStatusGuard
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },

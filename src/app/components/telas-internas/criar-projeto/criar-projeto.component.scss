@@ -1,0 +1,135 @@
+@use '../../../../styles/variaveis' as *;
+
+.cadastro-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Mantém o card no topo quando houver scroll */
+  min-height: 100vh;
+  padding: 20px; /* Espaço para scroll */
+  margin-top: 60px;
+
+  background-image: url('/backgroundLight.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.form-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 800px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 400px;
+  max-height: 90vh; /* Limita altura em relação à tela */
+  overflow-y: auto; /* Scroll vertical quando ultrapassar max-height */
+}
+
+/* Container de rolagem para o conteúdo */
+.form-scroll-content {
+  flex-grow: 1; /* Permite que este container ocupe todo o espaço disponível */
+  overflow-y: auto; /* Habilita a barra de rolagem vertical */
+  padding-right: 15px; /* Espaço para conteúdo não colar na barra de rolagem */
+  margin-bottom: 10px; /* Espaço entre conteúdo e botões fixos */
+}
+
+/* Estilização da barra de rolagem (WebKit - Chrome, Safari) */
+.form-scroll-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-scroll-content::-webkit-scrollbar-track {
+  background: $fundo-elemento;
+  border-radius: 4px;
+}
+
+.form-scroll-content::-webkit-scrollbar-thumb {
+  background-color: $titulos-verde;
+  border-radius: 4px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: $titulos-verde;
+}
+
+h3 {
+  color: $titulos-verde;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.form-step {
+  padding-bottom: 10px; /* Espaço entre cada seção (step) */
+  border-bottom: 1px solid #eee;
+  margin-bottom: 25px;
+}
+
+.form-step:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+input,
+select,
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+textarea {
+  resize: vertical; /* Permite redimensionar só verticalmente */
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 5px;
+}
+
+.form-buttons-container {
+  padding-top: 15px;
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.buttons-row button {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.buttons-row button:not(.btn-back) {
+  background-color: $btn-acao;
+  color: $btn-color-verde;
+}
+
+.buttons-row button:not(.btn-back):hover {
+  background-color: $btn-hover;
+  color: #fff;
+}
+
+.buttons-row button.btn-back {
+  background-color: $fundo-elemento;
+  color: #333;
+}
