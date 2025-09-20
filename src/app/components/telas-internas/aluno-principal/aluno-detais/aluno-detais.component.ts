@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
+
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-aluno-detais',
@@ -23,15 +24,18 @@ export class AlunoDetaisComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = +idParam;
-      this.carregarAluno(id);
+    const emailParam = this.route.snapshot.paramMap.get('email');
+
+    if (emailParam) {
+      this.carregarAluno(emailParam);
+    } else {
+      Swal.fire('Erro!', 'E-mail do aluno não fornecido na URL.', 'error');
+      this.router.navigate(['/']);
     }
   }
 
-  carregarAluno(id: number): void {
-    this.alunoService.findById(id).subscribe({
+  carregarAluno(email: string): void {
+    this.alunoService.getAlunoPorEmail(email).subscribe({
       next: (dados) => {
         this.aluno = dados;
         this.aluno.senha = '';
@@ -49,11 +53,25 @@ export class AlunoDetaisComponent implements OnInit {
 
   atualizar(): void {
     if (!this.aluno.id) {
-      Swal.fire('Erro!', 'ID do aluno não encontrado.', 'error');
+      Swal.fire(
+        'Erro!',
+        'ID do aluno não encontrado para realizar a atualização.',
+        'error'
+      );
       return;
     }
 
-    this.alunoService.update(this.aluno.id, this.aluno).subscribe({
+    const payload: any = {
+      nome: this.aluno.nome,
+      ra: this.aluno.ra,
+      email: this.aluno.email,
+    };
+
+    if (this.aluno.senha && this.aluno.senha.trim() !== '') {
+      payload.senha = this.aluno.senha;
+    }
+
+    this.alunoService.update(this.aluno.id, payload).subscribe({
       next: (alunoAtualizado) => {
         Swal.fire({
           title: 'Sucesso!',
@@ -62,13 +80,14 @@ export class AlunoDetaisComponent implements OnInit {
           timer: 2000,
           showConfirmButton: false,
         });
-
         this.router.navigate(['/alunos/perfil']);
       },
       error: (err) => {
+        console.error('Erro na atualização. Payload enviado:', payload);
+        console.error('Resposta do servidor:', err);
         Swal.fire(
           'Erro na Atualização',
-          'Não foi possível salvar as alterações.',
+          'Não foi possível salvar as alterações. Verifique o console para mais detalhes.',
           'error'
         );
       },

@@ -43,7 +43,7 @@ export const routes: Routes = [
     children: [
       { path: 'aluno-bem-vindo', component: AlunoBemVindoComponent },
       { path: 'aluno-perfil', component: AlunoPerfilComponent },
-      { path: 'aluno-editar/:id', component: AlunoDetaisComponent },
+      { path: 'aluno-editar/:email', component: AlunoDetaisComponent },
     ],
   },
 

@@ -22,7 +22,7 @@ export class AlunoService {
     return this.http.get<Aluno>(`${this.apiUrl}/findById/${id}`);
   }
 
-  update(id: number, aluno: Aluno): Observable<Aluno> {
-    return this.http.put<Aluno>(`${this.apiUrl}/update/${id}`, aluno);
+  update(id: number, payload: any): Observable<Aluno> {
+    return this.http.put<Aluno>(`${this.apiUrl}/update/${id}`, payload);
   }
 }
