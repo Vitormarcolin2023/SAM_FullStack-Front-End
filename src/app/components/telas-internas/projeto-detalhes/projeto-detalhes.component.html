@@ -1,0 +1,22 @@
+<div class="container">
+
+     <h4>{{projeto.nomeDoProjeto }}</h4>
+
+  <p>{{ projeto.descricao }}</p>
+
+  <p><strong>Área de Atuação:</strong> {{ projeto.areaDeAtuacao?.nome }}</p>
+  <p><strong>Período:</strong> {{ projeto.periodo }}</p>
+  <p><strong>Data Início:</strong> {{ projeto.dataInicioProjeto | date:'dd/MM/yyyy' }}</p>
+  <p><strong>Data Final:</strong> {{ projeto.dataFinalProjeto | date:'dd/MM/yyyy' }}</p>
+
+  <p *ngIf="projeto.mentor"><strong>Mentor:</strong> {{ projeto.mentor?.nome }}</p>
+   <p *ngIf="projeto.grupo"><strong>Grupo:</strong> {{ projeto.grupo?.nome }}</p>
+
+  <div *ngIf="projeto.professores?.length">
+    <strong>Professores:</strong>
+    <ul>
+      <li *ngFor="let prof of projeto.professores">{{ prof.nome }}</li>
+    </ul>
+  </div>
+
+</div>

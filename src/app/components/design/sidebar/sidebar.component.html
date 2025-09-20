@@ -48,6 +48,27 @@
       </ul>
     </li>
   -->
+    <!--Teste-->>
+    <li class="has-submenu">
+  <input type="checkbox" id="projects-toggle" class="submenu-toggle" />
+  <label for="projects-toggle" class="nav-link">
+    <span class="icon">
+      <i class="fas fa-folder-open"></i>
+    </span>
+    <span class="text">Projetos</span>
+    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+  </label>
+
+  <ul class="submenu">
+    <li>
+      <a routerLink="/visual-projeto" routerLinkActive="active">Meus Projetos</a>
+    </li>
+    <li>
+      <a routerLink="/criar-projeto" routerLinkActive="active">Criar Novo</a>
+    </li>
+  </ul>
+</li>
+
     <!-- campo de grupos  -->
      @if (userRole == 'ALUNO') {
           <li class="has-submenu">
