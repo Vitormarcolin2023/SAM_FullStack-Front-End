@@ -15,12 +15,5 @@ import { RouterOutlet } from '@angular/router';
 export class TelaInicialComponent {
   tokenService = inject(TokenDecode);
   userRole = this.tokenService.getRole();
-
-  @ViewChild('visuGrupo', { read: ViewContainerRef }) visuGrupo!: ViewContainerRef;
-
-  acessarGrupo() {
-    this.visuGrupo.clear();
-    this.visuGrupo.createComponent(GrupoDetailsComponent);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
-  }
+  
 }
