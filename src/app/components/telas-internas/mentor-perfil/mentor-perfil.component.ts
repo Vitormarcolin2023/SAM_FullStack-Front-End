@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
@@ -21,21 +21,10 @@ export class MentorPerfilComponent implements OnInit {
   area: string = '';
   resumo: string = '';
   minicurriculo: string = '';
-  mentores!: Mentor[];
-  mentorService = inject(MentorService);
 
   ngOnInit(): void {
     this.carregarDados();
-    this.mentorService.listAll().subscribe({
-      next : list =>{
-        console.log(list);
-      },
-      error : erro =>{
-        console.log(erro);
-      }
-    })
   }
-
 
   private carregarDados(): void {
     const dadosSalvos = localStorage.getItem('perfilMentor');
