@@ -1,4 +1,3 @@
-
 <nav class="sidebar">
   <ul class="nav-links">
     <li>
@@ -17,7 +16,8 @@
         <span class="text">Início</span>
       </a>
     </li>
-    <li class="has-submenu">
+
+    <!--<li class="has-submenu">
       <input type="checkbox" id="profile-toggle" class="submenu-toggle">
       <label for="profile-toggle" class="nav-link">
         <span class="icon">
@@ -30,7 +30,7 @@
         <li><a href="#">Alterar Dados</a></li>
         <li><a href="#">Minhas Configurações</a></li>
       </ul>
-    </li>
+    </li>-->
 
     <!-- REUNIÃO EM STANDBY POR ENQUANTO
     <li class="has-submenu">
@@ -61,59 +61,65 @@
 
   <ul class="submenu">
     <li>
-      <a routerLink="/visual-projeto" routerLinkActive="active">Meus Projetos</a>
+      <a routerLink="/visual-projeto" routerLinkActive="active" class="nav-link">
+        <span class="icon"><i class="fas fa-folder-open"></i></span>
+        <span class="text">Meus Projetos</span>
+      </a>
     </li>
     <li>
-     <a (click)="acessarCriarProjeto()" class="nav-link">
-  <span class="icon"><i class="fas fa-plus-circle"></i></span>
-  <span class="text">Criar Novo</span>
-</a>
-
+      <a (click)="acessarCriarProjeto()" class="nav-link">
+        <span class="icon"><i class="fas fa-plus-circle"></i></span>
+        <span class="text">Criar Novo</span>
+      </a>
     </li>
   </ul>
 </li>
 
     <!-- campo de grupos  -->
-     @if (userRole == 'ALUNO') {
-          <li class="has-submenu">
-      <input type="checkbox" id="projects-toggle" class="submenu-toggle">
-      <label for="projects-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-folder-open"></i>
-        </span>
-        <span class="text">Projetos</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li><a href="#">Meus Projetos</a></li>
-        <li><a href="#">Criar Novo</a></li>
-      </ul>
+    <li class="has-submenu">
+        <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
+        <label for="profile-toggle" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-user-circle"></i>
+          </span>
+          <span class="text">Meu Perfil</span>
+          <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+        </label>
+        <ul class="submenu">
+          <li>
+            <a (click)="userPerfil()">Visualizar perfil</a>
+          </li>
+          <li>
+            <a (click)="atualizarPerfil()">Alterar Dados</a>
+          </li>
+        </ul>
     </li>
+    @if (userRole == 'COORDENADOR') {
     <li>
-      <a href="#" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-users"></i>
-        </span>
+      <a href="/tela-inicial/ativar-mentor" class="nav-link">
+        <span class="icon"> <i class="fas fa-user-plus"></i> </span>
+        <span class="text">Visualizar Mentores</span>
+      </a>
+    </li>
+    }
+
+    <li>
+      <a (click)="visualizarProjetos()" class="nav-link">
+        <span class="icon"> <i class="fas fa-project-diagram"></i> </span>
+        <span class="text">Visualizar Projetos</span>
+      </a>
+    </li>
+
+    <!--  GRUPOS -->
+    @if (userRole == 'ALUNO') {
+    <li>
+      <a class="nav-link" routerLink="/grupo-details">
+        <span class="icon"><i class="fas fa-users"></i></span>
         <span class="text">Grupo</span>
       </a>
     </li>
     }
-     @if (userRole == 'COORDENADOR') {
-      <li>
-        <a href="/tela-inicial/ativar-mentor" class="nav-link">
-          <span class="icon">
-            <i class="fas fa-user-plus"></i> </span>
-          <span class="text">Visualizar Mentores</span>
-        </a>
-      </li>
-      <li>
-        <a href="/tela-inicial/visualizar-projetos" class="nav-link">
-          <span class="icon">
-            <i class="fas fa-project-diagram"></i> </span>
-          <span class="text">Visualizar Projetos</span>
-        </a>
-      </li>
-    }
+
     <li>
       <a href="#" class="nav-link">
         <span class="icon">

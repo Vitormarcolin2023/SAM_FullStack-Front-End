@@ -13,20 +13,19 @@ import { LoginService } from '../../../services/login/login.service';
   selector: 'app-login',
   standalone: true,
   imports: [
-    FormsModule,        // necessário para ngModel
-    CommonModule,       // básico do Angular
-    MdbFormsModule,     // necessário para mdb-form-control
-    NavbarComponent     // necessário para app-navbar
+    FormsModule, // necessário para ngModel
+    CommonModule, // básico do Angular
+    MdbFormsModule, // necessário para mdb-form-control
+    NavbarComponent, // necessário para app-navbar
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-
   login: LoginDto = {
     email: '',
     senha: '',
-    role: ''
+    role: '',
   };
 
   // Use lowercase para o service
@@ -38,17 +37,19 @@ export class LoginComponent {
   }
 
   logar() {
-    const btnLogar = document.getElementById("btn-logar") as HTMLButtonElement | null;
+    const btnLogar = document.getElementById(
+      'btn-logar'
+    ) as HTMLButtonElement | null;
     if (btnLogar) btnLogar.disabled = true;
 
     this.loginService.login(this.login).subscribe({
-      next: response => {
+      next: (response) => {
         const token = response.token;
         this.loginService.setToken(token);
 
-        localStorage.setItem('role', response.role ?? ''); 
+        localStorage.setItem('role', response.role ?? '');
         localStorage.setItem('emailLogado', response.email ?? '');
-        localStorage.setItem('mentorStatus', response.status ?? ''); 
+        localStorage.setItem('mentorStatus', response.status ?? '');
 
         const role = (response.role ?? '').toUpperCase();
         const status = response.status;
@@ -63,25 +64,29 @@ export class LoginComponent {
             icon: 'info',
             title: 'Perfil em Análise',
             text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.',
-            confirmButtonColor: '#4CAF50'
+            confirmButtonColor: '#4CAF50',
           });
+
+        } else if (role === 'ALUNO') {
+          this.router.navigate(['/aluno/aluno-bem-vindo']);
         } else {
+          // O 'else' final agora cuidará dos outros perfis (Coordenador, Professor)
           this.router.navigate(['tela-inicial']);
         }
 
         if (btnLogar) btnLogar.disabled = false;
       },
-      error: erro => {
+      error: (erro) => {
         Swal.fire({
           icon: 'error',
           title: 'Erro ao logar',
-          text: erro.error?.message ?? 'Erro ao logar'
+          text: erro.error?.message ?? 'Erro ao logar',
         });
 
         if (btnLogar) btnLogar.disabled = false;
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
-      }
+      },
     });
   }
 }

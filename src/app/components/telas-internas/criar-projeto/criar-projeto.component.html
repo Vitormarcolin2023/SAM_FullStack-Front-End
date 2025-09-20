@@ -34,41 +34,50 @@
         </div>
         
         <!-- RELACIONAMENTOS -->
-          <div class="form-step">
-          <h3>Relacionamentos</h3>
+      <div class="form-step">
+        <h3>Relacionamentos</h3>
 
-        </div>
+      <!-- Área de Atuação -->
+        <label for="areaDeAtuacao">Área de Atuação</label>
+      <select id="areaDeAtuacao" formControlName="areaDeAtuacao">
+        <option value="" disabled>Selecione a área</option>
+       <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">{{ area.nome }}</option>
+      </select>
+        <small *ngIf="hasError('areaDeAtuacao', 'required')" class="error-message">
+          Área de atuação é obrigatória.
+       </small>
 
-     <!-- Área de Atuação -->
-          <label for="areaDeAtuacao">Área de Atuação</label>
-          <select id="areaDeAtuacao" formControlName="areaDeAtuacao">
-            <option value="" disabled>Selecione a área</option>
-            <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">{{ area.nome }}</option>
-          </select>
-          <small *ngIf="hasError('areaDeAtuacao', 'required')" class="error-message">
-            Área de atuação é obrigatória.
-          </small>
+      <!-- Mentor -->
+      <label for="mentor">Mentor</label>
+      <select id="mentor" formControlName="mentor">
+        <option value="" disabled>Selecione o mentor</option>
+        <option *ngFor="let mentor of mentores" [ngValue]="mentor">{{ mentor.nome }}</option>
+      </select>
 
-           <!-- Mentor -->
-          <label for="mentor">Mentor</label>
-          <select id="mentor" formControlName="mentor">
-            <option value="" disabled>Selecione o mentor</option>
-            <option *ngFor="let mentor of mentores" [ngValue]="mentor">{{ mentor.nome }}</option>
-          </select>
+      <!-- Grupo -->
+      <label for="grupo">Grupo</label>
+      <select id="grupo" formControlName="grupo">
+        <option value="" disabled>Selecione o grupo</option>
+        <!--<option *ngFor="let grupo of grupos" [ngValue]="grupo">{{ grupo.nome }}</option>-->
+      </select>
 
-           <!-- Grupo -->
-          <label for="grupo">Grupo</label>
-          <select id="grupo" formControlName="grupo">
-            <option value="" disabled>Selecione o grupo</option>
-            <!--<option *ngFor="let grupo of grupos" [ngValue]="grupo">{{ grupo.nome }}</option>-->
-          </select>
-        </div>
+      <!-- Professores -->
+      <label for="professores">Professores</label>
+      <select id="professores" multiple formControlName="professores">
+       <!-- <option *ngFor="let professor of professores" [ngValue]="professor">
+          {{ professor.nome }}
+        </option>-->
+      </select>
+      <small *ngIf="hasError('professores', 'required')" class="error-message">
+        Pelo menos um professor deve ser selecionado.
+      </small>
+    </div>
+
+         </div>
        <div class="form-buttons-container">
         <div class="buttons-row">
           <button type="button" class="btn-back" (click)="voltar()">Voltar</button>
           <button type="submit" [disabled]="formProjeto.invalid">Salvar Projeto</button>
         </div>
-      </div>
-    </form>
-  </div>
-</div>
+    </div>
+</form>
