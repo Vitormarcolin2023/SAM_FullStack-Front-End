@@ -27,3 +27,9 @@ export class Grupo {
     this.projetos = projetos;
   }
 }
+
+export interface GrupoDTO {
+  nome: string;
+  alunoAdminId: number;
+  alunosIds: number[];
+}
