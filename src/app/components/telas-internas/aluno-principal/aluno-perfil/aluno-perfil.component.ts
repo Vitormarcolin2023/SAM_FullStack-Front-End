@@ -32,12 +32,14 @@ export class AlunoPerfilComponent implements OnInit {
       allowOutsideClick: false,
       allowEscapeKey: false,
       confirmButtonText: 'Buscar Informações',
+      confirmButtonColor: 'rgb(28, 232, 151)',
       showLoaderOnConfirm: true,
       
       // Adicionando o botão de cancelamento
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
-       reverseButtons: true,
+       cancelButtonColor: '#a3a3a3ff',
+      reverseButtons: true,
 
       preConfirm: async (email) => {
         if (!email) {
