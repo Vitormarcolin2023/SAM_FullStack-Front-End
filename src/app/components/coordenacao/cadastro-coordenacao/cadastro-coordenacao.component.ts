@@ -189,11 +189,13 @@ export class CadastroCoordenacaoComponent implements OnInit {
           ...coordenadorData,
           id: this.coordenadorId,
         };
+        
+        console.log(dadosParaAtualizar);
 
         this.coordenadorService.update(dadosParaAtualizar).subscribe({
           next: () => {
             console.log('Coordenador atualizado com sucesso!');
-            this.router.navigate(['/']);
+            this.router.navigate(['/tela-inicial']);
           },
           error: () => {
             console.error('Erro na atualização:');
@@ -206,7 +208,7 @@ export class CadastroCoordenacaoComponent implements OnInit {
         this.coordenadorService.save(coordenadorData).subscribe({
           next: (response) => {
             console.log('Coordenador cadastrado com sucesso!', response);
-            this.router.navigate(['/']);
+            this.router.navigate(['/tela-inicial']);
           },
           error: (error) => {
             console.error('Erro no cadastro:', error);

@@ -33,6 +33,7 @@ inativarMentor(mentorId: number): Observable<any> {
   }
 
 update(coordenador: any): Observable<any> {
+  console.log(coordenador);
     return this.http.put<any>(this.apiUrl + "/update/" + coordenador.id, coordenador, {responseType: 'text' as 'json'});
 }
 }
