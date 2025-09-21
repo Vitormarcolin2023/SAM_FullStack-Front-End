@@ -11,6 +11,7 @@ export class Mentor {
   areaDeAtuacao!: AreaDeAtuacao;
   endereco!: Endereco;
   reunioes?: any[];
+  resumo?: string;
 }
 
 export enum TipoDeVinculo {
@@ -37,6 +38,6 @@ export interface Endereco {
 
 export enum StatusMentor {
   PENDENTE = 'PENDENTE',
-  PROCESSANDO = 'PROCESSANDO',
-  CONCLUIDO = 'CONCLUIDO',
+  ATIVO = 'ATIVO',
+  INATIVO = 'INATIVO',
 }

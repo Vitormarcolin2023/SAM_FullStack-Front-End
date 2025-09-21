@@ -1,4 +1,3 @@
-// Conteúdo completo do arquivo (com os novos métodos)
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';

@@ -1,70 +1,83 @@
 <app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<div class="container-fluid background p-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card p-4 shadow-sm border-0 perfil-card">
+        <div class="edit-body">
+          <h3>Cadastro de Coordenador</h3>
 
-<div class="cadastro-container">
-  <div class="form-box">
-    <h2>Cadastro de Coordenador</h2>
+          <form [formGroup]="cadastroCoordenadorForm" (ngSubmit)="onSubmit()">
+            <div class="form-scroll-content">
+              <!-- Seção de Dados de Acesso -->
+              <div class="form-step">
+                <h4 class="mb-3">Dados de Acesso</h4>
+                
+                <div class="mb-3">
+                  <label class="form-label" for="nome">Nome</label>
+                  <input id="nome" type="text" formControlName="nome" class="form-control" />
+                  @if(hasError('nome', 'required')){
+                  <small class="error-message">Nome é obrigatório.</small>
+                  }
+                </div>
 
-    <form [formGroup]="cadastroCoordenadorForm" (ngSubmit)="onSubmit()">
-      <div class="form-scroll-content">
-        <div class="form-step">
-          <h3>Dados de Acesso</h3>
+                <div class="mb-3">
+                  <label class="form-label" for="email">Email</label>
+                  <input id="email" type="email" formControlName="email" class="form-control" />
+                  @if(hasError('email', 'required')){
+                  <small class="error-message">Email é obrigatório.</small>
+                  } @if(hasError('email', 'email')){
+                  <small class="error-message">Formato de email inválido.</small>
+                  }
+                </div>
 
-          <label for="nome">Nome</label>
-          <input id="nome" type="text" formControlName="nome" />
-          @if(hasError('nome', 'required')){
-          <small class="error-message">Nome é obrigatório.</small>
-          }
+                <div class="mb-3">
+                  <label class="form-label" for="senha">Senha</label>
+                  <input id="senha" type="password" formControlName="senha" class="form-control" />
+                  @if(hasError('senha', 'required')){
+                  <small class="error-message">Senha é obrigatória.</small>
+                  } @if(hasError('senha', 'minlength')){
+                  <small class="error-message"
+                    >A senha deve ter no mínimo 6 caracteres.</small
+                  >
+                  }
+                </div>
+              </div>
 
-          <label for="email">Email</label>
-          <input id="email" type="email" formControlName="email" />
-          @if(hasError('email', 'required')){
-          <small class="error-message">Email é obrigatório.</small>
-          }
-          @if(hasError('email', 'email')){
-          <small class="error-message">Formato de email inválido.</small>
-          }
-
-          <label for="senha">Senha</label>
-          <input id="senha" type="password" formControlName="senha" />
-          @if(hasError('senha', 'required')){
-          <small class="error-message">Senha é obrigatória.</small>
-          }
-          @if(hasError('senha', 'minlength')){
-          <small class="error-message"
-            >A senha deve ter no mínimo 6 caracteres.</small
-          >
-          }
-        </div>
-
-        <div class="form-step">
-          <h3>Vínculo com Cursos</h3>
-
-          <label for="cursos">Cursos Disponíveis</label>
-          <div class="checkbox-group">
-            <div *ngFor="let curso of cursosDisponiveis" class="checkbox-item">
-              <input 
-                type="checkbox" 
-                id="curso-{{ curso.id }}" 
-                [value]="curso.id" 
-                (change)="onCheckboxChange($event)"
-              />
-              <label for="curso-{{ curso.id }}">{{ curso.nome }}</label>
+              <div class="form-step">
+                <h4 class="mb-3">Vínculo com Cursos</h4>
+                <div class="mb-3">
+                  <label class="form-label" for="cursos">Cursos Disponíveis</label>
+                  <div class="checkbox-group">
+                    <div *ngFor="let curso of cursosDisponiveis" class="checkbox-item">
+                      <input
+                        type="checkbox"
+                        id="curso-{{ curso.id }}"
+                        [value]="curso.id"
+                        [checked]="cursosFormArray.value.includes(curso.id)"
+                        (change)="onCheckboxChange($event)"
+                      />
+                      <label for="curso-{{ curso.id }}">{{ curso.nome }}</label>
+                    </div>
+                  </div>
+                  @if(hasError('cursos', 'required')){
+                  <small class="error-message">Selecione pelo menos um curso.</small>
+                  }
+                </div>
+              </div>
             </div>
-          </div>
-          @if(hasError('cursos', 'required')){
-          <small class="error-message">Selecione pelo menos um curso.</small>
-          }
-        </div>
-      </div>
 
-      <div class="form-buttons-container">
-        <div class="buttons-row">
-          <button type="button" class="btn-back" (click)="goToLanding()">
-            Voltar à Home
-          </button>
-          <button type="submit">Finalizar Cadastro</button>
+            <div class="form-buttons-container">
+              <div class="buttons-row">
+                <button type="button" class="btn btn-back btn-block" (click)="goToLanding()">
+                  Voltar à Home
+                </button>
+                <button type="submit" class="btn btn-block btn-color">Finalizar Cadastro</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </div>

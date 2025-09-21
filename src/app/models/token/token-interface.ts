@@ -3,4 +3,5 @@ export interface TokenInterface {
   Role: string;
   exp: number;
   id: number;
+  email: string;
 }

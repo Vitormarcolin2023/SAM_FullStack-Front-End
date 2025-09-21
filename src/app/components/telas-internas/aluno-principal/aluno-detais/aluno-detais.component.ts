@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
-
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -16,16 +15,12 @@ import { CommonModule } from '@angular/common';
 })
 export class AlunoDetaisComponent implements OnInit {
   aluno: Aluno = {} as Aluno;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private alunoService: AlunoService
-  ) {}
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private alunoService = inject(AlunoService);
 
   ngOnInit(): void {
     const emailParam = this.route.snapshot.paramMap.get('email');
-
     if (emailParam) {
       this.carregarAluno(emailParam);
     } else {
@@ -38,16 +33,15 @@ export class AlunoDetaisComponent implements OnInit {
     this.alunoService.getAlunoPorEmail(email).subscribe({
       next: (dados) => {
         this.aluno = dados;
+
         this.aluno.senha = '';
       },
-      error: (err) => {
+      error: () =>
         Swal.fire(
           'Erro!',
           'Não foi possível carregar os dados do aluno.',
           'error'
-        );
-        this.router.navigate(['/alunos/perfil']);
-      },
+        ),
     });
   }
 
@@ -61,21 +55,19 @@ export class AlunoDetaisComponent implements OnInit {
       return;
     }
 
-    const payload: any = {
-      nome: this.aluno.nome,
-      ra: this.aluno.ra,
-      email: this.aluno.email,
+    const payloadParaEnviar = {
+      ...this.aluno,
+      senha:
+        this.aluno.senha && this.aluno.senha.trim() !== ''
+          ? this.aluno.senha
+          : null,
     };
 
-    if (this.aluno.senha && this.aluno.senha.trim() !== '') {
-      payload.senha = this.aluno.senha;
-    }
-
-    this.alunoService.update(this.aluno.id, payload).subscribe({
+    this.alunoService.update(this.aluno.id, payloadParaEnviar).subscribe({
       next: (alunoAtualizado) => {
         Swal.fire({
           title: 'Sucesso!',
-          text: `Os dados de ${alunoAtualizado.nome} foram atualizados.`,
+          text: `Os dados foram atualizados.`,
           icon: 'success',
           timer: 2000,
           showConfirmButton: false,
@@ -83,13 +75,14 @@ export class AlunoDetaisComponent implements OnInit {
         this.router.navigate(['/alunos/perfil']);
       },
       error: (err) => {
-        console.error('Erro na atualização. Payload enviado:', payload);
-        console.error('Resposta do servidor:', err);
-        Swal.fire(
-          'Erro na Atualização',
-          'Não foi possível salvar as alterações. Verifique o console para mais detalhes.',
-          'error'
+        const mensagemErro =
+          err.error?.message || 'Não foi possível salvar as alterações.';
+        console.error(
+          'Erro na atualização. Payload enviado:',
+          payloadParaEnviar
         );
+        console.error('Resposta do servidor:', err);
+        Swal.fire('Erro na Atualização', mensagemErro, 'error');
       },
     });
   }

@@ -1,0 +1,211 @@
+<app-navbar-telas-internas></app-navbar-telas-internas>
+<app-sidebar></app-sidebar>
+
+<div class="container-fluid background p-4">
+  <!-- Card do Mentor -->
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card p-4 shadow-sm border-0 perfil-card">
+        <div class="edit-body">
+            <h3>Editar Informações</h3>
+          <form>
+            <!-- Nome -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="nome">Nome</label>
+              <input
+                mdbInput
+                type="text"
+                id="nome"
+                [(ngModel)]="mentor.nome"
+                name="nome"
+                class="form-control"
+              />
+            </mdb-form-control>
+
+            <!-- CPF -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="cpf">CPF</label>
+              <input
+                mdbInput
+                type="text"
+                id="cpf"
+                [(ngModel)]="mentor.cpf"
+                name="cpf"
+                class="form-control"
+              />
+            </mdb-form-control>
+
+            <!-- Email -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="email">Email</label>
+              <input
+                mdbInput
+                type="email"
+                id="email"
+                [(ngModel)]="mentor.email"
+                name="email"
+                class="form-control"
+              />
+            </mdb-form-control>
+
+            <!-- Telefone -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="telefone">Telefone</label>
+              <input
+                mdbInput
+                type="text"
+                id="telefone"
+                [(ngModel)]="mentor.telefone"
+                name="telefone"
+                class="form-control"
+              />
+            </mdb-form-control>
+
+            <!-- Tempo de Experiência -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="tempoDeExperiencia"
+                >Tempo de Experiência</label
+              >
+              <input
+                mdbInput
+                type="text"
+                id="tempoDeExperiencia"
+                [(ngModel)]="mentor.tempoDeExperiencia"
+                name="tempoDeExperiencia"
+                class="form-control"
+              />
+            </mdb-form-control>
+
+            <!-- Tipo de Vínculo -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="tipoDeVinculo"
+                >Tipo de Vínculo</label
+              >
+              <select
+                mdbInput
+                id="tipoDeVinculo"
+                [(ngModel)]="mentor.tipoDeVinculo"
+                name="tipoDeVinculo"
+                class="form-select"
+              >
+                <option [ngValue]="'CLT'">CLT</option>
+                <option [ngValue]="'PJ'">PJ</option>
+                <option [ngValue]="'VOLUNTARIO'">Voluntário</option>
+              </select>
+            </mdb-form-control>
+
+            <!-- Área de Atuação -->
+            <div class="mb-3">
+              <label for="area">Área de Atuação</label>
+              <select
+                id="area"
+                class="form-control"
+                [(ngModel)]="mentor.areaDeAtuacao"
+                name="areaDeAtuacao"
+              >
+                <option [ngValue]="null">Selecione uma área</option>
+                <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">
+                  {{ area.nome }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Endereço -->
+            <div class="mb-3">
+              <label for="cep">CEP</label>
+              <input
+                type="text"
+                id="cep"
+                class="form-control"
+                [(ngModel)]="mentor.endereco.cep"
+                name="cep"
+                (blur)="buscarCep()"
+                maxlength="8"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="rua">Rua</label>
+              <input
+                type="text"
+                id="rua"
+                class="form-control"
+                [(ngModel)]="mentor.endereco.rua"
+                name="rua"
+                [readonly]="isRuaBairroReadonly"
+              />
+            </div>
+
+            <mdb-form-control class="mb-2">
+              <label mdbLabel class="form-label" for="numero">Número</label>
+              <input
+                mdbInput
+                type="text"
+                id="numero"
+                [(ngModel)]="mentor.endereco.numero"
+                name="numero"
+                class="form-control"
+              />
+            </mdb-form-control>
+
+            <div class="mb-3">
+              <label for="bairro">Bairro</label>
+              <input
+                type="text"
+                id="bairro"
+                class="form-control"
+                [(ngModel)]="mentor.endereco.bairro"
+                name="bairro"
+                [readonly]="isRuaBairroReadonly"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="cidade">Cidade</label>
+              <input
+                type="text"
+                id="cidade"
+                class="form-control"
+                [(ngModel)]="mentor.endereco.cidade"
+                name="cidade"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="estado">Estado</label>
+              <input
+                type="text"
+                id="estado"
+                class="form-control"
+                [(ngModel)]="mentor.endereco.estado"
+                name="estado"
+              />
+            </div>
+
+            <!-- Resumo -->
+            <mdb-form-control class="mb-3">
+              <label mdbLabel class="form-label" for="resumo">Resumo</label>
+              <textarea
+                mdbInput
+                id="resumo"
+                [(ngModel)]="mentor.resumo"
+                name="resumo"
+                class="form-control"
+              ></textarea>
+            </mdb-form-control>
+
+            <!-- Botão -->
+            <button
+              mdbRipple
+              type="button"
+              (click)="salvar()"
+              class="btn btn-block mt-3 btn-color"
+            >
+              Salvar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

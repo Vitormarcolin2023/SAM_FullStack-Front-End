@@ -7,7 +7,6 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
   const router = inject(Router);
   // Recuperando o token diretamente como string
   const token = localStorage.getItem('token');
-  console.log(token)
 
   // Se o token existir e a URL não for a de login, adicionar o token ao cabeçalho
   if (token && !router.url.includes('/auth/login')) {
@@ -16,7 +15,6 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
         Authorization: `Bearer ${token}`    
       },
     });
-    console.log(request)
   }
 
   // Executando a requisição e tratando os erros
@@ -26,9 +24,7 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
         if (err.status === 401 || err.status === 403) {
           alert(`Erro ${err.status} - Você não tem permissão para acessar esta página.`);
           router.navigate(['/login']);
-        } else {
-          console.error('Erro HTTP:', err);
-        }
+        } 
       } else {
         console.error('Ocorreu um erro inesperado:', err);
       }
