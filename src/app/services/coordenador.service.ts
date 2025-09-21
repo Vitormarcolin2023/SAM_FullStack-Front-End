@@ -27,4 +27,8 @@ inativarMentor(mentorId: number): Observable<any> {
     console.log(coordenador);
     return this.http.post<any>(this.apiUrl+"/save", coordenador);
   }
+
+  getCoordenadorPorEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/buscar-por-email?email=${email}`);
+  }
 }
