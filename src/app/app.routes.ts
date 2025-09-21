@@ -19,6 +19,7 @@ import { AlunoPrincipalComponent } from './components/telas-internas/aluno-princ
 import { AlunoBemVindoComponent } from './components/telas-internas/aluno-principal/aluno-bem-vindo/aluno-bem-vindo.component';
 import { AlunoPerfilComponent } from './components/telas-internas/aluno-principal/aluno-perfil/aluno-perfil.component';
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
+import { GrupoComponent } from './components/telas-internas/grupo/grupo.component';
 import { MentorEditComponent } from './components/telas-internas/mentor-edit/mentor-edit.component';
 
 import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
@@ -51,6 +52,23 @@ export const routes: Routes = [
       { path: 'aluno-editar/:email', component: AlunoDetaisComponent },
     ],
   },
+  {
+    path: 'grupo',
+    component: GrupoComponent,
+    children: [
+      {
+        path: 'grupo-details',
+        component: GrupoDetailsComponent,
+        canActivate: [mentorStatusGuard],
+      },
+
+      {
+        path: 'criar-grupo',
+        component: CriarGrupoComponent,
+        canActivate: [mentorStatusGuard],
+      },
+    ],
+  },
 
   // Rota protegida por guard (mentorStatusGuard)
   {
@@ -76,17 +94,6 @@ export const routes: Routes = [
 
  
   // Fallback (rota não encontrada)
-  {
-    path: 'grupo-details',
-    component: GrupoDetailsComponent,
-    canActivate: [mentorStatusGuard],
-  },
-
-  {
-    path: 'criar-grupo',
-    component: CriarGrupoComponent,
-    canActivate: [mentorStatusGuard],
-  },
 
   // Fallback (rota não encontrada) //nao adicionar paginas embaixo dessa linha se nao nao funciona
   { path: '**', redirectTo: '' },
