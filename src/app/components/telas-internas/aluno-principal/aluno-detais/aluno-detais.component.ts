@@ -33,7 +33,7 @@ export class AlunoDetaisComponent implements OnInit {
     this.alunoService.getAlunoPorEmail(email).subscribe({
       next: (dados) => {
         this.aluno = dados;
-        // Limpa a senha para que o campo apareça vazio por segurança
+
         this.aluno.senha = '';
       },
       error: () =>
@@ -62,7 +62,6 @@ export class AlunoDetaisComponent implements OnInit {
           ? this.aluno.senha
           : null,
     };
-   
 
     this.alunoService.update(this.aluno.id, payloadParaEnviar).subscribe({
       next: (alunoAtualizado) => {
@@ -76,7 +75,6 @@ export class AlunoDetaisComponent implements OnInit {
         this.router.navigate(['/alunos/perfil']);
       },
       error: (err) => {
-        
         const mensagemErro =
           err.error?.message || 'Não foi possível salvar as alterações.';
         console.error(

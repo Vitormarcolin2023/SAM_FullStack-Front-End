@@ -1,25 +1,18 @@
-/* ==================================== */
-/* === Container Principal para Conteúdo === */
-/* ==================================== */
 .content-wrapper {
-  margin-top: 100px; // Espaço do topo
+  margin-top: 100px;
   padding-left: 20px;
   padding-right: 20px;
   width: 100%;
 
   @media (min-width: 992px) {
-    margin-left: 280px; // A largura da sua sidebar
-    width: calc(100% - 280px); // Preenche o espaço restante
+    margin-left: 280px;
+    width: calc(100% - 280px);
   }
 
-  // Use Flexbox para centralizar o conteúdo dentro do wrapper
   display: flex;
   justify-content: center;
 }
 
-/* ==================================== */
-/* === Estilo do Card Principal === */
-/* ==================================== */
 .card {
   width: 100%;
   max-width: 900px;
@@ -27,9 +20,8 @@
   border-radius: 12px;
   padding: 24px 28px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  margin: 0; // Remova a margem para que o flexbox possa centralizar
+  margin: 0;
 
-  // Mantenha as media queries originais para o padding e radius
   @media (max-width: 768px) {
     padding: 16px;
     margin: 20px 12px;
@@ -37,9 +29,6 @@
   }
 }
 
-/* ==================================== */
-/* === Estilo do Conteúdo do Card === */
-/* ==================================== */
 .card-body {
   display: flex;
   flex-direction: column;
@@ -55,9 +44,6 @@
   color: #00995e;
 }
 
-/* ==================================== */
-/* === Estilo da Tabela === */
-/* ==================================== */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
