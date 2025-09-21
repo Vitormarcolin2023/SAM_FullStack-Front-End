@@ -64,10 +64,11 @@ export const routes: Routes = [
   },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
 
-   {path: 'visual-projeto', component: VisualProjetoComponent},
-   {path: 'criar-projeto', component: CriarProjetoComponent},
-    {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
-  
+ {path: 'visual-projeto', component: VisualProjetoComponent},
+ {path: 'criar-projeto', component: CriarProjetoComponent},
+ {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
+ { path: 'projetos/:id', component: ProjetoDetalhesComponent },
+
   // Rota protegida pelo mentorStatusGuard
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent},
