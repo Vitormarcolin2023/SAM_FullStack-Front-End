@@ -12,32 +12,20 @@ export class GrupoService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Envia uma requisição POST para a API para criar um novo grupo.
-   */
   criarGrupo(grupo: GrupoDto): Observable<string> {
     return this.http.post<string>(`${this.grupoApiUrl}/save`, grupo, {
       responseType: 'text' as 'json',
     });
   }
 
-  /**
-   * Obtém a lista de todos os grupos.
-   */
   getGrupos(): Observable<Grupo[]> {
     return this.http.get<Grupo[]>(`${this.grupoApiUrl}/findAll`);
   }
 
-  /**
-   * ✅ NOVO: Recupera o grupo do aluno logado.
-   */
   getGrupoByAlunoId(alunoId: number): Observable<Grupo> {
     return this.http.get<Grupo>(`${this.grupoApiUrl}/findByAluno/${alunoId}`);
   }
 
-  /**
-   * ✅ NOVO: Atualiza informações do grupo (Admin).
-   */
   atualizarGrupo(
     groupId: number,
     adminId: number,
@@ -50,13 +38,8 @@ export class GrupoService {
     );
   }
 
-  /**
-   * ✅ NOVO: Solicita a exclusão de um aluno do grupo (Admin).
-   */
-  excluirAluno(adminId: number, alunoId: number): Observable<string> {
-    return this.http.delete<string>(
-      `${this.grupoApiUrl}/deleteAlunoById/admin/${adminId}/aluno/${alunoId}`,
-      { responseType: 'text' as 'json' }
-    );
+  removerAlunoDiretamente(idGrupo: number, idAlunoRemover: number, idAdmin: number): Observable<string> {
+    const url = `${this.grupoApiUrl}/${idGrupo}/remover-aluno/${idAlunoRemover}/admin/${idAdmin}`;
+    return this.http.delete(url, { responseType: 'text' });
   }
 }

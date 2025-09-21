@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
+import Swal from 'sweetalert2';
 import { Grupo } from '../../../../models/grupo/grupo';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
 import { Aluno } from '../../../../models/aluno/aluno';
@@ -21,14 +22,8 @@ import { Aluno } from '../../../../models/aluno/aluno';
 })
 export class GrupoDetailsComponent implements OnInit {
   grupo: Grupo | null = null;
-  // ❗ IMPORTANTE: Substitua '1' pela sua lógica real para obter o ID do aluno logado!
   loggedInAlunoId: number = 1;
   isLoading: boolean = true;
-  errorMessage: string | null = null;
-
-  // Propriedades para o modal de edição
-  showEditModal: boolean = false;
-  grupoEditData = { nome: '' };
 
   constructor(private grupoService: GrupoService) {}
 
@@ -38,10 +33,8 @@ export class GrupoDetailsComponent implements OnInit {
 
   carregarGrupo(): void {
     this.isLoading = true;
-    this.errorMessage = null;
-
     if (!this.loggedInAlunoId) {
-      this.errorMessage = 'ID do aluno não encontrado. Faça o login.';
+      this.exibirModalErro('ID do aluno não encontrado. Faça o login.');
       this.isLoading = false;
       return;
     }
@@ -52,8 +45,9 @@ export class GrupoDetailsComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage =
-          'Erro ao buscar as informações. Você já faz parte de um grupo?';
+        this.exibirModalErro(
+          'Erro ao buscar as informações. Verifique se você faz parte de um grupo.'
+        );
         console.error(err);
         this.isLoading = false;
       },
@@ -65,69 +59,94 @@ export class GrupoDetailsComponent implements OnInit {
   }
 
   solicitarExclusaoAluno(aluno: Aluno): void {
-    if (!this.isUserAdmin() || !this.grupo) return;
-
+    if (!this.isUserAdmin() || !this.grupo || !this.grupo.id) return;
     if (aluno.id === this.loggedInAlunoId) {
-      alert('O administrador não pode remover a si mesmo.');
+      this.exibirModalErro('O administrador não pode remover a si mesmo.');
       return;
     }
-
-    // ✅ ADICIONE ESTA VERIFICAÇÃO
     if (!aluno.id) {
-      alert(`Não foi possível encontrar o ID do aluno ${aluno.nome}.`);
+      this.exibirModalErro(
+        `Não foi possível encontrar o ID do aluno ${aluno.nome}.`
+      );
       return;
     }
 
-    const confirmacao = confirm(
-      `Tem certeza que deseja solicitar a exclusão de ${aluno.nome}?`
-    );
-    if (confirmacao) {
-      // Agora o TypeScript sabe que 'aluno.id' é um número
-      this.grupoService.excluirAluno(this.loggedInAlunoId, aluno.id).subscribe({
-        next: (response) => {
-          alert(response);
-          this.carregarGrupo();
-        },
-        error: (err) => {
-          alert(`Erro: ${err.error}`);
-          console.error(err);
-        },
-      });
-    }
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: `Você está prestes a remover ${aluno.nome} permanentemente do grupo.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sim, remover!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.grupoService
+          .removerAlunoDiretamente(
+            this.grupo!.id!,
+            aluno.id!,
+            this.loggedInAlunoId
+          )
+          .subscribe({
+            next: (response) => {
+              Swal.fire('Removido!', response, 'success');
+              this.carregarGrupo();
+            },
+            error: (err) =>
+              this.exibirModalErro(err.error?.message || err.error),
+          });
+      }
+    });
   }
 
   abrirModalEdicao(): void {
     if (!this.grupo) return;
-    this.grupoEditData.nome = this.grupo.nome;
-    this.showEditModal = true;
+
+    Swal.fire({
+      title: 'Editar Nome do Grupo',
+      input: 'text',
+      inputValue: this.grupo.nome,
+      showCancelButton: true,
+      confirmButtonText: 'Salvar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Você precisa digitar um nome!';
+        }
+        return null;
+      },
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        this.salvarAlteracoes(result.value);
+      }
+    });
   }
 
-  fecharModalEdicao(): void {
-    this.showEditModal = false;
-  }
-
-  salvarAlteracoes(): void {
-    // A verificação `!this.grupo.id` foi adicionada aqui.
+  salvarAlteracoes(novoNome: string): void {
     if (!this.grupo || !this.grupo.id || !this.isUserAdmin()) {
-      alert(
-        'Operação não permitida. A identificação do grupo não foi encontrada.'
-      );
-      return; // A execução para aqui se o ID não existir
+      this.exibirModalErro('Operação não permitida.');
+      return;
     }
 
-    // Agora o TypeScript tem certeza que 'this.grupo.id' é um número
+    const dadosParaAtualizar = { nome: novoNome };
+
     this.grupoService
-      .atualizarGrupo(this.grupo.id, this.loggedInAlunoId, this.grupoEditData)
+      .atualizarGrupo(this.grupo.id, this.loggedInAlunoId, dadosParaAtualizar)
       .subscribe({
         next: (response) => {
-          alert(response);
+          Swal.fire('Sucesso!', response, 'success');
           this.carregarGrupo();
-          this.fecharModalEdicao();
         },
-        error: (err) => {
-          alert(`Erro ao atualizar: ${err.error}`);
-          console.error(err);
-        },
+        error: (err) => this.exibirModalErro(err.error?.message || err.error),
       });
+  }
+
+  private exibirModalErro(mensagem: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: mensagem || 'Ocorreu um erro inesperado.',
+    });
   }
 }

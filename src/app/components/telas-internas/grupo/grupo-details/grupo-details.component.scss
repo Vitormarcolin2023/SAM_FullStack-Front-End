@@ -1,109 +1,43 @@
-/* Estilo para a lista de alunos com botão */
-.avatars ul li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-  padding: 4px 0;
-}
+@use "../../../../../styles/variaveis.scss" as *;
 
-.remove-button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  font-size: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 10px;
-  &:hover {
-    background-color: #c82333;
-  }
-}
-
-/* Estilo para o cabeçalho com botão de editar */
-.header-com-botao {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.edit-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  font-size: 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-    background-color: #0056b3;
-  }
-}
-
-/* Estilos para o Modal */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  background-color: #fff;
-  color: #333;
-  padding: 20px 30px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  width: 90%;
-  max-width: 500px;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.form-control {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.modal-actions {
-  margin-top: 20px;
-  text-align: right;
-}
-.modal-actions .btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-}
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
-.loading-message,
-.error-message {
+.loading-message {
   text-align: center;
-  margin-top: 50px;
-  font-size: 1.2rem;
+  margin: 3rem 0;
+  font-size: 1.1rem;
+  color: $tabelas-mdb;
+}
+
+.modal-error {
+  padding-top: 20px;
+}
+
+.modal-error-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .error-icon {
+    font-size: 3rem;
+    color: #dc3545;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    color: #dc3545;
+    margin-bottom: 0;
+  }
+}
+
+.error-text {
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: $tabelas-mdb;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+.modal-error .modal-actions {
+  justify-content: center;
 }

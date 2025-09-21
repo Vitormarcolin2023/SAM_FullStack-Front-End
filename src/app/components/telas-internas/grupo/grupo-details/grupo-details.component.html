@@ -1,104 +1,78 @@
-<app-navbar-telas-internas></app-navbar-telas-internas>
-<app-sidebar></app-sidebar>
-
-<div *ngIf="isLoading" class="loading-message">
-  <p>Carregando informações do grupo...</p>
-</div>
-
-<div *ngIf="errorMessage && !isLoading" class="error-message">
-  <p>{{ errorMessage }}</p>
-</div>
-
-<div *ngIf="grupo && !isLoading" class="card">
-  <hr class="divisor" />
-
-  <div class="info-section">
-    <i class="fas fa-users"></i>
-    <div class="info-content">
-      <div class="header-com-botao">
-        <h4>{{ grupo.nome }}</h4>
-        <button
-          *ngIf="isUserAdmin()"
-          (click)="abrirModalEdicao()"
-          class="edit-button"
-        >
-          <i class="fas fa-pencil-alt"></i> Editar
-        </button>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 700px">
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <div class="avatars">
-        <ul>
-          <li *ngFor="let aluno of grupo.alunos">
-            <span
-              *ngIf="aluno.id === grupo.alunoAdmin?.id"
-              class="badge badge-primary"
-              >Líder</span
-            >
+      <p class="mt-2">Carregando informações do grupo...</p>
+    </div>
+
+    <div *ngIf="grupo && !isLoading" class="card-body">
+      <div class="info-section">
+        <div class="info-content">
+          <div class="header-com-botao">
+            <h4>{{ grupo.nome }}</h4>
             <button
-              *ngIf="isUserAdmin() && aluno.id !== loggedInAlunoId"
-              (click)="solicitarExclusaoAluno(aluno)"
-              class="remove-button"
+              *ngIf="isUserAdmin()"
+              (click)="abrirModalEdicao()"
+              type="button"
+              class="btn btn-primary btn-sm"
+              mdbRipple
             >
-              Excluir
+              <i class="fas fa-pencil-alt me-2"></i> Editar
             </button>
-          </li>
-        </ul>
+          </div>
+          <ul class="list-group list-group-flush mt-3">
+            <li
+              *ngFor="let aluno of grupo.alunos"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <span>
+                {{ aluno.nome }}
+                <span
+                  *ngIf="aluno.id === grupo.alunoAdmin?.id"
+                  class="badge rounded-pill badge-primary ms-2"
+                  >Líder</span
+                >
+              </span>
+              <button
+                *ngIf="isUserAdmin() && aluno.id !== loggedInAlunoId"
+                (click)="solicitarExclusaoAluno(aluno)"
+                type="button"
+                class="btn btn-danger btn-sm"
+                mdbRipple
+              >
+                Excluir
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </div>
-  <hr class="divisor" />
 
-  <ng-container
-    *ngIf="grupo.projetos && grupo.projetos.length > 0; else noProject"
-  >
-    <div class="info-section">
-      <i class="fas fa-tag"></i>
-      <div class="info-content">
-        <h4>Nome do Projeto</h4>
-        <p>{{ grupo.projetos[0].nomeDoProjeto || "Não definido" }}</p>
-      </div>
-    </div>
-    <hr class="divisor" />
-    <div class="info-section">
-      <i class="fas fa-info-circle"></i>
-      <div class="info-content">
-        <h4>Descrição</h4>
-        <p class="descricao">
-          {{ grupo.projetos[0].descricao || "Sem descrição." }}
-        </p>
-      </div>
-    </div>
-    <hr class="divisor" />
-  </ng-container>
+      <hr class="my-4" />
 
-  <ng-template #noProject>
-    <div class="info-section">
-      <i class="fas fa-tag"></i>
-      <div class="info-content">
-        <p>Nenhum projeto associado a este grupo.</p>
-      </div>
-    </div>
-  </ng-template>
-</div>
+      <ng-container
+        *ngIf="grupo.projetos && grupo.projetos.length > 0; else noProject"
+      >
+        <div class="info-section">
+          <div class="info-content text-start">
+            <h5><i class="fas fa-tag me-2"></i> Nome do Projeto</h5>
+            <p>{{ grupo.projetos[0].nomeDoProjeto || "Não definido" }}</p>
+            <h5 class="mt-3">
+              <i class="fas fa-info-circle me-2"></i> Descrição
+            </h5>
+            <p class="text-muted">
+              {{ grupo.projetos[0].descricao || "Sem descrição." }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
 
-<div *ngIf="showEditModal" class="modal-backdrop">
-  <div class="modal-content">
-    <h2>Editar Informações do Grupo</h2>
-    <div class="form-group">
-      <label for="grupoNome">Nome do Grupo</label>
-      <input
-        type="text"
-        id="grupoNome"
-        [(ngModel)]="grupoEditData.nome"
-        class="form-control"
-      />
-    </div>
-    <div class="modal-actions">
-      <button (click)="salvarAlteracoes()" class="btn btn-primary">
-        Salvar
-      </button>
-      <button (click)="fecharModalEdicao()" class="btn btn-secondary">
-        Cancelar
-      </button>
+      <ng-template #noProject>
+        <div class="info-section">
+          <p class="text-muted">Nenhum projeto associado a este grupo.</p>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
