@@ -55,13 +55,11 @@ export const routes: Routes = [
       {
         path: 'grupo-details',
         component: GrupoDetailsComponent,
-        canActivate: [mentorStatusGuard],
       },
 
       {
         path: 'criar-grupo',
         component: CriarGrupoComponent,
-        canActivate: [mentorStatusGuard],
       },
     ],
   },
@@ -73,8 +71,8 @@ export const routes: Routes = [
     canActivate: [mentorStatusGuard],
   },
   {
-    path: "editar-mentor",
-    component: MentorEditComponent
+    path: 'editar-mentor',
+    component: MentorEditComponent,
   },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
 
