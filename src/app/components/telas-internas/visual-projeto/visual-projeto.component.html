@@ -2,12 +2,26 @@
 <app-sidebar></app-sidebar>
 
 <div class="conteudo-central container mt-4">
-  <!-- Campo de busca sempre visível -->
+  <!-- Campo de busca com ícone -->
   <div class="row mb-3">
     <div class="col-md-6">
-      <input type="text" class="form-control" placeholder="Buscar por nome" [formControl]="filtroNome">
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Buscar por nome" 
+          [formControl]="filtroNome"
+          aria-label="Buscar por nome"
+          aria-describedby="btn-buscar"
+        >
+        <span class="input-group-text" id="btn-buscar">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
     </div>
   </div>
+</div>
+
 
   <!-- Lista de projetos -->
   <div class="row">
@@ -15,7 +29,7 @@
       <ng-container *ngFor="let projeto of projetos">
         <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex">
           <a [routerLink]="['/projetos', projeto.id]" class="text-decoration-none text-dark w-100">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm card-pequeno">
               <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" class="card-img-top" alt="Imagem do Projeto">
               <div class="card-body">
                 <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
@@ -37,4 +51,4 @@
       </div>
     </ng-template>
   </div>
-</div>
+

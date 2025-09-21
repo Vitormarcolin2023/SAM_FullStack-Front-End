@@ -1,17 +1,13 @@
 @use '../../../../styles/variaveis' as *;
 
-.visual-projeto-detalhes-container {
-  padding: 20px;
+/* Container central da listagem */
+.conteudo-central {
   margin-top: 70px;
-  background: $background-geral;
-  min-height: 100vh;
-  max-width: 900px; 
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 0 15px;
+}
 
-  .input-group .form-control {
+/* Estilo para o campo de busca */
+.input-group .form-control {
   border-color: $btn-acao;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -31,88 +27,30 @@
   border-left: none;
 }
 
+/* Cartões menores */
+.card-pequeno {
+  max-width: 200px;
+  margin: auto;
+  border-radius: 8px;
 
-  h4 {
-    color: $titulos-verde;
-    font-weight: 700;
-    margin-bottom: 25px;
+  .card-img-top {
+    height: 100px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
 
-  .info-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  .card-body {
+    padding: 0.5rem;
 
-    .icon-label {
-      width: 140px; 
-      font-weight: 600;
-      color: $titulos-verde;
-      display: flex;
-      align-items: center;
-
-      span {
-        font-size: 22px;
-        margin-right: 8px;
-      }
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
     }
 
-    .info-content {
-      flex: 1;
-      font-size: 15px;
-      word-wrap: break-word; // para textos longos não quebrarem o layout
+    .card-text {
+      font-size: 0.8rem;
+      margin-bottom: 0;
     }
   }
-
-  hr {
-    margin: 30px 0;
-    border-color: lighten($fundo-elemento, 20%);
-  }
-
-  .descricao {
-    strong {
-      color: $titulos-verde;
-      font-weight: 700;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 15px;
-      color: $tabelas-mdb;
-      line-height: 1.5;
-      white-space: pre-wrap; // mantém quebras de linha da descrição
-    }
-  }
-
-  .reunioes {
-    margin-top: 25px;
-
-    strong {
-      color: $titulos-verde;
-      font-weight: 700;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    ul {
-      list-style: disc inside;
-      color: $tabelas-mdb;
-      padding-left: 0;
-
-      li {
-        margin-bottom: 6px;
-        font-size: 14px;
-        word-wrap: break-word;
-      }
-
-      .row {
-      display: flex;
-      flex-wrap: wrap;
-      }
-
-      .card {
-        height: 100%;
-      }
-          }
-        }
-      }
+}
