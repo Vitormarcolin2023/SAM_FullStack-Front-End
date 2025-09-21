@@ -13,11 +13,12 @@ import { CoordenadorService } from '../../../services/coordenador.service';
 import { CursosService } from '../../../services/cursos.service';
 import { Curso } from '../../../models/curso/curso';
 import { UserdataService } from '../../../services/userdata.service';
+import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-cadastro-coordenacao',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, SidebarComponent],
   templateUrl: './cadastro-coordenacao.component.html',
   styleUrl: './cadastro-coordenacao.component.scss',
 })
