@@ -7,12 +7,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
-import { SidebarComponent } from '../../design/sidebar/sidebar.component';
+import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
+import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { Mentor } from '../../../models/mentor/mentor';
-import { MentorService } from '../../../services/mentores/mentores.service';
+import { Mentor } from '../../../../models/mentor/mentor';
+import { MentorService } from '../../../../services/mentores/mentores.service';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 

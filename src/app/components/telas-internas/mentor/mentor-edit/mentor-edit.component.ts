@@ -1,14 +1,14 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { FormsModule } from '@angular/forms';
-import { Mentor } from '../../../models/mentor/mentor';
-import { ViaCepService } from '../../../services/viaCep/via-cep.service';
-import { AreaDeAtuacaoService } from '../../../services/areaDeAtuacao/area-de-atuacao.service';
+import { Mentor } from '../../../../models/mentor/mentor';
+import { ViaCepService } from '../../../../services/viaCep/via-cep.service';
+import { AreaDeAtuacaoService } from '../../../../services/areaDeAtuacao/area-de-atuacao.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
-import { SidebarComponent } from "../../design/sidebar/sidebar.component";
-import { MentorService } from '../../../services/mentores/mentores.service';
+import { NavbarTelasInternasComponent } from "../../../design/navbar-telas-internas/navbar-telas-internas.component";
+import { SidebarComponent } from "../../../design/sidebar/sidebar.component";
+import { MentorService } from '../../../../services/mentores/mentores.service';
 import { Router } from '@angular/router';
 
 @Component({
