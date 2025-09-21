@@ -21,6 +21,10 @@ import { AlunoPerfilComponent } from './components/telas-internas/aluno-principa
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { MentorEditComponent } from './components/telas-internas/mentor/mentor-edit/mentor-edit.component';
 
+import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
+import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
+import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
+
 export const routes: Routes = [
   // Páginas iniciais
   { path: 'login', component: LoginComponent },
@@ -60,6 +64,16 @@ export const routes: Routes = [
   },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
 
+   {path: 'visual-projeto', component: VisualProjetoComponent},
+   {path: 'criar-projeto', component: CriarProjetoComponent},
+    {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
+  
+  // Rota protegida pelo mentorStatusGuard
+  { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
+  { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent},
+  
+
+ 
   // Fallback (rota não encontrada)
   {
     path: 'grupo-details',

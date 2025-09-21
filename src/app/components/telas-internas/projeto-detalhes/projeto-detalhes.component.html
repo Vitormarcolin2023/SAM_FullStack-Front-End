@@ -1,0 +1,47 @@
+<div class="container">
+  <h4>{{ projeto.nomeDoProjeto }}</h4>
+
+  <div class="info-row">
+    <div class="icon-label">
+      <span class="icone-grupo">👥</span>
+      <strong>Grupo</strong>
+    </div>
+    <div class="info-content">
+      {{ projeto.grupo?.nome || '—' }}
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="icon-label">
+      <span class="icone-mentor">👨‍🏫</span>
+      <strong>Mentor</strong>
+    </div>
+    <div class="info-content">
+      {{ projeto.mentor?.nome || '—' }}
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="icon-label">
+      <span class="icone-periodo">📅</span>
+      <strong>Período</strong>
+    </div>
+    <div class="info-content">
+      {{ projeto.periodo || (projeto.dataInicioProjeto | date:'dd/MM/yyyy') + ' - ' + (projeto.dataFinalProjeto | date:'dd/MM/yyyy') }}
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="descricao">
+    <strong>Descrição</strong>
+    <p>{{ projeto.descricao || 'Sem descrição disponível.' }}</p>
+  </div>
+
+  <div *ngIf="projeto.professores?.length" class="reunioes">
+    <strong>Professores</strong>
+    <ul>
+      <li *ngFor="let prof of projeto.professores">{{ prof.nome }}</li>
+    </ul>
+  </div>
+</div>

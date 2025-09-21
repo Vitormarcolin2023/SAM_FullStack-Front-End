@@ -4,24 +4,24 @@ import { Professor } from "../professor/professor";
 
 export class Projeto {
   id?: number;
-  nomeDoProjeto: string;
-  descricao: string;
-  areaDeAtuacao: AreaDeAtuacao;
-  dataInicioProjeto: string; // ou Date
-  dataFinalProjeto: string; // ou Date
-  periodo: string;
+  nomeDoProjeto!: string;
+  descricao!: string;
+  areaDeAtuacao!: AreaDeAtuacao;
+  dataInicioProjeto!: string; // ou Date
+  dataFinalProjeto!: string; // ou Date
+  periodo!: string;
   mentor?: Mentor;
   statusProjeto?: string;
   grupo?: Grupo;
   professores?: Professor[];
 
   constructor(
-    nomeDoProjeto: string,
-    descricao: string,
-    areaDeAtuacao: AreaDeAtuacao,
-    dataInicioProjeto: string,
-    dataFinalProjeto: string,
-    periodo: string,
+    nomeDoProjeto: string = '',
+    descricao: string = '',
+    areaDeAtuacao: AreaDeAtuacao = {} as AreaDeAtuacao,
+    dataInicioProjeto: string = '',
+    dataFinalProjeto: string = '',
+    periodo: string = '',
     id?: number,
     mentor?: Mentor,
     statusProjeto?: string,
