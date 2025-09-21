@@ -53,7 +53,7 @@ export class SidebarComponent {
         // rediecionar para rota de edição de perfil aluno
       break;
       case 'COORDENADOR':
-        
+      this.router.navigate(['/cadastro-coordenacao']);
       break;
       case 'MENTOR':
 

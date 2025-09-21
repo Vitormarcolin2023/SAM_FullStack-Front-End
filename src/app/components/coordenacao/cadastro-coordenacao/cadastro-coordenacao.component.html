@@ -19,8 +19,7 @@
           <input id="email" type="email" formControlName="email" />
           @if(hasError('email', 'required')){
           <small class="error-message">Email é obrigatório.</small>
-          }
-          @if(hasError('email', 'email')){
+          } @if(hasError('email', 'email')){
           <small class="error-message">Formato de email inválido.</small>
           }
 
@@ -28,8 +27,7 @@
           <input id="senha" type="password" formControlName="senha" />
           @if(hasError('senha', 'required')){
           <small class="error-message">Senha é obrigatória.</small>
-          }
-          @if(hasError('senha', 'minlength')){
+          } @if(hasError('senha', 'minlength')){
           <small class="error-message"
             >A senha deve ter no mínimo 6 caracteres.</small
           >
@@ -42,10 +40,11 @@
           <label for="cursos">Cursos Disponíveis</label>
           <div class="checkbox-group">
             <div *ngFor="let curso of cursosDisponiveis" class="checkbox-item">
-              <input 
-                type="checkbox" 
-                id="curso-{{ curso.id }}" 
-                [value]="curso.id" 
+              <input
+                type="checkbox"
+                id="curso-{{ curso.id }}"
+                [value]="curso.id"
+                [checked]="cursosFormArray.value.includes(curso.id)"
                 (change)="onCheckboxChange($event)"
               />
               <label for="curso-{{ curso.id }}">{{ curso.nome }}</label>
