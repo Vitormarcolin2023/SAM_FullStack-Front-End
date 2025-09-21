@@ -38,7 +38,8 @@ export class SidebarComponent {
       case 'COORDENADOR':
         break;
       case 'MENTOR':
-        break;
+        this.router.navigate(["/mentor-perfil"]);
+      break;
       case 'PROFESSOR':
         break;
     }
@@ -52,9 +53,12 @@ export class SidebarComponent {
         }
         break;
       case 'COORDENADOR':
-        break;
+      this.router.navigate(['/cadastro-coordenacao']);
+      break;
       case 'MENTOR':
-        break;
+        this.router.navigate(["/editar-mentor"]);
+
+      break;
       case 'PROFESSOR':
         break;
     }

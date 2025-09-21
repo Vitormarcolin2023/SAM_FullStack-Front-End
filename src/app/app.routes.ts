@@ -20,6 +20,7 @@ import { AlunoBemVindoComponent } from './components/telas-internas/aluno-princi
 import { AlunoPerfilComponent } from './components/telas-internas/aluno-principal/aluno-perfil/aluno-perfil.component';
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { GrupoComponent } from './components/telas-internas/grupo/grupo.component';
+import { MentorEditComponent } from './components/telas-internas/mentor-edit/mentor-edit.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -70,6 +71,10 @@ export const routes: Routes = [
     path: 'mentor-perfil',
     component: MentorPerfilComponent,
     canActivate: [mentorStatusGuard],
+  },
+  {
+    path: "editar-mentor",
+    component: MentorEditComponent
   },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
 
