@@ -71,7 +71,7 @@ export class LoginComponent {
           this.router.navigate(['/aluno/aluno-bem-vindo']);
         } else {
           // O 'else' final agora cuidará dos outros perfis (Coordenador, Professor)
-          this.router.navigate(['tela-inicial']);
+          this.router.navigate(['coordenador-perfil']);
         }
 
         if (btnLogar) btnLogar.disabled = false;

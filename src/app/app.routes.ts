@@ -20,6 +20,7 @@ import { AlunoBemVindoComponent } from './components/telas-internas/aluno-princi
 import { AlunoPerfilComponent } from './components/telas-internas/aluno-principal/aluno-perfil/aluno-perfil.component';
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { MentorEditComponent } from './components/telas-internas/mentor-edit/mentor-edit.component';
+import { CoordenacaoPerfilComponent } from './components/coordenacao/perfilcoordenacao/coordenacao-perfil/coordenacao-perfil.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -59,6 +60,7 @@ export const routes: Routes = [
     component: MentorEditComponent
   },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
+  { path: 'coordenador-perfil', component: CoordenacaoPerfilComponent},
 
   // Fallback (rota não encontrada)
   {
