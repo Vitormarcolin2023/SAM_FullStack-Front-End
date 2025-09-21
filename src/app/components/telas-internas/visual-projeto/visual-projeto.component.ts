@@ -7,24 +7,23 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-visual-projeto',
   templateUrl: './visual-projeto.component.html',
   styleUrl: './visual-projeto.component.scss',
   standalone: true,
-  imports: [CommonModule, MdbModalModule, ReactiveFormsModule, NavbarTelasInternasComponent, SidebarComponent, ProjetoDetalhesComponent],
+  imports: [CommonModule,RouterModule, ReactiveFormsModule, NavbarTelasInternasComponent, SidebarComponent],
 })
  export class VisualProjetoComponent implements OnInit{
-  
+
   projetoService = inject(ProjetoService);
-  modalService = inject(MdbModalService);
-  modalRef!: MdbModalRef<ProjetoDetalhesComponent>;
-  
+  router = inject(Router);
+
+
   projetos: Projeto[] = [];
   filtroNome = new FormControl('');
-  filtroAtuacao = new FormControl('');
-  todasAtuacoes: string[] = [];
 
 
   ngOnInit() {
@@ -47,14 +46,12 @@ import { SidebarComponent } from "../../design/sidebar/sidebar.component";
   }
 
    abrirDetalhes(projeto: Projeto) {
-    this.modalRef = this.modalService.open(ProjetoDetalhesComponent, {
-      data: { projeto },
-      modalClass: 'modal-lg'
-    });
-  }
+    this.router.navigate(['/projetos', projeto.id]);
+   }
 
   trackByProjetoId(index: number, projeto: Projeto): number | undefined {
     return projeto.id;
+    
   }
 }
     

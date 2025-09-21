@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Coordenador } from '../models/coordenacao/coordenador';
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +37,12 @@ update(coordenador: any): Observable<any> {
   console.log(coordenador);
     return this.http.put<any>(this.apiUrl + "/update/" + coordenador.id, coordenador, {responseType: 'text' as 'json'});
 }
+
+  getMyProfile(): Observable<Coordenador> {
+    return this.http.get<Coordenador>(`${this.apiUrl}/me`);
+  }
+
+  delete(mentorId: number): Observable<string> {
+  return this.http.delete(`${this.apiUrl}/delete/${mentorId}`, { responseType: 'text' });
+  }
 }

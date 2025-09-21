@@ -1,15 +1,17 @@
+@use '../../../../styles/variaveis' as *;
+
 .container {
-  background-color: #f0f0f0;
+  background-color: $background-geral;
   padding: 20px 30px;
   border-radius: 8px;
   max-width: 700px;
   margin: 0 auto;
 
   h4 {
-    color: #00995e;
+    color: $titulos-verde;
     text-align: center;
     margin-bottom: 15px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $fundo-elemento;
     padding-bottom: 5px;
     font-weight: 700;
   }
@@ -24,7 +26,7 @@
       align-items: center;
       width: 120px;
       font-weight: 600;
-      color: #004d33;
+      color: $btn-color-verde;
 
       .icone-grupo,
       .icone-mentor,
@@ -35,7 +37,7 @@
     }
 
     .info-content {
-      color: #333;
+      color: $tabelas-mdb;
       font-size: 14px;
       flex: 1;
     }
@@ -43,14 +45,14 @@
 
   hr {
     margin: 20px 0;
-    border-color: #bbb;
+    border-color: $fundo-elemento;
   }
 
   .descricao {
     strong {
       font-weight: 700;
-      color: #004d33;
-      border-bottom: 1px solid #00995e;
+      color: $btn-color-verde;
+      border-bottom: 1px solid $titulos-verde;
       display: inline-block;
       margin-bottom: 8px;
     }
@@ -58,7 +60,7 @@
     p {
       font-size: 14px;
       line-height: 1.4;
-      color: #444;
+      color: $tabelas-mdb;
     }
   }
 
@@ -67,8 +69,8 @@
 
     strong {
       font-weight: 700;
-      color: #004d33;
-      border-bottom: 1px solid #00995e;
+      color: $btn-color-verde;
+      border-bottom: 1px solid $titulos-verde;
       display: inline-block;
       margin-bottom: 8px;
     }
@@ -80,7 +82,7 @@
       li {
         margin-bottom: 6px;
         font-size: 14px;
-        color: #333;
+        color: $tabelas-mdb;
         padding-left: 18px;
         position: relative;
 

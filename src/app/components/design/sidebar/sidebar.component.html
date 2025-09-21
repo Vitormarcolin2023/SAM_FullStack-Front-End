@@ -49,60 +49,51 @@
     </li>
   -->
     <!--Teste-->
-    @if (userRole == 'ALUNO') {
     <li class="has-submenu">
-      <input type="checkbox" id="projects-toggle" class="submenu-toggle" />
-      <label for="projects-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-folder-open"></i>
-        </span>
-        <span class="text">Projetos</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
+  <input type="checkbox" id="projects-toggle" class="submenu-toggle" />
+  <label for="projects-toggle" class="nav-link">
+    <span class="icon">
+      <i class="fas fa-folder-open"></i>
+    </span>
+    <span class="text">Projetos</span>
+    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+  </label>
 
-      <ul class="submenu">
-        <li>
-          <a
-            routerLink="/visual-projeto"
-            routerLinkActive="active"
-            class="nav-link"
-          >
-            <span class="icon"><i class="fas fa-folder-open"></i></span>
-            <span class="text">Meus Projetos</span>
-          </a>
-        </li>
-        <li>
-          <a
-            routerLink="/criar-projeto"
-            routerLinkActive="active"
-            class="nav-link"
-          >
-            <span class="icon"><i class="fas fa-plus-circle"></i></span>
-            <span class="text">Criar Novo</span>
-          </a>
-        </li>
-      </ul>
+  <ul class="submenu">
+    <li>
+      <a routerLink="/visual-projeto" routerLinkActive="active" class="nav-link">
+        <span class="icon"><i class="fas fa-folder-open"></i></span>
+        <span class="text">Meus Projetos</span>
+      </a>
     </li>
-    }
+    <li>
+      
+       <a routerLink="/criar-projeto" routerLinkActive="active" class="nav-link">
+        <span class="icon"><i class="fas fa-plus-circle"></i></span>
+        <span class="text">Criar Novo</span>
+      </a>
+    </li>
+  </ul>
+</li>
 
     <!-- campo de grupos  -->
     <li class="has-submenu">
-      <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
-      <label for="profile-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-user-circle"></i>
-        </span>
-        <span class="text">Meu Perfil</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li>
-          <a (click)="userPerfil()">Visualizar perfil</a>
-        </li>
-        <li>
-          <a (click)="atualizarPerfil()">Alterar Dados</a>
-        </li>
-      </ul>
+        <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
+        <label for="profile-toggle" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-user-circle"></i>
+          </span>
+          <span class="text">Meu Perfil</span>
+          <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+        </label>
+        <ul class="submenu">
+          <li>
+            <a (click)="userPerfil()">Visualizar perfil</a>
+          </li>
+          <li>
+            <a (click)="atualizarPerfil()">Alterar Dados</a>
+          </li>
+        </ul>
     </li>
     @if (userRole == 'COORDENADOR') {
     <li>
@@ -134,10 +125,10 @@
       </label>
       <ul class="submenu">
         <li>
-          <a routerLink="/criar-grupo">Criar Grupo</a>
+          <a routerLink="/grupo/criar-grupo">Criar Grupo</a>
         </li>
         <li>
-          <a routerLink="/grupo-details">Visualizar Grupo</a>
+          <a routerLink="/grupo/grupo-details">Visualizar Grupo</a>
         </li>
       </ul>
     </li>

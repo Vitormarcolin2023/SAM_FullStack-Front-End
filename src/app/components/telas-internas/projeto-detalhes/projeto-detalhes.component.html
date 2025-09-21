@@ -1,5 +1,18 @@
-<div class="container">
-  <h4>{{ projeto.nomeDoProjeto }}</h4>
+<app-navbar-telas-internas></app-navbar-telas-internas>
+<app-sidebar></app-sidebar>
+
+<div class="container mt-4">
+  <h2 class="mb-4">{{ projeto.nomeDoProjeto || 'Projeto sem nome' }}</h2>
+
+  <div class="info-row">
+    <div class="icon-label">
+      <span class="icone-area">🎯</span>
+      <strong>Área de Atuação</strong>
+    </div>
+    <div class="info-content">
+      {{ projeto.areaDeAtuacao.nome || projeto.areaDeAtuacao || '—' }}
+    </div>
+  </div>
 
   <div class="info-row">
     <div class="icon-label">
@@ -23,6 +36,16 @@
 
   <div class="info-row">
     <div class="icon-label">
+      <span class="icone-status">📌</span>
+      <strong>Status do Projeto</strong>
+    </div>
+    <div class="info-content">
+      {{ projeto.statusProjeto || '—' }}
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="icon-label">
       <span class="icone-periodo">📅</span>
       <strong>Período</strong>
     </div>
@@ -33,12 +56,12 @@
 
   <hr />
 
-  <div class="descricao">
+  <div class="descricao mb-4">
     <strong>Descrição</strong>
     <p>{{ projeto.descricao || 'Sem descrição disponível.' }}</p>
   </div>
 
-  <div *ngIf="projeto.professores?.length" class="reunioes">
+  <div *ngIf="projeto.professores?.length" class="professores">
     <strong>Professores</strong>
     <ul>
       <li *ngFor="let prof of projeto.professores">{{ prof.nome }}</li>

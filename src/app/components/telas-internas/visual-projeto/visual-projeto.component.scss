@@ -1,83 +1,56 @@
 @use '../../../../styles/variaveis' as *;
 
-.visual-projetos-container {
-  padding: 20px;
+/* Container central da listagem */
+.conteudo-central {
   margin-top: 70px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background: $background-geral; // fundo geral suave
-  min-height: 100vh;
+  padding: 0 15px;
 }
 
-.busca-container {
-  width: 100%;
-  margin-bottom: 20px;
+/* Estilo para o campo de busca */
+.input-group .form-control {
+  border-color: $btn-acao;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 
-  input {
-    width: 300px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid $fundo-elemento;
-    border-radius: 5px;
-
-    &:focus {
-      outline: none;
-      border-color: $btn-acao;
-      box-shadow: 0 0 5px $btn-acao;
-    }
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(28, 232, 151, 0.25);
+    border-color: $btn-acao;
   }
 }
 
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  width: 100%;
+.input-group-text {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  background-color: transparent;
+  color: $titulos-verde;
+  border: 1px solid $btn-acao;
+  border-left: none;
+}
 
-  .card {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    overflow: hidden;
-    background: white;
+/* Cartões menores */
+.card-pequeno {
+  max-width: 200px;
+  margin: auto;
+  border-radius: 8px;
 
-    img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+  .card-img-top {
+    height: 100px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .card-body {
+    padding: 0.5rem;
+
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
     }
 
-    .card-body {
-      padding: 15px;
-
-      .card-title {
-        font-size: 18px;
-        color: $titulos-verde;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-
-      .card-text {
-        font-size: 14px;
-        color: $tabelas-mdb;
-        margin-bottom: 10px;
-      }
-
-      button {
-        background-color: $btn-acao;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: $btn-hover;
-        }
-      }
+    .card-text {
+      font-size: 0.8rem;
+      margin-bottom: 0;
     }
   }
 }

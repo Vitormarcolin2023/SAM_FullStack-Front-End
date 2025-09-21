@@ -1,85 +1,153 @@
+@use "../../../../../styles/variaveis.scss" as *;
+
+/* Card e layout principal */
 .card {
   width: 100%;
-  max-width: 900px; // mais largo como no Figma
+  max-width: 700px;
   background-color: #dedede;
   border-radius: 12px;
-  padding: 24px 28px;
-  margin: 60px auto; // centralizado
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-
-  @media (min-width: 992px) {
-    margin-left: 280px; // quando sidebar fixa
-    margin-top: 80px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 16px;
-    margin: 20px 12px;
-    border-radius: 8px;
-  }
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 
-.badge {
-  background-color: #00995E; 
-  color: #ffffff; /* Cor do texto */
-  border-radius: 10px;
+/* Estilo para a classe de centralização do Bootstrap */
+.min-vh-100 {
+  min-height: 100vh;
 }
 
+/* Títulos dentro do card */
+h4, h5 {
+  color: #00995E;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
 
-/* --- Título principal --- */
-.card h2 {
-  text-align: center;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 8px;
+h5 i {
   color: #00995E;
 }
 
-/* Linha divisória */
-.divisor {
-  border: none;
-  border-top: 1px solid #000;
-  margin: 8px 0;
-}
-
-/* --- Seções de info (Grupo, Mentor, Período etc) --- */
+/* Seção de informações (Info-section) */
 .info-section {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.info-section i {
-  font-size: 1.3rem;
-  color: #000;
+  gap: 16px;
 }
 
 .info-content {
   flex: 1;
 }
 
-.info-content h4 {
+/* Header com botão de edição */
+.header-com-botao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Estilo do botão primário */
+.btn-primary {
+  background-color: #00995E;
+  border-color: #00995E;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #007a4b;
+  border-color: #007a4b;
+}
+
+/* Estilo do botão de exclusão */
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* Badge (Líder) */
+.badge-primary {
+  background-color: #00995E;
+  color: #ffffff;
   font-weight: 600;
-  margin-bottom: 4px;
-  font-size: 1rem;
-  color: #00995E;
 }
 
-.info-content p {
-  font-size: 0.95rem;
-  color: #222;
+/* Itens da lista de alunos */
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 0;
 }
 
-/* Descrição e Reuniões ficam em blocos */
-.descricao,
-.reunioes {
-  font-size: 0.95rem;
-  color: #222;
-  line-height: 1.4;
+/* Ícone de carregamento (spinner) */
+.spinner-border {
+  color: #00995E !important;
 }
 
+/* Texto de carregamento */
+.text-primary {
+  color: #00995E !important;
+}
+
+/* Texto de descrição e sem projeto */
+p {
+  color: #555;
+  line-height: 1.5;
+}
+
+.text-muted {
+  color: #888 !important;
+}
+
+/* Seus estilos originais SCSS */
+.loading-message {
+  text-align: center;
+  margin: 3rem 0;
+  font-size: 1.1rem;
+  color: $tabelas-mdb;
+}
+
+.modal-error {
+  padding-top: 20px;
+}
+
+.modal-error-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .error-icon {
+    font-size: 3rem;
+    color: #dc3545;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    color: #dc3545;
+    margin-bottom: 0;
+  }
+}
+
+.error-text {
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: $tabelas-mdb;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+.modal-error .modal-actions {
+  justify-content: center;
+}
