@@ -77,10 +77,11 @@ export class GrupoDetailsComponent implements OnInit {
       text: `Você está prestes a remover ${aluno.nome} permanentemente do grupo.`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: 'rgb(28, 232, 151)',
+      cancelButtonColor: '#9a9c9dff',
       confirmButtonText: 'Sim, remover!',
       cancelButtonText: 'Cancelar',
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         this.grupoService
@@ -109,7 +110,9 @@ export class GrupoDetailsComponent implements OnInit {
       inputValue: this.grupo.nome,
       showCancelButton: true,
       confirmButtonText: 'Salvar',
+      confirmButtonColor: 'rgb(28, 232, 151)',
       cancelButtonText: 'Cancelar',
+        reverseButtons: true,
       inputValidator: (value) => {
         if (!value || value.trim() === '') {
           return 'Você precisa digitar um nome!';
