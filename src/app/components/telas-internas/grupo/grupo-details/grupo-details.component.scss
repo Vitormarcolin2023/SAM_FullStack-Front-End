@@ -1,85 +1,109 @@
-.card {
-  width: 100%;
-  max-width: 900px; // mais largo como no Figma
-  background-color: #dedede;
-  border-radius: 12px;
-  padding: 24px 28px;
-  margin: 60px auto; // centralizado
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-
+/* Estilo para a lista de alunos com botão */
+.avatars ul li {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
-
-  @media (min-width: 992px) {
-    margin-left: 280px; // quando sidebar fixa
-    margin-top: 80px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 16px;
-    margin: 20px 12px;
-    border-radius: 8px;
-  }
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 4px 0;
 }
 
-.badge {
-  background-color: #00995E; 
-  color: #ffffff; /* Cor do texto */
-  border-radius: 10px;
-}
-
-
-/* --- Título principal --- */
-.card h2 {
-  text-align: center;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #00995E;
-}
-
-/* Linha divisória */
-.divisor {
+.remove-button {
+  background-color: #dc3545;
+  color: white;
   border: none;
-  border-top: 1px solid #000;
-  margin: 8px 0;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+  &:hover {
+    background-color: #c82333;
+  }
 }
 
-/* --- Seções de info (Grupo, Mentor, Período etc) --- */
-.info-section {
+/* Estilo para o cabeçalho com botão de editar */
+.header-com-botao {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
-.info-section i {
-  font-size: 1.3rem;
-  color: #000;
+.edit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0056b3;
+  }
 }
 
-.info-content {
-  flex: 1;
+/* Estilos para o Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
 }
 
-.info-content h4 {
-  font-weight: 600;
-  margin-bottom: 4px;
-  font-size: 1rem;
-  color: #00995E;
+.modal-content {
+  background-color: #fff;
+  color: #333;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 500px;
 }
 
-.info-content p {
-  font-size: 0.95rem;
-  color: #222;
+.modal-content h2 {
+  margin-top: 0;
 }
-
-/* Descrição e Reuniões ficam em blocos */
-.descricao,
-.reunioes {
-  font-size: 0.95rem;
-  color: #222;
-  line-height: 1.4;
+.form-group {
+  margin-bottom: 1rem;
 }
-
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+.modal-actions .btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.loading-message,
+.error-message {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 1.2rem;
+}

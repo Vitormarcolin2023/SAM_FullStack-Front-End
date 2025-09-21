@@ -1,100 +1,104 @@
-x<app-navbar-telas-internas></app-navbar-telas-internas>
+<app-navbar-telas-internas></app-navbar-telas-internas>
 <app-sidebar></app-sidebar>
 
-<div class="card">
+<div *ngIf="isLoading" class="loading-message">
+  <p>Carregando informações do grupo...</p>
+</div>
+
+<div *ngIf="errorMessage && !isLoading" class="error-message">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="grupo && !isLoading" class="card">
   <hr class="divisor" />
 
-  <!-- Grupo -->
   <div class="info-section">
     <i class="fas fa-users"></i>
     <div class="info-content">
-      <h4>Grupo 8</h4>
+      <div class="header-com-botao">
+        <h4>{{ grupo.nome }}</h4>
+        <button
+          *ngIf="isUserAdmin()"
+          (click)="abrirModalEdicao()"
+          class="edit-button"
+        >
+          <i class="fas fa-pencil-alt"></i> Editar
+        </button>
+      </div>
       <div class="avatars">
         <ul>
-          <li>
-            Ana Flavia <span class="badge badge-primary">Líder</span>
+          <li *ngFor="let aluno of grupo.alunos">
+            <span
+              *ngIf="aluno.id === grupo.alunoAdmin?.id"
+              class="badge badge-primary"
+              >Líder</span
+            >
+            <button
+              *ngIf="isUserAdmin() && aluno.id !== loggedInAlunoId"
+              (click)="solicitarExclusaoAluno(aluno)"
+              class="remove-button"
+            >
+              Excluir
+            </button>
           </li>
-          <li>Luís Carlos</li>
-          <li>Amanda Lívia </li>
         </ul>
       </div>
     </div>
   </div>
   <hr class="divisor" />
 
-  <!-- Nome do Projeto -->
-  <div class="info-section">
-    <i class="fas fa-tag"></i>
-    <div class="info-content">
-      <h4>Nome do Projeto</h4>
-      <div class="avatars">
-        <p>Cloude 7</p>
+  <ng-container
+    *ngIf="grupo.projetos && grupo.projetos.length > 0; else noProject"
+  >
+    <div class="info-section">
+      <i class="fas fa-tag"></i>
+      <div class="info-content">
+        <h4>Nome do Projeto</h4>
+        <p>{{ grupo.projetos[0].nomeDoProjeto || "Não definido" }}</p>
       </div>
     </div>
-  </div>
-  <hr class="divisor" />
+    <hr class="divisor" />
+    <div class="info-section">
+      <i class="fas fa-info-circle"></i>
+      <div class="info-content">
+        <h4>Descrição</h4>
+        <p class="descricao">
+          {{ grupo.projetos[0].descricao || "Sem descrição." }}
+        </p>
+      </div>
+    </div>
+    <hr class="divisor" />
+  </ng-container>
 
+  <ng-template #noProject>
+    <div class="info-section">
+      <i class="fas fa-tag"></i>
+      <div class="info-content">
+        <p>Nenhum projeto associado a este grupo.</p>
+      </div>
+    </div>
+  </ng-template>
+</div>
 
-  <!-- Descrição -->
-  <div class="info-section">
-     <i class="fas fa-info-circle"></i>
-    <div class="info-content">
-      <h4>Descrição</h4>
-      <p class="descricao">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod
-        tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,
-        nisi ut aliquid ex ea commodi consequatur.
-      </p>
+<div *ngIf="showEditModal" class="modal-backdrop">
+  <div class="modal-content">
+    <h2>Editar Informações do Grupo</h2>
+    <div class="form-group">
+      <label for="grupoNome">Nome do Grupo</label>
+      <input
+        type="text"
+        id="grupoNome"
+        [(ngModel)]="grupoEditData.nome"
+        class="form-control"
+      />
+    </div>
+    <div class="modal-actions">
+      <button (click)="salvarAlteracoes()" class="btn btn-primary">
+        Salvar
+      </button>
+      <button (click)="fecharModalEdicao()" class="btn btn-secondary">
+        Cancelar
+      </button>
     </div>
   </div>
-  <hr class="divisor" />
-
-  <!-- Objetivos
-  <div class="info-section objetivos-section">
-     <i class="fas fa-bullseye"></i>
-    <div class="info-content">
-      <h4>Objetivos do projeto</h4>
-      <ul class="objetivos">
-        <li>Objetivo 1: Descrever aqui o principal objetivo do projeto.</li>
-        <li>Objetivo 2: Meta ou deliverable esperado.</li>
-        <li>Objetivo 3: Critérios de sucesso / métricas.</li>
-      </ul>
-    </div>
-  </div>
-  <hr class="divisor" />
-   -->
-
-  <!-- Período 
-  <div class="info-section">
-    <i class="fas fa-calendar"></i>
-    <div class="info-content">
-      <h4>Período</h4>
-      <p>23/02/2025 - 28/07/2025</p>
-    </div>
-  </div>
-  <hr class="divisor" />
-  -->
-
-  <!-- Mentor (comentado por enquanto) -->
-  <!--
-  <div class="info-section">
-    <i class="fas fa-user"></i>
-    <div class="info-content">
-      <h4>Mentor</h4>
-      <img src="assets/mentor.jpg" alt="Mentor" class="avatar" />
-    </div>
-  </div>
-  <hr class="divisor" />
-  -->
-
-  <!-- Reuniões (comentado por enquanto) -->
-  <!--
-  <div class="info-section">
-    <div class="info-content">
-      <h4>Reuniões</h4>
-      <p class="reunioes">Nenhuma reunião cadastrada ainda.</p>
-    </div>
-  </div>
-  -->
 </div>
