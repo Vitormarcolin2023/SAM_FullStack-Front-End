@@ -53,7 +53,8 @@ export class SidebarComponent {
         }
         break;
       case 'COORDENADOR':
-        break;
+      this.router.navigate(['/cadastro-coordenacao']);
+      break;
       case 'MENTOR':
         this.router.navigate(["/editar-mentor"]);
 

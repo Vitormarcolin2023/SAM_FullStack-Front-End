@@ -31,4 +31,9 @@ inativarMentor(mentorId: number): Observable<any> {
   getCoordenadorPorEmail(email: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/buscar-por-email?email=${email}`);
   }
+
+update(coordenador: any): Observable<any> {
+  console.log(coordenador);
+    return this.http.put<any>(this.apiUrl + "/update/" + coordenador.id, coordenador, {responseType: 'text' as 'json'});
+}
 }

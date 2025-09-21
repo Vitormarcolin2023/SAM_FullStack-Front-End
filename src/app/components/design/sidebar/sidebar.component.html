@@ -28,6 +28,7 @@
       </label>
       <ul class="submenu">
         <li><a href="#">Alterar Dados</a></li>
+        <li><a href="#">Minhas Configurações</a></li>
       </ul>
     </li>-->
 
@@ -49,21 +50,20 @@
   -->
     <!-- campo de grupos  -->
     <li class="has-submenu">
-      <input type="checkbox" id="group-toggle" class="submenu-toggle" />
-
-      <label for="group-toggle" class="nav-link">
+      <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
+      <label for="profile-toggle" class="nav-link">
         <span class="icon">
-          <i class="fas fa-users"></i>
+          <i class="fas fa-user-circle"></i>
         </span>
-        <span class="text">Grupo</span>
+        <span class="text">Meu Perfil</span>
         <span class="arrow"><i class="fas fa-chevron-down"></i></span>
       </label>
       <ul class="submenu">
         <li>
-          <a routerLink="/criar-grupo">Criar Grupo</a>
+          <a (click)="userPerfil()">Visualizar perfil</a>
         </li>
         <li>
-          <a routerLink="/grupo-details">Visualizar Grupo</a>
+          <a (click)="atualizarPerfil()">Alterar Dados</a>
         </li>
       </ul>
     </li>
@@ -85,20 +85,12 @@
 
     <!--  GRUPOS -->
     @if (userRole == 'ALUNO') {
-    <!--<li>
-      <a class="nav-link" routerLink="/criar-grupo">
-        <span class="icon"><i class="fas fa-users"></i></span>
-        <span class="text">Grupo</span>
-      </a>
-    </li>
-  }-->
-
-  
     <li class="has-submenu">
-      <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
-      <label for="profile-toggle" class="nav-link">
+      <input type="checkbox" id="group-toggle" class="submenu-toggle" />
+
+      <label for="group-toggle" class="nav-link">
         <span class="icon">
-          <i class="fas fa-user-circle"></i>
+          <i class="fas fa-users"></i>
         </span>
         <span class="text">Grupo</span>
         <span class="arrow"><i class="fas fa-chevron-down"></i></span>
