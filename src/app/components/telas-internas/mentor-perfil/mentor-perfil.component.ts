@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
@@ -6,19 +13,32 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Mentor } from '../../../models/mentor/mentor';
 import { MentorService } from '../../../services/mentores/mentores.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ContentObserver } from '@angular/cdk/observers';
+import { Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+
+import { MentorEditComponent } from '../mentor-edit/mentor-edit.component';
+import {
+  MdbModalModule,
+  MdbModalRef,
+  MdbModalService,
+} from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-mentor-perfil',
   standalone: true,
-  imports: [CommonModule, NavbarTelasInternasComponent, SidebarComponent],
+  imports: [
+    CommonModule,
+    NavbarTelasInternasComponent,
+    SidebarComponent,
+    MdbModalModule,
+  ],
   templateUrl: './mentor-perfil.component.html',
   styleUrls: ['./mentor-perfil.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class MentorPerfilComponent implements OnInit {
   mentor!: Mentor;
+  mentorEdit!: Mentor;
 
   router = inject(Router);
   mentorService = inject(MentorService);
@@ -32,11 +52,6 @@ export class MentorPerfilComponent implements OnInit {
         //console.log(erro);
       },
     });
-
-    /*this.mentorId = Number(this.route.snapshot.paramMap.get('id')); // pega o id da URL
-    this.carregarDadosBack();
-    this.carregarDadosLocal();
-    console.log(this.mentorId);*/
   }
 
   /** Carrega resumo, minicurrículo e foto do localStorage 
@@ -125,7 +140,7 @@ export class MentorPerfilComponent implements OnInit {
   }
 
   editarInformacoes() {
-    
+    this.router.navigate(['/editar-mentor']);
   }
 
   excluirConta() {
@@ -136,31 +151,29 @@ export class MentorPerfilComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Sim, deletar',
       cancelButtonText: 'Cancelar',
-      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         if (!this.mentor.id) {
           Swal.fire('Erro', 'ID do mentor não encontrado.', 'error');
           return;
         }
-        this.mentorService.delete(this.mentor.id).subscribe({
-          next: () => {
-            Swal.fire(
-              'Deletado!',
-              'Sua conta foi removida com sucesso.',
-              'success'
-            );
-            // Aqui você pode redirecionar o usuário para a tela de login ou home
-            this.router.navigate(['/login']);
-          },
-          error: (erro) => {
-            Swal.fire(
-              'Erro',
-              erro?.error?.message || 'Não foi possível deletar a conta',
-              'error'
-            );
-          },
-        });
+        let id = this.mentor.id;
+
+        this.mentorService
+          .desvincularProjetos(this.mentor.id)
+          .pipe(switchMap(() => this.mentorService.delete(id)))
+          .subscribe({
+            next: () => {
+              Swal.fire(
+                'Deletado!',
+                'Sua conta foi removida com sucesso.',
+                'success'
+              );
+              this.router.navigate(['/login']);
+            },
+            error: res =>
+              Swal.fire('Erro', res || 'Não foi possível deletar a conta', 'error'),
+          });
       }
     });
   }

@@ -11,9 +11,7 @@
           <div class="photo-container me-4">
             <div class="photo-placeholder"></div>
             <i class="fa-solid fa-camera upload-icon"></i>
-            <input
-              style="display: none"
-            />
+            <input style="display: none" />
           </div>
 
           <!-- Infos do mentor -->
@@ -61,24 +59,33 @@
         <!-- mais informações -->
         <div class="infoPessoais">
           <h5>Informações pessoais</h5>
-          <p class="text-muted mb-1">Email: {{mentor.email}}</p>
-          <p class="text-muted mb-1">Telefone: {{mentor.telefone}}</p>
-          <p class="text-muted mb-1">Endereço: {{mentor.endereco.rua}}, {{mentor.endereco.numero}}</p>
+          <p class="text-muted mb-1">Email: {{ mentor.email }}</p>
+          <p class="text-muted mb-1">Telefone: {{ mentor.telefone }}</p>
+          <p class="text-muted mb-1">
+            Endereço: {{ mentor.endereco.rua }}, {{ mentor.endereco.numero }}
+          </p>
         </div>
 
         <div class="linha"></div>
 
         <div class="infoProfissional">
           <h5>Informações profissionais</h5>
-          <p class="text-muted mb-1">Tipo de Vínculo: {{mentor.tipoDeVinculo}}</p>
-          <p class="text-muted mb-1">Tempo de experiência: {{mentor.tempoDeExperiencia}}</p>
+          <p class="text-muted mb-1">
+            Tipo de Vínculo: {{ mentor.tipoDeVinculo }}
+          </p>
+          <p class="text-muted mb-1">
+            Tempo de experiência: {{ mentor.tempoDeExperiencia }}
+          </p>
         </div>
 
         <div class="botoes">
-          <button class="btn-editar" (click)="editarInformacoes()">Editar informações</button>
-          <button class="btn-excluir" (click)="excluirConta()">Excluir conta</button>
+          <button class="btn-editar" (click)="editarInformacoes()">
+            Editar informações
+          </button>
+          <button class="btn-excluir" (click)="excluirConta()">
+            Excluir conta
+          </button>
         </div>
-
       </div>
     </div>
   </div>
@@ -99,4 +106,27 @@
       <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
     
   </div>
---></div>
+-->
+
+  <!-- MODAL PARA EDIÇÃO DO PERFIL 
+  <ng-template #mentorDetalhe>
+    <div class="template">
+    <div class="modal-header">
+      <h5 class="modal-title">Editar Informações</h5>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modalRef.close()"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <app-mentor-edit
+        [mentor] ="mentorEdit"
+        (retorno)="retornoDetalhe($event)"
+      ></app-mentor-edit>
+    </div>
+    </div>
+  </ng-template>
+-->
+</div>

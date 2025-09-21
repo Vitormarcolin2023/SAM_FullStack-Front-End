@@ -39,7 +39,7 @@ export class SidebarComponent {
         
       break;
       case 'MENTOR':
-
+        this.router.navigate(["/mentor-perfil"]);
       break;
       case 'PROFESSOR':
     
@@ -56,6 +56,7 @@ export class SidebarComponent {
         
       break;
       case 'MENTOR':
+        this.router.navigate(["/editar-mentor"]);
 
       break;
       case 'PROFESSOR':

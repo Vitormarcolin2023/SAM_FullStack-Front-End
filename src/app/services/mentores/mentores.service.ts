@@ -23,7 +23,7 @@ export class MentorService {
     });
   }
 
-  update(mentor: Mentor): Observable<any>{
+  update(mentor: Mentor): Observable<any> {
     return this.http.put<Mentor>(`${this.apiUrl}/update/${mentor.id}`, mentor);
   }
 
@@ -32,12 +32,19 @@ export class MentorService {
     return this.http.get<Mentor>(`${this.apiUrl}/findById/${id}`);
   }
 
-    listAll(): Observable<Mentor[]>{
-    return this.http.get<Mentor[]>(this.apiUrl+"/findAll");
+  listAll(): Observable<Mentor[]> {
+    return this.http.get<Mentor[]>(this.apiUrl + '/findAll');
   }
 
-  delete(id: number): Observable<any>{
-    return this.http.delete<any>(`${this.apiUrl}/delete/${id}`);
+  desvincularProjetos(mentorId: number): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/mentor/${mentorId}/desvincular-projetos`,
+      null
+    );
   }
+
+  delete(mentorId: number): Observable<string> {
+  return this.http.delete(`${this.apiUrl}/delete/${mentorId}`, { responseType: 'text' });
+}
 
 }
