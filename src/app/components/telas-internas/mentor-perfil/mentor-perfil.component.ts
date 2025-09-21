@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
-import { SidebarComponent } from "../../design/sidebar/sidebar.component";
+import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
+import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Mentor } from '../../../models/mentor/mentor';
 import { MentorService } from '../../../services/mentores/mentores.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ContentObserver } from '@angular/cdk/observers';
 
 @Component({
   selector: 'app-mentor-perfil',
@@ -13,44 +15,31 @@ import { MentorService } from '../../../services/mentores/mentores.service';
   imports: [CommonModule, NavbarTelasInternasComponent, SidebarComponent],
   templateUrl: './mentor-perfil.component.html',
   styleUrls: ['./mentor-perfil.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class MentorPerfilComponent implements OnInit {
+  mentor!: Mentor;
 
-  fotoUrl: string = '';
-  nome: string = '';
-  area: string = '';
-  resumo: string = '';
-  minicurriculo: string = '';
-
-  mentorId!: number; // vem da rota
-
-  constructor(
-    private http: HttpClient,
-    private route: ActivatedRoute
-  ) {}
+  router = inject(Router);
+  mentorService = inject(MentorService);
 
   ngOnInit(): void {
-    this.mentorId = Number(this.route.snapshot.paramMap.get('id')); // pega o id da URL
+    this.mentorService.getMyProfile().subscribe({
+      next: (mentor) => {
+        this.mentor = mentor;
+      },
+      error: (erro) => {
+        //console.log(erro);
+      },
+    });
+
+    /*this.mentorId = Number(this.route.snapshot.paramMap.get('id')); // pega o id da URL
     this.carregarDadosBack();
     this.carregarDadosLocal();
+    console.log(this.mentorId);*/
   }
 
-  /** Busca nome e área do mentor no back-end */
-  private carregarDadosBack(): void {
-    this.http.get<any>(`http://localhost:8080/mentores/${this.mentorId}`)
-      .subscribe({
-        next: (mentor) => {
-          this.nome = mentor.nome;
-          this.area = mentor.areaDeAtuacao?.nome || ''; // depende de como está o model no back
-        },
-        error: (err) => {
-          console.error('Erro ao buscar mentor:', err);
-        }
-      });
-  }
-
-  /** Carrega resumo, minicurrículo e foto do localStorage */
+  /** Carrega resumo, minicurrículo e foto do localStorage 
   private carregarDadosLocal(): void {
     const dadosSalvos = localStorage.getItem(`perfilMentor_${this.mentorId}`);
     if (dadosSalvos) {
@@ -82,31 +71,101 @@ export class MentorPerfilComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+    */
 
   editarInfos(): void {
+    if (!this.mentor) {
+      Swal.fire('Erro', 'Mentor não carregado ainda.', 'error');
+      return;
+    }
+
     Swal.fire({
       title: 'Editar Informações',
       html: `
-        <textarea id="swal-resumo" class="swal2-textarea"
-          placeholder="Escreva aqui um breve resumo sobre o mentor">${this.resumo || ''}</textarea>
-      `,
+      <textarea id="swal-resumo" class="swal2-textarea"
+        placeholder="Escreva aqui um breve resumo sobre suas experiências">
+        ${this.mentor.resumo || ''}
+      </textarea>
+    `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
-        const resumo = (document.getElementById('swal-resumo') as HTMLTextAreaElement).value.trim();
+        const resumo = (
+          document.getElementById('swal-resumo') as HTMLTextAreaElement
+        )?.value.trim();
         return { resumo };
-      }
-    }).then(result => {
+      },
+    }).then((result) => {
       if (result.isConfirmed && result.value) {
-        this.resumo = result.value.resumo;
-        this.salvarDados();
-        Swal.fire('Salvo!', 'As informações foram atualizadas.', 'success');
+        const resumoAtualizado = result.value.resumo;
+
+        this.mentorService
+          .update({ ...this.mentor, resumo: resumoAtualizado })
+          .subscribe({
+            next: (mentorAtualizado) => {
+              this.mentor = mentorAtualizado;
+              Swal.fire(
+                'Salvo!',
+                'As informações foram atualizadas.',
+                'success'
+              );
+            },
+            error: (erro: any) => {
+              Swal.fire(
+                'Erro',
+                erro?.error?.message || 'Erro ao atualizar',
+                'error'
+              );
+            },
+          });
       }
     });
   }
 
+  editarInformacoes() {
+    
+  }
+
+  excluirConta() {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação não pode ser desfeita!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, deletar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (!this.mentor.id) {
+          Swal.fire('Erro', 'ID do mentor não encontrado.', 'error');
+          return;
+        }
+        this.mentorService.delete(this.mentor.id).subscribe({
+          next: () => {
+            Swal.fire(
+              'Deletado!',
+              'Sua conta foi removida com sucesso.',
+              'success'
+            );
+            // Aqui você pode redirecionar o usuário para a tela de login ou home
+            this.router.navigate(['/login']);
+          },
+          error: (erro) => {
+            Swal.fire(
+              'Erro',
+              erro?.error?.message || 'Não foi possível deletar a conta',
+              'error'
+            );
+          },
+        });
+      }
+    });
+  }
+
+  /*
   editarMinicurriculo(): void {
     Swal.fire({
       title: 'Editar Minicurrículo',
@@ -138,9 +197,9 @@ export class MentorPerfilComponent implements OnInit {
     }).then(result => {
       if (result.isConfirmed && result.value !== undefined) {
         this.minicurriculo = result.value;
-        this.salvarDados();
         Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
       }
     });
   }
+    */
 }
