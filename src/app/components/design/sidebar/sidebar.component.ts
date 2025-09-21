@@ -71,6 +71,8 @@ export class SidebarComponent {
         this.router.navigate(['/tela-inicial/visualizar-projetos']);
         break;
       case 'COORDENADOR':
+        this.router.navigate(['/tela-inicial/visualizar-projetos']);
+
         break;
       case 'MENTOR':
         this.router.navigate(['/mentor/visualizar-projetos'])

@@ -1,47 +1,42 @@
-<div class="tabela-card" style="margin-top: 80px; margin-left: 230px">
-  <table class="table tabela-card-interna">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nome do Projeto</th>
-        <th scope="col">Descrição</th>
-        <th scope="col">Área de Atuação</th>
-        <th scope="col">Data de Início</th>
-        <th scope="col">Data de Fim</th>
-        <th scope="col">Status</th>
-      </tr>
-    </thead>
-    <tbody>     <!-- 
-        
-        
-        @for (projeto of projetos; track projeto.id) {
-      <tr>
-        <th scope="row">{{ projeto.id }}</th>
-        <td>{{ projeto.nomeDoProjeto }}</td>
-        <td>{{ projeto.descricao }}</td>
-        <td>{{ projeto.areaDeAtuacao.nome }}</td>
-        <td>{{ projeto.dataInicioProjeto | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ projeto.dataFinalProjeto | date: 'dd/MM/yyyy' }}</td>
-        <td>
-          <span
-            class="status-badge 
-            {{
-              projeto.statusProjeto === 'ATIVO'
-                ? 'status-ativo'
-                : projeto.statusProjeto === 'CONCLUIDO'
-                ? 'status-concluido'
-                : 'status-pendente'
-            }}"
-          >
-            {{ projeto.statusProjeto }}
-          </span>
-        </td>
-      </tr>
-      }
-        
-        -->
+<app-navbar-telas-internas></app-navbar-telas-internas>
+<app-sidebar></app-sidebar>
+<div class="container-fluid background p-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card p-4 shadow-sm border-0 projetos-card">
+        <h3 class="titulo">Projetos</h3>
+        <div class="linha"></div>
 
-      
-    </tbody>
-  </table>
+        @if (projetos == null || projetos.length === 0) {
+        <div class="msg-projeto">Você não possui projetos por enquanto...</div>
+        } @if(projetos.length > 0){
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Área de atuação</th>
+              <th scope="col">Inicio</th>
+              <th scope="col">Final</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (projeto of projetos; track $index) {
+            <tr>
+              <td>{{projeto.nomeDoProjeto}}</td>
+              <td>{{projeto.areaDeAtuacao.nome}}</td>
+              <td>{{projeto.dataInicioProjeto | date:'dd/MM/yyyy'}}</td>
+              <td>{{projeto.dataFinalProjeto | date:'dd/MM/yyyy'}}</td>
+              <td>
+                <button class="btn" (click)="visualizarProjeto(projeto)">Ver mais</button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+    </div>
+  </div>
 </div>
+
