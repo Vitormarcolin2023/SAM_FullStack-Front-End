@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
 })
 export class ProjetoDetalhesComponent {
-  @Input() projeto!: Projeto;
+  @Input('projeto') projeto!: Projeto;
 }

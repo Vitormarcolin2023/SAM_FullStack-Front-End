@@ -49,7 +49,7 @@ export class MentorPerfilComponent implements OnInit {
         this.mentor = mentor;
       },
       error: (erro) => {
-        //console.log(erro);
+        Swal.fire('Mentor não encontrado!', erro.error.message, 'error');
       },
     });
   }
@@ -171,8 +171,12 @@ export class MentorPerfilComponent implements OnInit {
               );
               this.router.navigate(['/login']);
             },
-            error: res =>
-              Swal.fire('Erro', res || 'Não foi possível deletar a conta', 'error'),
+            error: (res) =>
+              Swal.fire(
+                'Erro',
+                res || 'Não foi possível deletar a conta',
+                'error'
+              ),
           });
       }
     });

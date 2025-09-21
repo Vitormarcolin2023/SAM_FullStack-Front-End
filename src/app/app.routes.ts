@@ -24,6 +24,7 @@ import { MentorEditComponent } from './components/telas-internas/mentor/mentor-e
 import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
 import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
 import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
+import { ProjetosMentorComponent } from './components/telas-internas/mentor/projetos-mentor/projetos-mentor.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -62,6 +63,12 @@ export const routes: Routes = [
     path: "editar-mentor",
     component: MentorEditComponent
   },
+
+  {
+    path: "mentor/visualizar-projetos",
+    component: ProjetosMentorComponent
+  },
+
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
 
    {path: 'visual-projeto', component: VisualProjetoComponent},

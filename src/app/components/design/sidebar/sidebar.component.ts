@@ -72,6 +72,7 @@ export class SidebarComponent {
       case 'COORDENADOR':
         break;
       case 'MENTOR':
+        this.router.navigate(['/mentor/visualizar-projetos'])
         break;
       case 'PROFESSOR':
         break;

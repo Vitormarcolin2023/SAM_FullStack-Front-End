@@ -38,4 +38,8 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
    delete(id: number): Observable<any> {
     return this.http.delete(`${this.API}/delete/${id}`);
   }
+
+  findByMentor(id: number): Observable<Projeto[]>{
+    return this.http.get<Projeto[]>(`${this.API}/mentor/${id}`);
+  }
 }

@@ -1,11 +1,11 @@
-@use "../../../../styles/variaveis" as *;
+
 
 .btn-color {
-  background-color: $btn-acao;
+  background-color: rgb(28, 232, 151);
 }
 
 .btn-color:hover {
-  background-color: $btn-hover;
+  background-color: #00995E;
   color: white;
 }
 
