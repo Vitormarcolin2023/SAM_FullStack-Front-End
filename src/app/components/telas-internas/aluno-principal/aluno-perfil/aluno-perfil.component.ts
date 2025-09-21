@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core'; // Adicione 'inject'
-import { Router, RouterLink } from '@angular/router'; // Adicione 'Router'
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -23,17 +23,22 @@ export class AlunoPerfilComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
+    // 1. MANTIVEMOS A LÓGICA DA OPÇÃO 1: buscar o e-mail automaticamente do token.
     const userEmail = this.tokenService.getEmail();
 
     if (userEmail) {
       this.carregarPerfil(userEmail);
     } else {
+      // 2. APLICAMOS O DESIGN DA OPÇÃO 2: no alerta de erro de sessão.
       Swal.fire({
         icon: 'error',
         title: 'Sessão Inválida',
         text: 'Não foi possível encontrar seu e-mail. Por favor, faça o login novamente.',
+        confirmButtonText: 'Ir para Login',
+        confirmButtonColor: 'rgb(28, 232, 151)', // Cor do botão da Opção 2
+      }).then(() => {
+        this.router.navigate(['/login']);
       });
-      this.router.navigate(['/login']);
     }
   }
 
@@ -46,14 +51,27 @@ export class AlunoPerfilComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erro ao carregar perfil do aluno:', err);
+        // 3. APLICAMOS O DESIGN DA OPÇÃO 2: no alerta de erro ao carregar o perfil.
         Swal.fire({
           icon: 'error',
           title: 'Erro ao Carregar Perfil',
           text: 'Não foi possível encontrar seus dados. Tente novamente mais tarde.',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: 'rgb(28, 232, 151)', // Cor do botão da Opção 2
+          showCancelButton: true,
+          cancelButtonText: 'Voltar ao Início',
+          cancelButtonColor: '#a3a3a3ff', // Cor do botão de cancelar da Opção 2
+          reverseButtons: true, // Ordem dos botões da Opção 2
+        }).then((result) => {
+          // Se o usuário clicar em "Voltar ao Início", nós o redirecionamos.
+          if (result.dismiss === Swal.DismissReason.cancel) {
+            this.router.navigate(['/tela-inicial']);
+          }
         });
         this.isLoading = false;
-        this.router.navigate(['/tela-inicial']);
       },
     });
   }
+
+  // A função abrirModalEmail() foi removida pois não é mais necessária.
 }

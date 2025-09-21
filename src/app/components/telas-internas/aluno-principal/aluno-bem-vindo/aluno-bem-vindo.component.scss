@@ -1,8 +1,42 @@
-.topo {
-  top: 30vh;
-  position: relative;
+/* Importando uma fonte para melhorar o visual */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
 }
 
-.card-body {
-  background-color: #dedede;
+.card {
+    width: 100%;
+    max-width: 900px;
+    background-color: #dedede;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 100px auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Título Bem-Vindo */
+.card h2 {
+    text-align: center;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #00995E;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card {
+        padding: 20px;
+        margin: 20px 12px;
+        border-radius: 8px;
+    }
+
+    .card h2 {
+        font-size: 1.8rem;
+    }
 }

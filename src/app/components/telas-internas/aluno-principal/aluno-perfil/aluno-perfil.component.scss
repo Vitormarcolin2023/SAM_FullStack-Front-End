@@ -1,4 +1,163 @@
+/* ==================================== */
+/* === Container Principal para Conteúdo === */
+/* ==================================== */
+.content-wrapper {
+  margin-top: 100px; // Espaço do topo
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+
+  @media (min-width: 992px) {
+    margin-left: 280px; // A largura da sua sidebar
+    width: calc(100% - 280px); // Preenche o espaço restante
+  }
+
+  // Use Flexbox para centralizar o conteúdo dentro do wrapper
+  display: flex;
+  justify-content: center;
+}
+
+/* ==================================== */
+/* === Estilo do Card Principal === */
+/* ==================================== */
+.card {
+  width: 100%;
+  max-width: 900px;
+  background-color: #dedede;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin: 0; // Remova a margem para que o flexbox possa centralizar
+
+  // Mantenha as media queries originais para o padding e radius
+  @media (max-width: 768px) {
+    padding: 16px;
+    margin: 20px 12px;
+    border-radius: 8px;
+  }
+}
+
+/* ==================================== */
+/* === Estilo do Conteúdo do Card === */
+/* ==================================== */
 .card-body {
-  top: 30vh;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Título da seção */
+.card h3.card-title {
+  text-align: center;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #00995e;
+}
+
+/* ==================================== */
+/* === Estilo da Tabela === */
+/* ==================================== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+  color: #222;
+  font-size: 0.95rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  text-align: left;
+  border-top: 1px solid #c4c4c4;
+}
+
+.table thead th {
+  background-color: #00995e;
+  color: white;
+  font-weight: 600;
+  border-top: none;
+}
+
+.table tbody tr:nth-of-type(odd) {
+  background-color: #f3f3f3;
+}
+
+.table tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+/* Arredondamento dos cantos da tabela */
+.table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* === Estilo dos Botões === */
+.text-end {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px; /* Espaço entre os botões */
+  margin-top: 1.5rem;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Botão de Editar */
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+  color: white;
+  cursor: pointer;
+}
+
+/* Botão de Cancelar */
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: white;
+  cursor: pointer;
+}
+
+/* ==================================== */
+/* === Estilo do Conteúdo Alternativo === */
+/* ==================================== */
+.text-center {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.text-center p.lead {
+  font-size: 1.1rem;
+  color: #555;
+  margin-top: 2rem;
 }
