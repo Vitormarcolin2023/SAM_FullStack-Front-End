@@ -1,76 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common'; // Importe o CommonModule para usar @if no template
+import { Component, OnInit, inject } from '@angular/core'; // Adicione 'inject'
+import { Router, RouterLink } from '@angular/router'; // Adicione 'Router'
+import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-import { firstValueFrom } from 'rxjs'; // 1. IMPORTE o 'firstValueFrom'
 
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
+import { TokenDecode } from '../../../../models/token/token-decode';
 
 @Component({
   selector: 'app-aluno-perfil',
-  standalone: true, // 2. DEFINA O COMPONENTE COMO STANDALONE
-  imports: [
-    CommonModule, // Necessário para diretivas como @if
-    RouterLink,
-  ],
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: './aluno-perfil.component.html',
   styleUrls: ['./aluno-perfil.component.scss'],
 })
 export class AlunoPerfilComponent implements OnInit {
   aluno: Aluno | null = null;
+  isLoading = true;
 
-  constructor(private alunoService: AlunoService) {}
+  private alunoService = inject(AlunoService);
+  private tokenService = inject(TokenDecode);
+  private router = inject(Router);
 
   ngOnInit(): void {
-    this.abrirModalEmail();
+    const userEmail = this.tokenService.getEmail();
+
+    if (userEmail) {
+      this.carregarPerfil(userEmail);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Sessão Inválida',
+        text: 'Não foi possível encontrar seu e-mail. Por favor, faça o login novamente.',
+      });
+      this.router.navigate(['/login']);
+    }
   }
 
-
-  async abrirModalEmail(): Promise<void> {
-    const result = await Swal.fire({
-      title: 'Identificação do Aluno',
-      text: 'Para visualizar seus dados, por favor, digite seu e-mail de cadastro.',
-      input: 'email',
-      inputPlaceholder: 'seu.email@dominio.com',
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      confirmButtonText: 'Buscar Informações',
-      showLoaderOnConfirm: true,
-
-
-      preConfirm: async (email) => {
-        if (!email) {
-          Swal.showValidationMessage('O campo de e-mail é obrigatório');
-          return; 
-        }
-
-        try {
-          
-          const alunoEncontrado = await firstValueFrom(
-            this.alunoService.getAlunoPorEmail(email)
-          );
-          return alunoEncontrado; 
-        } catch (error) {
-          Swal.showValidationMessage(
-            `Falha na busca: Aluno não encontrado ou API offline.`
-          );
-          return; 
-        }
+  carregarPerfil(email: string): void {
+    this.isLoading = true;
+    this.alunoService.getAlunoPorEmail(email).subscribe({
+      next: (dados) => {
+        this.aluno = dados;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar perfil do aluno:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao Carregar Perfil',
+          text: 'Não foi possível encontrar seus dados. Tente novamente mais tarde.',
+        });
+        this.isLoading = false;
+        this.router.navigate(['/tela-inicial']);
       },
     });
-
-  
-    if (result.isConfirmed && result.value) {
-      this.aluno = result.value;
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Aluno Encontrado!',
-        text: `Bem-vindo(a)!`,
-        timer: 2000,
-        showConfirmButton: false,
-      });
-    }
   }
 }
