@@ -1,3 +1,136 @@
+// ALTERAÇÃO: Agora usamos o caminho relativo para encontrar o arquivo de variáveis,
+// exatamente como no seu exemplo da sidebar.
+// O caminho sobe 5 níveis de pasta para chegar até a pasta 'styles'.
+@use '../../../../../styles/variaveis.scss' as *;
+
+
+/* ======================================================= */
+/* === ESTILO DO HOST (Para Centralização) === */
+/* ======================================================= */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px 20px 50px 20px;
+  background-color: $background-geral;
+
+  @media (min-width: 992px) {
+    padding-left: 280px;
+  }
+}
+
+/* ==================================== */
+/* === Estrutura Principal da Página === */
+/* ==================================== */
+.container {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ==================================== */
+/* === Card Principal === */
+/* ==================================== */
 .card {
-  top: 15vh;
+  background-color: $fundo-elemento;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: none;
+  width: 100%;
+}
+
+.card-body {
+  padding: 0;
+}
+
+h3 {
+  text-align: center;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: $titulos-verde;
+}
+
+/* ==================================== */
+/* === Estilo do Formulário === */
+/* ==================================== */
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-control {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: $titulos-verde;
+    box-shadow: 0 0 0 3px rgba($titulos-verde, 0.2);
+    outline: none;
+  }
+
+  &[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+hr {
+  border-top: 1px solid #c4c4c4;
+  margin: 2rem 0;
+}
+
+.text-muted {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* ==================================== */
+/* === Botão de Ação === */
+/* ==================================== */
+.btn-primary {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  background-color: $btn-acao;
+  color: $btn-color-verde;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $btn-hover;
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: $btn-acao;
+    color: $btn-color-verde;
+  }
+}
+
+/* ==================================== */
+/* === Estado de Carregamento === */
+/* ==================================== */
+.spinner-border {
+  color: $titulos-verde;
+}
+
+.text-center p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1rem;
 }

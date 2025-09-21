@@ -2,63 +2,131 @@
 <app-sidebar></app-sidebar>
 
 <div class="container-fluid background p-4">
-
   <!-- Card do Mentor -->
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="card p-4 shadow-sm border-0 perfil-card">
         <div class="d-flex align-items-center">
-
           <!-- Foto do mentor -->
-          <div class="photo-container me-4" (click)="fileInput.click()">
-            <img *ngIf="fotoUrl" [src]="fotoUrl" alt="Foto do Mentor" class="foto-mentor">
-            <div *ngIf="!fotoUrl" class="photo-placeholder"></div>
+          <div class="photo-container me-4">
+            <div class="photo-placeholder"></div>
             <i class="fa-solid fa-camera upload-icon"></i>
-            <input type="file" #fileInput (change)="onFotoSelecionada($event)" style="display: none;">
+            <input style="display: none" />
           </div>
 
           <!-- Infos do mentor -->
           <div>
-            <!-- Nome -->
-            <h4 class="fw-bold" *ngIf="nome; else semNome">{{ nome }}</h4>
+            <!-- Nome (somente leitura) -->
+            <h4 class="fw-bold">{{ mentor.nome }}</h4>
             <ng-template #semNome>
-              <h4 class="fw-bold text-muted fst-italic">Nome do mentor não informado</h4>
+              <h4 class="fw-bold text-muted fst-italic">
+                Nome do mentor não informado
+              </h4>
             </ng-template>
 
-            <!-- Área -->
-            <p class="text-muted mb-1" *ngIf="area; else semArea">{{ area }}</p>
-            <ng-template #semArea>
-              <p class="text-muted mb-1 fst-italic">Área de atuação não informada</p>
-            </ng-template>
+            <!-- Área de Atuação (somente leitura) -->
+            @if(mentor.areaDeAtuacao){
+            <p class="text-muted mb-1">{{ mentor.areaDeAtuacao.nome }}</p>
+            } @if (!mentor.areaDeAtuacao) {
+            <p class="text-muted mb-1 fst-italic">
+              Área de atuação não informada
+            </p>
+            }
 
-            <!-- Resumo -->
+            <!-- Resumo (editável) -->
             <div class="d-flex align-items-center">
               <h6 class="fw-bold text-success mb-0 me-2">Sobre o Mentor</h6>
-              <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarInfos()"></i>
+              <i
+                class="fa-solid fa-pen text-muted edit-icon"
+                (click)="editarInfos()"
+              ></i>
             </div>
 
-            <p class="text-muted mb-0" *ngIf="resumo; else semResumo">{{ resumo }}</p>
-            <ng-template #semResumo>
-              <p class="text-muted mb-0 fst-italic">Nenhum resumo cadastrado.</p>
-            </ng-template>
+            @if (mentor.resumo) {
+            <p class="text-muted mb-0">
+              {{ mentor.resumo }}
+            </p>
+            } @if (!mentor.resumo) {
+            <p class="text-muted mb-0 fst-italic">
+              Informe seu resumo profissional...
+            </p>
+            }
           </div>
+        </div>
 
+        <div class="linha"></div>
+
+        <!-- mais informações -->
+        <div class="infoPessoais">
+          <h5>Informações pessoais</h5>
+          <p class="text-muted mb-1">Email: {{ mentor.email }}</p>
+          <p class="text-muted mb-1">Telefone: {{ mentor.telefone }}</p>
+          <p class="text-muted mb-1">
+            Endereço: {{ mentor.endereco.rua }}, {{ mentor.endereco.numero }}
+          </p>
+        </div>
+
+        <div class="linha"></div>
+
+        <div class="infoProfissional">
+          <h5>Informações profissionais</h5>
+          <p class="text-muted mb-1">
+            Tipo de Vínculo: {{ mentor.tipoDeVinculo }}
+          </p>
+          <p class="text-muted mb-1">
+            Tempo de experiência: {{ mentor.tempoDeExperiencia }}
+          </p>
+        </div>
+
+        <div class="botoes">
+          <button class="btn-editar" (click)="editarInformacoes()">
+            Editar informações
+          </button>
+          <button class="btn-excluir" (click)="excluirConta()">
+            Excluir conta
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Card Minicurrículo -->
-<div class="card p-4 shadow-sm border-0 perfil-card minicurriculo-card">
-  <div class="d-flex align-items-center mb-2">
-    <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
-    <i class="fa-solid fa-pen text-muted edit-icon" (click)="editarMinicurriculo()"></i>
+  <!-- Card Minicurrículo 
+  <div class="card p-4 shadow-sm border-0 perfil-card minicurriculo-card">
+    <div class="d-flex align-items-center mb-2">
+      <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
+      <i
+        class="fa-solid fa-pen text-muted edit-icon"
+        (click)="editarMinicurriculo()"
+      ></i>
+    </div>
+    <p class="text-muted mb-0">
+      {{ minicurriculo }}
+    </p>
+    
+      <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
+    
   </div>
-  <p class="text-muted mb-0" *ngIf="minicurriculo; else semMinicurriculo">{{ minicurriculo }}</p>
-  <ng-template #semMinicurriculo>
-    <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
+-->
+
+  <!-- MODAL PARA EDIÇÃO DO PERFIL 
+  <ng-template #mentorDetalhe>
+    <div class="template">
+    <div class="modal-header">
+      <h5 class="modal-title">Editar Informações</h5>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modalRef.close()"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <app-mentor-edit
+        [mentor] ="mentorEdit"
+        (retorno)="retornoDetalhe($event)"
+      ></app-mentor-edit>
+    </div>
+    </div>
   </ng-template>
-</div>
-
-
+-->
 </div>

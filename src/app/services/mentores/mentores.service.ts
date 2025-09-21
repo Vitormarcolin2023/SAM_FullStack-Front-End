@@ -13,10 +13,18 @@ export class MentorService {
 
   constructor(private http: HttpClient) {}
 
+  getMyProfile(): Observable<Mentor> {
+    return this.http.get<Mentor>(`${this.apiUrl}/me`);
+  }
+
   save(mentor: Mentor): Observable<any> {
     return this.http.post(`${this.apiUrl}/save`, mentor, {
       responseType: 'text',
     });
+  }
+
+  update(mentor: Mentor): Observable<any> {
+    return this.http.put<Mentor>(`${this.apiUrl}/update/${mentor.id}`, mentor);
   }
 
   // Novo método para buscar um mentor por ID
@@ -24,8 +32,19 @@ export class MentorService {
     return this.http.get<Mentor>(`${this.apiUrl}/findById/${id}`);
   }
 
-    listAll(): Observable<Mentor[]>{
-    return this.http.get<Mentor[]>(this.apiUrl+"/findAll");
+  listAll(): Observable<Mentor[]> {
+    return this.http.get<Mentor[]>(this.apiUrl + '/findAll');
   }
+
+  desvincularProjetos(mentorId: number): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/mentor/${mentorId}/desvincular-projetos`,
+      null
+    );
+  }
+
+  delete(mentorId: number): Observable<string> {
+  return this.http.delete(`${this.apiUrl}/delete/${mentorId}`, { responseType: 'text' });
+}
 
 }

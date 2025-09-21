@@ -22,7 +22,7 @@ body {
   transition: width var(--transition-speed) ease;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
   overflow: hidden; 
-  z-index: 1050;  // Garante que fique sobre os cards
+  z-index: 1050;  
 }
 
 
