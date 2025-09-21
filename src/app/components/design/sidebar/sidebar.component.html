@@ -48,24 +48,25 @@
       </ul>
     </li>
   -->
+   
     <!-- campo de grupos  -->
     <li class="has-submenu">
-      <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
-      <label for="profile-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-user-circle"></i>
-        </span>
-        <span class="text">Meu Perfil</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li>
-          <a (click)="userPerfil()">Visualizar perfil</a>
-        </li>
-        <li>
-          <a (click)="atualizarPerfil()">Alterar Dados</a>
-        </li>
-      </ul>
+        <input type="checkbox" id="profile-toggle" class="submenu-toggle" />
+        <label for="profile-toggle" class="nav-link">
+          <span class="icon">
+            <i class="fas fa-user-circle"></i>
+          </span>
+          <span class="text">Meu Perfil</span>
+          <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+        </label>
+        <ul class="submenu">
+          <li>
+            <a (click)="userPerfil()">Visualizar perfil</a>
+          </li>
+          <li>
+            <a (click)="atualizarPerfil()">Alterar Dados</a>
+          </li>
+        </ul>
     </li>
     @if (userRole == 'COORDENADOR') {
     <li>
@@ -97,10 +98,10 @@
       </label>
       <ul class="submenu">
         <li>
-          <a routerLink="/criar-grupo">Criar Grupo</a>
+          <a routerLink="/grupo/criar-grupo">Criar Grupo</a>
         </li>
         <li>
-          <a routerLink="/grupo-details">Visualizar Grupo</a>
+          <a routerLink="/grupo/grupo-details">Visualizar Grupo</a>
         </li>
       </ul>
     </li>

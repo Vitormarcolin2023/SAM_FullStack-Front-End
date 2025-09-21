@@ -1,0 +1,56 @@
+@use '../../../../styles/variaveis' as *;
+
+/* Container central da listagem */
+.conteudo-central {
+  margin-top: 70px;
+  padding: 0 15px;
+}
+
+/* Estilo para o campo de busca */
+.input-group .form-control {
+  border-color: $btn-acao;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(28, 232, 151, 0.25);
+    border-color: $btn-acao;
+  }
+}
+
+.input-group-text {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  background-color: transparent;
+  color: $titulos-verde;
+  border: 1px solid $btn-acao;
+  border-left: none;
+}
+
+/* Cartões menores */
+.card-pequeno {
+  max-width: 200px;
+  margin: auto;
+  border-radius: 8px;
+
+  .card-img-top {
+    height: 100px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .card-body {
+    padding: 0.5rem;
+
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-text {
+      font-size: 0.8rem;
+      margin-bottom: 0;
+    }
+  }
+}

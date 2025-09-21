@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -10,7 +10,7 @@ import { TokenDecode } from '../../../../models/token/token-decode';
 @Component({
   selector: 'app-aluno-perfil',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './aluno-perfil.component.html',
   styleUrls: ['./aluno-perfil.component.scss'],
 })
