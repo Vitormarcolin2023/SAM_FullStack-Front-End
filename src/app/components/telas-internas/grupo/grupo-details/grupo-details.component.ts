@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
-import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import Swal from 'sweetalert2';
 import { Grupo } from '../../../../models/grupo/grupo';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
@@ -14,8 +12,6 @@ import { Aluno } from '../../../../models/aluno/aluno';
   imports: [
     CommonModule,
     FormsModule,
-    NavbarTelasInternasComponent,
-    SidebarComponent,
   ],
   templateUrl: './grupo-details.component.html',
   styleUrls: ['./grupo-details.component.scss'],
