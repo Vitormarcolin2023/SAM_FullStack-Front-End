@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
-import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import Swal from 'sweetalert2';
 import { Grupo } from '../../../../models/grupo/grupo';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
@@ -11,12 +9,7 @@ import { Aluno } from '../../../../models/aluno/aluno';
 @Component({
   selector: 'app-grupo-details',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NavbarTelasInternasComponent,
-    SidebarComponent,
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './grupo-details.component.html',
   styleUrls: ['./grupo-details.component.scss'],
 })
@@ -28,28 +21,33 @@ export class GrupoDetailsComponent implements OnInit {
   constructor(private grupoService: GrupoService) {}
 
   ngOnInit(): void {
+    console.log('[DEBUG] Componente GrupoDetails iniciado (ngOnInit).');
     this.carregarGrupo();
   }
 
   carregarGrupo(): void {
+    console.log(
+      `[DEBUG] Iniciando carregamento do grupo para o aluno ID: ${this.loggedInAlunoId}`
+    );
     this.isLoading = true;
-    if (!this.loggedInAlunoId) {
-      this.exibirModalErro('ID do aluno não encontrado. Faça o login.');
-      this.isLoading = false;
-      return;
-    }
 
     this.grupoService.getGrupoByAlunoId(this.loggedInAlunoId).subscribe({
       next: (data) => {
+        console.log('[DEBUG] Dados recebidos com SUCESSO do back-end:', data);
         this.grupo = data;
         this.isLoading = false;
+        console.log(
+          '[DEBUG] Variável "grupo" foi atualizada. isLoading:',
+          this.isLoading
+        );
       },
       error: (err) => {
-        this.exibirModalErro(
-          'Erro ao buscar as informações. Verifique se você faz parte de um grupo.'
-        );
-        console.error(err);
+        console.error('[DEBUG] OCORREU UM ERRO na chamada da API:', err);
+        this.exibirModalErro(err);
         this.isLoading = false;
+        console.log(
+          '[DEBUG] Variável "isLoading" atualizada para false após erro.'
+        );
       },
     });
   }
@@ -59,7 +57,10 @@ export class GrupoDetailsComponent implements OnInit {
   }
 
   solicitarExclusaoAluno(aluno: Aluno): void {
-    if (!this.isUserAdmin() || !this.grupo || !this.grupo.id) return;
+    if (!this.isUserAdmin() || !this.grupo || !this.grupo.id) {
+      this.exibirModalErro('Ação não permitida.');
+      return;
+    }
     if (aluno.id === this.loggedInAlunoId) {
       this.exibirModalErro('O administrador não pode remover a si mesmo.');
       return;
@@ -93,8 +94,7 @@ export class GrupoDetailsComponent implements OnInit {
               Swal.fire('Removido!', response, 'success');
               this.carregarGrupo();
             },
-            error: (err) =>
-              this.exibirModalErro(err.error?.message || err.error),
+            error: (err) => this.exibirModalErro(err),
           });
       }
     });
@@ -111,7 +111,7 @@ export class GrupoDetailsComponent implements OnInit {
       confirmButtonText: 'Salvar',
       cancelButtonText: 'Cancelar',
       inputValidator: (value) => {
-        if (!value) {
+        if (!value || value.trim() === '') {
           return 'Você precisa digitar um nome!';
         }
         return null;
@@ -138,15 +138,22 @@ export class GrupoDetailsComponent implements OnInit {
           Swal.fire('Sucesso!', response, 'success');
           this.carregarGrupo();
         },
-        error: (err) => this.exibirModalErro(err.error?.message || err.error),
+        error: (err) => this.exibirModalErro(err),
       });
   }
 
-  private exibirModalErro(mensagem: string): void {
+  private exibirModalErro(error: any): void {
+    const mensagem =
+      error?.error?.message ||
+      error?.error ||
+      error?.message ||
+      'Ocorreu um erro inesperado.';
+    console.log(`[DEBUG] Exibindo modal de erro com a mensagem: "${mensagem}"`);
+
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: mensagem || 'Ocorreu um erro inesperado.',
+      text: mensagem,
     });
   }
 }
