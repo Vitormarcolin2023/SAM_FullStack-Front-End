@@ -6,6 +6,7 @@ import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { Curso } from '../../../../models/curso/curso';
 import { UserdataService } from '../../../../services/userdata.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-coordenacao-perfil',
@@ -112,6 +113,35 @@ export class CoordenacaoPerfilComponent implements OnInit {
   }
 
   excluirConta() {
-    //implementar
+        Swal.fire({
+          title: 'Tem certeza que deseja excluir sua conta?',
+          text: 'Esta ação não pode ser desfeita!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sim, deletar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if (!this.coordenador.id) {
+              Swal.fire('Erro', 'ID do mentor não encontrado.', 'error');
+              return;
+            }
+            let id = this.coordenador.id;
+    
+            this.coordenadorService
+              .delete(this.coordenador.id).subscribe({
+                next: () => {
+                  Swal.fire(
+                    'Deletado!',
+                    'Sua conta foi removida com sucesso.',
+                    'success'
+                  );
+                  this.router.navigate(['/login']);
+                },
+                error: res =>
+                  Swal.fire('Erro', res || 'Não foi possível deletar a conta', 'error'),
+              });
+          }
+        });
   }
 }
