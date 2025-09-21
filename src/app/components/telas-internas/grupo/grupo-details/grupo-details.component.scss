@@ -1,5 +1,115 @@
 @use "../../../../../styles/variaveis.scss" as *;
 
+/* Card e layout principal */
+.card {
+  width: 100%;
+  max-width: 700px;
+  background-color: #dedede;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo para a classe de centralização do Bootstrap */
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+/* Títulos dentro do card */
+h4, h5 {
+  color: #00995E;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+h5 i {
+  color: #00995E;
+}
+
+/* Seção de informações (Info-section) */
+.info-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.info-content {
+  flex: 1;
+}
+
+/* Header com botão de edição */
+.header-com-botao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Estilo do botão primário */
+.btn-primary {
+  background-color: #00995E;
+  border-color: #00995E;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #007a4b;
+  border-color: #007a4b;
+}
+
+/* Estilo do botão de exclusão */
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  color: #ffffff;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* Badge (Líder) */
+.badge-primary {
+  background-color: #00995E;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Itens da lista de alunos */
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 0;
+}
+
+/* Ícone de carregamento (spinner) */
+.spinner-border {
+  color: #00995E !important;
+}
+
+/* Texto de carregamento */
+.text-primary {
+  color: #00995E !important;
+}
+
+/* Texto de descrição e sem projeto */
+p {
+  color: #555;
+  line-height: 1.5;
+}
+
+.text-muted {
+  color: #888 !important;
+}
+
+/* Seus estilos originais SCSS */
 .loading-message {
   text-align: center;
   margin: 3rem 0;
@@ -41,4 +151,3 @@
 .modal-error .modal-actions {
   justify-content: center;
 }
-
