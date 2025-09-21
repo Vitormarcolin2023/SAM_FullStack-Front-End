@@ -25,7 +25,7 @@ export const routes: Routes = [
   // Páginas iniciais
   { path: 'login', component: LoginComponent },
   { path: 'landing', component: LandingpageComponent },
-  { path: '', component: LandingpageComponent }, // raiz = landing
+  { path: '', component: LandingpageComponent }, // raiz = landinzg
   { path: 'cadastro', component: CadastroComponent },
 
   // Páginas internas
