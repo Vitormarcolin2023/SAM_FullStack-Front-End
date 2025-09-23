@@ -57,19 +57,20 @@ export class LoginComponent {
         console.log('Valor da role:', role);
         console.log('Valor do status:', status);
 
-        if (role === 'MENTOR' && status === 'CONCLUIDO') {
+        if (role === 'MENTOR' && status === 'ATIVO') {
           this.router.navigate(['mentor-perfil']);
-        } else if (role === 'MENTOR' && status === 'PENDENTE') {
+        }
+        if (role === 'MENTOR' && status === 'PENDENTE') {
           Swal.fire({
             icon: 'info',
             title: 'Perfil em Análise',
             text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.',
             confirmButtonColor: '#4CAF50',
           });
-
-        } else if (role === 'ALUNO') {
+        }
+        if (role === 'ALUNO') {
           this.router.navigate(['/aluno/aluno-bem-vindo']);
-        } else {
+        } else if (role === 'COORDENADOR') {
           // O 'else' final agora cuidará dos outros perfis (Coordenador, Professor)
           this.router.navigate(['coordenador-perfil']);
         }
