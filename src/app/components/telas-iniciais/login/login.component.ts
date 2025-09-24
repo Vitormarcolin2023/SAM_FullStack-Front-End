@@ -80,8 +80,9 @@ export class LoginComponent {
         Swal.fire({
           icon: 'error',
           title: 'Erro ao logar',
-          text: erro.error,
+          text: erro.error?.message ?? 'Erro ao logar',
         });
+
         if (btnLogar) btnLogar.disabled = false;
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
