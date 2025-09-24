@@ -12,12 +12,7 @@ import { LoginService } from '../../../services/login/login.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    FormsModule, // necessário para ngModel
-    CommonModule, // básico do Angular
-    MdbFormsModule, // necessário para mdb-form-control
-    NavbarComponent, // necessário para app-navbar
-  ],
+  imports: [FormsModule, CommonModule, MdbFormsModule, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -28,7 +23,9 @@ export class LoginComponent {
     role: '',
   };
 
-  // Use lowercase para o service
+  // NOVO: Variável para controlar o estado de carregamento
+  isLoading = false;
+
   loginService = inject(LoginService);
   router = inject(Router);
 
@@ -37,10 +34,12 @@ export class LoginComponent {
   }
 
   logar() {
-    const btnLogar = document.getElementById(
-      'btn-logar'
-    ) as HTMLButtonElement | null;
-    if (btnLogar) btnLogar.disabled = true;
+    // Evita processar se já estiver carregando
+    if (this.isLoading) {
+      return;
+    }
+    // NOVO: Ativa o estado de carregamento
+    this.isLoading = true;
 
     this.loginService.login(this.login).subscribe({
       next: (response) => {
@@ -52,30 +51,43 @@ export class LoginComponent {
         localStorage.setItem('mentorStatus', response.status ?? '');
 
         const role = (response.role ?? '').toUpperCase();
-        const status = response.status;
+        // ALTERADO: Pega o status e converte para maiúsculas para garantir a comparação
+        const status = (response.status ?? '').toUpperCase();
 
         console.log('Valor da role:', role);
         console.log('Valor do status:', status);
 
-        if (role === 'MENTOR' && status === 'ATIVO') {
-          this.router.navigate(['mentor-perfil']);
-        }
-        if (role === 'MENTOR' && status === 'PENDENTE') {
-          Swal.fire({
-            icon: 'info',
-            title: 'Perfil em Análise',
-            text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.',
-            confirmButtonColor: '#4CAF50',
-          });
-        }
-        if (role === 'ALUNO') {
-          this.router.navigate(['/aluno/aluno-bem-vindo']);
-        } else if (role === 'COORDENADOR') {
-          // O 'else' final agora cuidará dos outros perfis (Coordenador, Professor)
-          this.router.navigate(['coordenador-perfil']);
+        // ALTERADO: Lógica de verificação do status do mentor
+        switch (role) {
+          case 'MENTOR':
+            if (status === 'ATIVO') {
+              this.router.navigate(['mentor-perfil']);
+            } else if (status === 'PENDENTE') {
+              Swal.fire({
+                icon: 'info',
+                title: 'Perfil em Análise',
+                text: 'Sua solicitação para ser mentor está em análise. Você será notificado quando a coordenação concluir o processo.',
+                confirmButtonColor: '#4CAF50',
+              });
+            } else{
+              Swal.fire({
+                icon: 'warning',
+                title: 'Perfil Inativo',
+                text: 'Seu perfil de mentor está inativo. Por favor, entre em contato com a instituição de ensino para mais detalhes.',
+                confirmButtonColor: '#f44336',
+              });
+            }
+            break;
+          case 'ALUNO':
+            this.router.navigate(['/aluno/aluno-bem-vindo']);
+            break;
+          case 'COORDENADOR':
+            this.router.navigate(['coordenador-perfil']);
+            break;
         }
 
-        if (btnLogar) btnLogar.disabled = false;
+        // NOVO: Desativa o estado de carregamento ao final
+        this.isLoading = false;
       },
       error: (erro) => {
         Swal.fire({
@@ -83,7 +95,8 @@ export class LoginComponent {
           title: 'Erro ao logar',
           text: erro.error,
         });
-        if (btnLogar) btnLogar.disabled = false;
+        // NOVO: Desativa o estado de carregamento em caso de erro
+        this.isLoading = false;
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
       },
