@@ -34,11 +34,9 @@ export class LoginComponent {
   }
 
   logar() {
-    // Evita processar se já estiver carregando
     if (this.isLoading) {
       return;
     }
-    // NOVO: Ativa o estado de carregamento
     this.isLoading = true;
 
     this.loginService.login(this.login).subscribe({
@@ -51,13 +49,11 @@ export class LoginComponent {
         localStorage.setItem('mentorStatus', response.status ?? '');
 
         const role = (response.role ?? '').toUpperCase();
-        // ALTERADO: Pega o status e converte para maiúsculas para garantir a comparação
         const status = (response.status ?? '').toUpperCase();
 
         console.log('Valor da role:', role);
         console.log('Valor do status:', status);
 
-        // ALTERADO: Lógica de verificação do status do mentor
         switch (role) {
           case 'MENTOR':
             if (status === 'ATIVO') {
@@ -69,11 +65,18 @@ export class LoginComponent {
                 text: 'Sua solicitação para ser mentor está em análise. Você será notificado quando a coordenação concluir o processo.',
                 confirmButtonColor: '#4CAF50',
               });
-            } else{
+            } else if (status === 'INATIVO') {
               Swal.fire({
                 icon: 'warning',
                 title: 'Perfil Inativo',
                 text: 'Seu perfil de mentor está inativo. Por favor, entre em contato com a instituição de ensino para mais detalhes.',
+                confirmButtonColor: '#f44336',
+              });
+            } else {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Erro no Status',
+                text: 'O status do seu perfil de mentor é inválido. Por favor, entre em contato com a instituição de ensino para mais detalhes.',
                 confirmButtonColor: '#f44336',
               });
             }
@@ -85,8 +88,6 @@ export class LoginComponent {
             this.router.navigate(['coordenador-perfil']);
             break;
         }
-
-        // NOVO: Desativa o estado de carregamento ao final
         this.isLoading = false;
       },
       error: (erro) => {
@@ -95,7 +96,6 @@ export class LoginComponent {
           title: 'Erro ao logar',
           text: erro.error,
         });
-        // NOVO: Desativa o estado de carregamento em caso de erro
         this.isLoading = false;
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
