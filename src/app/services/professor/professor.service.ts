@@ -36,4 +36,9 @@ export class ProfessorService {
     return this.http.get<Professor[]>(url);
   }
 
+  getProfessorPorId(id: number): Observable<Professor> {
+      const url = `${this.API}/getById/${id}`;
+      return this.http.get<Professor>(url);
+  }
+
 }

@@ -5,55 +5,65 @@
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="card p-4 shadow-sm border-0 perfil-card">
-        <div class="d-flex align-items-center">
-          <div class="photo-container me-4">
-            <div class="photo-placeholder"></div>
-            <i class="fa-solid fa-camera upload-icon"></i>
-            <input style="display: none" />
-          </div>
+        
+        @if (usuarioLogado) {
+          <div class="d-flex align-items-center">
+            <div class="photo-container me-4">
+              <div 
+                class="photo-placeholder"
+                [style.background-image]="fotoUrl ? 'url(' + fotoUrl + ')' : 'none'"
+              ></div>
+              <label for="file-upload" class="upload-icon">
+                <i class="fa-solid fa-camera"></i>
+              </label>
+              <input 
+                id="file-upload" 
+                type="file" 
+                style="display: none" 
+                (change)="onFotoSelecionada($event)"
+              />
+            </div>
 
-          <div>
-            <h4 class="fw-bold">{{ coordenador.nome }}</h4>
-            <ng-template #semNome>
-              <h4 class="fw-bold text-muted fst-italic">
-                Nome do coordenador não informado
-              </h4>
-            </ng-template>
-
-            <div class="mt-3">
-              <h6 class="fw-bold mb-1">Cursos</h6>
-              @if(coordenador.cursos && coordenador.cursos.length > 0) {
-                @for (curso of coordenador.cursos; track curso.id) {
-                  <p class="text-muted mb-1">{{ curso.nome }}</p>
+            <div>
+              <h4 class="fw-bold">{{ usuarioLogado.nome }}</h4>
+              
+              <div class="mt-3">
+                <h6 class="fw-bold mb-1">Cursos</h6>
+                @if(usuarioLogado.cursos && usuarioLogado.cursos.length > 0) {
+                  @for (curso of usuarioLogado.cursos; track curso.id) {
+                    <p class="text-muted mb-1">{{ curso.nome }}</p>
+                  }
+                } @else {
+                  <p class="text-muted mb-1 fst-italic">Nenhum curso informado</p>
                 }
-              } @else {
-                <p class="text-muted mb-1 fst-italic">Nenhum curso informado</p>
-              }
-            </div>
+              </div>
 
-            <div class="mt-3">
-              <h6 class="fw-bold mb-1">Áreas de Atuação</h6>
-              @if(areasCoordenador && areasCoordenador.length > 0) {
-                @for (area of areasCoordenador; track $index) {
-                  <p class="text-muted mb-1">{{ area }}</p>
+              <div class="mt-3">
+                <h6 class="fw-bold mb-1">Áreas de Atuação</h6>
+                @if(areasDeAtuacao && areasDeAtuacao.length > 0) {
+                  @for (area of areasDeAtuacao; track $index) {
+                    <p class="text-muted mb-1">{{ area }}</p>
+                  }
+                } @else {
+                  <p class="text-muted mb-1 fst-italic">Nenhuma área de atuação informada</p>
                 }
-              } @else {
-                <p class="text-muted mb-1 fst-italic">Nenhuma área de atuação informada</p>
-              }
-            </div>
-            
-            <div class="linha"></div>
+              </div>
+              
+              <div class="linha"></div>
 
-            <div class="botoes">
-              <button class="btn-editar" (click)="editarInformacoes()">
-                Editar informações
-              </button>
-              <button class="btn-excluir" (click)="excluirConta()">
-                Excluir conta
-              </button>
+              <div class="botoes">
+                <button class="btn-editar" (click)="editarInformacoes()">
+                  Editar informações
+                </button>
+                <button class="btn-excluir" (click)="excluirConta()">
+                  Excluir conta
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        } @else {
+            <p class="text-muted text-center py-5">Carregando dados do perfil...</p>
+        }
       </div>
     </div>
   </div>

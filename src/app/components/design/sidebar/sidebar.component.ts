@@ -54,13 +54,14 @@ export class SidebarComponent {
         }
         break;
       case 'COORDENADOR':
-      this.router.navigate(['/cadastro-coordenacao']);
+      this.router.navigate(['/cadastro-coordenacao', this.userEmail]);
       break;
       case 'MENTOR':
         this.router.navigate(["/editar-mentor"]);
 
       break;
       case 'PROFESSOR':
+      this.router.navigate(['/cadastro-professor', this.userEmail]);
         break;
     }
   }

@@ -1,84 +1,127 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { Coordenador } from '../../../../models/coordenacao/coordenador';
 import { Router } from '@angular/router';
-import { CoordenadorService } from '../../../../services/coordenacao/coordenador.service';
 import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
-import { Curso } from '../../../../models/curso/curso';
 import { UserdataService } from '../../../../services/coordenacao/userdata.service';
+import { ProfessorService } from '../../../../services/professor/professor.service';
+import { CoordenadorService } from '../../../../services/coordenacao/coordenador.service';
 import Swal from 'sweetalert2';
 
+import { Coordenador } from '../../../../models/coordenacao/coordenador';
+import { Professor } from '../../../../models/professor/professor';
+import { Curso } from '../../../../models/curso/curso';
+
+type UsuarioPerfil = Coordenador | Professor;
+
 @Component({
-  selector: 'app-coordenacao-perfil',
-  imports: [SidebarComponent, NavbarTelasInternasComponent],
+  selector: 'app-funcionario-perfil',
+  standalone: true,
+  imports: [SidebarComponent, NavbarTelasInternasComponent, CommonModule],
   templateUrl: './coordenacao-perfil.component.html',
   styleUrl: './coordenacao-perfil.component.scss',
 })
-export class CoordenacaoPerfilComponent implements OnInit {
-  coordenador!: Coordenador;
+export class FuncionarioComponent implements OnInit {
+  usuarioLogado: UsuarioPerfil | null = null;
   fotoUrl: string = '';
-  areasCoordenador: string[] = [];
+  areasDeAtuacao: string[] = [];
+  cargo: 'Coordenador' | 'Professor' | null = null;
 
   router = inject(Router);
   coordenadorService = inject(CoordenadorService);
+  professorService = inject(ProfessorService);
   userDataService = inject(UserdataService);
 
   ngOnInit(): void {
-    this.buscarDadosCoordenador();
+    this.buscarDadosDoUsuario();
   }
 
-  private buscarDadosCoordenador(): void {
+  private buscarEmailDoToken(): string | null {
     const token = localStorage.getItem('token');
-    let emailDoToken = '';
-
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        emailDoToken = payload.email ?? payload.sub ?? '';
-        console.log('Email extraído do token:', emailDoToken);
+        return payload.email ?? payload.sub ?? null;
       } catch (e) {
         console.error('Erro ao decodificar o token:', e);
-        return;
+        return null;
       }
     }
+    return null;
+  }
 
-    if (emailDoToken) {
-      this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
-        next: (coordenador) => {
-          this.coordenador = coordenador;
-          console.log('Dados do coordenador:', this.coordenador);
+  private buscarDadosDoUsuario(): void {
+    const emailDoToken = this.buscarEmailDoToken();
 
-          if (coordenador.cursos && coordenador.cursos.length > 0) {
-            const nomesDeAreas: string[] = coordenador.cursos.map(
-              (curso: Curso) => curso.areaDeAtuacao.nome
-            );
+    if (!emailDoToken) {
+      console.error('Não foi possível obter o email para buscar o perfil.');
+      return;
+    }
 
-            const areasUnicas = new Set(nomesDeAreas);
-            this.areasCoordenador = Array.from(areasUnicas);
+    this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
+      next: (coordenador) => {
+        if (coordenador && coordenador.id) {
+          this.setPerfilData(coordenador, 'Coordenador');
+        } else {
+          this.buscarDadosProfessor(emailDoToken);
+        }
+      },
+      error: (erro) => {
+        console.warn('Falha ao buscar como Coordenador, tentando como Professor.', erro);
+        this.buscarDadosProfessor(emailDoToken);
+      },
+    });
+  }
 
-            console.log(
-              'Áreas de atuação do coordenador (únicas):',
-              this.areasCoordenador
-            );
-          }
+  private buscarDadosProfessor(emailDoToken: string): void {
+    this.professorService.getProfessorPorEmail(emailDoToken).subscribe({
+      next: (professor) => {
+        if (professor && professor.id) {
+          this.setPerfilData(professor, 'Professor');
+        } else {
+          console.error('Usuário não encontrado como Coordenador ou Professor.');
+        }
+      },
+      error: (erro) => {
+        console.error('Erro ao buscar dados do Professor:', erro);
+      },
+    });
+  }
 
-          this.userDataService.setCoordenador(coordenador);
-        },
-        error: (erro) => {
-          console.error('Erro ao buscar dados do coordenador:', erro);
-        },
-      });
+  private setPerfilData(data: UsuarioPerfil, cargo: 'Coordenador' | 'Professor'): void {
+    this.usuarioLogado = data;
+    this.cargo = cargo;
+
+    console.log(`Dados do ${this.cargo} (estrutura da API):`, this.usuarioLogado);
+
+    if (cargo === 'Coordenador') {
+        this.userDataService.setCoordenador(data);
     } else {
-      console.error(
-        'Não foi possível obter o email para buscar o coordenador.'
-      );
+        this.userDataService.setProfessor(data);
+    }
+    
+    this.processarAreasDeAtuacao(this.usuarioLogado.cursos ?? []);
+    this.carregarDadosLocal();
+  }
+
+  private processarAreasDeAtuacao(cursos: Curso[]): void {
+    console.log('Cursos recebidos para processamento:', cursos);
+    if (cursos && cursos.length > 0) {
+      const nomesDeAreas: string[] = cursos
+        .map((curso) => curso.areaDeAtuacao?.nome)
+        .filter((nome): nome is string => !!nome);
+
+      const areasUnicas = new Set(nomesDeAreas);
+      this.areasDeAtuacao = Array.from(areasUnicas);
+
+      console.log('Áreas de atuação do perfil (únicas):', this.areasDeAtuacao);
+    } else {
+      this.areasDeAtuacao = [];
     }
   }
 
   private carregarDadosLocal(): void {
-    const dadosSalvos = localStorage.getItem(
-      `perfilCoordenador_${this.coordenador}`
-    );
+    const dadosSalvos = localStorage.getItem(`perfil_${this.cargo}_${this.usuarioLogado?.id}`);
     if (dadosSalvos) {
       const perfil = JSON.parse(dadosSalvos);
       this.fotoUrl = perfil.fotoUrl || '';
@@ -89,10 +132,9 @@ export class CoordenacaoPerfilComponent implements OnInit {
     const perfil = {
       fotoUrl: this.fotoUrl,
     };
-    localStorage.setItem(
-      `perfilCoordenador_${this.coordenador}`,
-      JSON.stringify(perfil)
-    );
+    if (this.usuarioLogado && this.cargo) {
+        localStorage.setItem(`perfil_${this.cargo}_${this.usuarioLogado.id}`, JSON.stringify(perfil));
+    }
   }
 
   onFotoSelecionada(event: Event): void {
@@ -109,39 +151,55 @@ export class CoordenacaoPerfilComponent implements OnInit {
   }
 
   editarInformacoes() {
-    this.router.navigate(['/cadastro-coordenacao']);
+    if (!this.usuarioLogado || !this.usuarioLogado.id || !this.cargo) {
+        Swal.fire('Erro', 'Dados do perfil incompletos para edição.', 'error');
+        return;
+    }
+    const id = this.usuarioLogado.id.toString(); // <--- CONVERSÃO PARA STRING AQUI!
+    
+    if (this.cargo === 'Coordenador') {
+      this.router.navigate(['/cadastro-coordenacao', id]);
+    } else if (this.cargo === 'Professor') {
+      this.router.navigate(['/cadastro-professor', id]);
+    } else {
+        console.error("Cargo não identificado. Não é possível editar.");
+        Swal.fire('Erro', 'Cargo não identificado.', 'error');
+    }
   }
 
   excluirConta() {
-        Swal.fire({
-          title: 'Tem certeza que deseja excluir sua conta?',
-          text: 'Esta ação não pode ser desfeita!',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Sim, deletar',
-          cancelButtonText: 'Cancelar',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            if (!this.coordenador.id) {
-              Swal.fire('Erro', 'ID do mentor não encontrado.', 'error');
-              return;
-            }
-            let id = this.coordenador.id;
+    if (!this.usuarioLogado || !this.usuarioLogado.id || !this.cargo) {
+        Swal.fire('Erro', 'ID do usuário não encontrado.', 'error');
+        return;
+    }
     
-            this.coordenadorService
-              .delete(this.coordenador.id).subscribe({
-                next: () => {
-                  Swal.fire(
-                    'Deletado!',
-                    'Sua conta foi removida com sucesso.',
-                    'success'
-                  );
-                  this.router.navigate(['/login']);
-                },
-                error: res =>
-                  Swal.fire('Erro', res || 'Não foi possível deletar a conta', 'error'),
-              });
-          }
+    const service = this.cargo === 'Coordenador' ? this.coordenadorService : this.professorService;
+
+    Swal.fire({
+      title: 'Tem certeza que deseja excluir sua conta?',
+      text: 'Esta ação não pode ser desfeita!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, deletar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        service.delete(this.usuarioLogado!.id as number).subscribe({
+          next: () => {
+            Swal.fire(
+              'Deletado!',
+              'Sua conta foi removida com sucesso.',
+              'success'
+            );
+            this.userDataService.clearCoordenador();
+            this.userDataService.clearProfessor();
+            this.router.navigate(['/login']);
+          },
+          error: (res: any) =>
+            Swal.fire('Erro', res.error?.message || 'Não foi possível deletar a conta', 'error'),
         });
+      }
+    });
   }
 }

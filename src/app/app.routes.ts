@@ -21,13 +21,13 @@ import { AlunoPerfilComponent } from './components/telas-internas/aluno-principa
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { MentorEditComponent } from './components/telas-internas/mentor/mentor-edit/mentor-edit.component';
 import { GrupoComponent } from './components/telas-internas/grupo/grupo.component';
-import { CoordenacaoPerfilComponent } from './components/coordenacao/perfilcoordenacao/coordenacao-perfil/coordenacao-perfil.component';
 
 import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
 import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
 import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
 import { ProjetosMentorComponent } from './components/telas-internas/mentor/projetos-mentor/projetos-mentor.component';
 import { CadastroProfessorComponent } from './components/coordenacao/cadastro-professor/cadastro-professor.component';
+import { FuncionarioComponent } from './components/coordenacao/perfilcoordenacao/coordenacao-perfil/coordenacao-perfil.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -87,9 +87,11 @@ export const routes: Routes = [
     component: ProjetosMentorComponent
   },
 
+  { path: 'cadastro-coordenacao/:email', component: CadastroCoordenacaoComponent},
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
+  { path: 'cadastro-professor/:email', component: CadastroProfessorComponent },
   { path: 'cadastro-professor', component: CadastroProfessorComponent},
-  { path: 'coordenador-perfil', component: CoordenacaoPerfilComponent},
+  { path: 'funcionario-perfil', component: FuncionarioComponent},
 
  {path: 'visual-projeto', component: VisualProjetoComponent},
  {path: 'criar-projeto', component: CriarProjetoComponent},

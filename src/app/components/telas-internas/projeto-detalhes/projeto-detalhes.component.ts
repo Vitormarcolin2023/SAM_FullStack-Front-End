@@ -5,13 +5,14 @@ import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas
 import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 import { ActivatedRoute } from '@angular/router';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
+import { NavbarComponent } from '../../design/navbar/navbar.component';
 
 @Component({
   selector: 'app-projeto-detalhes',
   templateUrl: './projeto-detalhes.component.html',
   styleUrl: './projeto-detalhes.component.scss',
   standalone: true,
-  imports: [CommonModule, NavbarTelasInternasComponent, SidebarComponent],
+  imports: [CommonModule],
 })
 export class ProjetoDetalhesComponent implements OnInit {
   projeto!: Projeto;

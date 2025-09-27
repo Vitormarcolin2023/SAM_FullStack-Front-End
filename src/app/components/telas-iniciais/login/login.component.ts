@@ -85,7 +85,10 @@ export class LoginComponent {
             this.router.navigate(['/aluno/aluno-bem-vindo']);
             break;
           case 'COORDENADOR':
-            this.router.navigate(['coordenador-perfil']);
+            this.router.navigate(['funcionario-perfil']);
+            break;
+          case 'PROFESSOR':
+            this.router.navigate(['funcionario-perfil']);
             break;
         }
         this.isLoading = false;

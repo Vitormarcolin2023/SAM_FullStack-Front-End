@@ -1,97 +1,135 @@
-import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  FormArray,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProfessorService } from '../../../services/professor/professor.service';
 import { CursosService } from '../../../services/cursos.service';
 import { UserdataService } from '../../../services/coordenacao/userdata.service';
+import Swal from 'sweetalert2';
+import { Subscription, Observable } from 'rxjs';
+import { NavbarComponent } from '../../design/navbar/navbar.component';
 import { Curso } from '../../../models/curso/curso';
-import { Router } from '@angular/router';
-import { NavbarComponent } from "../../design/navbar/navbar.component";
 
 @Component({
   selector: 'app-cadastro-professor',
-  imports: [NavbarComponent, ReactiveFormsModule, NavbarComponent],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent ],
   templateUrl: './cadastro-professor.component.html',
-  styleUrl: './cadastro-professor.component.scss'
+  styleUrl: './cadastro-professor.component.scss',
 })
-export class CadastroProfessorComponent {
+export class CadastroProfessorComponent implements OnInit, OnDestroy {
   cadastroProfessorForm!: FormGroup;
   professorService = inject(ProfessorService);
   cursoService = inject(CursosService);
   userDataService = inject(UserdataService);
+  route = inject(ActivatedRoute);
 
   cursosDisponiveis: Curso[] = [];
-  professorId!: number;
+  professorIdentifier: string | null = null; 
+  isEdicao: boolean = false;
+  private routeSubscription!: Subscription;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
-    this.cadastroProfessorForm = this.formBuilder.group({
-      nome: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.minLength(6)]], 
-      cursosIds: this.formBuilder.array([], Validators.required),
-    });
-    
-    this.cadastroProfessorForm.get('senha')?.addValidators(Validators.required);
-    this.cadastroProfessorForm.get('senha')?.updateValueAndValidity();
-
-
     this.loadCursosDisponiveis();
-    this.buscarDadosDoProfessorLogado();
+    this.checkRouteParams();
   }
 
-  private buscarDadosDoProfessorLogado(): void {
-    const token = localStorage.getItem('token');
-    let emailDoToken = '';
+  ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+  }
 
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        emailDoToken = payload.email ?? payload.sub ?? ''; 
-      } catch (e) {
-        console.error('Erro ao decodificar o token:', e);
-        return;
+  private setupForm(isEdicao: boolean): void {
+    const senhaValidators = [Validators.minLength(6)];
+    if (!isEdicao) {
+      senhaValidators.push(Validators.required);
+    }
+
+    this.cadastroProfessorForm = this.formBuilder.group({
+      nome: ['', Validators.required],
+      email: [{ value: '', disabled: isEdicao }, [Validators.required, Validators.email]], 
+      senha: ['', senhaValidators], 
+      cursosIds: this.formBuilder.array([], Validators.required),
+    });
+  }
+
+  private checkRouteParams(): void {
+    this.routeSubscription = this.route.paramMap.subscribe(params => {
+      const email = params.get('email'); 
+      const id = params.get('id');
+
+      const identifier = email || id; 
+
+      if (identifier) {
+        this.professorIdentifier = identifier;
+        this.isEdicao = true;
+        console.log(`Modo: Edição de Professor com identificador ${this.professorIdentifier} ativo.`);
+
+        this.setupForm(true);
+        this.loadProfessor(this.professorIdentifier);
+      } else {
+        this.isEdicao = false;
+        this.professorIdentifier = null;
+        this.setupForm(false);
+        console.log('Modo: Cadastro de novo Professor ativo.');
       }
+    });
+  }
+  
+  private loadProfessor(identifier: string): void {
+    
+    let loadObservable: Observable<any>;
+    
+    if (isNaN(Number(identifier))) {
+      loadObservable = this.professorService.getProfessorPorEmail(identifier);
+    } else {
+      loadObservable = this.professorService.getProfessorPorId(Number(identifier)); 
     }
 
-    if (emailDoToken) {
-      this.professorService.getProfessorPorEmail(emailDoToken).subscribe({
-        next: (professor: any) => {
-          if (professor) {
-            this.carregarDadosParaEdicao(professor);
-          } else {
-            console.log('Professor não encontrado para edição.');
+    loadObservable.subscribe({
+      next: (professor: any) => {
+        if (professor) {
+          if (professor.id) {
+              this.professorIdentifier = professor.id.toString(); 
           }
-        },
-        error: (erro: any) => {
-          console.error('Erro ao buscar dados do professor:', erro);
-        },
-      });
-    } else {
-      console.log('Não foi possível obter o email. Modo de cadastro ativo.');
-    }
+          this.carregarDadosParaEdicao(professor);
+        } else {
+          console.error(`Professor com identificador ${identifier} não encontrado.`);
+          Swal.fire('Erro', 'Professor não encontrado para edição.', 'error');
+          this.router.navigate(['/cadastro-professor']); 
+        }
+      },
+      error: (error: any) => {
+        console.error('Erro ao buscar Professor:', error);
+        Swal.fire('Erro', 'Erro ao carregar dados do Professor.', 'error');
+      },
+    });
   }
 
   carregarDadosParaEdicao(professor: any): void {
-    console.log('Dados do professor para edição:', professor);
-
-    this.professorId = professor.id;
-
     this.cadastroProfessorForm.patchValue({
       nome: professor.nome,
       email: professor.email,
     });
-
-    this.cadastroProfessorForm.get('senha')?.clearValidators();
-    this.cadastroProfessorForm.get('senha')?.updateValueAndValidity();
 
     const cursosFormArray = this.cursosFormArray;
     cursosFormArray.clear();
 
     const cursosDoProfessor =
       professor.cursosIds ||
-      (professor.cursos ? professor.cursos.map((c: any) => c.id) : []);
-
+      (professor.cursos
+        ? professor.cursos.map((c: any) => c.id).filter((id: number) => !!id)
+        : []);
+        
     if (cursosDoProfessor && Array.isArray(cursosDoProfessor)) {
       cursosDoProfessor.forEach((cursoId: number) => {
         cursosFormArray.push(this.formBuilder.control(cursoId));
@@ -103,15 +141,13 @@ export class CadastroProfessorComponent {
     this.cursoService.getCursos().subscribe({
       next: (cursos) => {
         this.cursosDisponiveis = cursos;
-        const professorLogado = this.userDataService.getProfessor();
-        if (professorLogado) {
-          this.carregarDadosParaEdicao(professorLogado);
-        }
       },
       error: (err) => {
         console.error('Erro ao buscar cursos:', err);
-        alert(
-          'Não foi possível carregar a lista de cursos. Tente novamente mais tarde.'
+        Swal.fire(
+          'Erro',
+          'Não foi possível carregar a lista de cursos. Tente novamente mais tarde.',
+          'error'
         );
       },
     });
@@ -138,7 +174,7 @@ export class CadastroProfessorComponent {
     this.cursosFormArray.markAsTouched(); 
   }
 
-  hasError(controlName: string, errorName: string) {
+  hasError(controlName: string, errorName: string): boolean | undefined {
     return (
       this.cadastroProfessorForm.get(controlName)?.hasError(errorName) &&
       this.cadastroProfessorForm.get(controlName)?.touched
@@ -146,58 +182,53 @@ export class CadastroProfessorComponent {
   }
 
   onSubmit() {
-    if (this.professorId && !this.cadastroProfessorForm.get('senha')?.value) {
-      this.cadastroProfessorForm.get('senha')?.clearValidators();
-      this.cadastroProfessorForm.get('senha')?.updateValueAndValidity();
-    } else if (!this.professorId) {
-       this.cadastroProfessorForm.get('senha')?.setValidators([Validators.required, Validators.minLength(6)]);
-       this.cadastroProfessorForm.get('senha')?.updateValueAndValidity();
+    this.cadastroProfessorForm.markAllAsTouched();
+    if (!this.cadastroProfessorForm.valid) {
+        console.log('Formulário Inválido.');
+        return;
+    }
+
+    const formValue = this.cadastroProfessorForm.getRawValue(); 
+    
+    const cursosParaBackend = formValue.cursosIds.map((id: number) => ({ id }));
+
+    const professorData: any = {
+      nome: formValue.nome,
+      email: formValue.email,
+      cursos: cursosParaBackend,
+    };
+
+    if (!this.isEdicao || (this.isEdicao && formValue.senha)) {
+        professorData.senha = formValue.senha;
     }
 
 
-    if (this.cadastroProfessorForm.valid) {
-      const professorData = this.cadastroProfessorForm.value;
-
-      if (this.professorId) {
-        if (!professorData.senha) {
-            delete professorData.senha;
-        }
-
-        const dadosParaAtualizar = {
-          ...professorData,
-          id: this.professorId,
-        };
+    if (this.isEdicao && this.professorIdentifier) {
+        professorData.id = Number(this.professorIdentifier);
         
-        console.log('Dados para atualização (Professor):', dadosParaAtualizar);
-
-        this.professorService.update(dadosParaAtualizar).subscribe({
+        this.professorService.update(professorData).subscribe({
           next: () => {
-            console.log('Professor atualizado com sucesso!');
-            this.router.navigate(['/tela-inicial']);
+            Swal.fire('Sucesso!', 'Professor atualizado com sucesso.', 'success');
+            this.router.navigate(['/funcionario-perfil']); 
           },
-          error: (error: any) => {
+          error: (error) => {
             console.error('Erro na atualização:', error);
-            alert(
-              'Houve um erro na atualização. Por favor, verifique os dados e tente novamente.'
-            );
+            Swal.fire('Erro', 'Houve um erro na atualização. Verifique os dados.', 'error');
           },
         });
-      } else {
-        this.professorService.save(professorData).subscribe({
-          next: (response: any) => {
-            console.log('Professor cadastrado com sucesso!', response);
-            this.router.navigate(['']);
-          },
-          error: (error: any) => {
-            console.error('Erro no cadastro:', error);
-            alert(
-              'Houve um erro no cadastro. Por favor, verifique os dados e tente novamente.'
-            );
-          },
-        });
-      }
     } else {
-      this.cadastroProfessorForm.markAllAsTouched();
+      delete professorData.cursosIds; 
+      
+      this.professorService.save(professorData).subscribe({
+        next: (response) => {
+          Swal.fire('Sucesso!', 'Professor cadastrado com sucesso!', 'success');
+          this.router.navigate(['']);
+        },
+        error: (error) => {
+          console.error('Erro no cadastro:', error);
+          Swal.fire('Erro', 'Houve um erro no cadastro. Verifique os dados.', 'error');
+        },
+      });
     }
   }
 

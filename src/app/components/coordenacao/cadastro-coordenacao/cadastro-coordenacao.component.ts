@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,124 +7,127 @@ import {
   Validators,
   FormArray,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { CursosService } from '../../../services/cursos.service';
-import { Curso } from '../../../models/curso/curso';
 import { UserdataService } from '../../../services/coordenacao/userdata.service';
 import { NavbarComponent } from "../../design/navbar/navbar.component";
+import Swal from 'sweetalert2';
+import { Subscription, Observable } from 'rxjs';
+import { Curso } from '../../../models/curso/curso';
 
 @Component({
   selector: 'app-cadastro-coordenacao',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, ReactiveFormsModule ],
   templateUrl: './cadastro-coordenacao.component.html',
   styleUrl: './cadastro-coordenacao.component.scss',
 })
-export class CadastroCoordenacaoComponent implements OnInit {
+export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
   cadastroCoordenadorForm!: FormGroup;
   coordenadorService = inject(CoordenadorService);
   cursoService = inject(CursosService);
   userDataService = inject(UserdataService);
+  route = inject(ActivatedRoute); 
 
   cursosDisponiveis: Curso[] = [];
-  coordenadorId!: number;
+  coordenadorIdentifier: string | null = null;
+  isEdicao: boolean = false;
+  private routeSubscription!: Subscription;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
-    this.cadastroCoordenadorForm = this.formBuilder.group({
-      nome: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.minLength(6)]],
-      cursosIds: this.formBuilder.array([], Validators.required),
-    });
-
     this.loadCursosDisponiveis();
-    this.buscarDadosDoCoordenadorLogado();
+    this.checkRouteParams();
   }
 
-  private buscarDadosDoCoordenadorLogado(): void {
-    const token = localStorage.getItem('token');
-    let emailDoToken = '';
+  ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+  }
 
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        emailDoToken = payload.email ?? payload.sub ?? '';
-      } catch (e) {
-        console.error('Erro ao decodificar o token:', e);
-        return;
+  private setupForm(isEdicao: boolean): void {
+    const senhaValidators = [Validators.minLength(6)];
+    if (!isEdicao) {
+      senhaValidators.push(Validators.required);
+    }
+
+    this.cadastroCoordenadorForm = this.formBuilder.group({
+      nome: ['', Validators.required],
+      email: [{ value: '', disabled: isEdicao }, [Validators.required, Validators.email]], 
+      senha: ['', senhaValidators], 
+      cursosIds: this.formBuilder.array([], Validators.required),
+    });
+  }
+
+  private checkRouteParams(): void {
+    this.routeSubscription = this.route.paramMap.subscribe(params => {
+      const email = params.get('email'); 
+      const id = params.get('id');
+
+      const identifier = email || id;
+
+      if (identifier) {
+        this.coordenadorIdentifier = identifier;
+        this.isEdicao = true;
+        console.log(`Modo: Edição de Coordenador com identificador ${this.coordenadorIdentifier} ativo.`);
+
+        this.setupForm(true);
+        this.loadCoordenador(this.coordenadorIdentifier); 
+      } else {
+        this.isEdicao = false;
+        this.coordenadorIdentifier = null;
+        this.setupForm(false);
+        console.log('Modo: Cadastro de novo Coordenador ativo.');
       }
-    }
-
-    if (emailDoToken) {
-      this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
-        next: (coordenador) => {
-          if (coordenador) {
-            console.log('Dados do coordenador para edição:', coordenador);
-            this.coordenadorId = coordenador.id;
-
-            this.cadastroCoordenadorForm.patchValue({
-              nome: coordenador.nome,
-              email: coordenador.email,
-            });
-
-            this.cadastroCoordenadorForm.get('senha')?.clearValidators();
-            this.cadastroCoordenadorForm.get('senha')?.updateValueAndValidity();
-
-            const cursosFormArray = this.cadastroCoordenadorForm.controls[
-              'cursosIds'
-            ] as FormArray;
-            cursosFormArray.clear();
-
-            const cursosDoCoordenador =
-              coordenador.cursosIds ||
-              (coordenador.cursos
-                ? coordenador.cursos.map((c: any) => c.id)
-                : []);
-
-            if (cursosDoCoordenador && Array.isArray(cursosDoCoordenador)) {
-              cursosDoCoordenador.forEach((cursoId: number) => {
-                cursosFormArray.push(this.formBuilder.control(cursoId));
-              });
-            }
-          } else {
-            console.log('Coordenador não encontrado para edição.');
-          }
-        },
-        error: (erro) => {
-          console.error('Erro ao buscar dados do coordenador:', erro);
-        },
-      });
+    });
+  }
+  
+  private loadCoordenador(identifier: string): void {
+    
+    let loadObservable: Observable<any>;
+    
+    if (isNaN(Number(identifier))) {
+      loadObservable = this.coordenadorService.getCoordenadorPorEmail(identifier);
     } else {
-      console.log(
-        'Não foi possível obter o email para buscar o coordenador. Modo de cadastro ativo.'
-      );
+      loadObservable = this.coordenadorService.getCoordenadorPorId(Number(identifier)); 
     }
+
+    loadObservable.subscribe({
+      next: (coordenador: any) => {
+        if (coordenador) {
+          if (coordenador.id) {
+              this.coordenadorIdentifier = coordenador.id.toString(); 
+          }
+          this.carregarDadosParaEdicao(coordenador);
+        } else {
+          console.error(`Coordenador com identificador ${identifier} não encontrado.`);
+          Swal.fire('Erro', 'Coordenador não encontrado para edição.', 'error');
+          this.router.navigate(['/cadastro-coordenacao']); 
+        }
+      },
+      error: (error: any) => {
+        console.error('Erro ao buscar Coordenador:', error);
+        Swal.fire('Erro', 'Erro ao carregar dados do Coordenador.', 'error');
+      },
+    });
   }
 
   carregarDadosParaEdicao(coordenador: any): void {
-    console.log('Dados do coordenador para edição:', coordenador);
-
-    this.coordenadorId = coordenador.id;
-
+    
     this.cadastroCoordenadorForm.patchValue({
       nome: coordenador.nome,
       email: coordenador.email,
     });
-
-    this.cadastroCoordenadorForm.get('senha')?.clearValidators();
-    this.cadastroCoordenadorForm.get('senha')?.updateValueAndValidity();
-
-    const cursosFormArray = this.cadastroCoordenadorForm.controls[
-      'cursosIds'
-    ] as FormArray;
+    
+    const cursosFormArray = this.cursosFormArray;
     cursosFormArray.clear();
 
     const cursosDoCoordenador =
       coordenador.cursosIds ||
-      (coordenador.cursos ? coordenador.cursos.map((c: any) => c.id) : []);
+      (coordenador.cursos ? coordenador.cursos.map((c: any) => c.id).filter((id: number) => !!id) : []);
 
     if (cursosDoCoordenador && Array.isArray(cursosDoCoordenador)) {
       cursosDoCoordenador.forEach((cursoId: number) => {
@@ -137,17 +140,13 @@ export class CadastroCoordenacaoComponent implements OnInit {
     this.cursoService.getCursos().subscribe({
       next: (cursos) => {
         this.cursosDisponiveis = cursos;
-
-        const coordenadorLogado = this.userDataService.getCoordenador();
-        if (coordenadorLogado) {
-          this.carregarDadosParaEdicao(coordenadorLogado);
-          console.log(coordenadorLogado);
-        }
       },
       error: (err) => {
         console.error('Erro ao buscar cursos:', err);
-        alert(
-          'Não foi possível carregar a lista de cursos. Tente novamente mais tarde.'
+        Swal.fire(
+          'Erro',
+          'Não foi possível carregar a lista de cursos. Tente novamente mais tarde.',
+          'error'
         );
       },
     });
@@ -171,9 +170,10 @@ export class CadastroCoordenacaoComponent implements OnInit {
         this.cursosFormArray.removeAt(index);
       }
     }
+    this.cursosFormArray.markAsTouched(); 
   }
 
-  hasError(controlName: string, errorName: string) {
+  hasError(controlName: string, errorName: string): boolean | undefined {
     return (
       this.cadastroCoordenadorForm.get(controlName)?.hasError(errorName) &&
       this.cadastroCoordenadorForm.get(controlName)?.touched
@@ -181,43 +181,53 @@ export class CadastroCoordenacaoComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.cadastroCoordenadorForm.valid) {
-      const coordenadorData = this.cadastroCoordenadorForm.value;
+    this.cadastroCoordenadorForm.markAllAsTouched();
+    if (!this.cadastroCoordenadorForm.valid) {
+        console.log('Formulário Inválido.');
+        return;
+    }
+    
+    const formValue = this.cadastroCoordenadorForm.getRawValue(); 
+    
+    const coordenadorData: any = {
+      nome: formValue.nome,
+      email: formValue.email,
+    };
 
-      if (this.coordenadorId) {
-        const dadosParaAtualizar = {
-          ...coordenadorData,
-          id: this.coordenadorId,
-        };
-        
-        console.log(dadosParaAtualizar);
+    coordenadorData.cursosIds = formValue.cursosIds;
 
-        this.coordenadorService.update(dadosParaAtualizar).subscribe({
-          next: () => {
-            console.log('Coordenador atualizado com sucesso!');
-            this.router.navigate(['/tela-inicial']);
-          },
-          error: () => {
-            console.error('Erro na atualização:');
-            alert(
-              'Houve um erro na atualização. Por favor, verifique os dados e tente novamente.'
-            );
-          },
-        });
-      } else {
-        this.coordenadorService.save(coordenadorData).subscribe({
-          next: (response) => {
-            console.log('Coordenador cadastrado com sucesso!', response);
-            this.router.navigate(['/tela-inicial']);
-          },
-          error: (error) => {
-            console.error('Erro no cadastro:', error);
-            alert(
-              'Houve um erro no cadastro. Por favor, verifique os dados e tente novamente.'
-            );
-          },
-        });
-      }
+
+    if (!this.isEdicao || (this.isEdicao && formValue.senha)) {
+        coordenadorData.senha = formValue.senha;
+    }
+
+
+    if (this.isEdicao && this.coordenadorIdentifier) {
+      coordenadorData.id = Number(this.coordenadorIdentifier);
+      
+      this.coordenadorService.update(coordenadorData).subscribe({
+        next: () => {
+          console.log('Coordenador atualizado com sucesso!');
+          Swal.fire('Sucesso!', 'Coordenador atualizado com sucesso.', 'success');
+          this.router.navigate(['/funcionario-perfil']);
+        },
+        error: (error) => {
+          console.error('Erro na atualização:', error);
+          Swal.fire('Erro', 'Houve um erro na atualização. Verifique os dados.', 'error');
+        },
+      });
+    } else {
+      this.coordenadorService.save(coordenadorData).subscribe({
+        next: (response) => {
+          console.log('Coordenador cadastrado com sucesso!', response);
+          Swal.fire('Sucesso!', 'Coordenador cadastrado com sucesso!', 'success');
+          this.router.navigate(['']);
+        },
+        error: (error) => {
+          console.error('Erro no cadastro:', error);
+          Swal.fire('Erro', 'Houve um erro no cadastro. Verifique os dados.', 'error');
+        },
+      });
     }
   }
 
