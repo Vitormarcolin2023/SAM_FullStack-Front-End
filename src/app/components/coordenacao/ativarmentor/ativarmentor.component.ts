@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { Mentor } from '../../models/mentor/mentor';
-import { MentorService } from '../../services/mentores/mentores.service';
-import { CoordenadorService } from '../../services/coordenador.service';
-import { UserdataService } from '../../services/userdata.service';
-import { Curso } from '../../models/curso/curso';
+import { Mentor } from '../../../models/mentor/mentor';
+import { MentorService } from '../../../services/mentores/mentores.service';
+import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
+import { UserdataService } from '../../../services/coordenacao/userdata.service';
+import { Curso } from '../../../models/curso/curso';
 
 @Component({
   selector: 'app-ativarmentor',

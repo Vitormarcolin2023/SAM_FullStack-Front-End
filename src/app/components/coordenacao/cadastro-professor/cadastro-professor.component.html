@@ -4,16 +4,21 @@
     <div class="col-lg-10">
       <div class="card p-4 shadow-sm border-0 perfil-card">
         <div class="edit-body">
-          <h3>Cadastro de Coordenador</h3>
+          <h3>Cadastro de Professor</h3>
 
-          <form [formGroup]="cadastroCoordenadorForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="cadastroProfessorForm" (ngSubmit)="onSubmit()">
             <div class="form-scroll-content">
               <div class="form-step">
                 <h4 class="mb-3">Dados de Acesso</h4>
-                
+
                 <div class="mb-3">
                   <label class="form-label" for="nome">Nome</label>
-                  <input id="nome" type="text" formControlName="nome" class="form-control" />
+                  <input
+                    id="nome"
+                    type="text"
+                    formControlName="nome"
+                    class="form-control"
+                  />
                   @if(hasError('nome', 'required')){
                   <small class="error-message">Nome é obrigatório.</small>
                   }
@@ -21,17 +26,29 @@
 
                 <div class="mb-3">
                   <label class="form-label" for="email">Email</label>
-                  <input id="email" type="email" formControlName="email" class="form-control" />
+                  <input
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    class="form-control"
+                  />
                   @if(hasError('email', 'required')){
                   <small class="error-message">Email é obrigatório.</small>
                   } @if(hasError('email', 'email')){
-                  <small class="error-message">Formato de email inválido.</small>
+                  <small class="error-message"
+                    >Formato de email inválido.</small
+                  >
                   }
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label" for="senha">Senha</label>
-                  <input id="senha" type="password" formControlName="senha" class="form-control" />
+                  <input
+                    id="senha"
+                    type="password"
+                    formControlName="senha"
+                    class="form-control"
+                  />
                   @if(hasError('senha', 'required')){
                   <small class="error-message">Senha é obrigatória.</small>
                   } @if(hasError('senha', 'minlength')){
@@ -45,9 +62,12 @@
               <div class="form-step">
                 <h4 class="mb-3">Vínculo com Cursos</h4>
                 <div class="mb-3">
-                  <label class="form-label" for="cursos">Cursos Disponíveis</label>
+                  <label class="form-label" for="cursos"
+                    >Cursos Disponíveis</label
+                  >
                   <div class="checkbox-group">
-                    <div *ngFor="let curso of cursosDisponiveis" class="checkbox-item">
+                    @for (curso of cursosDisponiveis; track curso.id) {
+                    <div class="checkbox-item">
                       <input
                         type="checkbox"
                         id="curso-{{ curso.id }}"
@@ -57,9 +77,12 @@
                       />
                       <label for="curso-{{ curso.id }}">{{ curso.nome }}</label>
                     </div>
+                    }
                   </div>
-                  @if(hasError('cursos', 'required')){
-                  <small class="error-message">Selecione pelo menos um curso.</small>
+                  @if(hasError('cursosIds', 'required')){
+                  <small class="error-message"
+                    >Selecione pelo menos um curso.</small
+                  >
                   }
                 </div>
               </div>
@@ -67,10 +90,16 @@
 
             <div class="form-buttons-container">
               <div class="buttons-row">
-                <button type="button" class="btn btn-back btn-block" (click)="goToLanding()">
+                <button
+                  type="button"
+                  class="btn btn-back btn-block"
+                  (click)="goToLanding()"
+                >
                   Voltar à Home
                 </button>
-                <button type="submit" class="btn btn-block btn-color">Finalizar Cadastro</button>
+                <button type="submit" class="btn btn-block btn-color">
+                  Finalizar Cadastro
+                </button>
               </div>
             </div>
           </form>

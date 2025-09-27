@@ -11,7 +11,7 @@ import { MentorPerfilComponent } from './components/telas-internas/mentor/mentor
 import { mentorStatusGuard } from './guards/mentor-status.guard';
 import { CriarGrupoComponent } from './components/telas-internas/grupo/criar-grupo/criar-grupo.component';
 
-import { AtivarmentorComponent } from './components/coordenacao/ativarmentor.component';
+import { AtivarmentorComponent } from './components/coordenacao/ativarmentor/ativarmentor.component';
 import { VisualizarprojetosComponent } from './components/coordenacao/visualizarprojetos/visualizarprojetos.component';
 import { CadastroCoordenacaoComponent } from './components/coordenacao/cadastro-coordenacao/cadastro-coordenacao.component';
 import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
@@ -27,6 +27,7 @@ import { VisualProjetoComponent } from './components/telas-internas/visual-proje
 import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
 import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
 import { ProjetosMentorComponent } from './components/telas-internas/mentor/projetos-mentor/projetos-mentor.component';
+import { CadastroProfessorComponent } from './components/coordenacao/cadastro-professor/cadastro-professor.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -87,6 +88,7 @@ export const routes: Routes = [
   },
 
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
+  { path: 'cadastro-professor', component: CadastroProfessorComponent},
   { path: 'coordenador-perfil', component: CoordenacaoPerfilComponent},
 
  {path: 'visual-projeto', component: VisualProjetoComponent},

@@ -3,7 +3,7 @@ import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ProjetoDetalhesComponent } from '../../telas-internas/projeto-detalhes/projeto-detalhes.component';
-import { CoordenadorService } from '../../../services/coordenador.service';
+import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
 import { Coordenador } from '../../../models/coordenacao/coordenador';
 import { Projeto } from '../../../models/projeto/projeto';

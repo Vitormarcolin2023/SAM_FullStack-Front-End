@@ -8,17 +8,16 @@ import {
   FormArray,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CoordenadorService } from '../../../services/coordenador.service';
+import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { CursosService } from '../../../services/cursos.service';
 import { Curso } from '../../../models/curso/curso';
-import { UserdataService } from '../../../services/userdata.service';
-import { SidebarComponent } from "../../design/sidebar/sidebar.component";
-import { NavbarTelasInternasComponent } from "../../design/navbar-telas-internas/navbar-telas-internas.component";
+import { UserdataService } from '../../../services/coordenacao/userdata.service';
+import { NavbarComponent } from "../../design/navbar/navbar.component";
 
 @Component({
   selector: 'app-cadastro-coordenacao',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SidebarComponent, NavbarTelasInternasComponent],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, NavbarComponent],
   templateUrl: './cadastro-coordenacao.component.html',
   styleUrl: './cadastro-coordenacao.component.scss',
 })

@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Coordenador } from '../../../../models/coordenacao/coordenador';
 import { Router } from '@angular/router';
-import { CoordenadorService } from '../../../../services/coordenador.service';
+import { CoordenadorService } from '../../../../services/coordenacao/coordenador.service';
 import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { Curso } from '../../../../models/curso/curso';
-import { UserdataService } from '../../../../services/userdata.service';
+import { UserdataService } from '../../../../services/coordenacao/userdata.service';
 import Swal from 'sweetalert2';
 
 @Component({
