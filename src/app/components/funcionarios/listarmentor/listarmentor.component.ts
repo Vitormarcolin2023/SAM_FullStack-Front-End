@@ -8,10 +8,10 @@ import { Curso } from '../../../models/curso/curso';
 @Component({
   selector: 'app-ativarmentor',
   imports: [],
-  templateUrl: './ativarmentor.component.html',
-  styleUrl: './ativarmentor.component.scss',
+  templateUrl: './listarmentor.component.html',
+  styleUrl: './listarmentor.component.scss',
 })
-export class AtivarmentorComponent {
+export class ListarMentorComponent {
   mentores: Mentor[] = [];
   coordenador: any;
   areasCoordenador: string[] = [];

@@ -36,12 +36,13 @@ export class SidebarComponent {
         this.router.navigate(['/aluno/aluno-perfil']);
         break;
       case 'COORDENADOR':
-        this.router.navigate(['/coordenador-perfil'])
+        this.router.navigate(['/funcionario-perfil'])
         break;
       case 'MENTOR':
         this.router.navigate(["/mentor-perfil"]);
       break;
       case 'PROFESSOR':
+        this.router.navigate(['/funcionario-perfil'])
         break;
     }
   }

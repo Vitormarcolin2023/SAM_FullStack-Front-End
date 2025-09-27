@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
-import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
-import { UserdataService } from '../../../../services/coordenacao/userdata.service';
-import { ProfessorService } from '../../../../services/professor/professor.service';
-import { CoordenadorService } from '../../../../services/coordenacao/coordenador.service';
+import { SidebarComponent } from '../../design/sidebar/sidebar.component';
+import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
+import { UserdataService } from '../../../services/coordenacao/userdata.service';
+import { ProfessorService } from '../../../services/professor/professor.service';
+import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import Swal from 'sweetalert2';
 
-import { Coordenador } from '../../../../models/coordenacao/coordenador';
-import { Professor } from '../../../../models/professor/professor';
-import { Curso } from '../../../../models/curso/curso';
+import { Coordenador } from '../../../models/coordenacao/coordenador';
+import { Professor } from '../../../models/professor/professor';
+import { Curso } from '../../../models/curso/curso';
 
 type UsuarioPerfil = Coordenador | Professor;
 
@@ -18,8 +18,8 @@ type UsuarioPerfil = Coordenador | Professor;
   selector: 'app-funcionario-perfil',
   standalone: true,
   imports: [SidebarComponent, NavbarTelasInternasComponent, CommonModule],
-  templateUrl: './coordenacao-perfil.component.html',
-  styleUrl: './coordenacao-perfil.component.scss',
+  templateUrl: './funcionario-perfil.component.html',
+  styleUrl: './funcionario-perfil.component.scss',
 })
 export class FuncionarioComponent implements OnInit {
   usuarioLogado: UsuarioPerfil | null = null;
