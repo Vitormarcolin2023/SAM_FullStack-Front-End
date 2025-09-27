@@ -5,13 +5,16 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ProjetoDetalhesComponent } from '../../telas-internas/projeto-detalhes/projeto-detalhes.component';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
+import { ProfessorService } from '../../../services/professor/professor.service';
 import { Coordenador } from '../../../models/coordenacao/coordenador';
+import { Professor } from '../../../models/professor/professor';
 import { Projeto } from '../../../models/projeto/projeto';
 import { DatePipe } from '@angular/common';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-visualizarprojetos',
+  standalone: true,
   imports: [
     NavbarTelasInternasComponent,
     SidebarComponent,
@@ -28,15 +31,18 @@ export class VisualizarprojetosComponent {
 
   coordenadorService = inject(CoordenadorService);
   projetoService = inject(ProjetoService);
+  professorService = inject(ProfessorService);
+
   coordenador!: Coordenador;
+  professor!: Professor;
   projetos: Projeto[] = [];
-  coordenadorId!: number;
+  perfilLogado: 'coordenador' | 'professor' | null = null;
 
   ngOnInit() {
-    this.buscarCoordenador();
+    this.carregarDadosDoUsuarioLogado();
   }
 
-  private buscarCoordenador(): void {
+  private carregarDadosDoUsuarioLogado(): void {
     const token = localStorage.getItem('token');
     let emailDoToken = '';
 
@@ -50,49 +56,84 @@ export class VisualizarprojetosComponent {
       }
     }
 
-    if (emailDoToken) {
-      this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
-        next: (coordenador) => {
-          if (coordenador) {
-            this.coordenadorId = coordenador.id;
+    if (!emailDoToken) {
+      console.log('Não foi possível obter o email para buscar o usuário.');
+      this.projetos = [];
+      return;
+    }
 
-            const primeiroCurso =
-              coordenador.cursos && coordenador.cursos.length > 0
-                ? coordenador.cursos[0]
-                : null;
+    this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
+      next: (coordenador) => {
+        if (coordenador && coordenador.id) {
+          this.perfilLogado = 'coordenador';
+          this.coordenador = coordenador;
+          console.log('Usuário encontrado como Coordenador.');
+          this.carregarProjetosDoCoordenador(coordenador);
+        } else {
+          this.buscarProfessor(emailDoToken);
+        }
+      },
+      error: (erro) => {
+        console.warn('Busca de Coordenador falhou, tentando buscar como Professor...');
+        this.buscarProfessor(emailDoToken);
+      },
+    });
+  }
 
-            const areaDeAtuacaoId = primeiroCurso?.areaDeAtuacao?.id;
+  private buscarProfessor(email: string): void {
+    this.professorService.getProfessorPorEmail(email).subscribe({
+      next: (professor) => {
+        if (professor && professor.id) {
+          this.perfilLogado = 'professor';
+          this.professor = professor;
+          console.log('Usuário encontrado como Professor.');
+          this.carregarProjetosDoProfessor(professor.id);
+        } else {
+          console.warn('Usuário não encontrado como Coordenador ou Professor.');
+          this.projetos = [];
+        }
+      },
+      error: (erro) => {
+        console.error('Erro ao buscar dados do professor:', erro);
+        this.projetos = [];
+      },
+    });
+  }
 
-            if (areaDeAtuacaoId) {
-              console.log('ID da Área de Atuação:', areaDeAtuacaoId);
-              this.carregarProjetosPorArea(areaDeAtuacaoId);
-            } else {
-              console.warn(
-                'O coordenador não tem cursos ou a área de atuação do curso não foi encontrada.'
-              );
-              this.projetos = [];
-            }
-          } else {
-            console.log('Coordenador não encontrado.');
-          }
+  private carregarProjetosDoCoordenador(coordenador: Coordenador): void {
+    const primeiroCurso =
+      coordenador.cursos && coordenador.cursos.length > 0
+        ? coordenador.cursos[0]
+        : null;
+
+    const areaDeAtuacaoId = primeiroCurso?.areaDeAtuacao?.id;
+
+    if (areaDeAtuacaoId) {
+      console.log('COORDENADOR: Carregando projetos pela Área de Atuação:', areaDeAtuacaoId);
+      
+      this.projetoService.buscarPorArea(areaDeAtuacaoId).subscribe({
+        next: (data) => {
+          this.projetos = data;
         },
-        error: (erro) => {
-          console.error('Erro ao buscar dados do coordenador:', erro);
+        error: (err) => {
+          console.error('Erro ao carregar projetos por área', err);
         },
       });
     } else {
-      console.log('Não foi possível obter o email para buscar o coordenador.');
+      console.warn('Coordenador não tem cursos válidos para carregar projetos.');
+      this.projetos = [];
     }
   }
 
-  carregarProjetosPorArea(areaId: number): void {
-    this.projetoService.buscarPorArea(areaId).subscribe({
+  private carregarProjetosDoProfessor(professorId: number): void {
+    console.log('PROFESSOR: Carregando projetos onde é associado (ID:', professorId, ')');
+    
+    this.projetoService.buscarPorProfessor(professorId).subscribe({ 
       next: (data) => {
         this.projetos = data;
-        console.log('Projetos carregados por área:', data);
       },
       error: (err) => {
-        console.error('Erro ao carregar projetos por área', err);
+        console.error('Erro ao carregar projetos do professor', err);
       },
     });
   }
