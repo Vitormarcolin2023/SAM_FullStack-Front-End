@@ -7,14 +7,16 @@
         <th scope="col">Telefone</th>
         <th scope="col">Área de Atuação</th>
         <th scope="col">Status</th>
-        <th scope="col">Ações</th>
+        @if (userRole === 'COORDENADOR') {
+          <th scope="col">Ações</th>
+        }
       </tr>
     </thead>
     <tbody>
       @for (mentor of mentores; track mentor.id) {
         @if ($index === 0 || mentores[$index - 1].statusMentor !== mentor.statusMentor) {
           <tr class="status-header">
-            <td colspan="7">
+            <td [attr.colspan]="userRole === 'COORDENADOR' ? 7 : 6">
               <h3>
                 @if (mentor.statusMentor === 'PENDENTE') {
                   Pendentes
@@ -48,17 +50,20 @@
               {{ mentor.statusMentor }}
             </span>
           </td>
-          <td>
-            @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
-              <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
-                Ativar
-              </button>
-            } @if (mentor.statusMentor === 'ATIVO') {
-              <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
-                Desativar
-              </button>
-            }
-          </td>
+          
+          @if (userRole === 'COORDENADOR') {
+            <td>
+              @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
+                <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
+                  Ativar
+                </button>
+              } @if (mentor.statusMentor === 'ATIVO') {
+                <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
+                  Desativar
+                </button>
+              }
+            </td>
+          }
         </tr>
       }
     </tbody>

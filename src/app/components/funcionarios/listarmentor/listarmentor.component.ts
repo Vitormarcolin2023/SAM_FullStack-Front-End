@@ -1,156 +1,208 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Mentor } from '../../../models/mentor/mentor';
 import { MentorService } from '../../../services/mentores/mentores.service';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { UserdataService } from '../../../services/coordenacao/userdata.service';
 import { Curso } from '../../../models/curso/curso';
+import { CommonModule } from '@angular/common';
+import { ProfessorService } from '../../../services/professor/professor.service'; 
+import { Professor } from '../../../models/professor/professor';
 
 @Component({
   selector: 'app-ativarmentor',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule], 
   templateUrl: './listarmentor.component.html',
   styleUrl: './listarmentor.component.scss',
 })
-export class ListarMentorComponent {
+export class ListarMentorComponent implements OnInit {
   mentores: Mentor[] = [];
-  coordenador: any;
-  areasCoordenador: string[] = [];
-
-  constructor() {}
+  usuario: any;
+  areasDeAtuacao: string[] = [];
+  
+  userRole: 'COORDENADOR' | 'PROFESSOR' | 'INDEFINIDO' = 'INDEFINIDO';
 
   mentorService = inject(MentorService);
   coordenadorService = inject(CoordenadorService);
   userDataService = inject(UserdataService);
+  professorService = inject(ProfessorService); 
 
   ngOnInit(): void {
-    this.buscarDadosCoordenador();
+    this.loadUserRoleAndData();
   }
 
-  private buscarDadosCoordenador(): void {
+  private getEmailFromToken(): string {
     const token = localStorage.getItem('token');
-    let emailDoToken = '';
-
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        emailDoToken = payload.email ?? payload.sub ?? '';
-        console.log('Email extraído do token:', emailDoToken);
+        return payload.email ?? payload.sub ?? '';
       } catch (e) {
         console.error('Erro ao decodificar o token:', e);
-        return;
+        return '';
       }
     }
-
-    if (emailDoToken) {
-      this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
-        next: (coordenador) => {
-          this.coordenador = coordenador;
-          console.log('Dados do coordenador:', this.coordenador);
-
-          if (coordenador.cursos && coordenador.cursos.length > 0) {
-            this.areasCoordenador = coordenador.cursos.map(
-              (curso: Curso) => curso.areaDeAtuacao.nome
-            );
-            console.log(
-              'Áreas de atuação do coordenador:',
-              this.areasCoordenador
-            );
-          }
-
-          this.userDataService.setCoordenador(coordenador);
-          this.listAll();
-        },
-        error: (erro) => {
-          console.error('Erro ao buscar dados do coordenador:', erro);
-          this.listAll();
-        },
-      });
-    } else {
-      console.error(
-        'Não foi possível obter o email para buscar o coordenador.'
-      );
-      this.listAll();
-    }
+    return '';
   }
 
-  listAll() {
-    this.mentorService.listAll().subscribe({
-      next: (mentores) => {
-        const mentoresFiltrados = mentores.filter(
-          (mentor) =>
-            mentor.areaDeAtuacao?.nome &&
-            this.areasCoordenador.includes(mentor.areaDeAtuacao.nome)
-        );
+  private loadUserRoleAndData(): void {
+    const emailDoToken = this.getEmailFromToken();
 
-        this.mentores = mentoresFiltrados.sort((a, b) => {
-          if (a.statusMentor === 'PENDENTE' && b.statusMentor !== 'PENDENTE') {
-            return -1;
+    if (!emailDoToken) {
+      console.error('Email não encontrado no token. Não é possível buscar o usuário.');
+      return; 
+    }
+
+    this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
+      next: (coordenador) => {
+        if (coordenador && coordenador.id) {
+          this.userRole = 'COORDENADOR';
+          this.usuario = coordenador;
+          
+          if (coordenador.cursos && coordenador.cursos.length > 0) {
+            this.areasDeAtuacao = coordenador.cursos
+              .map((curso: Curso) => curso.areaDeAtuacao?.nome)
+              .filter((nome: string | undefined): nome is string => !!nome);
           }
-          if (a.statusMentor !== 'PENDENTE' && b.statusMentor === 'PENDENTE') {
-            return 1;
-          }
-          if (a.statusMentor === 'ATIVO' && b.statusMentor === 'INATIVO') {
-            return -1;
-          }
-          if (a.statusMentor === 'INATIVO' && b.statusMentor === 'ATIVO') {
-            return 1;
-          }
-          return 0;
-        });
+          
+          this.userDataService.setCoordenador(coordenador);
+          this.loadMentors();
+        } else {
+          this.tryLoadProfessor(emailDoToken);
+        }
       },
-      error: (erro) => {
-        console.log('Ocorreu um erro!');
+      error: () => {
+        this.tryLoadProfessor(emailDoToken);
       },
     });
   }
 
+  private tryLoadProfessor(email: string): void {
+    
+    this.professorService.getProfessorPorEmail(email).subscribe({
+      next: (professor: Professor | null) => { 
+        if (professor && professor.id) {
+          this.userRole = 'PROFESSOR';
+          this.usuario = professor;
+          
+          if (professor.cursos && professor.cursos.length > 0) {
+             this.areasDeAtuacao = professor.cursos
+               .map((curso: Curso) => curso.areaDeAtuacao?.nome)
+               .filter((nome: string | undefined): nome is string => !!nome);
+          }
+          
+          this.loadMentors(); 
+        } else {
+          console.error('Usuário não encontrado ou função não reconhecida.');
+          this.userRole = 'INDEFINIDO';
+          this.loadMentors();
+        }
+      },
+      error: (erro) => {
+        console.error('Erro ao buscar dados do Professor. Perfil Indefinido:', erro);
+        this.userRole = 'INDEFINIDO';
+        this.loadMentors();
+      },
+    });
+  }
+
+  loadMentors() {
+    this.mentorService.listAll().subscribe({
+      next: (mentores) => {
+        let mentoresFiltrados: Mentor[] = [];
+        
+        if (this.userRole === 'COORDENADOR' || this.userRole === 'PROFESSOR') {
+          if (this.areasDeAtuacao.length > 0) {
+            mentoresFiltrados = mentores.filter(
+              (mentor) =>
+                mentor.areaDeAtuacao?.nome &&
+                this.areasDeAtuacao.includes(mentor.areaDeAtuacao.nome)
+            );
+          } else if (this.userRole === 'COORDENADOR') {
+            console.warn('[COORDENADOR] Nenhuma área de atuação definida para filtragem.');
+          } else {
+             console.warn('[PROFESSOR] Nenhuma área de atuação definida para filtragem.');
+          }
+        } else {
+          mentoresFiltrados = [];
+        }
+
+        this.mentores = mentoresFiltrados.sort((a, b) => {
+          const statusOrder = (status: string) => {
+            if (status === 'PENDENTE') return 1;
+            if (status === 'ATIVO') return 2;
+            if (status === 'INATIVO') return 3;
+            return 4;
+          };
+          return statusOrder(a.statusMentor) - statusOrder(b.statusMentor);
+        });
+      },
+      error: (erro) => {
+        console.error('Erro ao listar mentores:', erro);
+      },
+    });
+  }
+
+  private showAlert(message: string): void {
+    console.warn(`Notificação (Substituir por Modal/Toast): ${message}`);
+  }
+  
+  private showConfirmationModal(message: string): Promise<boolean> {
+    console.warn(`Confirmação (Substituir por Modal): ${message}`);
+    return Promise.resolve(true); 
+  }
+  
   ativarMentor(mentorId: number | undefined): void {
+    if (this.userRole !== 'COORDENADOR') {
+      this.showAlert('Apenas Coordenadores podem ativar mentores.');
+      return;
+    }
+    
     if (mentorId === undefined) {
-      console.error('Erro: ID do mentor não fornecido para ativação.');
-      alert('Não foi possível ativar o mentor. ID não encontrado.');
+      this.showAlert('Não foi possível ativar o mentor. ID não encontrado.');
       return;
     }
 
-    const confirmarAtivacao = confirm(
-      'Você tem certeza que deseja ativar este mentor?'
-    );
-
-    if (confirmarAtivacao) {
-      this.coordenadorService.ativarMentor(mentorId).subscribe({
-        next: () => {
-          console.log('Mentor ativado com sucesso!');
-          this.listAll();
-        },
-        error: (erro) => {
-          console.error('Erro ao ativar mentor:', erro);
-          alert('Ocorreu um erro e o mentor não pôde ser ativado.');
-        },
-      });
-    }
+    this.showConfirmationModal('Você tem certeza que deseja ativar este mentor?').then(confirmarAtivacao => {
+      if (confirmarAtivacao) {
+        this.coordenadorService.ativarMentor(mentorId).subscribe({
+          next: () => {
+            console.log('Mentor ativado com sucesso!');
+            this.loadMentors(); 
+          },
+          error: (erro) => {
+            console.error('Erro ao ativar mentor:', erro);
+            this.showAlert('Ocorreu um erro e o mentor não pôde ser ativado.');
+          },
+        });
+      }
+    });
   }
 
   desativarMentor(mentorId: number | undefined): void {
+    if (this.userRole !== 'COORDENADOR') {
+      this.showAlert('Apenas Coordenadores podem desativar mentores.');
+      return;
+    }
+    
     if (mentorId === undefined) {
-      console.error('Erro: ID do mentor não fornecido para desativação.');
-      alert('Não foi possível ativar o mentor. ID não encontrado.');
+      this.showAlert('Não foi possível desativar o mentor. ID não encontrado.');
       return;
     }
 
-    const confirmarAtivacao = confirm(
-      'Você tem certeza que deseja desativar este mentor?'
-    );
-
-    if (confirmarAtivacao) {
-      this.coordenadorService.inativarMentor(mentorId).subscribe({
-        next: () => {
-          console.log('Mentor desativado com sucesso!');
-          this.listAll();
-        },
-        error: () => {
-          console.error('Erro ao dessativar mentor:');
-          alert('Ocorreu um erro e o mentor não pôde ser ativado.');
-        },
-      });
-    }
+    this.showConfirmationModal('Você tem certeza que deseja desativar este mentor?').then(confirmarDesativacao => {
+      if (confirmarDesativacao) {
+        this.coordenadorService.inativarMentor(mentorId).subscribe({
+          next: () => {
+            console.log('Mentor desativado com sucesso!');
+            this.loadMentors(); 
+          },
+          error: (erro) => {
+            console.error('Erro ao desativar mentor:', erro);
+            this.showAlert('Ocorreu um erro e o mentor não pôde ser desativado.');
+          },
+        });
+      }
+    });
   }
 }
