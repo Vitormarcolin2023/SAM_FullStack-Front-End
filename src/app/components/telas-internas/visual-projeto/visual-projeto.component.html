@@ -1,36 +1,45 @@
 <app-navbar-telas-internas></app-navbar-telas-internas>
 <app-sidebar></app-sidebar>
 
-<div class="conteudo-central container mt-4">
-  <!-- Campo de busca com ícone -->
-  <div class="row mb-3">
+<main class="conteudo-central">
+    <div class="form-box">
+ 
+       <!-- Campo de busca -->
+  <section class="row mb-4">
     <div class="col-md-6">
       <div class="input-group">
         <input 
+          id="busca-projeto"
           type="text" 
           class="form-control" 
           placeholder="Buscar por nome" 
           [formControl]="filtroNome"
           aria-label="Buscar por nome"
-          aria-describedby="btn-buscar"
+          aria-describedby="icone-buscar"
         >
-        <span class="input-group-text" id="btn-buscar">
-          <i class="fas fa-search"></i>
+        <span class="input-group-text" id="icone-buscar">
+          <i class="fas fa-search" aria-hidden="true"></i>
         </span>
       </div>
     </div>
-  </div>
-</div>
-
+  </section>
 
   <!-- Lista de projetos -->
-  <div class="row">
+  <section class="row">
     <ng-container *ngIf="projetos.length > 0; else vazioTemplate">
-      <ng-container *ngFor="let projeto of projetos">
-        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex">
-          <a [routerLink]="['/projetos', projeto.id]" class="text-decoration-none text-dark w-100">
+      
+        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex"
+         *ngFor="let projeto of projetos">
+          <a 
+            [routerLink]="['/projetos', projeto.id]" 
+            class="text-decoration-none text-dark w-100"
+          >
             <div class="card h-100 shadow-sm card-pequeno">
-              <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" class="card-img-top" alt="Imagem do Projeto">
+              <img 
+                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" 
+                class="card-img-top" 
+                alt="Imagem do Projeto"
+              >
               <div class="card-body">
                 <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
                 <p class="card-text">{{ projeto.descricao || 'Sem descrição.' }}</p>
@@ -39,16 +48,17 @@
           </a>
         </div>
       </ng-container>
-    </ng-container>
 
     <!-- Template quando não há projetos -->
-    <ng-template #vazioTemplate>
+     <ng-template #vazioTemplate>
       <div class="col-12 text-center mt-4">
         <a [routerLink]="'/criar-projeto'" class="btn btn-outline-success">
-          <span style="font-size: 32px; margin-right: 8px;">+</span>
+          <span class="fs-3 me-2">+</span>
           Adicionar novo projeto
         </a>
       </div>
     </ng-template>
+  </section>
   </div>
+</main>
 
