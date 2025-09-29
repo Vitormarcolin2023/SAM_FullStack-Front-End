@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import Swal from 'sweetalert2';
-
 import { LoginDto } from '../../../models/login/login-dto';
 import { NavbarComponent } from '../../design/navbar/navbar.component';
 import { LoginService } from '../../../services/login/login.service';
+import { AlunoService } from '../../../services/alunos/alunos.service';
 
 @Component({
   selector: 'app-login',
@@ -17,16 +17,13 @@ import { LoginService } from '../../../services/login/login.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  login: LoginDto = {
-    email: '',
-    senha: '',
-    role: '',
-  };
-
+  login: LoginDto = { email: '', senha: '', role: '' };
   isLoading = false;
 
   loginService = inject(LoginService);
   router = inject(Router);
+
+  alunoService = inject(AlunoService);
 
   constructor() {
     this.loginService.deleteToken();
@@ -40,68 +37,74 @@ export class LoginComponent {
 
     this.loginService.login(this.login).subscribe({
       next: (response) => {
-        const token = response.token;
-        this.loginService.setToken(token);
-
-        localStorage.setItem('role', response.role ?? '');
-        localStorage.setItem('emailLogado', response.email ?? '');
-        localStorage.setItem('mentorStatus', response.status ?? '');
-
+        this.loginService.setToken(response.token);
         const role = (response.role ?? '').toUpperCase();
-        const status = (response.status ?? '').toUpperCase();
 
-        console.log('Valor da role:', role);
-        console.log('Valor do status:', status);
-
-        switch (role) {
-          case 'MENTOR':
-            if (status === 'ATIVO') {
-              this.router.navigate(['mentor-perfil']);
-            } else if (status === 'PENDENTE') {
+        if (role === 'ALUNO') {
+          this.alunoService.autenticarAluno(response.email).subscribe({
+            next: () => {
+              console.log(
+                'AlunoService atualizado. Navegando para a página do aluno...'
+              );
+              this.router.navigate(['/aluno/aluno-bem-vindo']);
+              this.isLoading = false;
+            },
+            error: (err) => {
               Swal.fire({
-                icon: 'info',
-                title: 'Perfil em Análise',
-                text: 'Sua solicitação para ser mentor está em análise. Você será notificado quando a coordenação concluir o processo.',
-                confirmButtonColor: '#4CAF50',
+                icon: 'error',
+                title: 'Erro ao carregar dados do aluno',
+                text: err.error,
               });
-            } else if (status === 'INATIVO') {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Perfil Inativo',
-                text: 'Seu perfil de mentor está inativo. Por favor, entre em contato com a instituição de ensino para mais detalhes.',
-                confirmButtonColor: '#f44336',
-              });
-            } else {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Erro no Status',
-                text: 'O status do seu perfil de mentor é inválido. Por favor, entre em contato com a instituição de ensino para mais detalhes.',
-                confirmButtonColor: '#f44336',
-              });
-            }
-            break;
-          case 'ALUNO':
-            this.router.navigate(['/aluno/aluno-bem-vindo']);
-            break;
-          case 'COORDENADOR':
-            this.router.navigate(['funcionario-perfil']);
-            break;
-          case 'PROFESSOR':
-            this.router.navigate(['funcionario-perfil']);
-            break;
+              this.isLoading = false;
+            },
+          });
+        } else {
+          this.handleRoleNavigation(role, response.status);
+          this.isLoading = false;
         }
-        this.isLoading = false;
       },
       error: (erro) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro ao logar',
-          text: erro.error,
-        });
+        Swal.fire({ icon: 'error', title: 'Erro ao logar', text: erro.error });
         this.isLoading = false;
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
       },
     });
+  }
+
+  handleRoleNavigation(role: string, status: string | null): void {
+    const safeStatus = (status ?? '').toUpperCase();
+    console.log('Valor da role:', role);
+    console.log('Valor do status:', safeStatus);
+
+    switch (role) {
+      case 'MENTOR':
+        if (safeStatus === 'ATIVO') {
+          this.router.navigate(['mentor-perfil']);
+        } else if (safeStatus === 'PENDENTE') {
+          Swal.fire({
+            icon: 'info',
+            title: 'Perfil em Análise',
+            text: 'Sua solicitação para ser mentor está em análise.',
+          });
+        } else if (safeStatus === 'INATIVO') {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Perfil Inativo',
+            text: 'Seu perfil de mentor está inativo.',
+          });
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Erro no Status',
+            text: 'O status do seu perfil é inválido.',
+          });
+        }
+        break;
+      case 'COORDENADOR':
+      case 'PROFESSOR':
+        this.router.navigate(['funcionario-perfil']);
+        break;
+    }
   }
 }
