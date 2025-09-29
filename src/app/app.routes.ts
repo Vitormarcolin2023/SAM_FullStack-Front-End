@@ -36,7 +36,7 @@ export const routes: Routes = [
   { path: '', component: LandingpageComponent }, // raiz = landinzg
   { path: 'cadastro', component: CadastroComponent },
 
-  // Páginas internas
+  // Páginas interna
   {
     path: 'tela-inicial',
     component: TelaInicialComponent,
