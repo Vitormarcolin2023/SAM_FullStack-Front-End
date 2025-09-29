@@ -5,9 +5,9 @@
 main.conteudo-central {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Mantém o card no topo quando houver scroll */
+  align-items: flex-start; 
   min-height: 100vh;
-  padding: 20px; /* Espaço para scroll */
+  padding: 20px; 
   margin-top: 60px;
 
  
@@ -18,7 +18,6 @@ main.conteudo-central {
 }
 
 
-/* Escurecer levemente o fundo */
 .cadastro-container::before {
   content: '';
   position: absolute;
@@ -41,11 +40,11 @@ main.conteudo-central {
   flex-direction: column;
 
   min-height: 400px;
-  max-height: 90vh; /* Limita altura em relação à tela */
-  overflow-y: auto; /* Scroll vertical quando ultrapassar max-height */
+  max-height: 90vh; 
+  overflow-y: auto; 
 }
 
-/* Estilo para o campo de busca */
+
 .input-group .form-control {
   border-color: $btn-acao;
   border-top-left-radius: 25px;
@@ -66,7 +65,7 @@ main.conteudo-central {
   border-left: none;
 }
 
-/* Cartões menores */
+
 .card-pequeno {
   width: 100%;
   border-radius: 8px;

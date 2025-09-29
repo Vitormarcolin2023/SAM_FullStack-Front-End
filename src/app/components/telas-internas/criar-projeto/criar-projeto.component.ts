@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup,FormsModule,ReactiveFormsModule,Validators } from "@angular/forms";
+import { FormBuilder, FormGroup,FormsModule,ReactiveFormsModule,ValidationErrors,Validators, ValidatorFn, AbstractControl } from "@angular/forms";
 import { Projeto } from "../../../models/projeto/projeto";
 import { MentorService } from "../../../services/mentores/mentores.service";
 import { AreaDeAtuacaoService } from "../../../services/areaDeAtuacao/area-de-atuacao.service";
@@ -20,7 +20,7 @@ import { GrupoService } from "../../../services/grupo/grupo.service";
   templateUrl: './criar-projeto.component.html',
   styleUrl:'./criar-projeto.component.scss',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarTelasInternasComponent, SidebarComponent],
+  imports: [CommonModule, ReactiveFormsModule, NavbarTelasInternasComponent, SidebarComponent ],
   
 })
 
@@ -49,6 +49,7 @@ export class CriarProjetoComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.carregarDados();
+    this.carregarGrupos();
 
     this.route.params.subscribe(params => {
     const id = params['id'];
@@ -61,18 +62,19 @@ export class CriarProjetoComponent implements OnInit {
   }
 
    initForm() {
-    this.formProjeto = this.fb.group({
+      this.formProjeto = this.fb.group({
       nomeDoProjeto: ['', Validators.required],
-      descricao: [''],
-      periodo: [''],
-      dataInicioProjeto: [''],
-      dataFinalProjeto: [''],
+      descricao: ['', Validators.required],
+      periodo: ['', Validators.required],
+      dataInicioProjeto: ['', Validators.required],
+      dataFinalProjeto: ['', Validators.required],
       areaDeAtuacao: [null, Validators.required],
-      mentor: [null],
-      grupo: [null],
-      
+      mentor: [null, Validators.required],
+      grupo: [null, Validators.required],
+      professores: [[], Validators.required]
+}, {
+     Validators: [this.validarDatasProjeto()]
 });
-
 }
  carregarDados() {
    this.mentorService.listAll().subscribe(data => this.mentores = data);
@@ -80,60 +82,76 @@ export class CriarProjetoComponent implements OnInit {
    
  
  }
-
+    carregarGrupos(): void {
+  this.grupoService.getGrupos().subscribe({
+    next: (res) => {
+      this.grupos = res;
+    },
+    error: (err) => {
+      console.error('Erro ao carregar grupos:', err);
+    }
+  });
+}
+  
     carregarProjeto(id: number) {
       this.projetoService.findById(id).subscribe(projeto => {
         this.formProjeto.patchValue(projeto);
       });
     }
 
+    validarDatasProjeto(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const inicio = group.get('dataInicioProjeto')?.value;
+      const fim = group.get('dataFinalProjeto')?.value;
+      if (!inicio || !fim) return null;
+      return new Date(inicio) > new Date(fim) ? { dataInvalida: true } : null;
+    };
+  }
+
+
  onSubmit() {
   if (this.formProjeto.valid) {
     const projeto: Projeto = this.formProjeto.value;
 
-    if (this.modoEdicao && this.idProjeto) {
-      this.projetoService.update(this.idProjeto, projeto).subscribe({
-        next: () => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Projeto Atualizado!',
-            text: 'As informações do projeto foram salvas.',
-          });
-          this.router.navigate(['/tela-inicial']);
-        },
-        error: (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro ao Atualizar',
-            text: err.error?.message || 'Erro desconhecido.',
-          });
-        }
-      });
-    } else {
-      this.projetoService.save(projeto).subscribe({
-        next: () => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Projeto Cadastrado!',
-            text: 'O projeto foi salvo com sucesso!',
-          });
-          this.formProjeto.reset();
-        },
-        error: (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro ao Salvar',
-            text: err.error?.message || 'Erro desconhecido.',
-          });
-          console.error(err);
-        },
-      });
-    }
+    const acao = this.modoEdicao && this.idProjeto
+      ? this.projetoService.update(this.idProjeto, projeto)
+      : this.projetoService.save(projeto);
+
+    acao.subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: this.modoEdicao ? 'Projeto Atualizado!' : 'Projeto Cadastrado!',
+          text: this.modoEdicao
+            ? 'As informações do projeto foram salvas.'
+            : 'O projeto foi salvo com sucesso!',
+        });
+
+        this.modoEdicao ? this.router.navigate(['/tela-inicial']) : this.formProjeto.reset();
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: this.modoEdicao ? 'Erro ao Atualizar' : 'Erro ao Salvar',
+          text: err.error?.message || 'Erro desconhecido.',
+        });
+        console.error(err);
+      },
+    });
 
   } else {
+    this.formProjeto.markAllAsTouched();
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Formulário inválido',
+      text: 'Por favor, preencha todos os campos obrigatórios corretamente antes de continuar.',
+    });
+
     console.warn('❌ Formulário inválido, botão clicado mas não enviado.');
   }
 }
+
 
   hasError(campo: string, erro: string): boolean {
   const controle = this.formProjeto.get(campo);

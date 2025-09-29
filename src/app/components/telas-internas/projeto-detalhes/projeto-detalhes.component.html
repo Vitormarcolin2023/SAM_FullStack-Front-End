@@ -73,11 +73,14 @@
       <button class="btn voltar" (click)="voltar()">
        <i class="fas fa-arrow-left"></i> Voltar</button>
 
+      @if(userRole == 'ALUNO'){
       <button class="btn editar" (click)="editarProjeto()">
       <i class="fas fa-edit"></i> Atualizar Projeto</button>
 
       <button class="btn deletar" (click)="deletarProjeto()">
        <i class="fas fa-trash-alt"></i> Deletar Projeto</button>
+      }
+
     </div>
 
 </div>

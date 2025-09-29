@@ -30,10 +30,11 @@
       
         <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex"
          *ngFor="let projeto of projetos">
-          <a 
-            [routerLink]="['/projetos', projeto.id]" 
-            class="text-decoration-none text-dark w-100"
-          >
+          <div 
+              class="card h-100 shadow-sm card-pequeno w-100"
+              style="cursor: pointer;"
+              (click)="abrirModalDetalhes(projeto)"
+            >
             <div class="card h-100 shadow-sm card-pequeno">
               <img 
                 src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" 
@@ -44,10 +45,11 @@
                 <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
                 <p class="card-text">{{ projeto.descricao || 'Sem descrição.' }}</p>
               </div>
+              </div>
             </div>
-          </a>
-        </div>
-      </ng-container>
+            </div>
+          </ng-container>
+     
 
     <!-- Template quando não há projetos -->
      <ng-template #vazioTemplate>
@@ -61,4 +63,3 @@
   </section>
   </div>
 </main>
-
