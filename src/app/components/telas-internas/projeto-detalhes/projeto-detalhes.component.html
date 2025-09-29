@@ -5,7 +5,7 @@
 
   <div class="info-row">
     <div class="icon-label">
-      <span class="icone-area">🎯</span>
+      <span class="icone-area"><i class="fas fa-bullseye"></i></span>
       <strong>Área de Atuação</strong>
     </div>
     <div class="info-content">
@@ -15,7 +15,7 @@
 
   <div class="info-row">
     <div class="icon-label">
-      <span class="icone-grupo">👥</span>
+      <span class="icone-grupo"><i class="fas fa-users"></i></span>
       <strong>Grupo</strong>
     </div>
     <div class="info-content">
@@ -25,7 +25,7 @@
 
   <div class="info-row">
     <div class="icon-label">
-      <span class="icone-mentor">👨‍🏫</span>
+      <span class="icone-mentor"><i class="fas fa-chalkboard-teacher"></i></span>
       <strong>Mentor</strong>
     </div>
     <div class="info-content">
@@ -35,7 +35,7 @@
 
   <div class="info-row">
     <div class="icon-label">
-      <span class="icone-status">📌</span>
+      <span class="icone-status"><i class="fas fa-thumbtack"></i></span>
       <strong>Status do Projeto</strong>
     </div>
     <div class="info-content">
@@ -45,7 +45,7 @@
 
   <div class="info-row">
     <div class="icon-label">
-      <span class="icone-periodo">📅</span>
+      <span class="icone-periodo"><i class="fas fa-calendar-alt"></i></span>
       <strong>Período</strong>
     </div>
     <div class="info-content">
@@ -56,14 +56,32 @@
   <hr />
 
   <div class="descricao mb-4">
-    <strong>Descrição</strong>
+    <strong><i class="fas fa-align-left"></i>Descrição</strong>
     <p>{{ projeto.descricao || 'Sem descrição disponível.' }}</p>
   </div>
 
   <div *ngIf="projeto.professores?.length" class="professores">
-    <strong>Professores</strong>
+    <strong><i class="fas fa-user-tie"></i> Professores</strong>
     <ul>
-      <li *ngFor="let prof of projeto.professores">{{ prof.nome }}</li>
+      <li *ngFor="let prof of projeto.professores">
+        <i class="fas fa-user"></i> {{ prof.nome }}
+      </li>
     </ul>
   </div>
+
+    <div class="botoes-rodape">
+      <button class="btn voltar" (click)="voltar()">
+       <i class="fas fa-arrow-left"></i> Voltar</button>
+
+      @if(userRole == 'ALUNO'){
+      <button class="btn editar" (click)="editarProjeto()">
+      <i class="fas fa-edit"></i> Atualizar Projeto</button>
+
+      <button class="btn deletar" (click)="deletarProjeto()">
+       <i class="fas fa-trash-alt"></i> Deletar Projeto</button>
+      }
+
+    </div>
+
 </div>
+ 

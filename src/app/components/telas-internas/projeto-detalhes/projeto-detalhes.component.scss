@@ -1,50 +1,55 @@
 @use '../../../../styles/variaveis' as *;
 
+
 .container {
+  max-width: 600px;
+  padding: 20px 30px 70px; 
   background-color: $background-geral;
-  padding: 20px 30px;
   border-radius: 8px;
-  max-width: 700px;
   margin: 0 auto;
 
-  h4 {
+  h2 {
     color: $titulos-verde;
     text-align: center;
-    margin-bottom: 15px;
-    border-bottom: 1px solid $fundo-elemento;
-    padding-bottom: 5px;
+    margin-bottom: 30px;
     font-weight: 700;
   }
 
   .info-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid $tabelas-mdb;
+   
 
     .icon-label {
       display: flex;
       align-items: center;
-      width: 120px;
+      gap: 8px;
       font-weight: 600;
-      color: $btn-color-verde;
+      color: $tabelas-mdb;
+      font-size: 15px;
+      margin-bottom: 4px;
 
-      .icone-grupo,
-      .icone-mentor,
-      .icone-periodo {
-        margin-right: 8px;
+      i {
         font-size: 18px;
+        color: $tabelas-mdb;
       }
+    }
+
+    .linha-titulo {
+      width: 60px;
+      border-top: 2px solid $tabelas-mdb;
+      margin-bottom: 8px;
     }
 
     .info-content {
       color: $tabelas-mdb;
       font-size: 14px;
-      flex: 1;
+      padding-left: 26px; 
     }
   }
 
   hr {
-    margin: 20px 0;
+    margin: 30px 0;
     border-color: $fundo-elemento;
   }
 
@@ -54,17 +59,23 @@
       color: $btn-color-verde;
       border-bottom: 1px solid $titulos-verde;
       display: inline-block;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+
+      i {
+        color: $tabelas-mdb;
+        margin-right: 6px;
+      }
     }
 
     p {
       font-size: 14px;
-      line-height: 1.4;
+      line-height: 1.5;
       color: $tabelas-mdb;
+      margin-bottom: 50px; 
     }
   }
 
-  .reunioes {
+  .professores {
     margin-top: 20px;
 
     strong {
@@ -73,6 +84,11 @@
       border-bottom: 1px solid $titulos-verde;
       display: inline-block;
       margin-bottom: 8px;
+
+      i {
+        color: $tabelas-mdb;
+        margin-right: 6px;
+      }
     }
 
     ul {
@@ -87,18 +103,73 @@
         position: relative;
 
         &::before {
-          content: '👩‍🏫';
+          content: '\f501'; 
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
           position: absolute;
           left: 0;
           top: 0;
           font-size: 16px;
+          color: $tabelas-mdb;
+          line-height: 1;
         }
       }
     }
   }
 }
 
-.geral{
-  height: 500px;
+.geral {
   max-height: 900px;
+  min-height: 500px;
+  overflow-y: auto; 
+  padding-bottom: 80px; 
+}
+
+.botoes-rodape {
+  position: absolute; 
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+
+  .btn {
+    padding: 8px 16px; 
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px; 
+    min-width: 110px;
+
+    &.voltar {
+      background-color: $fundo-elemento;
+      color: #333;
+
+      &:hover {
+        background-color: darken($fundo-elemento, 5%);
+      }
+    }
+
+    &.editar {
+      background-color: $btn-color-verde;
+      color: white;
+
+      &:hover {
+        background-color: darken($btn-color-verde, 8%);
+      }
+    }
+
+    &.deletar {
+      background-color: #dc3545;
+      color: white;
+
+      &:hover {
+        background-color: darken(#dc3545, 10%);
+      }
+    }
+  }
 }

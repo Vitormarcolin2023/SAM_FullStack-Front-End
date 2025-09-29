@@ -3,23 +3,30 @@
 
 <div class="cadastro-container">
   <div class="form-box">
-    <h2>Cadastro de Projeto</h2>
 
     <form [formGroup]="formProjeto" (ngSubmit)="onSubmit()">
       <div class="form-scroll-content">
         <!--DADOS DO PROJETO-->
         <div class="form-step">
-          <h3>Dados do Projeto</h3>
-           <label for="nomeDoProjeto">Nome do Projeto</label>
+          <h2>{{ modoEdicao ? 'Editar Projeto' : 'Criar Projeto' }}</h2>
+         
+          <label for="nomeDoProjeto">Nome do Projeto</label>
           <input id="nomeDoProjeto" type="text" formControlName="nomeDoProjeto" />
           <small *ngIf="hasError('nomeDoProjeto', 'required')" class="error-message">
             Nome do projeto é obrigatório.
           </small>
            <label for="descricao">Descrição</label>
           <textarea id="descricao" formControlName="descricao"></textarea>
+          <small *ngIf="hasError('descricao', 'required')" class="error-message">
+           Descrição é obrigatória.
+          </small>
+
 
           <label for="periodo">Período</label>
           <input id="periodo" type="text" formControlName="periodo" />
+          <small *ngIf="hasError('periodo', 'required')" class="error-message">
+          Periodo é obrigatória.
+          </small>
         </div>
 
         <!-- DATAS -->
@@ -28,9 +35,18 @@
 
           <label for="dataInicioProjeto">Data de Início</label>
           <input id="dataInicioProjeto" type="date" formControlName="dataInicioProjeto" />
+           <small *ngIf="hasError('dataInicioProjeto', 'required')" class="error-message">
+            Data de início é obrigatória.
+          </small>
 
           <label for="dataFinalProjeto">Data de Final</label>
           <input id="dataFinalProjeto" type="date" formControlName="dataFinalProjeto" />
+           <small *ngIf="hasError('dataFinalProjeto', 'required')" class="error-message">
+            Data final é obrigatória.
+          </small>
+          <small *ngIf="formProjeto.errors?.['dataInvalida'] && formProjeto.touched" class="error-message">
+           A data final deve ser posterior à data de início.
+          </small>
         </div>
         
         <!-- RELACIONAMENTOS -->
@@ -53,13 +69,19 @@
         <option value="" disabled>Selecione o mentor</option>
         <option *ngFor="let mentor of mentores" [ngValue]="mentor">{{ mentor.nome }}</option>
       </select>
+      <small *ngIf="hasError('mentor', 'required')" class="error-message">
+       Mentor é obrigatório.
+      </small>
 
       <!-- Grupo -->
       <label for="grupo">Grupo</label>
       <select id="grupo" formControlName="grupo">
         <option value="" disabled>Selecione o grupo</option>
-        <!--<option *ngFor="let grupo of grupos" [ngValue]="grupo">{{ grupo.nome }}</option>-->
+        <option *ngFor="let grupo of grupos" [ngValue]="grupo">{{ grupo.nome }}</option>
       </select>
+      <small *ngIf="hasError('grupo', 'required')" class="error-message">
+      Grupo é obrigatório.
+      </small>
 
       <!-- Professores -->
       <label for="professores">Professores</label>
@@ -77,7 +99,9 @@
        <div class="form-buttons-container">
         <div class="buttons-row">
           <button type="button" class="btn-back" (click)="voltar()">Voltar</button>
-          <button type="submit" [disabled]="formProjeto.invalid">Salvar Projeto</button>
+          <button type="submit">
+            {{ modoEdicao ? 'Atualizar Projeto' : 'Salvar Projeto' }}
+          </button>
         </div>
     </div>
 </form>
