@@ -104,9 +104,9 @@
         </li>
       </ul>
     </li>
-    @if (userRole == 'COORDENADOR') {
+    @if (userRole == 'COORDENADOR' || userRole == 'PROFESSOR') {
     <li>
-      <a href="/tela-inicial/ativar-mentor" class="nav-link">
+      <a href="/tela-inicial/listar-mentor" class="nav-link">
         <span class="icon"> <i class="fas fa-user-plus"></i> </span>
         <span class="text">Visualizar Mentores</span>
       </a>
