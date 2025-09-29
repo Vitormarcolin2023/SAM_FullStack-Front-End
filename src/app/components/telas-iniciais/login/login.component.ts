@@ -23,7 +23,6 @@ export class LoginComponent {
     role: '',
   };
 
-  // NOVO: Variável para controlar o estado de carregamento
   isLoading = false;
 
   loginService = inject(LoginService);
