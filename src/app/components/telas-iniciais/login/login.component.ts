@@ -4,88 +4,107 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import Swal from 'sweetalert2';
-
 import { LoginDto } from '../../../models/login/login-dto';
 import { NavbarComponent } from '../../design/navbar/navbar.component';
 import { LoginService } from '../../../services/login/login.service';
+import { AlunoService } from '../../../services/alunos/alunos.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    FormsModule, // necessário para ngModel
-    CommonModule, // básico do Angular
-    MdbFormsModule, // necessário para mdb-form-control
-    NavbarComponent, // necessário para app-navbar
-  ],
+  imports: [FormsModule, CommonModule, MdbFormsModule, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  login: LoginDto = {
-    email: '',
-    senha: '',
-    role: '',
-  };
+  login: LoginDto = { email: '', senha: '', role: '' };
+  isLoading = false;
 
-  // Use lowercase para o service
   loginService = inject(LoginService);
   router = inject(Router);
+
+  alunoService = inject(AlunoService);
 
   constructor() {
     this.loginService.deleteToken();
   }
 
   logar() {
-    const btnLogar = document.getElementById(
-      'btn-logar'
-    ) as HTMLButtonElement | null;
-    if (btnLogar) btnLogar.disabled = true;
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
 
     this.loginService.login(this.login).subscribe({
       next: (response) => {
-        const token = response.token;
-        this.loginService.setToken(token);
-
-        localStorage.setItem('role', response.role ?? '');
-        localStorage.setItem('emailLogado', response.email ?? '');
-        localStorage.setItem('mentorStatus', response.status ?? '');
-
+        this.loginService.setToken(response.token);
         const role = (response.role ?? '').toUpperCase();
-        const status = response.status;
 
-        console.log('Valor da role:', role);
-        console.log('Valor do status:', status);
-
-        if (role === 'MENTOR' && status === 'CONCLUIDO') {
-          this.router.navigate(['mentor-perfil']);
-        } else if (role === 'MENTOR' && status === 'PENDENTE') {
-          Swal.fire({
-            icon: 'info',
-            title: 'Perfil em Análise',
-            text: 'A sua solicitação de perfil de mentor está em análise. Você será notificado quando a coordenação concluir a análise.',
-            confirmButtonColor: '#4CAF50',
+        if (role === 'ALUNO') {
+          this.alunoService.autenticarAluno(response.email).subscribe({
+            next: () => {
+              console.log(
+                'AlunoService atualizado. Navegando para a página do aluno...'
+              );
+              this.router.navigate(['/aluno/aluno-bem-vindo']);
+              this.isLoading = false;
+            },
+            error: (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Erro ao carregar dados do aluno',
+                text: err.error,
+              });
+              this.isLoading = false;
+            },
           });
-
-        } else if (role === 'ALUNO') {
-          this.router.navigate(['/aluno/aluno-bem-vindo']);
         } else {
-          // O 'else' final agora cuidará dos outros perfis (Coordenador, Professor)
-          this.router.navigate(['coordenador-perfil']);
+          this.handleRoleNavigation(role, response.status);
+          this.isLoading = false;
         }
-
-        if (btnLogar) btnLogar.disabled = false;
       },
       error: (erro) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro ao logar',
-          text: erro.error,
-        });
-        if (btnLogar) btnLogar.disabled = false;
+        Swal.fire({ icon: 'error', title: 'Erro ao logar', text: erro.error });
+        this.isLoading = false;
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
       },
     });
+  }
+
+  handleRoleNavigation(role: string, status: string | null): void {
+    const safeStatus = (status ?? '').toUpperCase();
+    console.log('Valor da role:', role);
+    console.log('Valor do status:', safeStatus);
+
+    switch (role) {
+      case 'MENTOR':
+        if (safeStatus === 'ATIVO') {
+          this.router.navigate(['mentor-perfil']);
+        } else if (safeStatus === 'PENDENTE') {
+          Swal.fire({
+            icon: 'info',
+            title: 'Perfil em Análise',
+            text: 'Sua solicitação para ser mentor está em análise.',
+          });
+        } else if (safeStatus === 'INATIVO') {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Perfil Inativo',
+            text: 'Seu perfil de mentor está inativo.',
+          });
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Erro no Status',
+            text: 'O status do seu perfil é inválido.',
+          });
+        }
+        break;
+      case 'COORDENADOR':
+      case 'PROFESSOR':
+        this.router.navigate(['funcionario-perfil']);
+        break;
+    }
   }
 }

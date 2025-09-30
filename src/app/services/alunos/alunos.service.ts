@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Aluno } from '../../models/aluno/aluno';
 import { tick } from '@angular/core/testing';
 
@@ -10,7 +10,38 @@ import { tick } from '@angular/core/testing';
 export class AlunoService {
   private apiUrl = 'http://localhost:8080/alunos';
 
-  constructor(private http: HttpClient) {}
+  private alunoLogadoSubject = new BehaviorSubject<Aluno | null>(null);
+  public alunoLogado$ = this.alunoLogadoSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.carregarAlunoDaSessao();
+  }
+
+  autenticarAluno(email: string): Observable<Aluno> {
+    localStorage.setItem('aluno_email', email);
+    return this.getAlunoPorEmail(email).pipe(
+      tap(aluno => {
+        this.alunoLogadoSubject.next(aluno);
+      })
+    );
+  }
+
+  private carregarAlunoDaSessao(): void {
+    const email = localStorage.getItem('aluno_email'); 
+    if (email) {
+      this.getAlunoPorEmail(email).subscribe({
+        next: (aluno) => {
+          this.alunoLogadoSubject.next(aluno);
+        },
+        error: () => this.logout(),
+      });
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem('aluno_email');
+    this.alunoLogadoSubject.next(null);
+  }
 
   getAlunoPorEmail(email: string): Observable<Aluno> {
     return this.http.get<Aluno>(`${this.apiUrl}/findByEmail`, {

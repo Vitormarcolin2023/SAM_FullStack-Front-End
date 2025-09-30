@@ -11,9 +11,7 @@ import { MentorPerfilComponent } from './components/telas-internas/mentor/mentor
 import { mentorStatusGuard } from './guards/mentor-status.guard';
 import { CriarGrupoComponent } from './components/telas-internas/grupo/criar-grupo/criar-grupo.component';
 
-import { AtivarmentorComponent } from './components/coordenacao/ativarmentor.component';
-import { VisualizarprojetosComponent } from './components/coordenacao/visualizarprojetos/visualizarprojetos.component';
-import { CadastroCoordenacaoComponent } from './components/coordenacao/cadastro-coordenacao/cadastro-coordenacao.component';
+import { VisualizarprojetosComponent } from './components/funcionarios/visualizarprojetos/visualizarprojetos.component';
 import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
 import { AlunoPrincipalComponent } from './components/telas-internas/aluno-principal/aluno-principal.component';
 import { AlunoBemVindoComponent } from './components/telas-internas/aluno-principal/aluno-bem-vindo/aluno-bem-vindo.component';
@@ -21,12 +19,15 @@ import { AlunoPerfilComponent } from './components/telas-internas/aluno-principa
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { MentorEditComponent } from './components/telas-internas/mentor/mentor-edit/mentor-edit.component';
 import { GrupoComponent } from './components/telas-internas/grupo/grupo.component';
-import { CoordenacaoPerfilComponent } from './components/coordenacao/perfilcoordenacao/coordenacao-perfil/coordenacao-perfil.component';
 
 import { VisualProjetoComponent } from './components/telas-internas/visual-projeto/visual-projeto.component';
 import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
 import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
 import { ProjetosMentorComponent } from './components/telas-internas/mentor/projetos-mentor/projetos-mentor.component';
+import { FuncionarioComponent } from './components/funcionarios/perfil/funcionario-perfil.component';
+import { CadastroProfessorComponent } from './components/funcionarios/cadastro-professor/cadastro-professor.component';
+import { CadastroCoordenacaoComponent } from './components/funcionarios/cadastro-coordenacao/cadastro-coordenacao.component';
+import { ListarMentorComponent } from './components/funcionarios/listarmentor/listarmentor.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -35,12 +36,12 @@ export const routes: Routes = [
   { path: '', component: LandingpageComponent }, // raiz = landinzg
   { path: 'cadastro', component: CadastroComponent },
 
-  // Páginas internas
+  // Páginas interna
   {
     path: 'tela-inicial',
     component: TelaInicialComponent,
     children: [
-      { path: 'ativar-mentor', component: AtivarmentorComponent },
+      { path: 'listar-mentor', component: ListarMentorComponent },
       { path: 'visualizar-projetos', component: VisualizarprojetosComponent },
     ],
   },
@@ -86,17 +87,20 @@ export const routes: Routes = [
     component: ProjetosMentorComponent
   },
 
+  { path: 'cadastro-coordenacao/:email', component: CadastroCoordenacaoComponent},
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
-  { path: 'coordenador-perfil', component: CoordenacaoPerfilComponent},
+  { path: 'cadastro-professor/:email', component: CadastroProfessorComponent },
+  { path: 'cadastro-professor', component: CadastroProfessorComponent},
+  { path: 'funcionario-perfil', component: FuncionarioComponent},
 
  {path: 'visual-projeto', component: VisualProjetoComponent},
  {path: 'criar-projeto', component: CriarProjetoComponent},
  {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
  { path: 'projetos/:id', component: ProjetoDetalhesComponent },
+ { path: 'editar-projeto/:id', component: CriarProjetoComponent },
 
   // Rota protegida pelo mentorStatusGuard
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
-  { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent},
   
 
  

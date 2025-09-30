@@ -27,7 +27,6 @@ export class MentorService {
     return this.http.put<Mentor>(`${this.apiUrl}/update/${mentor.id}`, mentor);
   }
 
-  // Novo método para buscar um mentor por ID
   getMentorById(id: number): Observable<Mentor> {
     return this.http.get<Mentor>(`${this.apiUrl}/findById/${id}`);
   }
@@ -44,7 +43,12 @@ export class MentorService {
   }
 
   delete(mentorId: number): Observable<string> {
-  return this.http.delete(`${this.apiUrl}/delete/${mentorId}`, { responseType: 'text' });
-}
+    return this.http.delete(`${this.apiUrl}/delete/${mentorId}`, {
+      responseType: 'text',
+    });
+  }
 
+  findByAreaDeAtuacao(idArea: number): Observable<Mentor[]> {
+    return this.http.get<Mentor[]>(`${this.apiUrl}/area/${idArea}`);
+  }
 }
