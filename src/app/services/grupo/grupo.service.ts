@@ -38,8 +38,16 @@ export class GrupoService {
     );
   }
 
-  removerAlunoDiretamente(idGrupo: number, idAlunoRemover: number, idAdmin: number): Observable<string> {
+  removerAlunoDiretamente(
+    idGrupo: number,
+    idAlunoRemover: number,
+    idAdmin: number
+  ): Observable<string> {
     const url = `${this.grupoApiUrl}/${idGrupo}/remover-aluno/${idAlunoRemover}/admin/${idAdmin}`;
     return this.http.delete(url, { responseType: 'text' });
+  }
+
+  findGrupoByAlunoLogado(): Observable<Grupo> {
+    return this.http.get<Grupo>(`${this.grupoApiUrl}/por-aluno-logado`);
   }
 }
