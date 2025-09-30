@@ -80,12 +80,32 @@
           <h3>Relacionamentos</h3>
 
           <label for="areaDeAtuacao">Área de Atuação</label>
-          <select id="areaDeAtuacao" formControlName="areaDeAtuacao">
-            <option [ngValue]="null" disabled>Selecione a área</option>
-            <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">
-              {{ area.nome }}
-            </option>
-          </select>
+
+          <div *ngIf="!modoEdicao">
+            <input
+              id="areaDeAtuacao"
+              type="text"
+              class="form-control-readonly"
+              [value]="
+                formProjeto.get('areaDeAtuacao')?.value?.nome || 'Carregando...'
+              "
+              readonly
+            />
+            <small class="form-text text-muted">
+              A área de atuação é definida automaticamente com base no seu
+              curso.
+            </small>
+          </div>
+
+          <div *ngIf="modoEdicao">
+            <select id="areaDeAtuacao" formControlName="areaDeAtuacao">
+              <option [ngValue]="null" disabled>Selecione a área</option>
+              <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">
+                {{ area.nome }}
+              </option>
+            </select>
+          </div>
+
           <small
             *ngIf="hasError('areaDeAtuacao', 'required')"
             class="error-message"
@@ -108,30 +128,6 @@
           </select>
           <small *ngIf="hasError('mentor', 'required')" class="error-message">
             Mentor é obrigatório.
-          </small>
-
-          <label for="grupo">Grupo</label>
-          <select id="grupo" formControlName="grupo">
-            <option [ngValue]="null" disabled>Selecione o grupo</option>
-            <option *ngFor="let grupo of grupos" [ngValue]="grupo">
-              {{ grupo.nome }}
-            </option>
-          </select>
-          <small *ngIf="hasError('grupo', 'required')" class="error-message">
-            Grupo é obrigatório.
-          </small>
-
-          <label for="professores">Professores</label>
-          <select
-            id="professores"
-            multiple
-            formControlName="professores"
-          ></select>
-          <small
-            *ngIf="hasError('professores', 'required')"
-            class="error-message"
-          >
-            Pelo menos um professor deve ser selecionado.
           </small>
         </div>
       </div>
