@@ -17,6 +17,10 @@ export class AlunoService {
     this.carregarAlunoDaSessao();
   }
 
+  getAlunoLogadoId(): number | null {
+    return this.alunoLogadoSubject.value?.id || null;
+  }
+
   autenticarAluno(email: string): Observable<Aluno> {
     localStorage.setItem('aluno_email', email);
     return this.getAlunoPorEmail(email).pipe(
