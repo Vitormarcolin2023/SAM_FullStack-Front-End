@@ -16,27 +16,17 @@ export class AlunoService {
     this.carregarAlunoDaSessao();
   }
 
-  // AQUI COMEÇOU A ALTERAÇÃO
-  /**
-   * Método principal a ser chamado após o login.
-   * Recebe o e-mail, salva no localStorage, busca o Aluno completo
-   * e atualiza o estado da aplicação (BehaviorSubject).
-   * Retorna um Observable para que o chamador saiba quando o processo terminou.
-   */
   autenticarAluno(email: string): Observable<Aluno> {
-    localStorage.setItem('aluno_email', email); // Chave padronizada
+    localStorage.setItem('aluno_email', email);
     return this.getAlunoPorEmail(email).pipe(
       tap(aluno => {
         this.alunoLogadoSubject.next(aluno);
       })
     );
   }
-  // AQUI FINALIZOU A ALTERAÇÃO
 
   private carregarAlunoDaSessao(): void {
-    // AQUI COMEÇOU A ALTERAÇÃO
-    const email = localStorage.getItem('aluno_email'); // Usando a chave padronizada
-    // AQUI FINALIZOU A ALTERAÇÃO
+    const email = localStorage.getItem('aluno_email'); 
     if (email) {
       this.getAlunoPorEmail(email).subscribe({
         next: (aluno) => {
@@ -48,9 +38,7 @@ export class AlunoService {
   }
 
   logout(): void {
-    // AQUI COMEÇOU A ALTERAÇÃO
-    localStorage.removeItem('aluno_email'); // Usando a chave padronizada
-    // AQUI FINALIZOU A ALTERAÇÃO
+    localStorage.removeItem('aluno_email');
     this.alunoLogadoSubject.next(null);
   }
 
