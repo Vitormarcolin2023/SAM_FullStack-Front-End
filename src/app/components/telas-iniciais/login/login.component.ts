@@ -64,18 +64,8 @@ export class LoginComponent {
         }
       },
       error: (erro) => {
-<<<<<<< HEAD
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro ao logar',
-          text: erro.error?.message ?? 'Erro ao logar',
-        });
-
-        if (btnLogar) btnLogar.disabled = false;
-=======
         Swal.fire({ icon: 'error', title: 'Erro ao logar', text: erro.error });
         this.isLoading = false;
->>>>>>> 2d3ae592b0a610fef73f4ab967b927e33903e478
         this.login = { email: '', senha: '', role: '' };
         this.loginService.deleteToken();
       },
