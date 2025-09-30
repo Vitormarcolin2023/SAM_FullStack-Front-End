@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoordenacaoPerfilComponent } from './coordenacao-perfil.component';
+import { CoordenacaoPerfilComponent } from './funcionario-perfil.component';
 
 describe('CoordenacaoPerfilComponent', () => {
   let component: CoordenacaoPerfilComponent;

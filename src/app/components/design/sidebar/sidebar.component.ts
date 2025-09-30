@@ -36,12 +36,13 @@ export class SidebarComponent {
         this.router.navigate(['/aluno/aluno-perfil']);
         break;
       case 'COORDENADOR':
-        this.router.navigate(['/coordenador-perfil'])
+        this.router.navigate(['/funcionario-perfil'])
         break;
       case 'MENTOR':
         this.router.navigate(["/mentor-perfil"]);
       break;
       case 'PROFESSOR':
+        this.router.navigate(['/funcionario-perfil'])
         break;
     }
   }
@@ -54,13 +55,14 @@ export class SidebarComponent {
         }
         break;
       case 'COORDENADOR':
-      this.router.navigate(['/cadastro-coordenacao']);
+      this.router.navigate(['/cadastro-coordenacao', this.userEmail]);
       break;
       case 'MENTOR':
         this.router.navigate(["/editar-mentor"]);
 
       break;
       case 'PROFESSOR':
+      this.router.navigate(['/cadastro-professor', this.userEmail]);
         break;
     }
   }
@@ -72,12 +74,12 @@ export class SidebarComponent {
         break;
       case 'COORDENADOR':
         this.router.navigate(['/tela-inicial/visualizar-projetos']);
-
         break;
       case 'MENTOR':
         this.router.navigate(['/mentor/visualizar-projetos'])
         break;
       case 'PROFESSOR':
+        this.router.navigate(['/tela-inicial/visualizar-projetos']);
         break;
     }
   }

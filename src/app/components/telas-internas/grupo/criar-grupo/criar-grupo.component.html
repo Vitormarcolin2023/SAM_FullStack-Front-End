@@ -1,6 +1,67 @@
 <div class="d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card p-4 shadow-sm border-0 text-center card-custom" style="max-width: 400px; width: 100%;">
+  <div
+    class="card p-4 shadow-sm border-0 text-center card-custom"
+    style="max-width: 500px; width: 100%"
+  >
     <h3 class="fw-bold mb-3">Criar grupo</h3>
-    <button class="btn btn-custom" (click)="abrirModal()">Clique aqui</button>
+    
+    <div class="card-content-wrapper">
+      
+      <div class="form-elements-top">
+          
+          <label for="group-name">Nome do Grupo</label>
+          <input
+            id="group-name"
+            type="text"
+            class="swal2-input"
+            placeholder="Digite o nome do grupo"
+            [(ngModel)]="nomeGrupo" 
+          />
+
+          <label for="alunos-ids">Selecione os integrantes</label>
+
+          @if (alunosSelecionados().length > 0) {
+          <div class="alunos-selecionados-container">
+            @for (aluno of alunosSelecionados(); track $index) {
+            <span class="badge-aluno-selecionado">
+              {{ aluno.nome }}
+              <button
+                (click)="toggleAlunoSelecao(aluno)"
+                class="btn-remover-aluno"
+              >
+                x
+              </button>
+            </span>
+            }
+          </div>
+          }
+
+          <div class="alunos">
+            <input
+              class="swal2-input"
+              id="input-alunos"
+              placeholder="Digite os nomes dos integrantes"
+              (input)="pesquisarAlunos($event)"
+            />
+          </div>
+
+          <div class="list-alunos" id="list-alunos">
+            <ul class="alunos-list-container">
+              @for (aluno of alunosFiltrados; track $index) {
+              <li
+                (click)="toggleAlunoSelecao(aluno)"
+                [class.aluno-selecionado]="isAlunoSelecionado(aluno)"
+              >
+                {{ aluno.nome }}
+              </li>
+              }
+            </ul>
+          </div>
+      </div>
+      <div class="botoes">
+        <button class="btn-cancelar">Cancelar</button>
+        <button class="btn-criar" (click)="criarGrupo()">Criar</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -11,37 +11,74 @@
 
         <!-- Formulário -->
         <form class="form" (ngSubmit)="logar()">
-
           <!-- Mensagem de erro -->
           <div class="mb-4 erro" id="erro"></div>
-          
+
           <!-- Tipo de usuário -->
           <mdb-form-control class="mb-4">
-            <select mdbInput id="tipoUsuario" name="tipoUsuario" class="form-control" [(ngModel)]="login.role" required>
+            <select
+              mdbInput
+              id="tipoUsuario"
+              name="tipoUsuario"
+              class="form-control"
+              [(ngModel)]="login.role"
+              required
+            >
               <option value="" disabled selected></option>
               <option value="MENTOR">Mentor</option>
               <option value="COORDENADOR">Coordenador</option>
               <option value="PROFESSOR">Professor</option>
               <option value="ALUNO">Aluno</option>
             </select>
-            <label mdbLabel class="form-label" for="tipoUsuario">Tipo de Usuário</label>
+            <label mdbLabel class="form-label" for="tipoUsuario"
+              >Tipo de Usuário</label
+            >
           </mdb-form-control>
 
           <!-- Email input -->
           <mdb-form-control class="mb-4">
-            <input mdbInput type="email" id="email" name="email" class="form-control" [(ngModel)]="login.email" required/>
+            <input
+              mdbInput
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              [(ngModel)]="login.email"
+              required
+            />
             <label mdbLabel class="form-label" for="email">Email</label>
           </mdb-form-control>
 
-          <!-- Password input -->
           <mdb-form-control class="mb-4">
-            <input mdbInput type="password" id="senha" name="senha" class="form-control" [(ngModel)]="login.senha" required/>
+            <input
+              mdbInput
+              type="password"
+              id="senha"
+              name="senha"
+              class="form-control"
+              [(ngModel)]="login.senha"
+              required
+            />
             <label mdbLabel class="form-label" for="senha">Senha</label>
           </mdb-form-control>
 
           <!-- Botão de login -->
-          <button mdbRipple type="button" class="btn-logar w-100" id="btn-logar" (click)="logar()">
-            <b>Acessar</b>
+          <button
+            mdbRipple
+            type="submit"
+            class="btn-logar w-100"
+            [disabled]="isLoading"
+            (click)="logar()"
+          >
+            <span *ngIf="!isLoading"><b>Acessar</b></span>
+            <span *ngIf="isLoading">
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Carregando...
+            </span>
           </button>
         </form>
       </div>

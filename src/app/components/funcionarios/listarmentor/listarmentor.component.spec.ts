@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AtivarmentorComponent } from './ativarmentor.component';
+import { AtivarmentorComponent } from './listarmentor.component';
 
 
 describe('AtivarmentorComponent', () => {
