@@ -40,6 +40,7 @@ export class CriarGrupoComponent {
         }
         if (aluno.id) {
           this.verificaGrupo(aluno.id);
+          
         }
       },
       error: (err) => {
