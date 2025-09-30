@@ -20,6 +20,7 @@ import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GrupoService } from '../../../services/grupo/grupo.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AlunoService } from '../../../services/alunos/alunos.service';
 
 @Component({
   selector: 'app-criar-projeto',
@@ -49,7 +50,8 @@ export class CriarProjetoComponent implements OnInit {
     private projetoService: ProjetoService,
     private router: Router,
     private route: ActivatedRoute,
-    private grupoService: GrupoService
+    private grupoService: GrupoService,
+    private alunoService: AlunoService
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +65,9 @@ export class CriarProjetoComponent implements OnInit {
       if (id) {
         this.modoEdicao = true;
         this.idProjeto = +id;
-        this.carregarProjeto(this.idProjeto);
+        if (!this.formProjeto.get('areaDeAtuacao')?.value) {
+          this.carregarProjeto(this.idProjeto);
+        }
       }
     });
   }
@@ -88,9 +92,33 @@ export class CriarProjetoComponent implements OnInit {
   }
 
   carregarDadosIniciais() {
-    this.areaService
-      .findAll()
-      .subscribe((data) => (this.areasDeAtuacao = data));
+    this.areaService.findAll().subscribe((data) => {
+      this.areasDeAtuacao = data;
+      if (!this.modoEdicao && this.alunoService.getAlunoLogadoId()) {
+        this.preencherAreaDeAtuacaoDoAluno();
+      }
+    });
+  }
+
+  preencherAreaDeAtuacaoDoAluno(): void {
+    this.areaService.findAreaDeAtuacaoByAlunoLogado().subscribe({
+      next: (areaDoAluno) => {
+        if (areaDoAluno) {
+          const areaCorrespondente = this.areasDeAtuacao.find(
+            (a) => a.id === areaDoAluno.id
+          );
+          if (areaCorrespondente) {
+            this.formProjeto.patchValue({ areaDeAtuacao: areaCorrespondente });
+          }
+        }
+      },
+      error: (err) => {
+        console.error(
+          'Nenhuma área de atuação encontrada para o aluno logado.',
+          err
+        );
+      },
+    });
   }
 
   monitorarAreaDeAtuacao(): void {
