@@ -31,7 +31,12 @@
           </small>
 
           <label for="periodo">Período</label>
-          <input id="periodo" type="text" formControlName="periodo" />
+          <select id="periodo" formControlName="periodo">
+            <option [ngValue]="null" disabled>Selecione o período</option>
+            <option *ngFor="let p of periodosDisponiveis" [value]="p">
+              {{ p }}
+            </option>
+          </select>
           <small *ngIf="hasError('periodo', 'required')" class="error-message">
             Período é obrigatório.
           </small>
