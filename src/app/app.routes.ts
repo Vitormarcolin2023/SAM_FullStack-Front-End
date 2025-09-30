@@ -36,7 +36,7 @@ export const routes: Routes = [
   { path: '', component: LandingpageComponent }, // raiz = landinzg
   { path: 'cadastro', component: CadastroComponent },
 
-  // Páginas internas
+  // Páginas interna
   {
     path: 'tela-inicial',
     component: TelaInicialComponent,
@@ -97,6 +97,7 @@ export const routes: Routes = [
  {path: 'criar-projeto', component: CriarProjetoComponent},
  {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
  { path: 'projetos/:id', component: ProjetoDetalhesComponent },
+ { path: 'editar-projeto/:id', component: CriarProjetoComponent },
 
   // Rota protegida pelo mentorStatusGuard
   { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },

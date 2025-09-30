@@ -2,7 +2,7 @@ import { Curso } from "../curso/curso";
 
 export class AreaDeAtuacao {
   id?: number;
-  nome: string;
+  nome?: string;
   cursos?: Curso[];
 
   constructor(id: number | undefined, nome: string, cursos: Curso[] | undefined) {

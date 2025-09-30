@@ -74,5 +74,13 @@
         </div>
       </ng-template>
     </div>
+
+    <div *ngIf="alunoSemGrupo && !isLoading" class="text-center card-body">
+      <i class="fas fa-users-slash fa-3x text-muted mb-3"></i>
+      <h4>Você ainda não faz parte de um grupo</h4>
+      <p class="text-muted">
+        Quando você entrar ou criar um grupo, as informações aparecerão aqui.
+      </p>
+    </div>
   </div>
 </div>
