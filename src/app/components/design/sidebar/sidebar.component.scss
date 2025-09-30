@@ -1,10 +1,4 @@
 @use '../../../../styles/variaveis' as *;
-/* Variáveis para fácil personalização */
-:root {
-  --sidebar-width: 60px; /* Barra fechada */
-  --sidebar-expanded-width: 250px; /* Barra expandida */
-  --transition-speed: 0.3s;
-}
 
 body {
   margin: 0;
@@ -13,13 +7,13 @@ body {
 }
 
 .sidebar {
-  width: var(--sidebar-width);
+  width: 120px;
   background-color: black;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  transition: width var(--transition-speed) ease;
+  transition: 0.3s ease;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
   overflow: hidden; 
   z-index: 1050;  
@@ -28,7 +22,7 @@ body {
 
 /* Expande a barra ao passar o mouse */
 .sidebar:hover {
-  width: var(--sidebar-expanded-width);
+  width: 210px;
 }
 
 .nav-links {
