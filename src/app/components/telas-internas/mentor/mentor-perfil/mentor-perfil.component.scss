@@ -1,10 +1,27 @@
-
+/* ------------------- VARIÁVEIS ------------------- */
+:root {
+  --sidebar-width: 70px; /* largura fechada */
+  --sidebar-expanded-width: 240px; /* largura expandida */
+  --transition-speed: 0.3s;
+  --primary-color: #198754; /* verde Bootstrap */
+  --text-muted: #6c757d;
+}
 
 /* ------------------- LAYOUT PRINCIPAL ------------------- */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
+}
+
+.container-fluid.background {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+  transition: margin-left var(--transition-speed) ease;
+}
+
+.sidebar:hover ~ .container-fluid.background {
+  margin-left: var(--sidebar-expanded-width);
 }
 
 /* ------------------- SIDEBAR ------------------- */
