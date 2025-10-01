@@ -11,12 +11,13 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f9fa;
+  background-color: #dedede;
 }
 
 .container-fluid.background {
   margin-left: var(--sidebar-width);
   padding: 2rem;
+  margin-top: 50px; 
   transition: margin-left var(--transition-speed) ease;
 }
 

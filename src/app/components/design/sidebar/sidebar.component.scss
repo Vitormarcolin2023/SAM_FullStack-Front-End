@@ -24,10 +24,10 @@ body {
   z-index: 1050;  
 }
 
-
 /* Expande a barra ao passar o mouse */
 .sidebar:hover {
   width: var(--sidebar-expanded-width);
+  background-color: rgba(0, 0, 0, 0.8); /* transparente ao hover */
 }
 
 .nav-links {
@@ -51,7 +51,6 @@ body {
   cursor: pointer;
   margin-bottom: 20px;
 }
-
 
 .nav-link:hover,
 .menu-item:hover {
