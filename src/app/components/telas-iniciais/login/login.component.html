@@ -14,27 +14,6 @@
           <!-- Mensagem de erro -->
           <div class="mb-4 erro" id="erro"></div>
 
-          <!-- Tipo de usuário -->
-          <mdb-form-control class="mb-4">
-            <select
-              mdbInput
-              id="tipoUsuario"
-              name="tipoUsuario"
-              class="form-control"
-              [(ngModel)]="login.role"
-              required
-            >
-              <option value="" disabled selected></option>
-              <option value="MENTOR">Mentor</option>
-              <option value="COORDENADOR">Coordenador</option>
-              <option value="PROFESSOR">Professor</option>
-              <option value="ALUNO">Aluno</option>
-            </select>
-            <label mdbLabel class="form-label" for="tipoUsuario"
-              >Tipo de Usuário</label
-            >
-          </mdb-form-control>
-
           <!-- Email input -->
           <mdb-form-control class="mb-4">
             <input
