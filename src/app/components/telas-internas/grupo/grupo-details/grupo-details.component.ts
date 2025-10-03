@@ -34,7 +34,6 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
   {}
 
   ngOnInit(): void {
-    console.log('[DEBUG] Componente GrupoDetails iniciado (ngOnInit).');
     this.isLoading = true;
 
     // AQUI COMEÇOU A ALTERAÇÃO
@@ -43,11 +42,9 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
       (aluno) => {
         // AQUI FINALIZOU A ALTERAÇÃO
         if (aluno && aluno.id) {
-          console.log(`[DEBUG] Aluno autenticado recebido: ID ${aluno.id}`);
           this.loggedInAlunoId = aluno.id;
           this.carregarGrupo();
         } else {
-          console.log('[DEBUG] Nenhum aluno autenticado encontrado.');
           this.isLoading = false;
           this.exibirModalErro(
             'Não foi possível identificar o usuário. Por favor, faça o login novamente.'
@@ -66,10 +63,6 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
 
   carregarGrupo(): void {
     if (!this.loggedInAlunoId) return;
-
-    console.log(
-      `[DEBUG] Iniciando carregamento do grupo para o aluno ID: ${this.loggedInAlunoId}`
-    );
     this.isLoading = true;
     this.alunoSemGrupo = false;
 
@@ -82,8 +75,7 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        console.error('[DEBUG] OCORREU UM ERRO na chamada da API:', err);
-        if (err.status === 404) {
+        if (err.status === 404 || err.status === 400) {
           this.alunoSemGrupo = true;
         } else {
           this.exibirModalErro(err);
@@ -212,8 +204,6 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
         'Ocorreu um erro inesperado.';
     }
 
-    console.log(`[DEBUG] Exibindo modal de erro com a mensagem: "${mensagem}"`);
-
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
@@ -225,13 +215,11 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
     this.grupoService.arquivarGrupo(this.idGrupo).subscribe({
       next : data => {
         Swal.fire({
-          title: 'Grupo arquivado com sucesso!',
           icon: 'success',
           text: data
         });
       },
       error : err => {
-        console.error(err);
         this.exibirModalErro(err);
       }
     })
