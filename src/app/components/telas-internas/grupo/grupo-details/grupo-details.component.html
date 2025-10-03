@@ -12,15 +12,25 @@
         <div class="info-content">
           <div class="header-com-botao">
             <h4>{{ grupo.nome }}</h4>
-            <button
-              *ngIf="isUserAdmin()"
-              (click)="abrirModalEdicao()"
-              type="button"
-              class="btn btn-primary btn-sm"
-              mdbRipple
-            >
-              <i class="fas fa-pencil-alt me-2"></i> Editar
-            </button>
+            <div>
+              <button
+                *ngIf="isUserAdmin()"
+                (click)="abrirModalEdicao()"
+                type="button"
+                class="btn btn-primary btn-sm"
+                mdbRipple
+              >
+                <i class="fas fa-pencil-alt me-2"></i> Editar
+              </button>
+              <button *ngIf="isUserAdmin()"
+                type="button"
+                class="btn btn-primary btn-sm btn-arquivar"
+                mdbRipple
+                (click)="arquivarGrupo()"
+              >
+                <i class="fas fa-archive"></i> Arquivar
+              </button>
+            </div>
           </div>
           <ul class="list-group list-group-flush mt-3">
             <li
