@@ -1,145 +1,144 @@
-
-.background {
-  background-color: #fff;
-  min-height: 100vh;
-  padding-top: 20px;
-  position: relative;
-  z-index: 0;
+/* ------------------- VARIÁVEIS ------------------- */
+:root {
+  --sidebar-width: 70px; /* largura fechada */
+  --sidebar-expanded-width: 240px; /* largura expandida */
+  --transition-speed: 0.3s;
+  --primary-color: #198754; /* verde Bootstrap */
+  --text-muted: #6c757d;
 }
 
-/* Card padrão para mentor e minicurrículo */
-.perfil-card {
+/* ------------------- LAYOUT PRINCIPAL ------------------- */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
   background-color: #dedede;
-  border-radius: 10px;
-  width: 90%;
-
-  /* Ajusta o alinhamento para a direita */
-  margin-left: 145px;
-  margin-right: auto;
-
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-  box-sizing: border-box;
-
-  /* Espaçamento superior do seu código */
-  margin-top: 100px;
 }
 
-// minicurriculo
-.minicurriculo-card {
-  width: 85%;
-  max-width: 870px;
-  margin-top: 30px;
+.container-fluid.background {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+  margin-top: 50px; 
+  transition: margin-left var(--transition-speed) ease;
+}
 
-  /* Usa o mesmo valor para a margem esquerda para alinhar com o card do mentor */
-  margin-left: 250px;
-  margin-right: auto;
+.sidebar:hover ~ .container-fluid.background {
+  margin-left: var(--sidebar-expanded-width);
+}
+
+/* ------------------- SIDEBAR ------------------- */
+.sidebar {
+  position: fixed;
+  top: 56px; /* altura aproximada da navbar */
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100% - 56px);
+  background: #212529;
+  color: #fff;
+  transition: width var(--transition-speed) ease;
+  overflow-x: hidden;
+  z-index: 1000;
+}
+
+.sidebar:hover {
+  width: var(--sidebar-expanded-width);
+}
+
+/* ------------------- CARD DO PERFIL ------------------- */
+.perfil-card {
+  border-radius: 1rem;
+  background: #fff;
 }
 
 /* Foto do mentor */
 .photo-container {
   position: relative;
-  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9ecef;
+}
+
+.photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: url('/assets/default-avatar.png') center/cover no-repeat;
 }
 
 .upload-icon {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: #000000;
-  color: white;
+  bottom: 6px;
+  right: 6px;
+  background: #fff;
   border-radius: 50%;
   padding: 6px;
-  font-size: 1.2rem;
-  border: 2px solid white;
-}
-
-.photo-placeholder {
-  width: 100px;
-  height: 100px;
-  background-color: #ccc;
-  border-radius: 50%;
-}
-
-.foto-mentor {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* Ícone de edição */
-.edit-icon {
-  cursor: pointer;
   font-size: 0.9rem;
-  transition: color 0.2s ease;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: background 0.3s;
 }
-
-/* Títulos dentro do card */
-.perfil-card h6,
-.minicurriculo-card h6 {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  color: #4caf50; /* verde para destacar */
-  margin-bottom: 10px;
-}
-
-.swal2-confirm {
-  background-color: #4caf50 !important;
-}
-
-.swal2-container-modal {
-  z-index: 1200 !important;
-}
-
-.infoPessoais,
-.infoProfissional {
-  margin-top: 10px;
-}
-
-.btn-editar {
-  background-color: rgb(28, 232, 151);
-  color: #2e2e2e;
-  border: none;
-  border-radius: 5px;
-  height: 30px;
-  margin-right: 10px;
-}
-
-.btn-excluir {
-  background-color: rgb(255, 109, 109);
-  color: #2e2e2e;
-  border: none;
-  border-radius: 5px;
-  height: 30px;
-
-}
-
-.btn-editar:hover {
-  background-color: #00995E;
-  color:#fff;
-}
-
-.btn-excluir:hover{
+.upload-icon:hover {
+  background: var(--primary-color);
   color: #fff;
 }
 
-.botoes{
-  display: flex;
-  margin-top: 10px;
-  width: 100%;
-  justify-content: end;
+/* ------------------- INFOS ------------------- */
+.linha {
+  border-bottom: 1px solid #dee2e6;
+  margin: 1.5rem 0;
 }
 
-.swal2-textarea{
-  width: 85%;
-  resize: none;
-  font-size: 16px;
+.edit-icon {
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+.edit-icon:hover {
+  color: var(--primary-color);
+}
+
+/* ------------------- SEÇÕES ------------------- */
+.infoPessoais h5,
+.infoProfissional h5 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+/* ------------------- BOTÕES ------------------- */
+.botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-editar {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+.btn-editar:hover {
+  background: #146c43;
+}
+
+.btn-excluir {
+  background: #dc3545;
+  color: #fff;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+.btn-excluir:hover {
+  background: #b02a37;
 }
