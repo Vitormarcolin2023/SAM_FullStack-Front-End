@@ -50,4 +50,8 @@ export class GrupoService {
   findGrupoByAlunoLogado(): Observable<Grupo> {
     return this.http.get<Grupo>(`${this.grupoApiUrl}/por-aluno-logado`);
   }
+
+  arquivarGrupo(idGrupo: number): Observable<string> {
+    return this.http.put<string>(`${this.grupoApiUrl}/arquivar/${idGrupo}`, {responseType: 'text'});
+  }
 }

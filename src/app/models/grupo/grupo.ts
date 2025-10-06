@@ -5,6 +5,7 @@ import { Reuniao } from "../reuniao/reuniao";
 export class Grupo {
   id?: number;
   nome: string;
+  statusGrupo?: string;
   alunoAdmin?: Aluno;
   alunos?: Aluno[];
   reunioes?: Reuniao[];
@@ -13,6 +14,7 @@ export class Grupo {
   constructor(
     nome: string,
     id?: number,
+    statusGrupo?: string,
     alunoAdmin?: Aluno,
     alunos?: Aluno[],
     reunioes?: Reuniao[],
@@ -20,6 +22,7 @@ export class Grupo {
   ) {
     this.id = id;
     this.nome = nome;
+    this.statusGrupo = statusGrupo;
     this.alunoAdmin = alunoAdmin;
     this.alunos = alunos;
     this.reunioes = reunioes;
