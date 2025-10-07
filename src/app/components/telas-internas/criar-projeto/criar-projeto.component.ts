@@ -160,10 +160,29 @@ export class CriarProjetoComponent implements OnInit {
     this.grupoService.getGrupos().subscribe({
       next: (res) => {
         this.grupos = res;
+        if (!this.modoEdicao && this.alunoService.getAlunoLogadoId()) {
+          this.preencherGrupoDoAluno();
+        }
       },
       error: (err) => {
         console.error('Erro ao carregar grupos:', err);
       },
+    });
+  }
+
+  preencherGrupoDoAluno(): void {
+    this.grupoService.findGrupoByAlunoLogado().subscribe({
+      next: (grupoDoAluno) => {
+        if (grupoDoAluno) {
+          const grupoCorrespondente = this.grupos.find(g => g.id === grupoDoAluno.id);
+          if (grupoCorrespondente) {
+            this.formProjeto.patchValue({ grupo: grupoCorrespondente });
+          }
+        }
+      },
+      error: (err) => {
+        console.error('Nenhum grupo encontrado para o aluno logado.', err);
+      }
     });
   }
 

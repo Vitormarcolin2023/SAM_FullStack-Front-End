@@ -19,7 +19,6 @@ body {
   z-index: 1050;  
 }
 
-
 /* Expande a barra ao passar o mouse */
 .sidebar:hover {
   width: 210px;
@@ -47,10 +46,8 @@ body {
   margin-bottom: 20px;
 }
 
-
 .nav-link:hover,
 .menu-item:hover {
-  background-color: #333;
   color: $btn-acao;
 }
 
