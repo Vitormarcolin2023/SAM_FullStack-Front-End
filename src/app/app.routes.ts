@@ -28,6 +28,7 @@ import { FuncionarioComponent } from './components/funcionarios/perfil/funcionar
 import { CadastroProfessorComponent } from './components/funcionarios/cadastro-professor/cadastro-professor.component';
 import { CadastroCoordenacaoComponent } from './components/funcionarios/cadastro-coordenacao/cadastro-coordenacao.component';
 import { ListarMentorComponent } from './components/funcionarios/listarmentor/listarmentor.component';
+import { SelecaoMentorComponent } from './components/selecao-mentor/selecao-mentor/selecao-mentor.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -95,6 +96,7 @@ export const routes: Routes = [
 
  {path: 'visual-projeto', component: VisualProjetoComponent},
  {path: 'criar-projeto', component: CriarProjetoComponent},
+ { path: 'selecionar-mentor/:idArea', component: SelecaoMentorComponent },
  {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
  { path: 'projetos/:id', component: ProjetoDetalhesComponent },
  { path: 'editar-projeto/:id', component: CriarProjetoComponent },

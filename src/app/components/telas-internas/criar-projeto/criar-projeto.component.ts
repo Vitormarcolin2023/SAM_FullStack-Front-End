@@ -21,6 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GrupoService } from '../../../services/grupo/grupo.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlunoService } from '../../../services/alunos/alunos.service';
+import { SelecaoService } from '../../../services/selecao/selecao.service';
 
 @Component({
   selector: 'app-criar-projeto',
@@ -64,7 +65,8 @@ export class CriarProjetoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private grupoService: GrupoService,
-    private alunoService: AlunoService
+    private alunoService: AlunoService,
+    private selecaoService: SelecaoService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,7 @@ export class CriarProjetoComponent implements OnInit {
     this.carregarDadosIniciais();
     this.carregarGrupos();
     this.monitorarAreaDeAtuacao();
+    this.receberMentorSelecionado();
 
     this.route.params.subscribe((params) => {
       const id = params['id'];
@@ -221,6 +224,29 @@ export class CriarProjetoComponent implements OnInit {
       if (!inicio || !fim) return null;
       return new Date(inicio) > new Date(fim) ? { dataInvalida: true } : null;
     };
+  }
+
+  // NOVA FUNÇÃO para receber o mentor
+  receberMentorSelecionado(): void {
+    this.selecaoService.getMentorSelecionado().subscribe(mentor => {
+      if (mentor) {
+        // Coloca o mentor recebido no formulário
+        this.formProjeto.patchValue({ mentor: mentor });
+        // Limpa o serviço para não receber o mesmo mentor novamente
+        this.selecaoService.clearMentor();
+      }
+    });
+  }
+
+  // NOVA FUNÇÃO para abrir a tela de seleção
+  abrirTelaSelecaoMentor(): void {
+    const areaDeAtuacao = this.formProjeto.get('areaDeAtuacao')?.value;
+    if (areaDeAtuacao && areaDeAtuacao.id) {
+      // Navega para a tela de seleção, passando o ID da área na URL
+      this.router.navigate(['/selecionar-mentor', areaDeAtuacao.id]);
+    } else {
+      Swal.fire('Atenção', 'Por favor, selecione uma Área de Atuação primeiro.', 'warning');
+    }
   }
 
   onSubmit() {

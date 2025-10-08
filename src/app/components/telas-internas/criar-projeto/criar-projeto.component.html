@@ -161,6 +161,34 @@
         </select>
       </div>
 
+      <label for="mentor">Mentor</label>
+      <div class="mentor-selection-box">
+        <span
+          *ngIf="formProjeto.get('mentor')?.value as mentor"
+          class="mentor-name"
+        >
+          {{ mentor.nome }}
+        </span>
+        <span
+          *ngIf="!formProjeto.get('mentor')?.value"
+          class="mentor-placeholder"
+        >
+          Nenhum mentor selecionado
+        </span>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          (click)="abrirTelaSelecaoMentor()"
+          [disabled]="!formProjeto.get('areaDeAtuacao')?.value"
+        >
+          Escolher Mentor
+        </button>
+      </div>
+      <small *ngIf="hasError('mentor', 'required')" class="error-message">
+        Mentor é obrigatório.
+      </small>
+
       <div class="form-buttons-container">
         <div class="buttons-row">
           <button type="button" class="btn-back" (click)="voltar()">

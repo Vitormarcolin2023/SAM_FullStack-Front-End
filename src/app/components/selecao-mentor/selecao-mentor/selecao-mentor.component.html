@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Selecione um Mentor</h2>
+    <button class="btn btn-secondary" (click)="voltar()">
+      Voltar sem selecionar
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center">
+    <p>Carregando mentores...</p>
+  </div>
+
+  <div *ngIf="!isLoading && mentores.length === 0" class="alert alert-warning">
+    Nenhum mentor ativo encontrado para esta área de atuação.
+  </div>
+
+  <div *ngIf="!isLoading && mentores.length > 0" class="list-group">
+    <div
+      *ngFor="let mentor of mentores"
+      class="list-group-item list-group-item-action"
+    >
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{ mentor.nome }}</h5>
+        <button class="btn btn-primary btn-sm" (click)="escolherMentor(mentor)">
+          Escolher
+        </button>
+      </div>
+      <p class="mb-1">
+        <strong>Profissão:</strong> {{ mentor.profissao || "Não informado" }}
+      </p>
+      <p class="mb-1">
+        <strong>Formação:</strong> {{ mentor.formacao || "Não informado" }}
+      </p>
+      <small
+        ><strong>Experiência:</strong>
+        {{ mentor.tempoDeExperiencia || "Não informado" }}</small
+      >
+    </div>
+  </div>
+</div>
