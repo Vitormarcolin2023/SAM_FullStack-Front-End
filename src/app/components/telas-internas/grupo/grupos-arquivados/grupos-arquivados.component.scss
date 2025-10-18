@@ -1,0 +1,55 @@
+@use '../../../../../styles/variaveis.scss' as *;
+
+main.conteudo-central {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  min-height: 100vh;
+  padding: 20px; 
+  margin-top: 60px;
+
+ 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.form-box{
+  width: 80%;
+}
+
+.container-titulo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 1px $linha;
+  margin-bottom: 30px;
+}
+
+
+.card-body {
+    padding: 0.7rem;
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: $titulos-verde;
+    }
+
+    .card-text {
+      font-size: 0.85rem;
+      color: #555;
+    }
+  }
+
+  .card-body:hover{
+    background-color: #dededeb8;
+    border-radius: 1vh;
+  }

@@ -28,6 +28,7 @@ import { FuncionarioComponent } from './components/funcionarios/perfil/funcionar
 import { CadastroProfessorComponent } from './components/funcionarios/cadastro-professor/cadastro-professor.component';
 import { CadastroCoordenacaoComponent } from './components/funcionarios/cadastro-coordenacao/cadastro-coordenacao.component';
 import { ListarMentorComponent } from './components/funcionarios/listarmentor/listarmentor.component';
+import { GruposArquivadosComponent } from './components/telas-internas/grupo/grupos-arquivados/grupos-arquivados.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -67,6 +68,11 @@ export const routes: Routes = [
       {
         path: 'criar-grupo',
         component: CriarGrupoComponent,
+      },
+
+      {
+        path: 'grupos-arquivados',
+        component: GruposArquivadosComponent,
       },
     ],
   },
