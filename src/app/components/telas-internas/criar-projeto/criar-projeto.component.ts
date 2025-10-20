@@ -21,6 +21,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GrupoService } from '../../../services/grupo/grupo.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlunoService } from '../../../services/alunos/alunos.service';
+import { ProfessorService } from '../../../services/professor/professor.service';
+import { Professor } from '../../../models/professor/professor';
 
 @Component({
   selector: 'app-criar-projeto',
@@ -37,11 +39,16 @@ import { AlunoService } from '../../../services/alunos/alunos.service';
 export class CriarProjetoComponent implements OnInit {
   formProjeto!: FormGroup;
   modoEdicao = false;
+  carregando = false;
   idProjeto: number | null = null;
 
   mentores: Mentor[] = [];
   areasDeAtuacao: AreaDeAtuacao[] = [];
   grupos: any[] = [];
+  professores: any[] = [];
+  professoresFiltrados: Professor[] = [];
+  professoresSelecionados: Professor[] = [];
+
 
   periodosDisponiveis: string[] = [
     '1º Período',
@@ -64,14 +71,17 @@ export class CriarProjetoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private grupoService: GrupoService,
-    private alunoService: AlunoService
-  ) {}
+    private alunoService: AlunoService,
+    private professorService: ProfessorService,
+  ){}
 
   ngOnInit(): void {
     this.initForm();
     this.carregarDadosIniciais();
     this.carregarGrupos();
     this.monitorarAreaDeAtuacao();
+    this.monitorarDataInicio();
+    this.carregarProfessores();
 
     this.route.params.subscribe((params) => {
       const id = params['id'];
@@ -85,6 +95,23 @@ export class CriarProjetoComponent implements OnInit {
     });
   }
 
+  private monitorarDataInicio(): void{
+    this.formProjeto.get('dataInicioProjeto')?.valueChanges.subscribe(inicio => {
+      if (!inicio){
+        this.formProjeto.get('dataFinalProjeto')?.setValue('');
+        return;
+      }
+      const dataInicio = new Date(inicio);
+      const dataFinalAutomatico = new Date(dataInicio);
+      dataFinalAutomatico.setMonth(dataFinalAutomatico.getMonth() + 6);
+
+      const dataFinalFormatada = dataFinalAutomatico.toISOString().substring(0,10);
+
+      this.formProjeto.get('dataFinalProjeto')?.setValue(dataFinalFormatada,{emitEvent: false});
+    });
+  }
+     
+
   initForm() {
     this.formProjeto = this.fb.group(
       {
@@ -97,6 +124,7 @@ export class CriarProjetoComponent implements OnInit {
         mentor: [{ value: null, disabled: true }, Validators.required],
         grupo: [null, Validators.required],
         professores: [[], Validators.required],
+      
       },
       {
         validators: [this.validarDatasProjeto()],
@@ -186,6 +214,41 @@ export class CriarProjetoComponent implements OnInit {
     });
   }
 
+  carregarProfessores(): void{
+    this.professorService.findAll().subscribe({
+      next: (res) => {
+        this.professores = res;
+        this.professoresFiltrados = res;
+      },
+      error: (err) =>{
+        console.error('Erro ao carregar professores:',err);
+      }
+    });
+  }
+
+  pesquisarProfessores(event: Event): void{
+    const termo = (event.target as HTMLInputElement).value.toLowerCase();
+    this.professoresFiltrados = this.professores.filter((p) =>
+    p.nome.toLowerCase().includes(termo)
+    );
+  }
+
+  toggleProfessorSelecao(professor:Professor): void {
+    const index = this.professoresSelecionados.findIndex((p) => p.id === professor.id);
+
+    if(index >= 0) {
+      this.professoresSelecionados.splice(index, 1);
+    } else {
+      this.professoresSelecionados.push(professor);
+    }
+    this.formProjeto.get('professores')?.setValue(this.professoresSelecionados);
+  }
+
+  isProfessorSelecionado(professor: Professor): boolean {
+    return this.professoresSelecionados.some((p) => p.id === professor.id);
+
+  }
+
   carregarProjeto(id: number) {
     this.projetoService.findById(id).subscribe((projeto) => {
       if (projeto.areaDeAtuacao && projeto.areaDeAtuacao.id) {
@@ -222,10 +285,34 @@ export class CriarProjetoComponent implements OnInit {
       return new Date(inicio) > new Date(fim) ? { dataInvalida: true } : null;
     };
   }
+  onAreaDeAtuacaoChange(): void{
+     const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
+
+     if (!areaSelecionada) {
+    this.mentores = [];
+    this.formProjeto.get('mentor')?.reset();
+    this.formProjeto.get('mentor')?.disable();
+    return;
+  }
+  this.mentorService.findByAreaDeAtuacao(areaSelecionada.id).subscribe({
+    next: (mentores) => {
+      this.mentores = mentores;
+      this.formProjeto.get('mentor')?.enable();
+    },
+     error: (err) => {
+      console.error('Erro ao buscar mentores:', err);
+    }
+  });
+}
+trackByProfessorId(index: number, professor: Professor): number {
+  return professor.id ?? index;
+}
 
   onSubmit() {
     if (this.formProjeto.valid) {
       const projeto: Projeto = this.formProjeto.value;
+
+      this.carregando = true;
 
       const acao =
         this.modoEdicao && this.idProjeto
