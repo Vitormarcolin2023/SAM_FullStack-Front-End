@@ -5,10 +5,9 @@
   justify-content: center;
   align-items: flex-start; /* Mantém o card no topo quando houver scroll */
   min-height: 100vh;
-  padding: 20px; /* Espaço para scroll */
+  padding: 20px; 
   margin-top: 60px;
 
-  background-image: url('/backgroundLight.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -27,19 +26,19 @@
   flex-direction: column;
 
   min-height: 400px;
-  max-height: 90vh; /* Limita altura em relação à tela */
-  overflow-y: auto; /* Scroll vertical quando ultrapassar max-height */
+  max-height: 90vh; 
+  overflow-y: auto; 
 }
 
 /* Container de rolagem para o conteúdo */
 .form-scroll-content {
-  flex-grow: 1; /* Permite que este container ocupe todo o espaço disponível */
-  overflow-y: auto; /* Habilita a barra de rolagem vertical */
-  padding-right: 15px; /* Espaço para conteúdo não colar na barra de rolagem */
-  margin-bottom: 10px; /* Espaço entre conteúdo e botões fixos */
+  flex-grow: 1; 
+  overflow-y: auto; 
+  padding-right: 15px; 
+  margin-bottom: 10px; 
 }
 
-/* Estilização da barra de rolagem (WebKit - Chrome, Safari) */
+
 .form-scroll-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -67,7 +66,7 @@ h3 {
 }
 
 .form-step {
-  padding-bottom: 10px; /* Espaço entre cada seção (step) */
+  padding-bottom: 10px;
   border-bottom: 1px solid #eee;
   margin-bottom: 25px;
 }
@@ -89,7 +88,7 @@ textarea {
 }
 
 textarea {
-  resize: vertical; /* Permite redimensionar só verticalmente */
+  resize: vertical; 
 }
 
 .error {
@@ -132,4 +131,56 @@ textarea {
 .buttons-row button.btn-back {
   background-color: $fundo-elemento;
   color: #333;
+}
+
+.professores-selecionados-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.badge-professor-selecionado {
+  background-color: $titulos-verde;
+  color: white;
+  padding: 5px 5px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+.btn-remover-professor {
+  background: transparent;
+  border: none;
+  margin-left: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+   font-size: 14px;
+  line-height: 1;
+}
+.list-professores {
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: white;
+   margin-top: 5px;
+}
+.professores-list-container {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.professores-list-container li {
+  padding: 3px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+.professores-list-container li:hover {
+  background-color: #f0f0f0;
+}
+
+.professor-selecionado {
+  background-color: lighten($titulos-verde, 40%);
 }

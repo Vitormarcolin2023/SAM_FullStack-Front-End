@@ -6,6 +6,7 @@ import { ProjetoService } from '../../../services/projeto/projeto.service';
 import { Router } from '@angular/router';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { TokenDecode } from '../../../models/token/token-decode';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-projeto-detalhes',
@@ -40,24 +41,26 @@ ngOnInit(): void {
   }
  
   deletarProjeto() {
-  if (confirm('Tem certeza que deseja deletar este projeto?')) {
-    const id = this.projeto?.id;
-    if (id !== undefined) {
-      this.projetoService.delete(id).subscribe({
-        next: () => {
-          alert('Projeto deletado com sucesso!');
-          this.router.navigate(['/visual-projeto']);
-        },
-        error: (erro: unknown) => {
-          alert('Erro ao deletar o projeto.');
-          console.error(erro);
-        }
-      });
-    } else {
-      alert('ID do projeto não encontrado. Não foi possível deletar.');
-    }
+  const id = this.projeto?.id;
+
+  if (!id) {
+    alert("ID do projeto não encontrado.");
+    return;
+  }
+
+  const confirmado = confirm("Tem certeza que deseja deletar este projeto?");
+  if (confirmado) {
+    this.projetoService.delete(id).subscribe({
+      next: () => alert("Projeto deletado com sucesso."),
+      error: (err) => {
+        alert("Erro ao deletar o projeto.");
+        console.error(err);
+      }
+    });
   }
 }
+
+
 editarProjeto() {
   const id = this.projeto?.id;
   if (id !== undefined) {
