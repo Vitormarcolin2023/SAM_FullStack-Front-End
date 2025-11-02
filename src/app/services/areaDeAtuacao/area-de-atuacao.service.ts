@@ -14,4 +14,8 @@ export class AreaDeAtuacaoService {
   findAll(): Observable<AreaDeAtuacao[]> {
     return this.http.get<AreaDeAtuacao[]>(`${this.apiUrl}/findAll`);
   }
+
+  findAreaDeAtuacaoByAlunoLogado(): Observable<AreaDeAtuacao> {
+    return this.http.get<AreaDeAtuacao>(`${this.apiUrl}/por-aluno-logado`);
+  }
 }

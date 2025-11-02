@@ -1,4 +1,7 @@
 <nav class="sidebar">
+   <div class="logo">
+      SAM
+    </div>
   <ul class="nav-links">
     <li>
       <div class="menu-item">
@@ -111,14 +114,14 @@
         <span class="text">Visualizar Mentores</span>
       </a>
     </li>
-    }
-
+    } @if (userRole != 'ALUNO') {
     <li>
       <a (click)="visualizarProjetos()" class="nav-link">
         <span class="icon"> <i class="fas fa-project-diagram"></i> </span>
         <span class="text">Visualizar Projetos</span>
       </a>
     </li>
+    }
 
     <!--  GRUPOS -->
     @if (userRole == 'ALUNO') {

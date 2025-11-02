@@ -34,16 +34,16 @@ export class CriarGrupoComponent {
     this.alunoService.getMyProfile().subscribe({
       next: (aluno) => {
         this.aluno = aluno;
-        console.log(aluno);
+    
         if (aluno.curso.id != null) {
           this.alunosNoCurso(aluno.curso.id);
         }
         if (aluno.id) {
           this.verificaGrupo(aluno.id);
+          
         }
       },
       error: (err) => {
-        console.log('erro aluno ', err);
         Swal.fire({
           icon: 'error',
           title: 'Erro ao encontrar aluno logado',
