@@ -10,9 +10,9 @@
 
 /* ------------------- LAYOUT PRINCIPAL ------------------- */
 body {
-  margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background-color: #dedede;
+  overflow-x: hidden;
 }
 
 .container-fluid.background {
@@ -102,11 +102,86 @@ body {
   color: var(--primary-color);
 }
 
-/* ------------------- SEÇÕES ------------------- */
-.infoPessoais h5,
-.infoProfissional h5 {
-  font-weight: 600;
-  margin-bottom: 0.75rem;
+// O container de cada item do acordeão, responsável pela borda
+.collapse-container {
+    // Estilo de borda e separação entre os itens
+    border: 1px solid #dee2e6; // Cor de borda sutil (padrão Bootstrap)
+    margin-bottom: 0 !important; // Remove margem para as bordas se tocarem
+    
+    // Remove a borda superior para o visual de "accordion" contínuo
+    &:not(:first-child) {
+        border-top: none;
+    }
+    
+    // Arredonda as bordas apenas do primeiro item
+    &:first-of-type {
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+    // Arredonda as bordas apenas do último item
+    &:last-of-type {
+        border-bottom-left-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+}
+
+// Estilo do Cabeçalho Clicável (a tag <label>)
+.collapse-header {
+    display: flex;
+    justify-content: space-between; // Alinha o texto à esquerda e o ícone à direita
+    align-items: center;
+    cursor: pointer;
+    font-weight: 600;
+    
+    // Padding para replicar o item do Accordion (espaço interno)
+    padding: 1rem 1.25rem; 
+    
+    background-color: #f8f9fa; // Cor de fundo suave para o cabeçalho
+    transition: background-color 0.15s ease-in-out;
+    
+    &:hover {
+        background-color: #e9ecef; // Levemente mais escuro ao passar o mouse
+    }
+}
+
+// Estilo do Ícone (seta)
+.toggle-icon {
+    transition: transform 0.35s ease-in-out; // Animação de rotação suave
+    transform: rotate(0deg); // Estado inicial: seta para baixo
+}
+
+// Estilo do Conteúdo que será escondido/exibido
+.collapse-content {
+    max-height: 0; // Oculta por padrão
+    overflow: hidden;
+    transition: max-height 0.35s ease-out; // Animação de expansão/recolhimento
+    
+    border-top: 1px solid #dee2e6; // Borda separadora entre o cabeçalho e o corpo
+}
+
+// Padding para o conteúdo dentro do corpo do acordeão
+.accordion-body-content {
+    padding: 1rem 1.25rem; 
+}
+
+
+// =============================================================
+// LÓGICA DE ESTADO (QUANDO O CHECKBOX ESTÁ MARCADO)
+// O seletor ~ atua no elemento subsequente
+
+// 1. Quando o checkbox está MARCADO... (Expandir e Rotacionar)
+.collapse-toggle:checked {
+    
+    // 1a. ...Expande o conteúdo (irmão subsequente do checkbox)
+    ~ .collapse-content {
+        max-height: 500px; // Valor grande o suficiente para o conteúdo
+        // Ajuste se o conteúdo for muito grande
+    }
+    
+    // 1b. ...Gira o ícone para cima (o ícone está dentro do label)
+    ~ .collapse-header .toggle-icon {
+        transform: rotate(180deg); // Gira 180 graus (fica apontando para cima)
+    }
 }
 
 /* ------------------- BOTÕES ------------------- */

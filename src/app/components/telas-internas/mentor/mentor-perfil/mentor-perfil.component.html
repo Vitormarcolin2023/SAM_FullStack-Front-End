@@ -1,23 +1,18 @@
-
 <app-sidebar></app-sidebar>
 
 <div class="container-fluid background p-4">
-  <!-- Card do Mentor -->
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="card p-4 shadow-sm border-0 perfil-card">
         <div class="d-flex align-items-center">
           
-          <!-- Foto do mentor -->
           <div class="photo-container me-4">
             <div class="photo-placeholder"></div>
             <i class="fa-solid fa-camera upload-icon"></i>
             <input style="display: none" />
           </div>
 
-          <!-- Infos do mentor -->
           <div>
-            <!-- Nome (somente leitura) -->
             <h4 class="fw-bold">{{ mentor.nome }}</h4>
             <ng-template #semNome>
               <h4 class="fw-bold text-muted fst-italic">
@@ -25,7 +20,6 @@
               </h4>
             </ng-template>
 
-            <!-- Área de Atuação (somente leitura) -->
             @if(mentor.areaDeAtuacao){
             <p class="text-muted mb-1">{{ mentor.areaDeAtuacao.nome }}</p>
             } @if (!mentor.areaDeAtuacao) {
@@ -34,7 +28,6 @@
             </p>
             }
 
-            <!-- Resumo (editável) -->
             <div class="d-flex align-items-center">
               <h6 class="fw-bold text-success mb-0 me-2">Sobre o Mentor</h6>
               <i
@@ -57,29 +50,46 @@
 
         <div class="linha"></div>
 
-        <!-- mais informações -->
-        <div class="infoPessoais">
-          <h5>Informações pessoais</h5>
-          <p class="text-muted mb-1">Email: {{ mentor.email }}</p>
-          <p class="text-muted mb-1">Telefone: {{ mentor.telefone }}</p>
-          <p class="text-muted mb-1">
-            Endereço: {{ mentor.endereco.rua }}, {{ mentor.endereco.numero }}
-          </p>
+        <div class="collapse-container card-item">
+            <input type="checkbox" id="togglePessoais" class="collapse-toggle" hidden>
+
+            <label for="togglePessoais" class="collapse-header">
+                <span class="fw-bold">Informações Pessoais</span>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </label>
+
+            <div class="collapse-content infoPessoais">
+                <div class="accordion-body-content">
+                    <p class="text-muted mb-1">Email: {{ mentor.email }}</p>
+                    <p class="text-muted mb-1">Telefone: {{ mentor.telefone }}</p>
+                    <p class="text-muted mb-1">
+                        Endereço: {{ mentor.endereco.rua }}, {{ mentor.endereco.numero }}
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="linha"></div>
+        <div class="collapse-container card-item">
+            <input type="checkbox" id="toggleProfissional" class="collapse-toggle" hidden>
 
-        <div class="infoProfissional">
-          <h5>Informações profissionais</h5>
-          <p class="text-muted mb-1">
-            Tipo de Vínculo: {{ mentor.tipoDeVinculo }}
-          </p>
-          <p class="text-muted mb-1">
-            Tempo de experiência: {{ mentor.tempoDeExperiencia }}
-          </p>
+            <label for="toggleProfissional" class="collapse-header">
+                <span class="fw-bold">Informações Profissionais</span>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </label>
+
+            <div class="collapse-content infoProfissional">
+                <div class="accordion-body-content">
+                    <p class="text-muted mb-1">
+                        Tipo de Vínculo: {{ mentor.tipoDeVinculo }}
+                    </p>
+                    <p class="text-muted mb-1">
+                        Tempo de experiência: {{ mentor.tempoDeExperiencia }}
+                    </p>
+                </div>
+            </div>
         </div>
 
-        <div class="botoes">
+        <div class="linha"></div> <div class="botoes">
           <button class="btn-editar" (click)="editarInformacoes()">
             Editar informações
           </button>
@@ -91,43 +101,4 @@
     </div>
   </div>
 
-  <!-- Card Minicurrículo 
-  <div class="card p-4 shadow-sm border-0 perfil-card minicurriculo-card">
-    <div class="d-flex align-items-center mb-2">
-      <h6 class="fw-bold text-success mb-0 me-2">Minicurrículo</h6>
-      <i
-        class="fa-solid fa-pen text-muted edit-icon"
-        (click)="editarMinicurriculo()"
-      ></i>
-    </div>
-    <p class="text-muted mb-0">
-      {{ minicurriculo }}
-    </p>
-    
-      <p class="text-muted mb-0 fst-italic">Nenhum minicurrículo cadastrado.</p>
-    
   </div>
--->
-
-  <!-- MODAL PARA EDIÇÃO DO PERFIL 
-  <ng-template #mentorDetalhe>
-    <div class="template">
-    <div class="modal-header">
-      <h5 class="modal-title">Editar Informações</h5>
-      <button
-        type="button"
-        class="btn-close"
-        aria-label="Close"
-        (click)="modalRef.close()"
-      ></button>
-    </div>
-    <div class="modal-body">
-      <app-mentor-edit
-        [mentor] ="mentorEdit"
-        (retorno)="retornoDetalhe($event)"
-      ></app-mentor-edit>
-    </div>
-    </div>
-  </ng-template>
--->
-</div>
