@@ -1,5 +1,8 @@
 @use '../../../../styles/variaveis' as *;
 
+body{
+  overflow-x: hidden;
+}
 
 h3{
     color: $titulos-verde;
