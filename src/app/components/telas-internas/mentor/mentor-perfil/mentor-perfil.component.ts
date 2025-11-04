@@ -28,7 +28,7 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    NavbarTelasInternasComponent,
+
     SidebarComponent,
     MdbModalModule,
   ],
