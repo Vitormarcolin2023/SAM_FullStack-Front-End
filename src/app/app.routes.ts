@@ -14,7 +14,6 @@ import { CriarGrupoComponent } from './components/telas-internas/grupo/criar-gru
 import { VisualizarprojetosComponent } from './components/funcionarios/visualizarprojetos/visualizarprojetos.component';
 import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
 import { AlunoPrincipalComponent } from './components/telas-internas/aluno-principal/aluno-principal.component';
-import { AlunoBemVindoComponent } from './components/telas-internas/aluno-principal/aluno-bem-vindo/aluno-bem-vindo.component';
 import { AlunoPerfilComponent } from './components/telas-internas/aluno-principal/aluno-perfil/aluno-perfil.component';
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { MentorEditComponent } from './components/telas-internas/mentor/mentor-edit/mentor-edit.component';
