@@ -46,11 +46,12 @@ export const routes: Routes = [
     ],
   },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
+
+  // Rotas do Aluno
   {
     path: 'aluno',
     component: AlunoPrincipalComponent,
     children: [
-      { path: 'aluno-bem-vindo', component: AlunoBemVindoComponent },
       { path: 'aluno-perfil', component: AlunoPerfilComponent },
       { path: 'aluno-editar/:email', component: AlunoDetaisComponent },
     ],
@@ -83,27 +84,32 @@ export const routes: Routes = [
   },
 
   {
-    path: "mentor/visualizar-projetos",
-    component: ProjetosMentorComponent
+    path: 'mentor/visualizar-projetos',
+    component: ProjetosMentorComponent,
   },
 
-  { path: 'cadastro-coordenacao/:email', component: CadastroCoordenacaoComponent},
+  {
+    path: 'cadastro-coordenacao/:email',
+    component: CadastroCoordenacaoComponent,
+  },
   { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
   { path: 'cadastro-professor/:email', component: CadastroProfessorComponent },
-  { path: 'cadastro-professor', component: CadastroProfessorComponent},
-  { path: 'funcionario-perfil', component: FuncionarioComponent},
+  { path: 'cadastro-professor', component: CadastroProfessorComponent },
+  { path: 'funcionario-perfil', component: FuncionarioComponent },
 
- {path: 'visual-projeto', component: VisualProjetoComponent},
- {path: 'criar-projeto', component: CriarProjetoComponent},
- {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
- { path: 'projetos/:id', component: ProjetoDetalhesComponent },
- { path: 'editar-projeto/:id', component: CriarProjetoComponent },
+  { path: 'visual-projeto', component: VisualProjetoComponent },
+  { path: 'criar-projeto', component: CriarProjetoComponent },
+  { path: 'projeto-detalhes', component: ProjetoDetalhesComponent },
+  { path: 'projetos/:id', component: ProjetoDetalhesComponent },
+  { path: 'editar-projeto/:id', component: CriarProjetoComponent },
 
   // Rota protegida pelo mentorStatusGuard
-  { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
-  
+  {
+    path: 'mentor-perfil',
+    component: MentorPerfilComponent,
+    canActivate: [mentorStatusGuard],
+  },
 
- 
   // Fallback (rota não encontrada)
 
   // Fallback (rota não encontrada) //nao adicionar paginas embaixo dessa linha se nao nao funciona
