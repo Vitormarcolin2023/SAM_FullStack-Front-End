@@ -6,7 +6,6 @@ import { ViaCepService } from '../../../../services/viaCep/via-cep.service';
 import { AreaDeAtuacaoService } from '../../../../services/areaDeAtuacao/area-de-atuacao.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { NavbarTelasInternasComponent } from "../../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../../design/sidebar/sidebar.component";
 import { MentorService } from '../../../../services/mentores/mentores.service';
 import { Router } from '@angular/router';
@@ -14,13 +13,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-mentor-edit',
   standalone: true,
-  imports: [CommonModule, MdbFormsModule, FormsModule, NavbarTelasInternasComponent, SidebarComponent],
+  imports: [CommonModule, MdbFormsModule, FormsModule, SidebarComponent],
   templateUrl: './mentor-edit.component.html',
   styleUrls: ['./mentor-edit.component.scss'],
 })
 export class MentorEditComponent {
   
-
   modalRef: any;
   areasDeAtuacao: Mentor['areaDeAtuacao'][] = [];
   isLoadingCep = false;

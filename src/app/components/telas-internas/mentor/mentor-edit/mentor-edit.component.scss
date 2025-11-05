@@ -14,7 +14,7 @@
 }
 
 .perfil-card {
-  background-color: #dedede;
+  background-color: #f0f0f0;
   border-radius: 10px;
   width: 90%;
 
@@ -48,4 +48,9 @@ select.form-control:focus,
 textarea.form-control:focus {
   border-color: #007bff; /* cor da borda ao focar */
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.background {
+  background-color: #dedede;
+  min-height: 100vh;
 }
