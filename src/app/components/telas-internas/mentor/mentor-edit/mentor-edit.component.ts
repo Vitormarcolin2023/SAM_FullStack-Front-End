@@ -143,4 +143,11 @@ export class MentorEditComponent {
   });
 }
 
+ajustarAltura(event: Event): void {
+  const textarea = event.target as HTMLTextAreaElement;
+  textarea.style.height = 'auto'; // reseta altura
+  textarea.style.height = textarea.scrollHeight + 'px'; // ajusta para o conteúdo
+}
+
+
 }
