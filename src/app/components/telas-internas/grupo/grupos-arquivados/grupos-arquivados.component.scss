@@ -52,20 +52,11 @@ main.conteudo-central {
 
   }
 
-  .card-body:hover{
+  #container:hover{
     border-radius: 1vh;
     transition: ease-in-out 150ms;
     transform: scale(1.05);
   }
-
-  .modal-container-transparente .modal-content {
-  /* Remove o fundo branco */
-  background-color: transparent !important; 
-  /* Remove qualquer sombra ou borda padrão do MDB */
-  border: none !important;                 
-  box-shadow: none !important;             
-}
-
 
 
 

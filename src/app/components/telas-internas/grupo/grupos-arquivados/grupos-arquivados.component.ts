@@ -15,7 +15,7 @@ import { GruposArquivadosDetaislsComponent } from "./grupos-arquivados-detaisls/
 
 @Component({
   selector: 'app-grupos-arquivados',
-  imports: [NavbarTelasInternasComponent, SidebarComponent, CommonModule, GrupoDetailsComponent, MdbModalModule, GruposArquivadosDetaislsComponent],
+  imports: [CommonModule, MdbModalModule, GruposArquivadosDetaislsComponent],
   templateUrl: './grupos-arquivados.component.html',
   styleUrl: './grupos-arquivados.component.scss',
 })
