@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -6,7 +13,7 @@ import { Grupo } from '../../../../models/grupo/grupo';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
 import { Aluno } from '../../../../models/aluno/aluno';
 // AQUI COMEÇOU A ALTERAÇÃO
-import { Subscription } from 'rxjs';
+import { elementAt, Subscription } from 'rxjs';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 import { Title } from '@angular/platform-browser';
 // AQUI FINALIZOU A ALTERAÇÃO
@@ -28,48 +35,46 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private grupoService: GrupoService,
-    // AQUI COMEÇOU A ALTERAÇÃO
-    private alunoService: AlunoService // INJETANDO AlunoService
-  ) // AQUI FINALIZOU A ALTERAÇÃO
-  {}
+    private alunoService: AlunoService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-
-    // AQUI COMEÇOU A ALTERAÇÃO
-    // Se inscreve no observable do AlunoService
-    this.authSubscription = this.alunoService.alunoLogado$.subscribe(
-      (aluno) => {
-        // AQUI FINALIZOU A ALTERAÇÃO
-        if (aluno && aluno.id) {
-          this.loggedInAlunoId = aluno.id;
-          this.carregarGrupo();
-        } else {
-          this.isLoading = false;
-          this.exibirModalErro(
-            'Não foi possível identificar o usuário. Por favor, faça o login novamente.'
-          );
+  
+      this.authSubscription = this.alunoService.alunoLogado$.subscribe(
+        (aluno) => {
+          // AQUI FINALIZOU A ALTERAÇÃO
+          if (aluno && aluno.id) {
+            this.loggedInAlunoId = aluno.id;
+            this.carregarGrupo();
+          } else {
+            this.isLoading = false;
+            this.exibirModalErro(
+              'Não foi possível identificar o usuário. Por favor, faça o login novamente.'
+            );
+          }
         }
-      }
-    );
+      );
   }
+
 
   ngOnDestroy(): void {
     this.authSubscription?.unsubscribe();
   }
 
-  // ... O restante do seu arquivo .ts permanece exatamente o mesmo ...
-  // (carregarGrupo, isUserAdmin, solicitarExclusaoAluno, exibirModalErro, etc.)
-
   carregarGrupo(): void {
     if (!this.loggedInAlunoId) return;
     this.isLoading = true;
     this.alunoSemGrupo = false;
-
     this.grupoService.getGrupoByAlunoId(this.loggedInAlunoId).subscribe({
       next: (data) => {
         this.grupo = data;
         this.isLoading = false;
+        if (data == null) {
+          this.isLoading = false;
+          this.alunoSemGrupo = true;
+          console.log(data);
+        }
         if (data.id) {
           this.idGrupo = data.id;
         }
@@ -213,15 +218,15 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
 
   arquivarGrupo() {
     this.grupoService.arquivarGrupo(this.idGrupo).subscribe({
-      next : data => {
+      next: (data) => {
         Swal.fire({
           icon: 'success',
-          text: data
+          text: data,
         });
       },
-      error : err => {
+      error: (err) => {
         this.exibirModalErro(err);
-      }
-    })
+      },
+    });
   }
 }

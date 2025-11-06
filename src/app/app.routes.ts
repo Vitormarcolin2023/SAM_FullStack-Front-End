@@ -30,7 +30,7 @@ import { ListarMentorComponent } from './components/funcionarios/listarmentor/li
 import { AprovarMentorComponent } from './components/telas-internas/mentor/aprovar-mentor/aprovar-mentor.component';
 import { AceiteDeMentoriaPerfilComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-perfil/aceite-de-mentoria-perfil.component';
 import { AceiteDeMentoriaDetaisComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-detais/aceite-de-mentoria-detais.component';
-
+import { GruposArquivadosComponent } from './components/telas-internas/grupo/grupos-arquivados/grupos-arquivados.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -71,6 +71,11 @@ export const routes: Routes = [
       {
         path: 'criar-grupo',
         component: CriarGrupoComponent,
+      },
+
+      {
+        path: 'grupos-arquivados',
+        component: GruposArquivadosComponent,
       },
     ],
   },

@@ -52,39 +52,6 @@ export class MentorPerfilComponent implements OnInit {
     });
   }
 
-  /** Carrega resumo, minicurrículo e foto do localStorage 
-  private carregarDadosLocal(): void {
-    const dadosSalvos = localStorage.getItem(`perfilMentor_${this.mentorId}`);
-    if (dadosSalvos) {
-      const perfil = JSON.parse(dadosSalvos);
-      this.fotoUrl = perfil.fotoUrl || '';
-      this.resumo = perfil.resumo || '';
-      this.minicurriculo = perfil.minicurriculo || '';
-    }
-  }
-
-  private salvarDados(): void {
-    const perfil = {
-      fotoUrl: this.fotoUrl,
-      resumo: this.resumo,
-      minicurriculo: this.minicurriculo,
-    };
-    localStorage.setItem(`perfilMentor_${this.mentorId}`, JSON.stringify(perfil));
-  }
-
-  onFotoSelecionada(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.fotoUrl = reader.result as string;
-        this.salvarDados();
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-    */
 
   editarInfos(): void {
     if (!this.mentor) {
