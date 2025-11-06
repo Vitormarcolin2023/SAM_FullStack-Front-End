@@ -7,7 +7,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarTelasInternasComponent } from '../../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
@@ -28,10 +27,9 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    NavbarTelasInternasComponent,
     SidebarComponent,
-    MdbModalModule,
-  ],
+    MdbModalModule
+],
   templateUrl: './mentor-perfil.component.html',
   styleUrls: ['./mentor-perfil.component.scss'],
   encapsulation: ViewEncapsulation.None,

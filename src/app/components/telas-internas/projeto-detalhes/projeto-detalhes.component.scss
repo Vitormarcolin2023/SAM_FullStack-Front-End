@@ -1,5 +1,8 @@
 @use '../../../../styles/variaveis' as *;
 
+.swal-sobreposto {
+  z-index: 9999 !important;
+}
 
 .container {
   max-width: 600px;

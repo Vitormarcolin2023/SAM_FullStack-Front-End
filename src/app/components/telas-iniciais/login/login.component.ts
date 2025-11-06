@@ -46,7 +46,7 @@ export class LoginComponent {
               console.log(
                 'AlunoService atualizado. Navegando para a página do aluno...'
               );
-              this.router.navigate(['/aluno/aluno-bem-vindo']);
+              this.router.navigate(['/visual-projeto']);
               this.isLoading = false;
             },
             error: (err) => {
