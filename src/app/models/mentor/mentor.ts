@@ -5,6 +5,7 @@ export class Mentor {
   email!: string;
   senha!: string;
   telefone!: string;
+  formacaoDoMentor?: string;
   tempoDeExperiencia!: string;
   statusMentor!: string;
   tipoDeVinculo!: TipoDeVinculo;
@@ -12,7 +13,6 @@ export class Mentor {
   endereco!: Endereco;
   reunioes?: any[];
   resumo?: string;
-  formacao?: string;
 }
 
 export enum TipoDeVinculo {

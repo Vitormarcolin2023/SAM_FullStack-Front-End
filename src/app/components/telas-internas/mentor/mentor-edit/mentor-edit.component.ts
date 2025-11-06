@@ -35,7 +35,7 @@ export class MentorEditComponent {
     this.mentorService.getMyProfile().subscribe({
     next: (mentor) => {
       this.mentor = mentor;
-      this.mentor.formacao = mentor.formacao || ''; // garante que não fique undefined
+      this.mentor.formacaoDoMentor = mentor.formacaoDoMentor || ''; // garante que não fique undefined
       this.loadAreasDeAtuacao();
     },
     error: (erro) => {
@@ -122,7 +122,8 @@ export class MentorEditComponent {
   }
 
   salvar() {
-  this.mentorService.update(this.mentor).subscribe({
+    console.log('Formação do Mentor:', this.mentor.formacaoDoMentor);
+    this.mentorService.update(this.mentor).subscribe({
     next: (mentorAtualizado) => {
       this.mentor = mentorAtualizado;
       Swal.fire({
