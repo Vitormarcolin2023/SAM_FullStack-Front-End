@@ -34,22 +34,38 @@ main.conteudo-central {
 
 
 .card-body {
-    padding: 0.7rem;
-
+    padding: 1rem;
+    border: 0.2px solid #00995e66;
+    border-radius: 1vh;
     .card-title {
       font-size: 1rem;
       font-weight: bold;
       margin-bottom: 0.5rem;
       color: $titulos-verde;
+      margin-left: 2rem;
     }
 
     .card-text {
       font-size: 0.85rem;
       color: #555;
     }
+
   }
 
   .card-body:hover{
-    background-color: #dededeb8;
     border-radius: 1vh;
+    transition: ease-in-out 150ms;
+    transform: scale(1.05);
   }
+
+  .modal-container-transparente .modal-content {
+  /* Remove o fundo branco */
+  background-color: transparent !important; 
+  /* Remove qualquer sombra ou borda padrão do MDB */
+  border: none !important;                 
+  box-shadow: none !important;             
+}
+
+
+
+

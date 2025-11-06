@@ -12,6 +12,7 @@
           <div
             class="card h-100 shadow-sm card-pequeno w-100 **p-3**"
             style="cursor: pointer"
+            (click)="visualizarGrupo(grupo)"
           >
             <div class="card-body">
               <div class="container-card-title">
@@ -35,3 +36,9 @@
     </section>
   </div>
 </main>
+
+<ng-template #grupoDetalhes>
+
+  <app-grupos-arquivados-detaisls [grupo]="grupoSelecionado"></app-grupos-arquivados-detaisls>
+
+</ng-template>
