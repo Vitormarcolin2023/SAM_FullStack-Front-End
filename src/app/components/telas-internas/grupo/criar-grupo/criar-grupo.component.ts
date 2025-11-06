@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
-import { GrupoDto } from '../../../../models/grupo/grupo';
+import { Grupo, GrupoDto } from '../../../../models/grupo/grupo';
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class CriarGrupoComponent {
 
   alunosSelecionados = signal<Aluno[]>([]);
 
+
   constructor(private grupoService: GrupoService) {}
 
   ngOnInit() {
@@ -34,7 +35,6 @@ export class CriarGrupoComponent {
     this.alunoService.getMyProfile().subscribe({
       next: (aluno) => {
         this.aluno = aluno;
-    
         if (aluno.curso.id != null) {
           this.alunosNoCurso(aluno.curso.id);
         }
@@ -73,7 +73,10 @@ export class CriarGrupoComponent {
 
   verificaGrupo(id: number) {
     this.grupoService.getGrupoByAlunoId(id).subscribe({
-      next: (grupo) => {
+      next: (grupo) => {  
+        if(grupo == null){
+          return;
+        }
         this.aluno.grupo = grupo;
         Swal.fire({
           icon: 'error',

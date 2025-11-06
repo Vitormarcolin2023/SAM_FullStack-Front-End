@@ -1,0 +1,74 @@
+.card {
+ width: 100%;
+ max-width: 700px;
+ background-color: transparent; /* Card transparente por padrão */
+ border-radius: 12px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.4); 
+}
+
+/* CLASSE CONDICIONAL: Aplica o fundo cinza (#dedede) quando o grupo está carregado */
+.card-group-loaded {
+    background-color: #dedede !important;
+}
+
+h4, h5 {
+ color: #00995E;
+ font-weight: 600;
+ margin-bottom: 0.5rem;
+}
+
+h5 i {
+ color: #00995E;
+}
+
+.info-section {
+ display: flex;
+ align-items: flex-start;
+ gap: 16px;
+}
+
+.info-content {
+ flex: 1;
+}
+
+.header-com-botao {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 1rem;
+}
+
+.badge-primary {
+ background-color: #00995E;
+ color: #ffffff;
+ font-weight: 600;
+}
+
+.badge-arquivado {
+    background-color: #6c757d !important; /* Cinza escuro para destaque */
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.list-group-item {
+ border: none;
+ border-bottom: 1px solid #e0e0e0;
+ padding: 12px 0;
+}
+
+.spinner-border {
+ color: #00995E !important;
+}
+
+.text-primary {
+ color: #00995E !important;
+}
+
+p {
+ color: #555;
+ line-height: 1.5;
+}
+
+.text-muted {
+ color: #888 !important;
+}
