@@ -91,12 +91,29 @@
                 [(ngModel)]="mentor.tipoDeVinculo"
                 name="tipoDeVinculo"
                 class="form-select"
-              >
+              > 
+                
                 <option [ngValue]="'CLT'">CLT</option>
                 <option [ngValue]="'PJ'">PJ</option>
                 <option [ngValue]="'VOLUNTARIO'">Voluntário</option>
               </select>
+              
             </div>
+
+           <!-- Formação -->
+          <div class="mb-3">
+            <label mdbLabel class="form-label" for="formacao">Formação do Mentor</label>
+             <textarea
+               mdbInput
+               id="formacao"
+               [(ngModel)]="mentor.formacao"
+               name="formacao"
+               class="form-control"
+               rows="1"
+               (input)="ajustarAltura($event)"
+              ></textarea>
+          </div>
+
 
             <!-- Área de Atuação -->
             <div class="mb-3">
@@ -200,6 +217,7 @@
                 name="resumo"
                 class="form-control"
                 (input)="ajustarAltura($event)"
+                rows="1"
               ></textarea>
             </div>
 

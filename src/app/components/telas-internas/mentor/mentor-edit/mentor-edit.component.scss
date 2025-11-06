@@ -17,7 +17,7 @@
   //background-color: #f0f0f0;
   border-radius: 10px;
   border-color: #00995E;
-  width: 90%;
+  width: 75%;
 
   /* Ajusta o alinhamento para a direita */
   margin-left: 145px;
@@ -63,13 +63,15 @@ h3 {
 
 .linha{
   width: 100%;
-  border-bottom: solid 1px;
+  border-bottom: solid 2px;
   margin-bottom: 15px;
+  border-color: #00995E;
 }
 
 textarea {
   resize: none; /* impede que o usuário redimensione manualmente */
   overflow-y: hidden; /* evita scroll vertical */
-  min-height: 80px; /* define uma altura mínima opcional */
+  min-height: 40px; /* define uma altura mínima opcional */
   transition: height 0.2s ease; /* suaviza o crescimento */
 }
+

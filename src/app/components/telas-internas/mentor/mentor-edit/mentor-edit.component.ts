@@ -35,6 +35,7 @@ export class MentorEditComponent {
     this.mentorService.getMyProfile().subscribe({
     next: (mentor) => {
       this.mentor = mentor;
+      this.mentor.formacao = mentor.formacao || ''; // garante que não fique undefined
       this.loadAreasDeAtuacao();
     },
     error: (erro) => {

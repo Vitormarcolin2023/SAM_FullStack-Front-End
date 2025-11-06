@@ -12,6 +12,7 @@ export class Mentor {
   endereco!: Endereco;
   reunioes?: any[];
   resumo?: string;
+  formacao?: string;
 }
 
 export enum TipoDeVinculo {
