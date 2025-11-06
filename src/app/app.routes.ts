@@ -27,9 +27,10 @@ import { FuncionarioComponent } from './components/funcionarios/perfil/funcionar
 import { CadastroProfessorComponent } from './components/funcionarios/cadastro-professor/cadastro-professor.component';
 import { CadastroCoordenacaoComponent } from './components/funcionarios/cadastro-coordenacao/cadastro-coordenacao.component';
 import { ListarMentorComponent } from './components/funcionarios/listarmentor/listarmentor.component';
-import { AceiteDeMentoriaPrincipalComponent } from './components/telas-internas/mentor/aceite-de-mentoria-principal/aceite-de-mentoria-principal.component';
-import { AceiteDeMentoriaPerfilComponent } from './components/telas-internas/mentor/aceite-de-mentoria-principal/aceite-de-mentoria-perfil/aceite-de-mentoria-perfil.component';
-import { AceiteDeMentoriaDetaisComponent } from './components/telas-internas/mentor/aceite-de-mentoria-principal/aceite-de-mentoria-detais/aceite-de-mentoria-detais.component';
+import { AprovarMentorComponent } from './components/telas-internas/mentor/aprovar-mentor/aprovar-mentor.component';
+import { AceiteDeMentoriaPerfilComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-perfil/aceite-de-mentoria-perfil.component';
+import { AceiteDeMentoriaDetaisComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-detais/aceite-de-mentoria-detais.component';
+
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -93,7 +94,7 @@ export const routes: Routes = [
   //Aceite de mentoria
   {
     path: 'aprovar-mentoria',
-    component: AceiteDeMentoriaPrincipalComponent,
+    component: AprovarMentorComponent,
     children: [
       {
         path: 'painel-de-mentorias',
