@@ -15,23 +15,22 @@ export class GruposArquivadosDetaislsComponent {
   @Input() grupo: Grupo | null = null;
 
   loggedInAlunoId: number | null = null;
-  // O grupo é carregado via Input, então o loading é rápido
+
   isLoading: boolean = true; 
   
   alunoService = inject(AlunoService);
   private authSubscription: Subscription | undefined;
   
-  // Variável dummy para evitar erros de referência se o template ainda as usar
+ 
   alunoSemGrupo: boolean = false; 
 
   ngOnInit(): void {
-    // Carrega o ID do aluno logado apenas para checar se ele é o "Líder" (para fins de exibição)
+   
     this.authSubscription = this.alunoService.alunoLogado$.subscribe(
       (aluno) => {
         if (aluno && aluno.id) {
           this.loggedInAlunoId = aluno.id;
         }
-        // O grupo é passado, então o carregamento está completo.
         this.isLoading = false; 
       }
     );
@@ -42,7 +41,6 @@ export class GruposArquivadosDetaislsComponent {
   }
 
   isUserAdmin(): boolean {
-    // Retorna se o usuário logado é o admin, apenas para fins de visualização do selo "Líder"
     return (
       !!this.loggedInAlunoId &&
       this.grupo?.alunoAdmin?.id === this.loggedInAlunoId
