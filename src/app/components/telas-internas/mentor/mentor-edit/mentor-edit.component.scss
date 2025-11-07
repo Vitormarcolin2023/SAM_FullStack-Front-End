@@ -1,7 +1,7 @@
 
-
 .btn-color {
   background-color: rgb(28, 232, 151);
+  color: #146c43;
 }
 
 .btn-color:hover {
@@ -14,9 +14,10 @@
 }
 
 .perfil-card {
-  background-color: #dedede;
+  //background-color: #f0f0f0;
   border-radius: 10px;
-  width: 90%;
+  border-color: #00995E;
+  width: 75%;
 
   /* Ajusta o alinhamento para a direita */
   margin-left: 145px;
@@ -30,22 +31,47 @@
   word-break: break-word;
   white-space: normal;
   box-sizing: border-box;
-
-  /* Espaçamento superior do seu código */
-  margin-top: 100px;
 }
 
 input.form-control,
 select.form-control,
 textarea.form-control {
-  background-color: #fff; /* cor do fundo */
+  //background-color: #fff; /* cor do fundo */
   color: #000; /* cor do texto */
   border: 1px solid #ccc; /* borda visível */
 }
 
-input.form-control:focus,
-select.form-control:focus,
-textarea.form-control:focus {
-  border-color: #007bff; /* cor da borda ao focar */
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.background {
+  //background-color: #dedede;
+  min-height: 100vh;
 }
+
+h3 {
+    color: #00995E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    
+.form-label {
+    color: #00995E;
+}
+
+.mb-3{
+  color: #00995E;
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 2px;
+  margin-bottom: 15px;
+  border-color: #00995E;
+}
+
+textarea {
+  resize: none; /* impede que o usuário redimensione manualmente */
+  overflow-y: hidden; /* evita scroll vertical */
+  min-height: 40px; /* define uma altura mínima opcional */
+  transition: height 0.2s ease; /* suaviza o crescimento */
+}
+

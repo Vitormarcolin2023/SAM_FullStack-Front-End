@@ -5,6 +5,7 @@ export class Mentor {
   email!: string;
   senha!: string;
   telefone!: string;
+  formacaoDoMentor?: string;
   tempoDeExperiencia!: string;
   statusMentor!: string;
   tipoDeVinculo!: TipoDeVinculo;
