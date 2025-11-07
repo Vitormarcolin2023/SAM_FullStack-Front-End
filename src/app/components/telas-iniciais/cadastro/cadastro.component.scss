@@ -9,37 +9,9 @@
 .form-box {
     padding: 20px;
     border-radius: 5px;
-    width: 80%;
-
+    width: 75%;
     display: flex;
     flex-direction: column;
-
-    min-height: 400px;
-    max-height: 90vh; /* Limita altura em relação à tela */
-}
-
-
-/*NOVO: Container de rolagem para o conteúdo */
-.form-scroll-content {
-    flex-grow: 1; /* Permite que este container ocupe todo o espaço disponível */
-    overflow-y: auto; /* Habilita a barra de rolagem vertical */
-    padding-right: 15px; /* Adiciona espaço para que o conteúdo não cole na barra de rolagem */
-    margin-bottom: 10px; /* Espaço entre o conteúdo e os botões fixos */
-}
-
-/* 🔹 Opcional: Estilização da barra de rolagem (WebKit - Chrome, Safari) */
-.form-scroll-content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.form-scroll-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.form-scroll-content::-webkit-scrollbar-thumb {
-    background-color: #00995E;
-    border-radius: 4px;
 }
 
 h2 {
@@ -115,4 +87,17 @@ select {
   border-bottom: solid 2px;
   margin-bottom: 15px;
   border-color: #00995E;
+}
+
+label{
+    color: #00995E;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: none;
 }
