@@ -78,8 +78,10 @@
               rows="3"
               placeholder="Descreva sua formação acadêmica"
             ></textarea>
-              @if(hasError('formacaoDoMentor', 'required')){
-                <small class="error-message">A formação é obrigatória.</small>
+              @if(formSubmitted && hasError('formacaoDoMentor', 'required')) {
+              <small class="error-message">A formação é obrigatória.</small>
+              <small class="text-muted">Exemplo: Licenciatura em Matemática ou Bacharelado em Engenharia.</small>
+
           }
 
 

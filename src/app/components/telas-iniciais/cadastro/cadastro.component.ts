@@ -74,7 +74,7 @@ export class CadastroComponent implements OnInit {
       tempoDeExperiencia: [''],
       tipoDeVinculo: [TipoDeVinculo.CLT, Validators.required],
       areaDeAtuacao: ['', Validators.required],
-      formacaoDoMentor: ['', Validators.required],
+      formacaoDoMentor: [''],
     });
 
     this.loadAreasDeAtuacao();
