@@ -1,5 +1,4 @@
 <div class="d-flex justify-content-center">
-  <!-- Aplica a classe de fundo cinza (#dedede) quando o grupo não for nulo -->
   <div
     class="card p-4 shadow-sm"
     [class.card-group-loaded]="grupo && !isLoading"
@@ -13,19 +12,18 @@
       <p class="mt-2">Carregando informações do grupo...</p>
     </div>
 
-    <!-- Conteúdo do Grupo Arquivado -->
     <div *ngIf="grupo && !isLoading" class="card-body">
       <div class="info-section">
         <div class="info-content">
           <div class="header-com-botao">
             <h4>{{ grupo.nome }}</h4>
-            <!-- Flag de Grupo Arquivado -->
+            
             <div>
                 <span class="badge bg-secondary badge-arquivado">GRUPO ARQUIVADO</span>
             </div>
           </div>
           
-          <!-- Lista de Alunos -->
+         
           <ul class="list-group list-group-flush mt-3">
             <li
               *ngFor="let aluno of grupo.alunos"
@@ -39,15 +37,13 @@
                   >Líder</span
                 >
               </span>
-              <!-- Ações (Excluir, Editar) são removidas nesta visualização de Arquivado -->
+             
             </li>
           </ul>
         </div>
       </div>
 
       <hr class="my-4" />
-
-      <!-- Detalhes do Projeto -->
       <ng-container
         *ngIf="grupo.projetos && grupo.projetos.length > 0; else noProject"
       >
@@ -72,7 +68,6 @@
       </ng-template>
     </div>
 
-    <!-- Mensagem de erro caso o grupo esteja nulo inesperadamente -->
     <div *ngIf="!grupo && !isLoading" class="text-center card-body">
       <i class="fas fa-times-circle fa-3x text-danger mb-3"></i>
       <h4>Detalhes do Grupo Não Encontrados</h4>
