@@ -47,24 +47,19 @@ select {
     margin-bottom: 5px;
 }
 
-.form-buttons-container {
-    padding-top: 15px;
-}
-
 .buttons-row {
     display: flex;
-    justify-content: space-between;
     gap: 10px;
 }
 
 .buttons-row button {
-    flex: 1;
-    padding: 7px;
+    padding: 6px 15px; /* controla altura e largura */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
     font-size: 14px;
+    width: auto; /* botão fica do tamanho do texto */
 }
 
 .buttons-row button:not(.btn-back) {
@@ -81,6 +76,12 @@ select {
     background-color: #ccc;
     color: #333;
 }
+
+.buttons-row button.btn-back:hover {
+  background-color: #999; /* cor de fundo ao passar o mouse */
+  color: #fff; /* texto fica branco */
+}
+
 
 .linha{
   width: 100%;
