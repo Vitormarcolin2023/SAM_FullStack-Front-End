@@ -186,6 +186,7 @@ export class CadastroComponent implements OnInit {
       telefone: this.cadastroMentorForm.value.telefone,
       tempoDeExperiencia: this.cadastroMentorForm.value.tempoDeExperiencia,
       tipoDeVinculo: this.cadastroMentorForm.value.tipoDeVinculo,
+      formacaoDoMentor: this.cadastroMentorForm.value.formacaoDoMentor,
       statusMentor: 'PENDENTE',
       endereco: endereco,
       areaDeAtuacao: { id: this.cadastroMentorForm.value.areaDeAtuacao },
