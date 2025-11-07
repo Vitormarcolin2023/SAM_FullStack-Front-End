@@ -122,7 +122,7 @@ export class MentorEditComponent {
   }
 
   salvar() {
-    console.log('Formação do Mentor:', this.mentor.formacaoDoMentor);
+    //console.log('Formação do Mentor:', this.mentor.formacaoDoMentor);
     this.mentorService.update(this.mentor).subscribe({
     next: (mentorAtualizado) => {
       this.mentor = mentorAtualizado;
