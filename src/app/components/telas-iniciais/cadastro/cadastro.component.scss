@@ -1,24 +1,22 @@
+
 .cadastro-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Mantém o card no topo quando houver scroll */
-    padding: 20px; /* Espaço para scroll */
-    margin-top: 60px;
+    padding: 10px; /* Espaço para scroll */
+    margin-top: 50px;
+    width: 100%;
 }
 
 .form-box {
     padding: 20px;
-    border-radius: 5px;
+    max-width: 600px;
     width: 75%;
-    display: flex;
-    flex-direction: column;
 }
 
 h2 {
     text-align: center;
     color: #00995E;
 }
-
 
 .form-step {
     border-bottom: 1px solid #eee;
