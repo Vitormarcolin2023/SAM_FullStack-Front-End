@@ -6,7 +6,6 @@ import { ViaCepService } from '../../../../services/viaCep/via-cep.service';
 import { AreaDeAtuacaoService } from '../../../../services/areaDeAtuacao/area-de-atuacao.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { NavbarTelasInternasComponent } from "../../../design/navbar-telas-internas/navbar-telas-internas.component";
 import { SidebarComponent } from "../../../design/sidebar/sidebar.component";
 import { MentorService } from '../../../../services/mentores/mentores.service';
 import { Router } from '@angular/router';
@@ -14,13 +13,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-mentor-edit',
   standalone: true,
-  imports: [CommonModule, MdbFormsModule, FormsModule, NavbarTelasInternasComponent, SidebarComponent],
+  imports: [CommonModule, MdbFormsModule, FormsModule, SidebarComponent],
   templateUrl: './mentor-edit.component.html',
   styleUrls: ['./mentor-edit.component.scss'],
 })
 export class MentorEditComponent {
   
-
   modalRef: any;
   areasDeAtuacao: Mentor['areaDeAtuacao'][] = [];
   isLoadingCep = false;
@@ -37,6 +35,7 @@ export class MentorEditComponent {
     this.mentorService.getMyProfile().subscribe({
     next: (mentor) => {
       this.mentor = mentor;
+      this.mentor.formacaoDoMentor = mentor.formacaoDoMentor || ''; // garante que não fique undefined
       this.loadAreasDeAtuacao();
     },
     error: (erro) => {
@@ -123,7 +122,8 @@ export class MentorEditComponent {
   }
 
   salvar() {
-  this.mentorService.update(this.mentor).subscribe({
+    //console.log('Formação do Mentor:', this.mentor.formacaoDoMentor);
+    this.mentorService.update(this.mentor).subscribe({
     next: (mentorAtualizado) => {
       this.mentor = mentorAtualizado;
       Swal.fire({
@@ -144,5 +144,12 @@ export class MentorEditComponent {
     },
   });
 }
+
+ajustarAltura(event: Event): void {
+  const textarea = event.target as HTMLTextAreaElement;
+  textarea.style.height = 'auto'; // reseta altura
+  textarea.style.height = textarea.scrollHeight + 'px'; // ajusta para o conteúdo
+}
+
 
 }

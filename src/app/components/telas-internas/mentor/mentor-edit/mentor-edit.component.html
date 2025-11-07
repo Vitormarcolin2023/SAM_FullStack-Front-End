@@ -1,16 +1,18 @@
-<app-navbar-telas-internas></app-navbar-telas-internas>
 <app-sidebar></app-sidebar>
 
 <div class="container-fluid background p-4">
+  
   <!-- Card do Mentor -->
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="card p-4 shadow-sm border-0 perfil-card">
         <div class="edit-body">
             <h3>Editar Informações</h3>
+            <div class="linha"></div>
+
           <form>
             <!-- Nome -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="nome">Nome</label>
               <input
                 mdbInput
@@ -20,10 +22,10 @@
                 name="nome"
                 class="form-control"
               />
-            </mdb-form-control>
+            </div>
 
             <!-- CPF -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="cpf">CPF</label>
               <input
                 mdbInput
@@ -33,10 +35,10 @@
                 name="cpf"
                 class="form-control"
               />
-            </mdb-form-control>
+            </div>
 
             <!-- Email -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="email">Email</label>
               <input
                 mdbInput
@@ -46,10 +48,10 @@
                 name="email"
                 class="form-control"
               />
-            </mdb-form-control>
+            </div>
 
             <!-- Telefone -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="telefone">Telefone</label>
               <input
                 mdbInput
@@ -59,10 +61,12 @@
                 name="telefone"
                 class="form-control"
               />
-            </mdb-form-control>
+            </div>
+
+             <div class="linha"></div>
 
             <!-- Tempo de Experiência -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="tempoDeExperiencia"
                 >Tempo de Experiência</label
               >
@@ -74,10 +78,10 @@
                 name="tempoDeExperiencia"
                 class="form-control"
               />
-            </mdb-form-control>
+            </div>
 
             <!-- Tipo de Vínculo -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="tipoDeVinculo"
                 >Tipo de Vínculo</label
               >
@@ -87,12 +91,29 @@
                 [(ngModel)]="mentor.tipoDeVinculo"
                 name="tipoDeVinculo"
                 class="form-select"
-              >
+              > 
+                
                 <option [ngValue]="'CLT'">CLT</option>
                 <option [ngValue]="'PJ'">PJ</option>
                 <option [ngValue]="'VOLUNTARIO'">Voluntário</option>
               </select>
-            </mdb-form-control>
+              
+            </div>
+
+           <!-- Formação -->
+          <div class="mb-3">
+            <label mdbLabel class="form-label" for="formacaoDoMentor">Formação do Mentor</label>
+             <textarea
+               mdbInput
+               id="formacaoDoMentor"
+               [(ngModel)]="mentor.formacaoDoMentor"
+               name="formacaoDoMentor"
+               class="form-control"
+               rows="1"
+               (input)="ajustarAltura($event)"
+              ></textarea>
+          </div>
+
 
             <!-- Área de Atuação -->
             <div class="mb-3">
@@ -109,6 +130,8 @@
                 </option>
               </select>
             </div>
+
+             <div class="linha"></div>
 
             <!-- Endereço -->
             <div class="mb-3">
@@ -136,7 +159,7 @@
               />
             </div>
 
-            <mdb-form-control class="mb-2">
+            <div class="mb-2">
               <label mdbLabel class="form-label" for="numero">Número</label>
               <input
                 mdbInput
@@ -146,7 +169,7 @@
                 name="numero"
                 class="form-control"
               />
-            </mdb-form-control>
+            </div>
 
             <div class="mb-3">
               <label for="bairro">Bairro</label>
@@ -182,8 +205,10 @@
               />
             </div>
 
+             <div class="linha"></div>
+
             <!-- Resumo -->
-            <mdb-form-control class="mb-3">
+            <div class="mb-3">
               <label mdbLabel class="form-label" for="resumo">Resumo</label>
               <textarea
                 mdbInput
@@ -191,17 +216,19 @@
                 [(ngModel)]="mentor.resumo"
                 name="resumo"
                 class="form-control"
+                (input)="ajustarAltura($event)"
+                rows="1"
               ></textarea>
-            </mdb-form-control>
+            </div>
 
             <!-- Botão -->
             <button
               mdbRipple
               type="button"
               (click)="salvar()"
-              class="btn btn-block mt-3 btn-color"
+              class="btn  mt-3 btn-color"
             >
-              Salvar
+              <b>Salvar</b>
             </button>
           </form>
         </div>
