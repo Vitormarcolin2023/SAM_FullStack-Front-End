@@ -1,0 +1,50 @@
+
+<div class="modal-header">
+    <h5 class="modal-title"> Selecionar Mentor</h5>
+
+    <button type="button" class="close" aria-label="Fechar" (click) = "fecharModal()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+    <div class="modal-body">
+        <div class="form-group mb-3">
+            <label for="areaSelect">Área de atuação</label>
+            <select
+                id="areaSelect"
+                class="form-control"
+                [(ngModel)]="areaSelecionada"
+                (ngModelChange)="filtrarMentores()"
+                >
+                <option *ngFor="let area of areasDisponiveis" [ngValue]="area">
+                    {{ area.nome }}
+                </option>
+             </select>
+         </div>
+
+        <div *ngIf="mentoresFiltrados.length > 0; else semMentores">
+            <ul class="list-group">
+                <li 
+                    *ngFor="let mentor of mentoresFiltrados" 
+                     class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                <div>
+                    <strong>{{ mentor.nome }}</strong><br />
+                    <small>{{ mentor.email }}</small><br />
+                    <small>Área: {{ mentor.areaDeAtuacao.nome }}</small><br />
+                    <small>Experiência: {{ mentor.tempoDeExperiencia }} anos</small>
+                </div>
+                <button class="btn btn-primary btn-sm" (click)="selecionarMentor(mentor)">Selecionar</button>
+                </li>
+            </ul>
+        </div>
+
+        <ng-template #semMentores>
+            <p class="text-muted text-center mt-3">Nenhum mentor encontrado para esta área.></p>
+        </ng-template>
+    </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+
+        </div>

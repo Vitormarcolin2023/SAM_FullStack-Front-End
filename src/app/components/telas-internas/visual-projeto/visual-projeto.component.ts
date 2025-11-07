@@ -44,9 +44,29 @@ export class VisualProjetoComponent implements OnInit {
     });
   }
 
-  carregarProjetos() {
-    this.projetoService.findAll().subscribe((projs) => (this.projetos = projs));
+  carregarProjetos(): void {
+    this.projetoService.findAll().subscribe({
+      next: (projs) => {
+        this.projetos = projs;
+      //  this.verificarProjetosComDataFinal();
+  },
+  error: (err) => {
+      console.error('Erro ao carregar projetos:', err);
   }
+});
+}
+
+  /*verificarProjetosComDataFinal(): void {
+    const hoje = new Date();
+
+    this.projetos.forEach((projeto) => {
+    const dataFinal = new Date(projeto.dataFinalProjeto);
+
+    if (hoje >= dataFinal && !projeto.arquivado) {
+      this.arquivarEForcarAvaliacao(projeto);
+    }
+  });
+}*/
 
    abrirModalDetalhes(projeto: Projeto) {
     this.modalRef = this.modalService.open(ProjetoDetalhesComponent, {

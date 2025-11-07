@@ -23,6 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlunoService } from '../../../services/alunos/alunos.service';
 import { ProfessorService } from '../../../services/professor/professor.service';
 import { Professor } from '../../../models/professor/professor';
+import { MentorModalComponent } from './mentor-modal/mentor-modal.component';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-criar-projeto',
@@ -32,8 +34,8 @@ import { Professor } from '../../../models/professor/professor';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    NavbarTelasInternasComponent,
     SidebarComponent,
+    
   ],
 })
 export class CriarProjetoComponent implements OnInit {
@@ -73,6 +75,7 @@ export class CriarProjetoComponent implements OnInit {
     private grupoService: GrupoService,
     private alunoService: AlunoService,
     private professorService: ProfessorService,
+    private modalService: MdbModalService
   ){}
 
   ngOnInit(): void {
@@ -212,6 +215,26 @@ export class CriarProjetoComponent implements OnInit {
         console.error('Nenhum grupo encontrado para o aluno logado.', err);
       }
     });
+  }
+
+  abrirModalMentor(): void {
+    const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
+    if(!areaSelecionada)return;
+
+    const modalRef = this.modalService.open(MentorModalComponent, {
+      modalClass: 'modal-lg',
+      data: {
+        mentores: this.mentores,
+        areaDoAluno: areaSelecionada,
+        areasDisponiveis: this.areasDeAtuacao,
+      },
+    });
+    modalRef.onClose.subscribe((mentorSelecionado: Mentor | null) => {
+      if (mentorSelecionado){
+        this.formProjeto.patchValue({mentor: mentorSelecionado})
+      }
+    });
+ 
   }
 
   carregarProfessores(): void{
