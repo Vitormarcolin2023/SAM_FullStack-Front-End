@@ -2,25 +2,20 @@
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Mantém o card no topo quando houver scroll */
-    min-height: 100vh;
     padding: 20px; /* Espaço para scroll */
     margin-top: 60px;
 }
 
 .form-box {
-    background: rgba(255, 255, 255, 0.95);
     padding: 20px;
     border-radius: 5px;
     width: 80%;
-    max-width: 800px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 
     display: flex;
     flex-direction: column;
 
     min-height: 400px;
     max-height: 90vh; /* Limita altura em relação à tela */
-    overflow-y: auto; /* Scroll vertical quando ultrapassar max-height */
 }
 
 
@@ -49,18 +44,11 @@
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
     color: #00995E;
 }
 
-h3 {
-    color: #00995E;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
 
 .form-step {
-    padding-bottom: 10px; /* Adiciona espaço entre cada seção (step) */
     border-bottom: 1px solid #eee;
     margin-bottom: 25px;
 }
