@@ -147,41 +147,5 @@ export class MentorPerfilComponent implements OnInit {
     });
   }
 
-  /*
-  editarMinicurriculo(): void {
-    Swal.fire({
-      title: 'Editar Minicurrículo',
-      html: `
-        <textarea id="swal-minicurriculo" class="swal2-textarea" placeholder="Escreva aqui o seu minicurrículo">${this.minicurriculo || ''}</textarea>
-        <div id="char-count" style="text-align:right; font-size:0.8rem; color:#888; margin-top:4px;">${this.minicurriculo ? this.minicurriculo.length : 0}/100</div>
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Salvar',
-      cancelButtonText: 'Cancelar',
-      focusConfirm: false,
-      preConfirm: () => {
-        const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
-        const value = textarea.value.trim();
-        if (value.length < 100) {
-          Swal.showValidationMessage(`O minicurrículo deve ter pelo menos 100 caracteres (${value.length}/100)`);
-          return false;
-        }
-        return value;
-      },
-      didOpen: () => {
-        const textarea = document.getElementById('swal-minicurriculo') as HTMLTextAreaElement;
-        const charCount = document.getElementById('char-count') as HTMLDivElement;
-
-        textarea.addEventListener('input', () => {
-          charCount.textContent = `${textarea.value.length}/100`;
-        });
-      }
-    }).then(result => {
-      if (result.isConfirmed && result.value !== undefined) {
-        this.minicurriculo = result.value;
-        Swal.fire('Salvo!', 'O minicurrículo foi atualizado.', 'success');
-      }
-    });
-  }
-    */
+  
 }
