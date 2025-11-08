@@ -10,6 +10,7 @@ describe('GruposArquivadosDetaislsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [GruposArquivadosDetaislsComponent]
     })
+    
     .compileComponents();
 
     fixture = TestBed.createComponent(GruposArquivadosDetaislsComponent);

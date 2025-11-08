@@ -55,6 +55,7 @@ export class CadastroComponent implements OnInit {
     numero: 'Número',
     tipoDeVinculo: 'Tipo de Vínculo',
     areaDeAtuacao: 'Área de Atuação',
+    formacaoDoMentor: 'Formação do Mentor',
   };
 
   ngOnInit(): void {
@@ -73,6 +74,7 @@ export class CadastroComponent implements OnInit {
       tempoDeExperiencia: [''],
       tipoDeVinculo: [TipoDeVinculo.CLT, Validators.required],
       areaDeAtuacao: ['', Validators.required],
+      formacaoDoMentor: [''],
     });
 
     this.loadAreasDeAtuacao();
@@ -184,6 +186,7 @@ export class CadastroComponent implements OnInit {
       telefone: this.cadastroMentorForm.value.telefone,
       tempoDeExperiencia: this.cadastroMentorForm.value.tempoDeExperiencia,
       tipoDeVinculo: this.cadastroMentorForm.value.tipoDeVinculo,
+      formacaoDoMentor: this.cadastroMentorForm.value.formacaoDoMentor,
       statusMentor: 'PENDENTE',
       endereco: endereco,
       areaDeAtuacao: { id: this.cadastroMentorForm.value.areaDeAtuacao },
@@ -224,11 +227,12 @@ export class CadastroComponent implements OnInit {
   }
 
   hasError(field: string, error: string) {
-    const control = this.cadastroMentorForm.get(field);
-    return (
-      control &&
-      (control.touched || this.formSubmitted) &&
-      control.hasError(error)
-    );
-  }
+  const control = this.cadastroMentorForm.get(field);
+  return (
+    control &&
+    control.hasError(error) &&
+    (control.touched || control.dirty || this.formSubmitted)
+  );
+}
+
 }
