@@ -1,7 +1,5 @@
 <nav class="sidebar">
-   <div class="logo">
-      SAM
-    </div>
+  <div class="logo">SAM</div>
   <ul class="nav-links">
     <li>
       <div class="menu-item">
@@ -53,6 +51,7 @@
   -->
     <!--Teste-->
     @if(userRole == 'ALUNO'){
+
     <li class="has-submenu">
       <input type="checkbox" id="projects-toggle" class="submenu-toggle" />
       <label for="projects-toggle" class="nav-link">
@@ -82,6 +81,29 @@
           >
             <span class="icon"><i class="fas fa-plus-circle"></i></span>
             <span class="text">Criar Novo</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="has-submenu">
+      <input type="checkbox" id="mentors-toggle" class="submenu-toggle" />
+      <label for="mentors-toggle" class="nav-link">
+        <span class="icon">
+          <i class="fas fa-user-tie"></i>
+        </span>
+        <span class="text">Mentores</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+      </label>
+
+      <ul class="submenu">
+        <li>
+          <a
+            routerLink="/aluno/aluno-visualizar-mentor"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            <span class="icon"><i class="fas fa-users"></i></span>
+            <span class="text">Portal</span>
           </a>
         </li>
       </ul>
