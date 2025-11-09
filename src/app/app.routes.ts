@@ -31,6 +31,7 @@ import { AprovarMentorComponent } from './components/telas-internas/mentor/aprov
 import { AceiteDeMentoriaPerfilComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-perfil/aceite-de-mentoria-perfil.component';
 import { AceiteDeMentoriaDetaisComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-detais/aceite-de-mentoria-detais.component';
 import { GruposArquivadosComponent } from './components/telas-internas/grupo/grupos-arquivados/grupos-arquivados.component';
+import { AlunoVisualizarMentorComponent } from './components/telas-internas/aluno-principal/aluno-visualizar-mentor/aluno-visualizar-mentor.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -57,6 +58,10 @@ export const routes: Routes = [
     children: [
       { path: 'aluno-perfil', component: AlunoPerfilComponent },
       { path: 'aluno-editar/:email', component: AlunoDetaisComponent },
+      {
+        path: 'aluno-visualizar-mentor',
+        component: AlunoVisualizarMentorComponent,
+      },
     ],
   },
   {
