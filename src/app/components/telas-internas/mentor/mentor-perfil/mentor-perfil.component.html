@@ -24,12 +24,26 @@
               </h4>
             </ng-template>
 
+            <!--Area de Atuação e Formação-->
+            @if(mentor.areaDeAtuacao || mentor.formacaoDoMentor){
+            <div class="d-flex align-items-center mb-1 text-muted">
+    
+            <!-- Área de atuação -->
             @if(mentor.areaDeAtuacao){
-            <p class="text-muted mb-1">{{ mentor.areaDeAtuacao.nome }}</p>
+              <p class="mb-0 me-3">{{ mentor.areaDeAtuacao.nome }}</p>
             } @if (!mentor.areaDeAtuacao) {
-            <p class="text-muted mb-1 fst-italic">
-              Área de atuação não informada
-            </p>
+              <p class="mb-0 me-3 fst-italic">Área de atuação não informada</p>
+            }
+
+            <!-- Formação do mentor -->
+            @if(mentor.formacaoDoMentor){
+              <p class="mb-0">| {{ mentor.formacaoDoMentor }}</p>
+            } @if (!mentor.formacaoDoMentor) {
+              <p class="mb-0 fst-italic">| Formação não informada</p>
+            }
+
+          </div>
+          
             }
 
             <div class="d-flex align-items-center">
