@@ -7,7 +7,7 @@
 .btn-color:hover {
   background-color: #00995E;
   color: #fff;
- 
+  transform: translateY(-2px);
 }
 
 /* ------------------- CARD ------------------- */
@@ -67,13 +67,32 @@ textarea.form-control:focus {
 }
 
 /* ------------------- DROPDOWN (Cursos) ------------------- */
-select.form-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2300995E' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 14px;
-  padding-right: 35px;
+/* Estilização específica do dropdown de cursos */
+.form-select {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+  font-size: 14px;
+  color: #000;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-select:focus {
+  border-color: #00995E;
+  box-shadow: 0 0 0 0.15rem rgba(0, 153, 94, 0.25);
+  outline: none;
+}
+
+.form-select option {
+  padding: 8px;
+  color: #333;
+}
+
+.form-select[multiple] {
+  height: auto;
+  min-height: 100px;
 }
 
 /* ------------------- ERROS ------------------- */

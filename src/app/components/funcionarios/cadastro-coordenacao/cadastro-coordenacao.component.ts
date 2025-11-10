@@ -214,7 +214,6 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
     }
   }
 
-
   onDropdownChange(event: any) {
   const selectedOptions = Array.from(event.target.selectedOptions).map(
     (option: any) => +option.value
