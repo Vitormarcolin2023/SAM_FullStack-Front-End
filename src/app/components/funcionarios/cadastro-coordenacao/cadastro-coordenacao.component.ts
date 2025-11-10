@@ -156,23 +156,6 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
     return this.cadastroCoordenadorForm.controls['cursosIds'] as FormArray;
   }
 
-  onCheckboxChange(event: any) {
-    const isChecked = event.target.checked;
-    const cursoId = event.target.value;
-
-    if (isChecked) {
-      this.cursosFormArray.push(this.formBuilder.control(Number(cursoId)));
-    } else {
-      const index = this.cursosFormArray.controls.findIndex(
-        (x) => x.value === Number(cursoId)
-      );
-      if (index >= 0) {
-        this.cursosFormArray.removeAt(index);
-      }
-    }
-    this.cursosFormArray.markAsTouched(); 
-  }
-
   hasError(controlName: string, errorName: string): boolean | undefined {
     return (
       this.cadastroCoordenadorForm.get(controlName)?.hasError(errorName) &&
@@ -230,6 +213,15 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+
+  onDropdownChange(event: any) {
+  const selectedOptions = Array.from(event.target.selectedOptions).map(
+    (option: any) => +option.value
+  );
+  this.cadastroCoordenadorForm.patchValue({ cursos: selectedOptions });
+}
+
 
   goToLanding() {
     this.router.navigate(['/']);
