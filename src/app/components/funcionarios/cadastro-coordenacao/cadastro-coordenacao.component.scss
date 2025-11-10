@@ -2,35 +2,12 @@
 .btn-color {
   background-color: rgb(28, 232, 151);
   color: #146c43;
-  border: none;
-  width: 48%;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  border-radius: 8px;
-  padding: 10px 16px;
-  transition: 0.3s ease;
 }
 
 .btn-color:hover {
   background-color: #00995E;
   color: #fff;
-  transform: translateY(-2px);
-}
-
-.btn-back {
-  background-color: #e0e0e0;
-  color: #333;
-  width: 48%;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn-back:hover {
-  background-color: #999;
-  color: #fff;
-  transform: translateY(-2px);
+ 
 }
 
 /* ------------------- CARD ------------------- */
