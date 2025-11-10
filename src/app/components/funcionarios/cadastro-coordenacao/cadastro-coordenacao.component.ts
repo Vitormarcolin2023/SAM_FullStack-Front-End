@@ -11,15 +11,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { CursosService } from '../../../services/cursos.service';
 import { UserdataService } from '../../../services/coordenacao/userdata.service';
-import { NavbarComponent } from "../../design/navbar/navbar.component";
 import Swal from 'sweetalert2';
 import { Subscription, Observable } from 'rxjs';
 import { Curso } from '../../../models/curso/curso';
+import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-cadastro-coordenacao',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, ReactiveFormsModule ],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
   templateUrl: './cadastro-coordenacao.component.html',
   styleUrl: './cadastro-coordenacao.component.scss',
 })
