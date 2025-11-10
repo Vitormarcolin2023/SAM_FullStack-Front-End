@@ -11,15 +11,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { CursosService } from '../../../services/cursos.service';
 import { UserdataService } from '../../../services/coordenacao/userdata.service';
-import { NavbarComponent } from "../../design/navbar/navbar.component";
 import Swal from 'sweetalert2';
 import { Subscription, Observable } from 'rxjs';
 import { Curso } from '../../../models/curso/curso';
+import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-cadastro-coordenacao',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, ReactiveFormsModule ],
+  imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
   templateUrl: './cadastro-coordenacao.component.html',
   styleUrl: './cadastro-coordenacao.component.scss',
 })
@@ -156,23 +156,6 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
     return this.cadastroCoordenadorForm.controls['cursosIds'] as FormArray;
   }
 
-  onCheckboxChange(event: any) {
-    const isChecked = event.target.checked;
-    const cursoId = event.target.value;
-
-    if (isChecked) {
-      this.cursosFormArray.push(this.formBuilder.control(Number(cursoId)));
-    } else {
-      const index = this.cursosFormArray.controls.findIndex(
-        (x) => x.value === Number(cursoId)
-      );
-      if (index >= 0) {
-        this.cursosFormArray.removeAt(index);
-      }
-    }
-    this.cursosFormArray.markAsTouched(); 
-  }
-
   hasError(controlName: string, errorName: string): boolean | undefined {
     return (
       this.cadastroCoordenadorForm.get(controlName)?.hasError(errorName) &&
@@ -230,6 +213,24 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+ onCheckboxChange(event: any) {
+    const isChecked = event.target.checked;
+    const cursoId = event.target.value;
+
+    if (isChecked) {
+      this.cursosFormArray.push(this.formBuilder.control(Number(cursoId)));
+    } else {
+      const index = this.cursosFormArray.controls.findIndex(
+        (x) => x.value === Number(cursoId)
+      );
+      if (index >= 0) {
+        this.cursosFormArray.removeAt(index);
+      }
+    }
+    this.cursosFormArray.markAsTouched(); 
+  }
+
 
   goToLanding() {
     this.router.navigate(['/']);
