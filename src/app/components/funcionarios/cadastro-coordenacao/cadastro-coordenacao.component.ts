@@ -214,12 +214,22 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDropdownChange(event: any) {
-  const selectedOptions = Array.from(event.target.selectedOptions).map(
-    (option: any) => +option.value
-  );
-  this.cadastroCoordenadorForm.patchValue({ cursos: selectedOptions });
-}
+ onCheckboxChange(event: any) {
+    const isChecked = event.target.checked;
+    const cursoId = event.target.value;
+
+    if (isChecked) {
+      this.cursosFormArray.push(this.formBuilder.control(Number(cursoId)));
+    } else {
+      const index = this.cursosFormArray.controls.findIndex(
+        (x) => x.value === Number(cursoId)
+      );
+      if (index >= 0) {
+        this.cursosFormArray.removeAt(index);
+      }
+    }
+    this.cursosFormArray.markAsTouched(); 
+  }
 
 
   goToLanding() {

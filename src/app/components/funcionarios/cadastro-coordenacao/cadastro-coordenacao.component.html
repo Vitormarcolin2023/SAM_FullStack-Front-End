@@ -59,27 +59,39 @@
             <div class="linha"></div>
 
             <!-- VÍNCULO COM CURSOS -->
-            <div class="mb-3">
-              <label class="form-label" for="cursos">Cursos Disponíveis</label>
-              <select
-                id="cursos"
-                multiple
-                class="form-select"
-                (change)="onDropdownChange($event)"
-              >
-                <option *ngFor="let curso of cursosDisponiveis" [value]="curso.id">
-                  {{ curso.nome }}
-                </option>
-              </select>
+           <div class="collapse-container card-item mb-3">
+         <input type="checkbox" id="toggleCursos" class="collapse-toggle" hidden>
 
-              @if(hasError('cursos', 'required')){
+          <label for="toggleCursos" class="collapse-header">
+            <span class="fw-bold text-success">Cursos Vinculados</span>
+            <i class="fa-solid fa-chevron-down toggle-icon"></i>
+          </label>
+
+          <div class="collapse-content cursos-content">
+            <div class="accordion-body-content">
+              <div class="curso-lista">
+                <div class="form-check" *ngFor="let curso of cursosDisponiveis">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [value]="curso.id ?? 00"
+                    [checked]="cursosFormArray.value.includes(curso.id)"
+                    (change)="onCheckboxChange($event)"
+                    id="curso-{{ curso.id }}"
+                  />
+                  <label class="form-check-label" for="curso-{{ curso.id }}">
+                    {{ curso.nome }}
+                  </label>
+                </div>
+              </div>
+
+              @if (hasError('cursosIds', 'required')) {
                 <small class="error-message">Selecione pelo menos um curso.</small>
               }
             </div>
-
-
-            <div class="linha"></div>
-
+          </div>
+        </div>
+    
             <!-- BOTÕES -->
             <div class="d-flex justify-content-between mt-4">
               <button type="submit" class="btn btn-color"><b>Salvar</b></button>
