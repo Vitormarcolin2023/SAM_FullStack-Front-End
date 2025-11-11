@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
-import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { UserdataService } from '../../../services/coordenacao/userdata.service';
 import { ProfessorService } from '../../../services/professor/professor.service';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
@@ -17,7 +16,7 @@ type UsuarioPerfil = Coordenador | Professor;
 @Component({
   selector: 'app-funcionario-perfil',
   standalone: true,
-  imports: [SidebarComponent, NavbarTelasInternasComponent, CommonModule],
+  imports: [SidebarComponent, CommonModule],
   templateUrl: './funcionario-perfil.component.html',
   styleUrl: './funcionario-perfil.component.scss',
 })

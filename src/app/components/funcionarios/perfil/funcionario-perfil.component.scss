@@ -1,4 +1,3 @@
-@use "../../../../styles/variaveis.scss" as *;
 
 .background {
   background-color: #fff;
@@ -31,16 +30,6 @@
   margin-top: 100px;
 }
 
-// minicurriculo
-.minicurriculo-card {
-  width: 85%;
-  max-width: 870px;
-  margin-top: 30px;
-
-  /* Usa o mesmo valor para a margem esquerda para alinhar com o card do mentor */
-  margin-left: 250px;
-  margin-right: auto;
-}
 
 /* Foto do mentor */
 .photo-container {
@@ -83,8 +72,7 @@
 }
 
 /* Títulos dentro do card */
-.perfil-card h6,
-.minicurriculo-card h6 {
+.perfil-card h6 {
   display: flex;
   align-items: center;
   font-weight: bold;
@@ -113,7 +101,7 @@
 }
 
 .btn-editar {
-  background-color: $btn-acao;
+  background-color: #4caf50;
   color: #2e2e2e;
   border: none;
   border-radius: 5px;
@@ -131,7 +119,7 @@
 }
 
 .btn-editar:hover {
-  background-color: $btn-hover;
+  background-color: darken(#4caf50, 10%);
   color:#fff;
 }
 
