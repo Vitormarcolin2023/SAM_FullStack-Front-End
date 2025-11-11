@@ -1,48 +1,38 @@
-// ALTERAÇÃO: Agora usamos o caminho relativo para encontrar o arquivo de variáveis,
-// exatamente como no seu exemplo da sidebar.
-// O caminho sobe 5 níveis de pasta para chegar até a pasta 'styles'.
-@use '../../../../../styles/variaveis.scss' as *;
+// Caminho relativo para encontrar o arquivo de variáveis
+@use "../../../../../styles/variaveis.scss" as *;
 
-
-/* ======================================================= */
-/* === ESTILO DO HOST (Para Centralização) === */
-/* ======================================================= */
 :host {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: flex-start; // Alinha no topo
   width: 100%;
   min-height: 100vh;
   padding: 100px 20px 50px 20px;
   background-color: $background-geral;
 
   @media (min-width: 992px) {
-    padding-left: 280px;
+    // Adiciona o espaço para a sidebar
+    padding-left: 200px; 
   }
 }
 
-/* ==================================== */
-/* === Estrutura Principal da Página === */
-/* ==================================== */
 .container {
   width: 100%;
   max-width: 900px;
 }
 
-/* ==================================== */
-/* === Card Principal === */
-/* ==================================== */
 .card {
-  background-color: $fundo-elemento;
+  background-color: #fff; // Fundo branco mais limpo
   border-radius: 12px;
-  padding: 24px 28px;
+  padding: 0; // Removido padding para o card-body e footer controlarem
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  border: none;
+  border: 1px solid $linha;
   width: 100%;
+  overflow: hidden; // Para forçar o border-radius
 }
 
 .card-body {
-  padding: 0;
+  padding: 24px 28px;
 }
 
 h3 {
@@ -53,12 +43,27 @@ h3 {
   color: $titulos-verde;
 }
 
-/* ==================================== */
+// Título das seções (adicionado)
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: $tabelas-mdb;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $linha;
+}
+
+hr {
+  border-top: 1px solid $linha; // Usando sua variável
+  margin: 2rem 0;
+}
+
 /* === Estilo do Formulário === */
-/* ==================================== */
 .form-label {
   font-weight: 600;
   color: #333;
+  margin-bottom: 4px;
 }
 
 .form-control {
@@ -69,46 +74,89 @@ h3 {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus {
-    border-color: $titulos-verde;
-    box-shadow: 0 0 0 3px rgba($titulos-verde, 0.2);
+    border-color: $btn-acao; // Cor de ação
+    box-shadow: 0 0 0 3px rgba($btn-acao, 0.2);
     outline: none;
   }
+}
 
-  &[readonly] {
-    background-color: #e9ecef;
-    cursor: not-allowed;
-    &:focus {
-      box-shadow: none;
+.form-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* === Lista de Informações (Reutilizado do Aluno-Perfil) === */
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    &:not(:last-child) {
+      border-bottom: 1px solid $fundo-elemento;
+    }
+  }
+
+  .info-icon {
+    font-size: 1.1rem;
+    color: $icons;
+    width: 30px;
+    text-align: center;
+    margin-right: 16px;
+  }
+
+  .info-text {
+    display: flex;
+    flex-direction: column;
+
+    .info-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .info-value {
+      font-size: 1rem;
+      color: $tabelas-mdb;
     }
   }
 }
 
-hr {
-  border-top: 1px solid #c4c4c4;
-  margin: 2rem 0;
+
+/* === Ações no Rodapé (Adicionado) === */
+.card-footer {
+  background-color: $fundo-elemento;
+  padding: 20px 28px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid $linha;
 }
 
-.text-muted {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1.5rem;
-}
-
-/* ==================================== */
-/* === Botão de Ação === */
-/* ==================================== */
-.btn-primary {
-  padding: 12px 24px;
+.btn {
+  padding: 10px 20px;
   border-radius: 8px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   text-decoration: none;
   border: none;
   cursor: pointer;
-  background-color: $btn-acao;
-  color: $btn-color-verde;
   transition: all 0.3s ease;
 
+  i {
+    margin-right: 6px;
+  }
+}
+
+.btn-primary {
+  background-color: $btn-acao;
+  color: $btn-color-verde; // Mantido
+  
   &:hover {
     background-color: $btn-hover;
     color: white;
@@ -122,15 +170,34 @@ hr {
   }
 }
 
-/* ==================================== */
-/* === Estado de Carregamento === */
-/* ==================================== */
-.spinner-border {
-  color: $titulos-verde;
+.btn-secondary {
+  background-color: #6c757d; // Cinza
+  color: white;
+
+  &:hover {
+    background-color: #5a6268;
+  }
 }
 
-.text-center p {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 1rem;
+/* === Estado de Carregamento (Adicionado) === */
+.state-message {
+  padding: 60px;
+  text-align: center;
+  width: 100%;
+  color: $tabelas-mdb;
+
+  .lead { font-size: 1.2rem; }
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid $fundo-elemento;
+  border-top-color: $btn-acao;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px auto;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

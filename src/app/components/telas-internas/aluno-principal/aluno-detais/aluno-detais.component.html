@@ -1,105 +1,104 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-8">
-      <div class="card mt-4 card">
+
+
+<!-- Estado de Carregamento Moderno -->
+@if (isLoading) {
+  <div class="state-message">
+    <div class="spinner"></div>
+    <p class="lead">Carregando dados para edição...</p>
+  </div>
+}
+
+<!-- Formulário (só aparece quando o loading termina) -->
+@if (!isLoading && aluno.id) {
+  <div class="container">
+    <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
+      <div class="card">
         <div class="card-body">
-          <h3>Alterar Dados do Aluno</h3>
+          <h3>Alterar Meus Dados</h3>
+
+          <!-- === 1. SEÇÃO DE DADOS NÃO EDITÁVEIS === -->
+          <h4 class="section-title">Informações Acadêmicas (Não Editáveis)</h4>
+          <ul class="info-list">
+            <li class="info-item">
+              <span class="info-icon"><i class="fas fa-user"></i></span>
+              <div class="info-text">
+                <span class="info-label">Nome Completo</span>
+                <span class="info-value">{{ aluno.nome }}</span>
+              </div>
+            </li>
+            <li class="info-item">
+              <span class="info-icon"><i class="fas fa-id-card"></i></span>
+              <div class="info-text">
+                <span class="info-label">RA</span>
+                <span class="info-value">{{ aluno.ra }}</span>
+              </div>
+            </li>
+            <li class="info-item">
+              <span class="info-icon"><i class="fas fa-graduation-cap"></i></span>
+              <div class="info-text">
+                <span class="info-label">Curso</span>
+                <span class="info-value">{{ aluno.curso.nome }}</span>
+              </div>
+            </li>
+          </ul>
+
           <hr />
 
-          @if (aluno.id) {
-          <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
-            <div class="mb-3">
-              <label for="nome" class="form-label">Nome Completo</label>
-              <input
-                type="text"
-                id="nome"
-                class="form-control"
-                [(ngModel)]="aluno.nome"
-                name="nome"
-                readonly
-              />
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="ra" class="form-label">RA</label>
-                <input
-                  type="number"
-                  id="ra"
-                  class="form-control"
-                  [(ngModel)]="aluno.ra"
-                  name="ra"
-                  readonly
-                />
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="curso" class="form-label">Curso</label>
-                <input
-                  type="text"
-                  id="curso"
-                  class="form-control"
-                  [(ngModel)]="aluno.curso.nome"
-                  name="curso"
-                  readonly
-                />
-              </div>
-            </div>
-
-            <hr />
-            <p class="text-muted">Campos editáveis:</p>
-
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                id="email"
-                class="form-control"
-                [(ngModel)]="aluno.email"
-                name="email"
-                required
-                #email="ngModel"
-              />
-              @if (email.invalid && email.touched) {
+          <!-- === 2. SEÇÃO DE DADOS EDITÁVEIS === -->
+          <h4 class="section-title">Campos Editáveis</h4>
+          
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              [(ngModel)]="aluno.email"
+              name="email"
+              required
+              #email="ngModel"
+            />
+            @if (email.invalid && email.touched) {
               <div class="text-danger small mt-1">
                 O e-mail é obrigatório e precisa ser válido.
               </div>
-              }
-            </div>
+            }
+          </div>
 
-            <div class="mb-3">
-              <label for="senha" class="form-label">Nova Senha</label>
-              <input
-                type="password"
-                id="senha"
-                class="form-control"
-                [(ngModel)]="aluno.senha"
-                name="senha"
-                placeholder="Deixe em branco para não alterar"
-              />
-            </div>
-
-            <div class="d-grid gap-2">
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="alunoForm.invalid"
-              >
-                Salvar Alterações
-              </button>
-            </div>
-          </form>
-          } @else {
-          <div class="text-center">
-            <p>Carregando dados do aluno...</p>
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
+          <div class="mb-3">
+            <label for="senha" class="form-label">Nova Senha</label>
+            <input
+              type="password"
+              id="senha"
+              class="form-control"
+              [(ngModel)]="aluno.senha"
+              name="senha"
+              placeholder="Deixe em branco para não alterar"
+            />
+            <div class="form-text">
+              Sua senha atual não será alterada a menos que você digite uma nova aqui.
             </div>
           </div>
-          }
+        </div>
+
+        <!-- === 3. AÇÕES DO FORMULÁRIO === -->
+        <div class="card-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="voltar()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="alunoForm.invalid"
+          >
+            <i class="fas fa-save"></i> Salvar Alterações
+          </button>
         </div>
       </div>
-    </div>
-    <div class="col-lg-2"></div>
+    </form>
   </div>
-</div>
+}
