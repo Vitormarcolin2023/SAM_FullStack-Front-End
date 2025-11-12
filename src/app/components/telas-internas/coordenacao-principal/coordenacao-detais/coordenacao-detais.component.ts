@@ -173,11 +173,35 @@ export class CoordenacaoDetaisComponent {
   }
 
   onSubmit() {
-    this.CoordenacaoDetaisForm.markAllAsTouched();
-    if (!this.CoordenacaoDetaisForm.valid) {
-      console.log('Formulário Inválido.');
-      return;
+    this.CoordenacaoDetaisForm.markAllAsTouched(); // Isso faz a mensagem vermelha aparecer (o que é bom)
+
+    // --- 👇 CORREÇÃO ADICIONADA AQUI 👇 ---
+
+    // 1. Verifica especificamente o erro do FormArray de Cursos
+    if (this.cursosFormArray.hasError('required')) {
+      Swal.fire(
+        'Seleção Obrigatória',
+        'Você deve selecionar pelo menos um curso.',
+        'error'
+      );
+      return; // Para a execução aqui, exibindo o modal
     }
+
+    // 2. Verifica se o restante do formulário (nome, email, senha) está inválido
+    if (!this.CoordenacaoDetaisForm.valid) {
+      console.log('Formulário Inválido (Campos de texto).');
+      Swal.fire(
+        'Campos Inválidos',
+        'Por favor, corrija os erros em vermelho (Nome, Email ou Senha).',
+        'error'
+      );
+      return; // Para a execução aqui
+    }
+
+    // --- FIM DA CORREÇÃO ---
+
+    // Se passar pelas duas validações, o código de salvar continua
+    console.log('Formulário Válido, pronto para salvar.'); // Mensagem removida do `if`
 
     const formValue = this.CoordenacaoDetaisForm.getRawValue();
 
@@ -209,7 +233,7 @@ export class CoordenacaoDetaisComponent {
           console.error('Erro na atualização:', error);
           Swal.fire(
             'Erro',
-            'Houve um erro na atualização. Verifique os dados.',
+            'Para que seja possivel editar, adicione a sua senha.',
             'error'
           );
         },
