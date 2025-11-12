@@ -7,18 +7,20 @@
   align-items: flex-start; // Alinha no topo
   width: 100%;
   min-height: 100vh;
-  padding: 100px 20px 50px 20px;
+  padding: 20px 20px 50px 20px;
   background-color: $background-geral;
 
   @media (min-width: 992px) {
     // Adiciona o espaço para a sidebar
-    padding-left: 200px; 
+    padding-left: 200px;
   }
 }
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1500px;
+  margin-left: -50px;
+  margin-right: auto;
 }
 
 .card {
@@ -28,6 +30,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   border: 1px solid $linha;
   width: 100%;
+  height: auto;
   overflow: hidden; // Para forçar o border-radius
 }
 
@@ -91,7 +94,7 @@ hr {
   list-style: none;
   padding: 0;
   margin: 0;
-  
+
   .info-item {
     display: flex;
     align-items: center;
@@ -127,7 +130,6 @@ hr {
   }
 }
 
-
 /* === Ações no Rodapé (Adicionado) === */
 .card-footer {
   background-color: $fundo-elemento;
@@ -156,7 +158,7 @@ hr {
 .btn-primary {
   background-color: $btn-acao;
   color: $btn-color-verde; // Mantido
-  
+
   &:hover {
     background-color: $btn-hover;
     color: white;
@@ -186,7 +188,9 @@ hr {
   width: 100%;
   color: $tabelas-mdb;
 
-  .lead { font-size: 1.2rem; }
+  .lead {
+    font-size: 1.2rem;
+  }
 }
 
 .spinner {
@@ -199,5 +203,7 @@ hr {
   margin: 0 auto 16px auto;
 }
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

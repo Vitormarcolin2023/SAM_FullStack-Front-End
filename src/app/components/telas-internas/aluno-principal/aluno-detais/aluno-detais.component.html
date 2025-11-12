@@ -1,19 +1,18 @@
-
-
 <!-- Estado de Carregamento Moderno -->
 @if (isLoading) {
-  <div class="state-message">
-    <div class="spinner"></div>
-    <p class="lead">Carregando dados para edição...</p>
-  </div>
+<div class="state-message">
+  <div class="spinner"></div>
+  <p class="lead">Carregando dados para edição...</p>
+</div>
 }
 
 <!-- Formulário (só aparece quando o loading termina) -->
 @if (!isLoading && aluno.id) {
-  <div class="container">
-    <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
-      <div class="card">
-        <div class="card-body">
+<div class="container">
+  <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
+    <div class="card">
+      <div class="card-body">
+        <div class="container-centralizado">
           <h3>Alterar Meus Dados</h3>
 
           <!-- === 1. SEÇÃO DE DADOS NÃO EDITÁVEIS === -->
@@ -34,7 +33,9 @@
               </div>
             </li>
             <li class="info-item">
-              <span class="info-icon"><i class="fas fa-graduation-cap"></i></span>
+              <span class="info-icon"
+                ><i class="fas fa-graduation-cap"></i
+              ></span>
               <div class="info-text">
                 <span class="info-label">Curso</span>
                 <span class="info-value">{{ aluno.curso.nome }}</span>
@@ -46,7 +47,7 @@
 
           <!-- === 2. SEÇÃO DE DADOS EDITÁVEIS === -->
           <h4 class="section-title">Campos Editáveis</h4>
-          
+
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input
@@ -59,9 +60,9 @@
               #email="ngModel"
             />
             @if (email.invalid && email.touched) {
-              <div class="text-danger small mt-1">
-                O e-mail é obrigatório e precisa ser válido.
-              </div>
+            <div class="text-danger small mt-1">
+              O e-mail é obrigatório e precisa ser válido.
+            </div>
             }
           </div>
 
@@ -76,18 +77,15 @@
               placeholder="Deixe em branco para não alterar"
             />
             <div class="form-text">
-              Sua senha atual não será alterada a menos que você digite uma nova aqui.
+              Sua senha atual não será alterada a menos que você digite uma nova
+              aqui.
             </div>
           </div>
         </div>
 
         <!-- === 3. AÇÕES DO FORMULÁRIO === -->
         <div class="card-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="voltar()"
-          >
+          <button type="button" class="btn btn-secondary" (click)="voltar()">
             Cancelar
           </button>
           <button
@@ -99,6 +97,7 @@
           </button>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
 }
