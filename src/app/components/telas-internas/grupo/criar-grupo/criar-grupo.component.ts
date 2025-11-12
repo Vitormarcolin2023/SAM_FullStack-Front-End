@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, HostListener, inject, Input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
@@ -6,10 +6,13 @@ import { Grupo, GrupoDto } from '../../../../models/grupo/grupo';
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 import { Router } from '@angular/router';
+import { Professor } from '../../../../models/professor/professor';
+import { ProfessorService } from '../../../../services/professor/professor.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-criar-grupo',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './criar-grupo.component.html',
   styleUrl: './criar-grupo.component.scss',
   standalone: true,
@@ -21,9 +24,26 @@ export class CriarGrupoComponent {
   aluno!: Aluno;
   router = inject(Router);
   nomeGrupo: string = '';
+  professoresFiltrados: Professor[] = [];
+  professorService = inject(ProfessorService);
 
   alunosSelecionados = signal<Aluno[]>([]);
+  professoresSelecionados = signal<Professor[]>([]);
 
+  periodosDisponiveis: string[] = [
+    '1º Período',
+    '2º Período',
+    '3º Período',
+    '4º Período',
+    '5º Período',
+    '6º Período',
+    '7º Período',
+    '8º Período',
+    '9º Período',
+    '10º Período',
+  ];
+
+  periodoSelecionado = ' ';
 
   constructor(private grupoService: GrupoService) {}
 
@@ -40,7 +60,9 @@ export class CriarGrupoComponent {
         }
         if (aluno.id) {
           this.verificaGrupo(aluno.id);
-          
+          if (aluno.curso.professores) {
+            this.professoresFiltrados = aluno.curso.professores;
+          }
         }
       },
       error: (err) => {
@@ -73,8 +95,8 @@ export class CriarGrupoComponent {
 
   verificaGrupo(id: number) {
     this.grupoService.getGrupoByAlunoId(id).subscribe({
-      next: (grupo) => {  
-        if(grupo == null){
+      next: (grupo) => {
+        if (grupo == null) {
           return;
         }
         this.aluno.grupo = grupo;
@@ -110,6 +132,23 @@ export class CriarGrupoComponent {
     }
   }
 
+  pesquisarProfessores(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    let container = document.getElementById('list-professores');
+
+    if (container) {
+      container.style.display = 'block';
+    }
+
+    if (valor.length > 0) {
+      this.professoresFiltrados = this.professoresFiltrados.filter((p) =>
+        p.nome.toLowerCase().includes(valor)
+      );
+    } else {
+      this.professoresFiltrados = this.professoresFiltrados;
+    }
+  }
+
   toggleAlunoSelecao(aluno: Aluno) {
     this.alunosSelecionados.update((alunos) => {
       const index = alunos.findIndex((a) => a.id === aluno.id);
@@ -123,8 +162,25 @@ export class CriarGrupoComponent {
     });
   }
 
+  toggleProfessorSelecao(professor: Professor) {
+    this.professoresSelecionados.update((professores) => {
+      const index = professores.findIndex((p) => p.id === professor.id);
+
+      if (index > -1) {
+        professores.splice(index, 1);
+      } else {
+        professores.push(professor);
+      }
+      return [...professores];
+    });
+  }
+
   isAlunoSelecionado(aluno: Aluno): boolean {
     return this.alunosSelecionados().some((a) => a.id === aluno.id);
+  }
+
+  isProfessorSelecionado(professor: Professor): boolean {
+    return this.professoresSelecionados().some((p) => p.id === professor.id);
   }
 
   criarGrupo() {
@@ -165,10 +221,16 @@ export class CriarGrupoComponent {
       return;
     }
 
+    const idsProfessores: number[] = this.professoresSelecionados().map(
+      (p) => p.id!
+    );
+
     const grupoDto: GrupoDto = {
       nome: this.nomeGrupo,
       alunoAdminId: this.aluno.id!,
       alunosIds: idsSelecionados,
+      professoresIds: idsProfessores,
+      periodo: this.periodoSelecionado,
     };
 
     this.grupoService.criarGrupo(grupoDto).subscribe({
@@ -183,7 +245,6 @@ export class CriarGrupoComponent {
         });
       },
       error: (err: any) => {
-        console.error('Erro ao criar grupo:', err);
         Swal.fire({
           icon: 'error',
           title: 'Falha na Criação',
@@ -195,4 +256,54 @@ export class CriarGrupoComponent {
       },
     });
   }
+
+  mostrarListaAlunos = false;
+  mostrarListaProfessores = false;
+
+  alunosPesquisa = '';
+  professoresPesquisa = '';
+
+  abrirLista(tipo: 'alunos' | 'professores') {
+    if (tipo === 'alunos') {
+      this.mostrarListaAlunos = true;
+      this.mostrarListaProfessores = false;
+    } else {
+      this.mostrarListaProfessores = true;
+      this.mostrarListaAlunos = false;
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickFora(event: Event) {
+    this.mostrarListaAlunos = false;
+    this.mostrarListaProfessores = false;
+  }
+
+  filtrarAlunos() {
+    this.mostrarListaAlunos = true;
+    this.alunosFiltrados = this.alunos.filter((a) =>
+      a.nome.toLowerCase().includes(this.alunosPesquisa.toLowerCase())
+    );
+  }
+
+  filtrarProfessores() {
+    this.mostrarListaProfessores = true;
+    this.professoresFiltrados = this.professoresFiltrados.filter((p) =>
+      p.nome.toLowerCase().includes(this.professoresPesquisa.toLowerCase())
+    );
+  }
+
+  cancelar(): void {
+  this.nomeGrupo = '';
+  this.periodoSelecionado = '';
+  this.alunosPesquisa = '';
+  this.professoresPesquisa = '';
+
+  this.alunosSelecionados.set([]);
+  this.professoresSelecionados.set([]);
+
+  this.mostrarListaAlunos = false;
+  this.mostrarListaProfessores = false;
+}
+
 }

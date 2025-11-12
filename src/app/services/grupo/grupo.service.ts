@@ -52,7 +52,7 @@ export class GrupoService {
   }
 
   arquivarGrupo(idGrupo: number): Observable<string> {
-    return this.http.put<string>(`${this.grupoApiUrl}/arquivar/${idGrupo}`, {responseType: 'text'});
+    return this.http.put(`${this.grupoApiUrl}/arquivar/${idGrupo}`, null, {responseType: 'text'});
   }
 
   getGruposArquivados(alunoId: number) : Observable<Grupo[]>{
