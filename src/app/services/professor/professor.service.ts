@@ -1,7 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, ɵUSE_RUNTIME_DEPS_TRACKER_FOR_JIT } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Professor } from '../../models/professor/professor';
+import { Curso } from '../../models/curso/curso';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +41,4 @@ export class ProfessorService {
       const url = `${this.API}/getById/${id}`;
       return this.http.get<Professor>(url);
   }
-
 }

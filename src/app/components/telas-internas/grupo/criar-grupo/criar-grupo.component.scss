@@ -120,7 +120,7 @@ h3 {
 }
 
 
-.list-alunos {
+.list-pesquisa {
     display: none;
     max-height: 100px; 
     overflow-y: scroll;
@@ -134,16 +134,16 @@ h3 {
     scrollbar-width: none;
 }
 
-.list-alunos::-webkit-scrollbar {
+.list-pesquisa::-webkit-scrollbar {
     display: none;
 }
 
-.list-alunos ul.alunos-list-container {
+.list-pesquisa ul.list-container {
     padding: 0;
     margin: 0;
 }
 
-.list-alunos li {
+.list-pesquisa li {
     border-bottom: 0.1px solid $btn-border;
     list-style: none;
     padding: 6px 10px;
@@ -155,14 +155,14 @@ h3 {
 }
 
 /* Estilo de hover na lista */
-.list-alunos li:hover {
+.list-pesquisa li:hover {
     background-color: #f7f7f7;
 }
 
 /* ESTILOS PARA ALUNOS SELECIONADOS */
 
 /* Estilo para item da lista quando selecionado */
-.list-alunos li.aluno-selecionado {
+.list-pesquisa li.aluno-selecionado {
     background-color: #e8f5e9; /* Fundo verde claro */
     font-weight: bold;
     border-bottom: 1px solid #4caf50; /* Borda inferior verde */
@@ -170,7 +170,7 @@ h3 {
 }
 
 /* Estilo para a área de tags de alunos selecionados (acima do input) */
-.alunos-selecionados-container {
+.selecionados-container {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -178,7 +178,7 @@ h3 {
     margin-top: -5px; 
 }
 
-.badge-aluno-selecionado {
+.badge-selecionado {
     background-color: #f7f7f7; 
     color: $btn-hover; 
     padding: 4px 8px;

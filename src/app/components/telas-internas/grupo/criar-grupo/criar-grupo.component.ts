@@ -6,6 +6,10 @@ import { Grupo, GrupoDto } from '../../../../models/grupo/grupo';
 import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 import { Router } from '@angular/router';
+import { Professor } from '../../../../models/professor/professor';
+import { Curso } from '../../../../models/curso/curso';
+import { ProfessorService } from '../../../../services/professor/professor.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-criar-grupo',
@@ -21,9 +25,24 @@ export class CriarGrupoComponent {
   aluno!: Aluno;
   router = inject(Router);
   nomeGrupo: string = '';
+  professoresFiltrados: Professor[] = [];
+  professorService = inject(ProfessorService);
 
   alunosSelecionados = signal<Aluno[]>([]);
+  professoresSelecionados = signal<Professor[]>([]);
 
+  periodosDisponiveis: string[] = [
+    '1º Período',
+    '2º Período',
+    '3º Período',
+    '4º Período',
+    '5º Período',
+    '6º Período',
+    '7º Período',
+    '8º Período',
+    '9º Período',
+    '10º Período'
+  ];
 
   constructor(private grupoService: GrupoService) {}
 
@@ -40,7 +59,9 @@ export class CriarGrupoComponent {
         }
         if (aluno.id) {
           this.verificaGrupo(aluno.id);
-          
+          if (aluno.curso.professores) {
+            this.professoresFiltrados = aluno.curso.professores;
+          }
         }
       },
       error: (err) => {
@@ -73,8 +94,8 @@ export class CriarGrupoComponent {
 
   verificaGrupo(id: number) {
     this.grupoService.getGrupoByAlunoId(id).subscribe({
-      next: (grupo) => {  
-        if(grupo == null){
+      next: (grupo) => {
+        if (grupo == null) {
           return;
         }
         this.aluno.grupo = grupo;
@@ -110,6 +131,23 @@ export class CriarGrupoComponent {
     }
   }
 
+  pesquisarProfessores(event: Event) {
+      const valor = (event.target as HTMLInputElement).value.trim().toLowerCase();
+      let container = document.getElementById('list-professores');
+
+      if(container){
+        container.style.display = 'block';
+      }
+
+      if(valor.length > 0) {
+        this.professoresFiltrados = this.professoresFiltrados.filter((p) => 
+          p.nome.toLowerCase().includes(valor)
+        );
+      } else {
+        this.professoresFiltrados = this.professoresFiltrados;
+      }
+  }
+
   toggleAlunoSelecao(aluno: Aluno) {
     this.alunosSelecionados.update((alunos) => {
       const index = alunos.findIndex((a) => a.id === aluno.id);
@@ -123,8 +161,25 @@ export class CriarGrupoComponent {
     });
   }
 
+  toggleProfessorSelecao(professor: Professor){
+    this.professoresSelecionados.update((professores) => {
+      const index = professores.findIndex((p) => p.id === professor.id);
+
+      if(index > -1){
+        professores.splice(index, 1);
+      } else {
+        professores.push(professor);
+      }
+      return [...professores];
+    });
+  }
+
   isAlunoSelecionado(aluno: Aluno): boolean {
     return this.alunosSelecionados().some((a) => a.id === aluno.id);
+  }
+
+  isProfessorSelecionado(professor: Professor): boolean {
+    return this.professoresSelecionados().some((p) => p.id === professor.id);
   }
 
   criarGrupo() {
@@ -183,7 +238,6 @@ export class CriarGrupoComponent {
         });
       },
       error: (err: any) => {
-        console.error('Erro ao criar grupo:', err);
         Swal.fire({
           icon: 'error',
           title: 'Falha na Criação',
