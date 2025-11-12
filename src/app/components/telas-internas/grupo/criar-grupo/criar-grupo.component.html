@@ -4,59 +4,104 @@
     style="max-width: 500px; width: 100%"
   >
     <h3 class="fw-bold mb-3">Criar grupo</h3>
-    
+
     <div class="card-content-wrapper">
-      
       <div class="form-elements-top">
-          
-          <label for="group-name">Nome do Grupo</label>
-          <input
-            id="group-name"
-            type="text"
-            class="swal2-input"
-            placeholder="Digite o nome do grupo"
-            [(ngModel)]="nomeGrupo" 
-          />
+        <label for="group-name">Nome do Grupo</label>
+        <input
+          id="group-name"
+          type="text"
+          class="swal2-input"
+          placeholder="Digite o nome do grupo"
+          [(ngModel)]="nomeGrupo"
+        />
 
-          <label for="alunos-ids">Selecione os integrantes</label>
-
-          @if (alunosSelecionados().length > 0) {
-          <div class="alunos-selecionados-container">
-            @for (aluno of alunosSelecionados(); track $index) {
-            <span class="badge-aluno-selecionado">
-              {{ aluno.nome }}
-              <button
-                (click)="toggleAlunoSelecao(aluno)"
-                class="btn-remover-aluno"
-              >
-                x
-              </button>
-            </span>
-            }
-          </div>
+        <label for="periodo">Selecione o período</label>
+        <select id="periodo">
+          @for (periodo of periodosDisponiveis; track $index) {
+            <option>{{periodo}}</option>
           }
+        </select>
 
-          <div class="alunos">
-            <input
-              class="swal2-input"
-              id="input-alunos"
-              placeholder="Digite os nomes dos integrantes"
-              (input)="pesquisarAlunos($event)"
-            />
-          </div>
+        <label for="alunos-ids">Selecione os integrantes</label>
 
-          <div class="list-alunos" id="list-alunos">
-            <ul class="alunos-list-container">
-              @for (aluno of alunosFiltrados; track $index) {
-              <li
-                (click)="toggleAlunoSelecao(aluno)"
-                [class.aluno-selecionado]="isAlunoSelecionado(aluno)"
-              >
-                {{ aluno.nome }}
-              </li>
-              }
-            </ul>
-          </div>
+        @if (alunosSelecionados().length > 0) {
+        <div class="selecionados-container">
+          @for (aluno of alunosSelecionados(); track $index) {
+          <span class="badge-selecionado">
+            {{ aluno.nome }}
+            <button
+              (click)="toggleAlunoSelecao(aluno)"
+              class="btn-remover-aluno"
+            >
+              x
+            </button>
+          </span>
+          }
+        </div>
+        }
+
+        <div class="alunos">
+          <input
+            class="swal2-input"
+            id="input-alunos"
+            placeholder="Digite os nomes dos integrantes"
+            (input)="pesquisarAlunos($event)"
+          />
+        </div>
+
+        <div class="list-pesquisa" id="list-alunos">
+          <ul class="list-container">
+            @for (aluno of alunosFiltrados; track $index) {
+            <li
+              (click)="toggleAlunoSelecao(aluno)"
+              [class.aluno-selecionado]="isAlunoSelecionado(aluno)"
+            >
+              {{ aluno.nome }}
+            </li>
+            }
+          </ul>
+        </div>
+
+        <label for="input-professores">Selecione os professores</label>
+
+        @if (professoresSelecionados().length > 0) {
+        <div class="selecionados-container">
+          @for (professor of professoresSelecionados(); track $index) {
+          <span class="badge-selecionado">
+            {{ professor.nome }}
+            <button
+              (click)="toggleProfessorSelecao(professor)"
+              class="btn-remover-aluno"
+            >
+              x
+            </button>
+          </span>
+          }
+        </div>
+        }
+
+        <div class="professores">
+          <input
+            class="swal2-input"
+            id="input-professores"
+            placeholder="Digite os nomes dos integrantes"
+            (input)="pesquisarProfessores($event)"
+          />
+        </div>
+
+        <div class="list-pesquisa" id="list-professores">
+          <ul class="list-container">
+            @for (professor of professoresFiltrados; track $index) {
+            <li
+              (click)="toggleProfessorSelecao(professor)"
+              [class.professor-selecionado]="isProfessorSelecionado(professor)"
+            >
+              {{ professor.nome }}
+            </li>
+            }
+          </ul>
+        </div>
       </div>
       <div class="botoes">
         <button class="btn-cancelar">Cancelar</button>
