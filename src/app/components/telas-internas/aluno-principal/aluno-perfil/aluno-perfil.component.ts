@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'; // Verifique se o Router está importado
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -12,7 +12,7 @@ import { TokenDecode } from '../../../../models/token/token-decode';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './aluno-perfil.component.html',
-  styleUrls: ['./aluno-perfil.component.scss'],
+  styleUrls: ['./aluno-perfil.component.scss'], // Caminho para o NOVO SCSS
 })
 export class AlunoPerfilComponent implements OnInit {
   aluno: Aluno | null = null;
@@ -20,7 +20,7 @@ export class AlunoPerfilComponent implements OnInit {
 
   private alunoService = inject(AlunoService);
   private tokenService = inject(TokenDecode);
-  private router = inject(Router);
+  private router = inject(Router); // O router já estava injetado
 
   ngOnInit(): void {
     const userEmail = this.tokenService.getEmail();
@@ -33,7 +33,7 @@ export class AlunoPerfilComponent implements OnInit {
         title: 'Sessão Inválida',
         text: 'Não foi possível encontrar seu e-mail. Por favor, faça o login novamente.',
         confirmButtonText: 'Ir para Login',
-        confirmButtonColor: 'rgb(28, 232, 151)',
+        confirmButtonColor: 'rgb(28, 232, 151)', // Use sua variável $btn-acao
       }).then(() => {
         this.router.navigate(['/login']);
       });
@@ -49,6 +49,7 @@ export class AlunoPerfilComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erro ao carregar perfil do aluno:', err);
+        this.isLoading = false; // Garante que o loading pare no erro
 
         Swal.fire({
           icon: 'error',
@@ -65,8 +66,20 @@ export class AlunoPerfilComponent implements OnInit {
             this.router.navigate(['/tela-inicial']);
           }
         });
-        this.isLoading = false;
       },
     });
+  }
+
+  /**
+   * 🚀 FUNÇÃO ADICIONADA
+   * Navega para a tela de edição de perfil.
+   */
+  editarPerfil(): void {
+    if (this.aluno?.email) {
+      // Rota baseada na que você me mostrou em conversas anteriores
+      this.router.navigate(['/aluno/aluno-editar', this.aluno.email]);
+    } else {
+      Swal.fire('Erro', 'Não foi possível encontrar o e-mail do aluno para edição.', 'error');
+    }
   }
 }
