@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, HostListener, inject, Input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
@@ -7,13 +7,12 @@ import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 import { Router } from '@angular/router';
 import { Professor } from '../../../../models/professor/professor';
-import { Curso } from '../../../../models/curso/curso';
 import { ProfessorService } from '../../../../services/professor/professor.service';
-import { filter } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-criar-grupo',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './criar-grupo.component.html',
   styleUrl: './criar-grupo.component.scss',
   standalone: true,
@@ -41,8 +40,10 @@ export class CriarGrupoComponent {
     '7º Período',
     '8º Período',
     '9º Período',
-    '10º Período'
+    '10º Período',
   ];
+
+  periodoSelecionado = ' ';
 
   constructor(private grupoService: GrupoService) {}
 
@@ -132,20 +133,20 @@ export class CriarGrupoComponent {
   }
 
   pesquisarProfessores(event: Event) {
-      const valor = (event.target as HTMLInputElement).value.trim().toLowerCase();
-      let container = document.getElementById('list-professores');
+    const valor = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    let container = document.getElementById('list-professores');
 
-      if(container){
-        container.style.display = 'block';
-      }
+    if (container) {
+      container.style.display = 'block';
+    }
 
-      if(valor.length > 0) {
-        this.professoresFiltrados = this.professoresFiltrados.filter((p) => 
-          p.nome.toLowerCase().includes(valor)
-        );
-      } else {
-        this.professoresFiltrados = this.professoresFiltrados;
-      }
+    if (valor.length > 0) {
+      this.professoresFiltrados = this.professoresFiltrados.filter((p) =>
+        p.nome.toLowerCase().includes(valor)
+      );
+    } else {
+      this.professoresFiltrados = this.professoresFiltrados;
+    }
   }
 
   toggleAlunoSelecao(aluno: Aluno) {
@@ -161,11 +162,11 @@ export class CriarGrupoComponent {
     });
   }
 
-  toggleProfessorSelecao(professor: Professor){
+  toggleProfessorSelecao(professor: Professor) {
     this.professoresSelecionados.update((professores) => {
       const index = professores.findIndex((p) => p.id === professor.id);
 
-      if(index > -1){
+      if (index > -1) {
         professores.splice(index, 1);
       } else {
         professores.push(professor);
@@ -220,10 +221,16 @@ export class CriarGrupoComponent {
       return;
     }
 
+    const idsProfessores: number[] = this.professoresSelecionados().map(
+      (p) => p.id!
+    );
+
     const grupoDto: GrupoDto = {
       nome: this.nomeGrupo,
       alunoAdminId: this.aluno.id!,
       alunosIds: idsSelecionados,
+      professoresIds: idsProfessores,
+      periodo: this.periodoSelecionado,
     };
 
     this.grupoService.criarGrupo(grupoDto).subscribe({
@@ -249,4 +256,54 @@ export class CriarGrupoComponent {
       },
     });
   }
+
+  mostrarListaAlunos = false;
+  mostrarListaProfessores = false;
+
+  alunosPesquisa = '';
+  professoresPesquisa = '';
+
+  abrirLista(tipo: 'alunos' | 'professores') {
+    if (tipo === 'alunos') {
+      this.mostrarListaAlunos = true;
+      this.mostrarListaProfessores = false;
+    } else {
+      this.mostrarListaProfessores = true;
+      this.mostrarListaAlunos = false;
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickFora(event: Event) {
+    this.mostrarListaAlunos = false;
+    this.mostrarListaProfessores = false;
+  }
+
+  filtrarAlunos() {
+    this.mostrarListaAlunos = true;
+    this.alunosFiltrados = this.alunos.filter((a) =>
+      a.nome.toLowerCase().includes(this.alunosPesquisa.toLowerCase())
+    );
+  }
+
+  filtrarProfessores() {
+    this.mostrarListaProfessores = true;
+    this.professoresFiltrados = this.professoresFiltrados.filter((p) =>
+      p.nome.toLowerCase().includes(this.professoresPesquisa.toLowerCase())
+    );
+  }
+
+  cancelar(): void {
+  this.nomeGrupo = '';
+  this.periodoSelecionado = '';
+  this.alunosPesquisa = '';
+  this.professoresPesquisa = '';
+
+  this.alunosSelecionados.set([]);
+  this.professoresSelecionados.set([]);
+
+  this.mostrarListaAlunos = false;
+  this.mostrarListaProfessores = false;
+}
+
 }
