@@ -2,7 +2,7 @@ import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-import { ProjetoDetalhesComponent } from '../../telas-internas/projeto-detalhes/projeto-detalhes.component';
+import { ProjetoDetalhesComponent } from '../projeto-detalhes/projeto-detalhes.component';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
 import { ProfessorService } from '../../../services/professor/professor.service';
@@ -74,7 +74,9 @@ export class VisualizarprojetosComponent {
         }
       },
       error: (erro) => {
-        console.warn('Busca de Coordenador falhou, tentando buscar como Professor...');
+        console.warn(
+          'Busca de Coordenador falhou, tentando buscar como Professor...'
+        );
         this.buscarProfessor(emailDoToken);
       },
     });
@@ -109,8 +111,11 @@ export class VisualizarprojetosComponent {
     const areaDeAtuacaoId = primeiroCurso?.areaDeAtuacao?.id;
 
     if (areaDeAtuacaoId) {
-      console.log('COORDENADOR: Carregando projetos pela Área de Atuação:', areaDeAtuacaoId);
-      
+      console.log(
+        'COORDENADOR: Carregando projetos pela Área de Atuação:',
+        areaDeAtuacaoId
+      );
+
       this.projetoService.buscarPorArea(areaDeAtuacaoId).subscribe({
         next: (data) => {
           this.projetos = data;
@@ -120,15 +125,21 @@ export class VisualizarprojetosComponent {
         },
       });
     } else {
-      console.warn('Coordenador não tem cursos válidos para carregar projetos.');
+      console.warn(
+        'Coordenador não tem cursos válidos para carregar projetos.'
+      );
       this.projetos = [];
     }
   }
 
   private carregarProjetosDoProfessor(professorId: number): void {
-    console.log('PROFESSOR: Carregando projetos onde é associado (ID:', professorId, ')');
-    
-    this.projetoService.buscarPorProfessor(professorId).subscribe({ 
+    console.log(
+      'PROFESSOR: Carregando projetos onde é associado (ID:',
+      professorId,
+      ')'
+    );
+
+    this.projetoService.buscarPorProfessor(professorId).subscribe({
       next: (data) => {
         this.projetos = data;
       },
