@@ -5,7 +5,6 @@ import { MdbModalRef, MdbModalService, MdbModalModule } from 'mdb-angular-ui-kit
 import { Projeto } from '../../../models/projeto/projeto';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
 
@@ -18,7 +17,6 @@ import { Router, RouterModule } from '@angular/router';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    NavbarTelasInternasComponent,
     SidebarComponent,
     MdbModalModule, 
   ],

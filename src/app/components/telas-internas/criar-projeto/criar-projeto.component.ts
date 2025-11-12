@@ -23,8 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlunoService } from '../../../services/alunos/alunos.service';
 import { ProfessorService } from '../../../services/professor/professor.service';
 import { Professor } from '../../../models/professor/professor';
+import { MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { MentorModalComponent } from './mentor-modal/mentor-modal.component';
-import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-criar-projeto',
@@ -34,8 +34,8 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    NavbarTelasInternasComponent,
     SidebarComponent,
-    
   ],
 })
 export class CriarProjetoComponent implements OnInit {
@@ -217,24 +217,21 @@ export class CriarProjetoComponent implements OnInit {
     });
   }
 
-  abrirModalMentor(): void {
-    const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
-    if(!areaSelecionada)return;
-
+  abrirModalMentor(): void{
     const modalRef = this.modalService.open(MentorModalComponent, {
       modalClass: 'modal-lg',
       data: {
         mentores: this.mentores,
-        areaDoAluno: areaSelecionada,
+        areDoAluno: this.formProjeto.get('areaDeAtuacao')?.value,
         areasDisponiveis: this.areasDeAtuacao,
       },
     });
-    modalRef.onClose.subscribe((mentorSelecionado: Mentor | null) => {
-      if (mentorSelecionado){
-        this.formProjeto.patchValue({mentor: mentorSelecionado})
+
+    modalRef.onClose.subscribe((mentorSelecionado: Mentor| null) => {
+      if(mentorSelecionado) {
+        this.formProjeto.get('mentor')?.setValue(mentorSelecionado);
       }
     });
- 
   }
 
   carregarProfessores(): void{
