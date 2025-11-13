@@ -1,18 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { CoordenacaoPerfilComponent } from './funcionario-perfil.component';
+import { CoordenacaoDetaisComponent } from '../coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
 
-describe('CoordenacaoPerfilComponent', () => {
-  let component: CoordenacaoPerfilComponent;
-  let fixture: ComponentFixture<CoordenacaoPerfilComponent>;
+describe('CoordenacaoDetaisComponent', () => {
+  let component: CoordenacaoDetaisComponent;
+  let fixture: ComponentFixture<CoordenacaoDetaisComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CoordenacaoPerfilComponent]
-    })
-    .compileComponents();
+      imports: [
+        CoordenacaoDetaisComponent,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+      ],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(CoordenacaoPerfilComponent);
+    fixture = TestBed.createComponent(CoordenacaoDetaisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
