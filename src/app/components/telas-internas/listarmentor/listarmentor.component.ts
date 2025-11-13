@@ -7,11 +7,12 @@ import { Curso } from '../../../models/curso/curso';
 import { CommonModule } from '@angular/common';
 import { ProfessorService } from '../../../services/professor/professor.service'; 
 import { Professor } from '../../../models/professor/professor';
+import { SidebarComponent } from "../../design/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-ativarmentor',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule, SidebarComponent], 
   templateUrl: './listarmentor.component.html',
   styleUrl: './listarmentor.component.scss',
 })

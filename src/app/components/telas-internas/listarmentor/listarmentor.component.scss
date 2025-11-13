@@ -99,9 +99,9 @@
 }
 
 .btn-desativar-mentor {
-  background-color: transparent;
-  color: $btn-color-verde;
-  border: 1px solid $btn-color-verde;
+  background-color: #ccc;
+  color:  #333;
+  border: 1px ;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -109,7 +109,7 @@
   font-weight: 600;
 
   &:hover {
-    background-color: $btn-color-verde;
+    background-color: #dc3545;
     color: #fff;
     transform: translateY(-2px);
   }
