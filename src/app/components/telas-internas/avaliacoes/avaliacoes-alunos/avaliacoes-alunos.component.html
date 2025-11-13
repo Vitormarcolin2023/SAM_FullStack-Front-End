@@ -1,0 +1,112 @@
+@if (isLoading) {
+  <div class="state-message">
+    <div class="spinner"></div>
+    <p class="lead">Carregando formulário de avaliação...</p>
+  </div>
+}
+
+@if (!isLoading) {
+  <div class="container">
+    <form #avaliacaoForm="ngForm" (ngSubmit)="enviarAvaliacao()">
+      <div class="card">
+        <div class="card-body">
+          <div class="container-centralizado">
+            <h3>Avaliação da Mentoria</h3>
+
+            <p class="lead" style="text-align: center; margin-bottom: 1.5rem;">
+              Por favor, avalie sua experiência com o mentor antes de continuar no sistema.
+            </p>
+
+
+            <h4 class="section-title">Perguntas de Avaliação</h4>
+
+            @for (pergunta of perguntas; track pergunta.id) {
+              <div class="mb-4">
+                <label class="form-label">
+                  {{ pergunta.id }} - {{ pergunta.texto }}
+                </label>
+
+                <div class="escala">
+                  @for (nota of opcoes; track nota.valor) {
+                    <label class="opcao">
+                      <input
+                        type="radio"
+                        name="pergunta{{ pergunta.id }}"
+                        [(ngModel)]="respostas[pergunta.id]"
+                        [value]="nota.valor"
+                        required
+                      />
+                      <span>{{ nota.valor }} - {{ nota.label }}</span>
+                    </label>
+                  }
+                </div>
+
+                @if (!respostas[pergunta.id] && avaliacaoTentada) {
+                  <div class="text-danger small mt-1">
+                    Por favor, selecione uma opção.
+                  </div>
+                }
+              </div>
+            }
+
+            <hr />
+
+            <h4 class="section-title">Espaço Aberto</h4>
+            <div class="mb-3">
+              <label for="comentarios" class="form-label"
+                >Informações adicionais ao mentor</label
+              >
+              <textarea
+                id="comentarios"
+                class="form-control"
+                rows="4"
+                [(ngModel)]="comentarios"
+                name="comentarios"
+                placeholder="Digite aqui suas observações ou sugestões..."
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Você recomendaria o mentor para outros grupos?</label>
+              <div class="escala">
+                <label class="opcao">
+                  <input
+                    type="radio"
+                    name="recomendacao"
+                    required
+                    (click)="isRecomendado(true)"
+                  />
+                  <span>Sim</span>
+                </label>
+                <label class="opcao">
+                  <input
+                    type="radio"
+                    name="recomendacao"
+                    required
+                    (click)="isRecomendado(false)"
+                  />
+                  <span>Não</span>
+                </label>
+              </div>
+              @if (!recomendacao && avaliacaoTentada) {
+                <div class="text-danger small mt-1">
+                  Por favor, selecione uma opção.
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="avaliacaoEnviada"
+          >
+            <i class="fas fa-paper-plane"></i> Enviar Avaliação
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+}
