@@ -23,7 +23,14 @@ main.conteudo-central {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+}
+
+.titulo{
+  color: $titulos-verde;
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 .linha{
@@ -52,10 +59,14 @@ main.conteudo-central {
 
   }
 
+  #container{
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
   #container:hover{
     border-radius: 1vh;
-    transition: ease-in-out 150ms;
-    transform: scale(1.05);
+    transform: translateY(-5px);
+
   }
 
 

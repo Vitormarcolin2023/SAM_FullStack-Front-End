@@ -1,14 +1,12 @@
-<app-sidebar></app-sidebar>
-
 <div class="container-fluid background p-4">
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="card p-4 shadow-sm border-0 perfil-card">
         <div class="edit-body">
-          <h3>Cadastro de Coordenador</h3>
+          <h3>Editar Informações</h3>
           <div class="linha"></div>
 
-          <form [formGroup]="cadastroCoordenadorForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="CoordenacaoDetaisForm" (ngSubmit)="onSubmit()">
 
             <!-- DADOS DE ACESSO -->
             <div class="mb-3">

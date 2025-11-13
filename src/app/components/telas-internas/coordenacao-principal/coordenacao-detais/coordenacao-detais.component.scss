@@ -5,7 +5,7 @@
 }
 
 .btn-color:hover {
-  background-color: #00995E;
+  background-color: #00995e;
   color: #fff;
   transform: translateY(-2px);
 }
@@ -13,7 +13,7 @@
 /* ------------------- CARD ------------------- */
 .perfil-card {
   border-radius: 12px;
-  border: 1px solid #00995E;
+  border: 1px solid #00995e;
   width: 75%;
   margin: 0 auto;
   padding: 30px 25px;
@@ -24,7 +24,7 @@
 
 /* ------------------- TÍTULOS E LINHAS ------------------- */
 h3 {
-  color: #00995E;
+  color: #00995e;
   font-weight: 600;
   text-align: center;
   margin-bottom: 20px;
@@ -32,13 +32,13 @@ h3 {
 
 .linha {
   width: 100%;
-  border-bottom: solid 2px #00995E;
+  border-bottom: solid 2px #00995e;
   margin-bottom: 20px;
 }
 
 /* ------------------- FORMULÁRIOS ------------------- */
 .form-label {
-  color: #00995E;
+  color: #00995e;
   font-weight: 500;
   margin-bottom: 5px;
 }
@@ -60,7 +60,7 @@ textarea.form-control {
 input.form-control:focus,
 select.form-select:focus,
 textarea.form-control:focus {
-  border-color: #00995E;
+  border-color: #00995e;
   box-shadow: 0 0 0 0.2rem rgba(0, 153, 94, 0.25);
   outline: none;
   background-color: #fff;
@@ -80,7 +80,7 @@ textarea.form-control:focus {
 }
 
 .form-select:focus {
-  border-color: #00995E;
+  border-color: #00995e;
   box-shadow: 0 0 0 0.15rem rgba(0, 153, 94, 0.25);
   outline: none;
 }
@@ -119,7 +119,6 @@ textarea.form-control:focus {
     gap: 10px;
   }
 }
-
 
 /* ------------------- Acordeon de Cursos ------------------- */
 /* Estrutura geral do collapse */
@@ -182,4 +181,3 @@ textarea.form-control:focus {
   cursor: pointer;
   font-size: 14px;
 }
-

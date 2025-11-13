@@ -1,4 +1,5 @@
 import { Aluno } from "../aluno/aluno";
+import { Professor } from "../professor/professor";
 import { Projeto } from "../projeto/projeto";
 import { Reuniao } from "../reuniao/reuniao";
 
@@ -10,6 +11,8 @@ export class Grupo {
   alunos?: Aluno[];
   reunioes?: Reuniao[];
   projetos?: Projeto[];
+  professores?: Professor[];
+    periodo?: string;
 
   constructor(
     nome: string,
@@ -18,7 +21,9 @@ export class Grupo {
     alunoAdmin?: Aluno,
     alunos?: Aluno[],
     reunioes?: Reuniao[],
-    projetos?: Projeto[]
+    projetos?: Projeto[],
+    professores?: Professor[],
+    periodo?: string
   ) {
     this.id = id;
     this.nome = nome;
@@ -27,6 +32,8 @@ export class Grupo {
     this.alunos = alunos;
     this.reunioes = reunioes;
     this.projetos = projetos;
+    this.professores = professores;
+    this.periodo = periodo;
   }
 }
 
@@ -34,4 +41,6 @@ export interface GrupoDto {
   nome: string;
   alunoAdminId: number;
   alunosIds: number[];
+  professoresIds: number[];
+  periodo: string;
 }

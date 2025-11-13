@@ -1,202 +1,126 @@
 @use "../../../../../styles/variaveis.scss" as *;
 
-/* Estilo do botão */
-.btn-custom {
-    background-color: rgb(28, 232, 151); /* Cor de fundo do botão (verde) */
-    color: #005434; /* Cor do texto do botão */
-    transition: background-color 0.3s ease, border-color 0.3s ease; /* Adiciona uma transição suave */
+.container-grupo {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+  background-color: #f0f2f5;
+  min-height: 100vh;
 }
 
-/* Efeito hover no botão */
-.btn-custom:hover {
-    background-color: #00995E; /* Cor de fundo mais escura ao passar o mouse */
-    color: #fff; /* Cor do texto ao passar o mouse */
+.card-grupo {
+  width: 80%;
+  max-width: 1000px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+
 }
 
-.card-custom {
-    background-color: #dedede; 
-    border: 1px solid #ccc; 
-    height: 520px;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    min-height: 520px; 
+.titulo {
+  text-align: center;
+  color: #00995e;
+  margin-bottom: 30px;
 }
 
-.card-content-wrapper {
-    /* Ocupa todo o espaço restante */
-    flex-grow: 1; 
-    /* Distribui o espaço entre os dois filhos diretos (form-elements-top e botoes) */
-    display: flex;
-    flex-direction: column;
-    /* CHAVE: Empurra o último elemento (.botoes) para o final */
-    justify-content: space-between; 
-    
-    /* REMOVIDO: o gap daqui, pois ele estava espaçando os filhos diretos, 
-       mas não dentro do agrupamento. */
-    text-align: left; 
-    padding-top: 8px;
-}
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-/* NOVIDADE: Aplica o espaçamento interno e o Flexbox para os elementos do formulário (topo) */
-.form-elements-top {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* O gap original agora está aqui */
-}
-
-h3 {
-    color: #00995E; /* Cor do título */
-}
-
-/* Estilo do modal SweetAlert2 (mantido) */
-.swal2-popup {
-    border-radius: 12px !important;
-    width: 320px !important;
-    padding: 20px 15px !important;
-    box-sizing: border-box;
-}
-
-.swal2-title {
-    color: #00995E !important;
-    font-weight: 700;
-    text-align: center;
-}
-
-.swal2-input,
-.swal2-select {
-    border-radius: 6px !important;
-    border: 1px solid #ccc !important;
-    font-size: 0.95rem !important;
-    color: #222 !important;
-    background-color: #f7f7f7 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    margin-top: 4px !important;
-    margin-bottom: 8px !important;
-    padding: 6px !important;
-}
-
-/* Estilo dos Botões (manter a ordem) */
-.botoes {
-    display: flex;
-    justify-self: flex-end;
-    align-self: center;
-}
-
-.btn-cancelar {
-    margin-right: 20px;
-    border: 0.1px solid $btn-border;
+  input,
+  select {
+    padding: 10px 12px;
     border-radius: 6px;
-    color: $tabelas-mdb;
-    font-size: 14px;
-    width: 83px;
-    height: 33px;
-    background-color: #fff;
-    font-weight: 900;
-    cursor: pointer;
+    border: 1px solid #ccc;
+    width: 100%;
+    font-size: 15px;
+  }
 }
 
-.btn-criar {
-    border: 0.1px solid $btn-border;
-    border-radius: 6px;
-    width: 65px;
-    height: 33px;
-    background-color: $btn-acao;
-    color: $tabelas-mdb;
-    font-size: 14px;
-    font-weight: 900;
-    cursor: pointer;
-}
+.campo-pesquisa {
+  position: relative;
 
-.btn-criar:hover {
-    background-color: $btn-hover;
-    color: white;
-}
-
-.btn-cancelar:hover {
-    background-color: rgb(252, 104, 104);
-    color: white;
-}
-
-
-.list-alunos {
-    display: none;
-    max-height: 100px; 
-    overflow-y: scroll;
-    min-height: 100px;
-    background-color: #ffffff; /* Fundo branco (para card) */
+  .lista-pesquisa {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    /* Scrollbar invisível */
-    scrollbar-width: none;
-}
-
-.list-alunos::-webkit-scrollbar {
-    display: none;
-}
-
-.list-alunos ul.alunos-list-container {
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
     padding: 0;
-    margin: 0;
-}
-
-.list-alunos li {
-    border-bottom: 0.1px solid $btn-border;
+    margin: 4px 0 0 0;
     list-style: none;
-    padding: 6px 10px;
-    margin-bottom: 2px;
-    height: 30px;
-    font-size: 14px;
-    cursor: pointer; /* Adiciona cursor para indicar clique */
-    transition: background-color 0.1s;
+
+    li {
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &.selecionado {
+        background-color: #e8f5e9;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: #e0f7fa;
+      }
+    }
+  }
 }
 
-/* Estilo de hover na lista */
-.list-alunos li:hover {
-    background-color: #f7f7f7;
+.selecionados-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* ESTILOS PARA ALUNOS SELECIONADOS */
+.badge-selecionado {
+  padding: 6px 10px;
+  border-radius: 20px;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
 
-/* Estilo para item da lista quando selecionado */
-.list-alunos li.aluno-selecionado {
-    background-color: #e8f5e9; /* Fundo verde claro */
-    font-weight: bold;
-    border-bottom: 1px solid #4caf50; /* Borda inferior verde */
-    color: #2e7d32;
-}
-
-/* Estilo para a área de tags de alunos selecionados (acima do input) */
-.alunos-selecionados-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-bottom: 5px;
-    margin-top: -5px; 
-}
-
-.badge-aluno-selecionado {
-    background-color: #f7f7f7; 
-    color: $btn-hover; 
-    padding: 4px 8px;
-    border-radius: 15px;
-    font-size: 13px;
-    display: inline-flex;
-    align-items: center;
-    line-height: 1;
-}
-
-.btn-remover-aluno {
-    background: none;
+  button {
+    margin-left: 6px;
     border: none;
-    color: #00796b;
-    font-weight: bold;
-    margin-left: 5px;
+    background: none;
+    color: #00995e;
     cursor: pointer;
-    line-height: 1;
-    padding: 0 0 0 5px;
-    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+.botoes {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  gap: 20px;
+
+  .btn-criar,
+  .btn-cancelar {
+    width: 120px;
+    height: 40px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-criar {
+    background: $btn-acao;
+    color: white;
+    border: 1px solid #ccc;
+  }
+  .btn-cancelar {
+    background: #dedede;
+    border: 1px solid #ccc;
+  }
+
+  .btn-criar:hover {
+    background-color: #00995e;
+  }
 }

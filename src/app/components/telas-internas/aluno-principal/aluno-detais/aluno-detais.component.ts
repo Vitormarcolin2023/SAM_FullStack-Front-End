@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AlunoDetaisComponent implements OnInit {
   aluno: Aluno = {} as Aluno;
+  isLoading = true;
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private alunoService = inject(AlunoService);
@@ -25,23 +26,27 @@ export class AlunoDetaisComponent implements OnInit {
       this.carregarAluno(emailParam);
     } else {
       Swal.fire('Erro!', 'E-mail do aluno não fornecido na URL.', 'error');
-      this.router.navigate(['/']);
+      this.router.navigate(['/aluno/aluno-perfil']);
     }
   }
 
   carregarAluno(email: string): void {
+    this.isLoading = true; 
     this.alunoService.getAlunoPorEmail(email).subscribe({
       next: (dados) => {
         this.aluno = dados;
-
         this.aluno.senha = '';
+        this.isLoading = false; 
       },
-      error: () =>
+      error: () => {
         Swal.fire(
           'Erro!',
           'Não foi possível carregar os dados do aluno.',
           'error'
-        ),
+        );
+        this.isLoading = false;
+        this.router.navigate(['/aluno/aluno-perfil']);
+      }
     });
   }
 
@@ -64,7 +69,7 @@ export class AlunoDetaisComponent implements OnInit {
     };
 
     this.alunoService.update(this.aluno.id, payloadParaEnviar).subscribe({
-      next: (alunoAtualizado) => {
+      next: () => {
         Swal.fire({
           title: 'Sucesso!',
           text: `Os dados foram atualizados.`,
@@ -72,7 +77,7 @@ export class AlunoDetaisComponent implements OnInit {
           timer: 2000,
           showConfirmButton: false,
         });
-        this.router.navigate(['/alunos/perfil']);
+        this.router.navigate(['/aluno/aluno-perfil']); 
       },
       error: (err) => {
         const mensagemErro =
@@ -85,5 +90,12 @@ export class AlunoDetaisComponent implements OnInit {
         Swal.fire('Erro na Atualização', mensagemErro, 'error');
       },
     });
+  }
+
+  /**
+   * FUNÇÃO ADICIONADA: Navega de volta para a tela de perfil
+   */
+  voltar(): void {
+    this.router.navigate(['/aluno/aluno-perfil']);
   }
 }

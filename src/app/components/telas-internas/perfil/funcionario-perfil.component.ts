@@ -91,7 +91,7 @@ export class FuncionarioComponent implements OnInit {
     this.usuarioLogado = data;
     this.cargo = cargo;
 
-    console.log(`Dados do ${this.cargo} (estrutura da API):`, this.usuarioLogado);
+    //console.log(`Dados do ${this.cargo} (estrutura da API):`, this.usuarioLogado);
 
     if (cargo === 'Coordenador') {
         this.userDataService.setCoordenador(data);
@@ -104,7 +104,7 @@ export class FuncionarioComponent implements OnInit {
   }
 
   private processarAreasDeAtuacao(cursos: Curso[]): void {
-    console.log('Cursos recebidos para processamento:', cursos);
+    //console.log('Cursos recebidos para processamento:', cursos);
     if (cursos && cursos.length > 0) {
       const nomesDeAreas: string[] = cursos
         .map((curso) => curso.areaDeAtuacao?.nome)
@@ -113,7 +113,7 @@ export class FuncionarioComponent implements OnInit {
       const areasUnicas = new Set(nomesDeAreas);
       this.areasDeAtuacao = Array.from(areasUnicas);
 
-      console.log('Áreas de atuação do perfil (únicas):', this.areasDeAtuacao);
+      //console.log('Áreas de atuação do perfil (únicas):', this.areasDeAtuacao);
     } else {
       this.areasDeAtuacao = [];
     }
@@ -157,7 +157,7 @@ export class FuncionarioComponent implements OnInit {
     const id = this.usuarioLogado.id.toString(); // <--- CONVERSÃO PARA STRING AQUI!
     
     if (this.cargo === 'Coordenador') {
-      this.router.navigate(['/cadastro-coordenacao', id]);
+      this.router.navigate(['/coordenacao/coordenacao-editar', id]);
     } else if (this.cargo === 'Professor') {
       this.router.navigate(['/cadastro-professor', id]);
     } else {

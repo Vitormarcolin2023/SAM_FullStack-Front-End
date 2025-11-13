@@ -1,7 +1,10 @@
+// Importe suas variáveis (use o caminho relativo correto)
+@use "../../../../../styles/variaveis.scss" as *;
+
+// --- Configuração Geral ---
 .content-wrapper {
-  margin-top: 100px;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-top: 50px;
+  padding: 24px;
   width: 100%;
 
   @media (min-width: 992px) {
@@ -9,141 +12,174 @@
     width: calc(100% - 280px);
   }
 
+  // Alinha o card à esquerda (perto da sidebar)
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-.card {
+.container-centralizado {
   width: 100%;
-  max-width: 900px;
-  background-color: #dedede;
-  border-radius: 12px;
-  padding: 24px 28px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  margin: 0;
+  max-width: 1200px;
+  margin-left: 125px;
+  margin-right: auto;
+}
 
-  @media (max-width: 768px) {
-    padding: 16px;
-    margin: 20px 12px;
-    border-radius: 8px;
+// --- O Card de Perfil ---
+.profile-card {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border: 1px solid $linha;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+// --- Cabeçalho do Card ---
+.profile-header {
+  background-color: $fundo-elemento;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $linha;
+
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: $titulos-verde;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+
+  .profile-identity {
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: $titulos-verde;
+      margin: 0;
+    }
+    .profile-course {
+      font-size: 1.1rem;
+      color: $tabelas-mdb;
+      margin: 0;
+    }
   }
 }
 
-.card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+// --- Corpo do Card ---
+.profile-body {
+  padding: 24px;
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: $tabelas-mdb;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $linha;
+  }
 }
 
-/* Título da seção */
-.card h3.card-title {
+// Lista de informações (RA, Email)
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+
+    // Adiciona uma linha entre os itens
+    &:not(:last-child) {
+      border-bottom: 1px solid $fundo-elemento;
+    }
+  }
+
+  .info-icon {
+    font-size: 1.2rem;
+    color: $icons;
+    width: 40px;
+    text-align: center;
+    margin-right: 16px;
+  }
+
+  .info-text {
+    display: flex;
+    flex-direction: column;
+
+    .info-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .info-value {
+      font-size: 1rem;
+      color: $tabelas-mdb;
+    }
+  }
+}
+
+// --- Botões de Ação ---
+.profile-actions {
+  background-color: $fundo-elemento;
+  padding: 20px 24px;
+  text-align: right;
+  border-top: 1px solid $linha;
+
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+
+    i {
+      margin-right: 8px;
+    }
+  }
+
+  .btn-primary {
+    background-color: $btn-acao;
+    color: white;
+
+    &:hover {
+      background-color: $btn-hover;
+    }
+  }
+}
+
+// --- Estados de Loading ---
+.state-message {
+  padding: 60px;
   text-align: center;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #00995e;
-}
-
-.table-responsive {
   width: 100%;
-  overflow-x: auto;
+  color: $tabelas-mdb;
+
+  .lead { font-size: 1.2rem; }
 }
 
-.table {
-  width: 100%;
-  margin-bottom: 0;
-  color: #222;
-  font-size: 0.95rem;
-  border-collapse: separate;
-  border-spacing: 0;
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid $fundo-elemento;
+  border-top-color: $btn-acao;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px auto;
 }
-
-.table th,
-.table td {
-  padding: 12px;
-  text-align: left;
-  border-top: 1px solid #c4c4c4;
-}
-
-.table thead th {
-  background-color: #00995e;
-  color: white;
-  font-weight: 600;
-  border-top: none;
-}
-
-.table tbody tr:nth-of-type(odd) {
-  background-color: #f3f3f3;
-}
-
-.table tbody tr:hover {
-  background-color: #e0e0e0;
-}
-
-/* Arredondamento dos cantos da tabela */
-.table thead th:first-child {
-  border-top-left-radius: 8px;
-}
-
-.table thead th:last-child {
-  border-top-right-radius: 8px;
-}
-
-/* === Estilo dos Botões === */
-.text-end {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px; /* Espaço entre os botões */
-  margin-top: 1.5rem;
-}
-
-.btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-/* Botão de Editar */
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  border: 1px solid #6c757d;
-}
-
-.btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
-  color: white;
-  cursor: pointer;
-}
-
-/* Botão de Cancelar */
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-  border: 1px solid #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
-  color: white;
-  cursor: pointer;
-}
-
-/* ==================================== */
-/* === Estilo do Conteúdo Alternativo === */
-/* ==================================== */
-.text-center {
-  width: 100%;
-  max-width: 900px;
-  text-align: center;
-}
-
-.text-center p.lead {
-  font-size: 1.1rem;
-  color: #555;
-  margin-top: 2rem;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
