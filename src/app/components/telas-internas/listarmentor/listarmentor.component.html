@@ -57,14 +57,19 @@
           
           @if (userRole === 'COORDENADOR') {
             <td>
-              @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
+              @if (mentor.statusMentor === 'PENDENTE' ) {
                 <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
                   Ativar Mentor
                 </button>
                 
-              } @if (mentor.statusMentor === 'ATIVO') {
+              } @if(mentor.statusMentor === 'ATIVO') {
                 <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
                   Desativar Mentor
+                </button>
+              }
+              @if (mentor.statusMentor === 'INATIVO'){
+                <button class="btn-reativar-mentor" (click)="reativarMentor(mentor.id)">
+                  Reativar Mentor
                 </button>
               }
             </td>
