@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 
-import { CoordenacaoDetaisComponent } from '../coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
+import { CoordenacaoDetaisComponent } from './coordenacao-detais.component';
 
 describe('CoordenacaoDetaisComponent', () => {
   let component: CoordenacaoDetaisComponent;
@@ -11,13 +8,9 @@ describe('CoordenacaoDetaisComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        CoordenacaoDetaisComponent,
-        ReactiveFormsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
-    }).compileComponents();
+      imports: [CoordenacaoDetaisComponent]
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(CoordenacaoDetaisComponent);
     component = fixture.componentInstance;

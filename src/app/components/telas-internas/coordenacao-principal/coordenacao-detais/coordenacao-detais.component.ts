@@ -1,34 +1,33 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
-  FormArray,
 } from '@angular/forms';
+import { CoordenadorService } from '../../../../services/coordenacao/coordenador.service';
+import { CursosService } from '../../../../services/cursos.service';
+import { UserdataService } from '../../../../services/coordenacao/userdata.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
-import { CursosService } from '../../../services/cursos.service';
-import { UserdataService } from '../../../services/coordenacao/userdata.service';
+import { Curso } from '../../../../models/curso/curso';
+import { Observable, Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
-import { Subscription, Observable } from 'rxjs';
-import { Curso } from '../../../models/curso/curso';
-import { SidebarComponent } from "../../design/sidebar/sidebar.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-cadastro-coordenacao',
+  selector: 'app-coordenacao-detais',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SidebarComponent],
-  templateUrl: './cadastro-coordenacao.component.html',
-  styleUrl: './cadastro-coordenacao.component.scss',
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './coordenacao-detais.component.html',
+  styleUrl: './coordenacao-detais.component.scss',
 })
-export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
-  cadastroCoordenadorForm!: FormGroup;
+export class CoordenacaoDetaisComponent {
+  CoordenacaoDetaisForm!: FormGroup;
   coordenadorService = inject(CoordenadorService);
   cursoService = inject(CursosService);
   userDataService = inject(UserdataService);
-  route = inject(ActivatedRoute); 
+  route = inject(ActivatedRoute);
 
   cursosDisponiveis: Curso[] = [];
   coordenadorIdentifier: string | null = null;
@@ -54,17 +53,20 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
       senhaValidators.push(Validators.required);
     }
 
-    this.cadastroCoordenadorForm = this.formBuilder.group({
+    this.CoordenacaoDetaisForm = this.formBuilder.group({
       nome: ['', Validators.required],
-      email: [{ value: '', disabled: isEdicao }, [Validators.required, Validators.email]], 
-      senha: ['', senhaValidators], 
+      email: [
+        { value: '', disabled: isEdicao },
+        [Validators.required, Validators.email],
+      ],
+      senha: ['', senhaValidators],
       cursosIds: this.formBuilder.array([], Validators.required),
     });
   }
 
   private checkRouteParams(): void {
-    this.routeSubscription = this.route.paramMap.subscribe(params => {
-      const email = params.get('email'); 
+    this.routeSubscription = this.route.paramMap.subscribe((params) => {
+      const email = params.get('email');
       const id = params.get('id');
 
       const identifier = email || id;
@@ -72,10 +74,12 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
       if (identifier) {
         this.coordenadorIdentifier = identifier;
         this.isEdicao = true;
-        console.log(`Modo: Edição de Coordenador com identificador ${this.coordenadorIdentifier} ativo.`);
+        console.log(
+          `Modo: Edição de Coordenador com identificador ${this.coordenadorIdentifier} ativo.`
+        );
 
         this.setupForm(true);
-        this.loadCoordenador(this.coordenadorIdentifier); 
+        this.loadCoordenador(this.coordenadorIdentifier);
       } else {
         this.isEdicao = false;
         this.coordenadorIdentifier = null;
@@ -84,28 +88,32 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   private loadCoordenador(identifier: string): void {
-    
     let loadObservable: Observable<any>;
-    
+
     if (isNaN(Number(identifier))) {
-      loadObservable = this.coordenadorService.getCoordenadorPorEmail(identifier);
+      loadObservable =
+        this.coordenadorService.getCoordenadorPorEmail(identifier);
     } else {
-      loadObservable = this.coordenadorService.getCoordenadorPorId(Number(identifier)); 
+      loadObservable = this.coordenadorService.getCoordenadorPorId(
+        Number(identifier)
+      );
     }
 
     loadObservable.subscribe({
       next: (coordenador: any) => {
         if (coordenador) {
           if (coordenador.id) {
-              this.coordenadorIdentifier = coordenador.id.toString(); 
+            this.coordenadorIdentifier = coordenador.id.toString();
           }
           this.carregarDadosParaEdicao(coordenador);
         } else {
-          console.error(`Coordenador com identificador ${identifier} não encontrado.`);
+          console.error(
+            `Coordenador com identificador ${identifier} não encontrado.`
+          );
           Swal.fire('Erro', 'Coordenador não encontrado para edição.', 'error');
-          this.router.navigate(['/cadastro-coordenacao']); 
+          this.router.navigate(['/cadastro-coordenacao']);
         }
       },
       error: (error: any) => {
@@ -116,18 +124,19 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
   }
 
   carregarDadosParaEdicao(coordenador: any): void {
-    
-    this.cadastroCoordenadorForm.patchValue({
+    this.CoordenacaoDetaisForm.patchValue({
       nome: coordenador.nome,
       email: coordenador.email,
     });
-    
+
     const cursosFormArray = this.cursosFormArray;
     cursosFormArray.clear();
 
     const cursosDoCoordenador =
       coordenador.cursosIds ||
-      (coordenador.cursos ? coordenador.cursos.map((c: any) => c.id).filter((id: number) => !!id) : []);
+      (coordenador.cursos
+        ? coordenador.cursos.map((c: any) => c.id).filter((id: number) => !!id)
+        : []);
 
     if (cursosDoCoordenador && Array.isArray(cursosDoCoordenador)) {
       cursosDoCoordenador.forEach((cursoId: number) => {
@@ -153,25 +162,49 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
   }
 
   get cursosFormArray() {
-    return this.cadastroCoordenadorForm.controls['cursosIds'] as FormArray;
+    return this.CoordenacaoDetaisForm.controls['cursosIds'] as FormArray;
   }
 
   hasError(controlName: string, errorName: string): boolean | undefined {
     return (
-      this.cadastroCoordenadorForm.get(controlName)?.hasError(errorName) &&
-      this.cadastroCoordenadorForm.get(controlName)?.touched
+      this.CoordenacaoDetaisForm.get(controlName)?.hasError(errorName) &&
+      this.CoordenacaoDetaisForm.get(controlName)?.touched
     );
   }
 
   onSubmit() {
-    this.cadastroCoordenadorForm.markAllAsTouched();
-    if (!this.cadastroCoordenadorForm.valid) {
-        console.log('Formulário Inválido.');
-        return;
+    this.CoordenacaoDetaisForm.markAllAsTouched(); // Isso faz a mensagem vermelha aparecer (o que é bom)
+
+    // --- 👇 CORREÇÃO ADICIONADA AQUI 👇 ---
+
+    // 1. Verifica especificamente o erro do FormArray de Cursos
+    if (this.cursosFormArray.hasError('required')) {
+      Swal.fire(
+        'Seleção Obrigatória',
+        'Você deve selecionar pelo menos um curso.',
+        'error'
+      );
+      return; // Para a execução aqui, exibindo o modal
     }
-    
-    const formValue = this.cadastroCoordenadorForm.getRawValue(); 
-    
+
+    // 2. Verifica se o restante do formulário (nome, email, senha) está inválido
+    if (!this.CoordenacaoDetaisForm.valid) {
+      console.log('Formulário Inválido (Campos de texto).');
+      Swal.fire(
+        'Campos Inválidos',
+        'Por favor, corrija os erros em vermelho (Nome, Email ou Senha).',
+        'error'
+      );
+      return; // Para a execução aqui
+    }
+
+    // --- FIM DA CORREÇÃO ---
+
+    // Se passar pelas duas validações, o código de salvar continua
+    console.log('Formulário Válido, pronto para salvar.'); // Mensagem removida do `if`
+
+    const formValue = this.CoordenacaoDetaisForm.getRawValue();
+
     const coordenadorData: any = {
       nome: formValue.nome,
       email: formValue.email,
@@ -179,42 +212,56 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
 
     coordenadorData.cursosIds = formValue.cursosIds;
 
-
     if (!this.isEdicao || (this.isEdicao && formValue.senha)) {
-        coordenadorData.senha = formValue.senha;
+      coordenadorData.senha = formValue.senha;
     }
-
 
     if (this.isEdicao && this.coordenadorIdentifier) {
       coordenadorData.id = Number(this.coordenadorIdentifier);
-      
+
       this.coordenadorService.update(coordenadorData).subscribe({
         next: () => {
           console.log('Coordenador atualizado com sucesso!');
-          Swal.fire('Sucesso!', 'Coordenador atualizado com sucesso.', 'success');
+          Swal.fire(
+            'Sucesso!',
+            'Coordenador atualizado com sucesso.',
+            'success'
+          );
           this.router.navigate(['/funcionario-perfil']);
         },
         error: (error) => {
           console.error('Erro na atualização:', error);
-          Swal.fire('Erro', 'Houve um erro na atualização. Verifique os dados.', 'error');
+          Swal.fire(
+            'Erro',
+            'Para que seja possivel editar, adicione a sua senha.',
+            'error'
+          );
         },
       });
     } else {
       this.coordenadorService.save(coordenadorData).subscribe({
         next: (response) => {
           console.log('Coordenador cadastrado com sucesso!', response);
-          Swal.fire('Sucesso!', 'Coordenador cadastrado com sucesso!', 'success');
+          Swal.fire(
+            'Sucesso!',
+            'Coordenador cadastrado com sucesso!',
+            'success'
+          );
           this.router.navigate(['']);
         },
         error: (error) => {
           console.error('Erro no cadastro:', error);
-          Swal.fire('Erro', 'Houve um erro no cadastro. Verifique os dados.', 'error');
+          Swal.fire(
+            'Erro',
+            'Houve um erro no cadastro. Verifique os dados.',
+            'error'
+          );
         },
       });
     }
   }
 
- onCheckboxChange(event: any) {
+  onCheckboxChange(event: any) {
     const isChecked = event.target.checked;
     const cursoId = event.target.value;
 
@@ -228,9 +275,8 @@ export class CadastroCoordenacaoComponent implements OnInit, OnDestroy {
         this.cursosFormArray.removeAt(index);
       }
     }
-    this.cursosFormArray.markAsTouched(); 
+    this.cursosFormArray.markAsTouched();
   }
-
 
   goToLanding() {
     this.router.navigate(['/']);
