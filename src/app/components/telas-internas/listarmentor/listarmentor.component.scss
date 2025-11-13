@@ -1,6 +1,11 @@
 @use '../../../../styles/variaveis.scss' as *;
 
 .tabela-card {
+  /* Centralização */
+  max-width: 900px; 
+  margin: 0 auto; /* Centraliza horizontalmente o elemento de bloco */
+
+  /* Estilos Existentes/Mantidos */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -91,6 +96,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: 600;
+  margin-right: 10px;
 
   &:hover {
     background-color: $btn-hover;
@@ -102,7 +108,7 @@
   background-color: #ccc;
   color:  #333;
   border: 1px ;
-  padding: 8px 16px;
+  padding: 8px 8px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease, transform 0.2s ease;
@@ -113,4 +119,11 @@
     color: #fff;
     transform: translateY(-2px);
   }
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 2px;
+  margin-bottom: 15px;
+  border-color: #00995E;
 }

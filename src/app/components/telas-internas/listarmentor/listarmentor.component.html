@@ -1,4 +1,4 @@
-<app-sidebar></app-sidebar>
+
 
 <div class="tabela-card" style="margin-top: 80px; margin-left: 230px">
   <table class="table tabela-card-interna">
@@ -22,8 +22,10 @@
               <h3>
                 @if (mentor.statusMentor === 'PENDENTE') {
                   Pendentes
+                  <div class="linha"></div>
                 } @else if (mentor.statusMentor === 'ATIVO') {
                   Ativos
+                  <div class="linha"></div>
                 } @else {
                   Inativos
                 }
@@ -57,11 +59,12 @@
             <td>
               @if (mentor.statusMentor === 'PENDENTE' || mentor.statusMentor === 'INATIVO') {
                 <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
-                  Ativar
+                  Ativar Mentor
                 </button>
+                
               } @if (mentor.statusMentor === 'ATIVO') {
                 <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
-                  Desativar
+                  Desativar Mentor
                 </button>
               }
             </td>
