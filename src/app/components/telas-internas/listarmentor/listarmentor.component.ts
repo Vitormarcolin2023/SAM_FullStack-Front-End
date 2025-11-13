@@ -145,7 +145,6 @@ export class ListarMentorComponent implements OnInit {
     });
   }
 
- 
   /**
    * Exibe um alerta/notificação usando SweetAlert2.
    * @param message A mensagem a ser exibida.

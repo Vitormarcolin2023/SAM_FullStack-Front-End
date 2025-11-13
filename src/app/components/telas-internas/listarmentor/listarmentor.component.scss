@@ -3,19 +3,19 @@
 .tabela-card {
   /* Centralização */
   max-width: 900px; 
-  margin: 0 auto; /* Centraliza horizontalmente o elemento de bloco */
+  margin: 10px auto; /* Centraliza horizontalmente o elemento de bloco */
 
   /* Estilos Existentes/Mantidos */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 30px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px 10px;
 }
 
 .tabela-card-interna {
   width: 100%;
   border-collapse: collapse;
+  padding: 10px;
 }
 
 .tabela-card-interna th,
@@ -89,7 +89,7 @@
 
 .btn-ativar-mentor {
   background-color: $btn-acao;
-  color: #fff;
+  color:  #006e44;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
@@ -101,6 +101,7 @@
   &:hover {
     background-color: $btn-hover;
     transform: translateY(-2px);
+    color: #fff;
   }
 }
 
