@@ -6,30 +6,14 @@
   padding-top: 20px;
   position: relative;
   z-index: 0;
+  overflow-x: hidden;
 }
 
-/* Card padrão para mentor e minicurrículo */
+/* Card padrão para mentor*/
 .perfil-card {
-  border-radius: 10px;
-  width: 90%;
-
-  /* Ajusta o alinhamento para a direita */
-  margin-left: 125px;
-  margin-right: auto;
-
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-  box-sizing: border-box;
-
-  /* Espaçamento superior do seu código */
-  margin-top: 100px;
+  border-radius: 1rem;
+  background: #fff;
 }
-
 
 /* Foto do mentor */
 .photo-container {
@@ -45,7 +29,6 @@
   justify-content: center;
   background: #e9ecef;
 }
-
 
 .perfil-foto {
     /* Garante que a imagem ocupe 100% do photo-placeholder (100px x 100px) */
@@ -70,7 +53,7 @@
   transition: background 0.3s;
 }
 .upload-icon:hover {
-  background: var(--primary-color);
+  background:#00E88F;
   color: #fff;
 }
 
@@ -112,12 +95,12 @@
 
 .btn-editar {
   background-color:#00E88F;
-  color:  #146c43;
+  color:#146c43;
+  padding: 0.5rem 0.7rem;
   border: none;
-  border-radius: 5px;
-  height: 30px;
-  margin-right: 10px;
+  border-radius: 0.5rem;
   font-weight: 500;
+  transition: background 0.3s;
 }
 
 .btn-editar:hover {
@@ -128,11 +111,11 @@
 .btn-excluir {
   background-color: rgb(255, 109, 109);
   color: #fff;
+  padding: 0.5rem 1.25rem;
   border: none;
-  border-radius: 5px;
-  height: 30px;
+  border-radius: 0.5rem;
   font-weight: 500;
-
+  transition: background 0.3s;
 }
 
 .btn-excluir:hover{
@@ -142,9 +125,9 @@
 
 .botoes{
   display: flex;
-  margin-top: 10px;
-  width: 100%;
-  justify-content: end;
+  justify-content: flex-end; /* Joga tudo para a direita */
+  gap: 1rem; /* Espaço entre os botões */
+  margin-top: 20px;
 }
 
 .swal2-textarea{
