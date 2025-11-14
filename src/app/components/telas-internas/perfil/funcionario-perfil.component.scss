@@ -1,6 +1,7 @@
 
 .background {
-  background-color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #dedede;
   min-height: 100vh;
   padding-top: 20px;
   position: relative;
@@ -9,12 +10,11 @@
 
 /* Card padrão para mentor e minicurrículo */
 .perfil-card {
-  background-color: #dedede;
   border-radius: 10px;
   width: 90%;
 
   /* Ajusta o alinhamento para a direita */
-  margin-left: 145px;
+  margin-left: 125px;
   margin-right: auto;
 
   padding: 20px;
@@ -86,7 +86,7 @@
   display: flex;
   align-items: center;
   font-weight: bold;
-  color: #4caf50; /* verde para destacar */
+  color: #146c43; /* verde para destacar */
   margin-bottom: 10px;
 }
 
@@ -111,29 +111,32 @@
 }
 
 .btn-editar {
-  background-color: #4caf50;
-  color: #2e2e2e;
+  background-color:#00E88F;
+  color:  #146c43;
   border: none;
   border-radius: 5px;
   height: 30px;
   margin-right: 10px;
+  font-weight: 500;
+}
+
+.btn-editar:hover {
+  background-color: #146c43;
+  color:#fff;
 }
 
 .btn-excluir {
   background-color: rgb(255, 109, 109);
-  color: #2e2e2e;
+  color: #fff;
   border: none;
   border-radius: 5px;
   height: 30px;
+  font-weight: 500;
 
-}
-
-.btn-editar:hover {
-  background-color: darken(#4caf50, 10%);
-  color:#fff;
 }
 
 .btn-excluir:hover{
+  background-color: rgb(224, 75, 75);
   color: #fff;
 }
 
