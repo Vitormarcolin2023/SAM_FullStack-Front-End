@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Avaliacao } from '../../models/avaliacao/avaliacao';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +22,11 @@ export class AvaliacaoService {
     return this.avaliacaoPendenteSubject.getValue();
   }
   */
+
+  private api = 'http://localhost:8080/avaliacoes';
+  private http = inject(HttpClient);
+
+  saveAvaliacao(avaliacao: Avaliacao): Observable<Avaliacao>{
+    return this.http.post<Avaliacao>(`${this.api}/${avaliacao.projeto.id}`, avaliacao);
+  }
 }

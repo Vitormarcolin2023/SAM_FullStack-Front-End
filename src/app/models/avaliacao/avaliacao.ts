@@ -1,3 +1,4 @@
+import { Mentor } from "../mentor/mentor";
 import { Projeto } from "../projeto/projeto";
 
 export class Avaliacao {
@@ -12,6 +13,7 @@ export class Avaliacao {
     comentario: string;
     recomendacao: boolean;
     projeto: Projeto;
+    mentor: Mentor;
 
     constructor(
         resposta1: number,
@@ -22,7 +24,8 @@ export class Avaliacao {
         resposta6: number,
         comentario: string,
         recomendacao: boolean,
-        projeto: Projeto
+        projeto: Projeto,
+        mentor: Mentor
     ) {
         this.resposta1 =resposta1;
         this.resposta2 = resposta2;
@@ -33,5 +36,6 @@ export class Avaliacao {
         this.comentario = comentario;
         this.recomendacao = recomendacao;
         this.projeto = projeto;
+        this.mentor = mentor;
     }
 }

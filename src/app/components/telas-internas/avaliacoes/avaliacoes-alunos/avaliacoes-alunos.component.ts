@@ -1,6 +1,9 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { Projeto } from '../../../../models/projeto/projeto';
+import { ProjetoService } from '../../../../services/projeto/projeto.service';
 
 @Component({
   selector: 'app-avaliacoes-alunos',
@@ -57,6 +60,13 @@ export class AvaliacoesAlunosComponent {
   respostas: { [key: number]: number } = {};
   comentarios = '';
   recomendacao!: boolean;
+  projeto!: Projeto;
+  projetoService = inject(ProjetoService);
+
+  ngOnInit(){
+    // this.projetoService. -> Acrescentar quando projeto estiver completo
+  }
+
 
   isRecomendado(resposta: boolean) {
     this.recomendacao = resposta;
@@ -76,7 +86,12 @@ export class AvaliacoesAlunosComponent {
     this.avaliacaoEnviada = true;
 
     const dados = {
-      respostas: this.respostas,
+      resposta1: this.respostas[1],
+      resposta2: this.respostas[2],
+      resposta3: this.respostas[3],
+      resposta4: this.respostas[4],
+      resposta5: this.respostas[5],
+      resposta6: this.respostas[6],
       comentarios: this.comentarios,
       recomendacao: this.recomendacao,
     };
