@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router'; // Verifique se o Router está importado
 import { CommonModule } from '@angular/common';
+import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import Swal from 'sweetalert2';
 
 import { Aluno } from '../../../../models/aluno/aluno';
@@ -10,7 +11,7 @@ import { TokenDecode } from '../../../../models/token/token-decode';
 @Component({
   selector: 'app-aluno-perfil',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './aluno-perfil.component.html',
   styleUrls: ['./aluno-perfil.component.scss'], // Caminho para o NOVO SCSS
 })

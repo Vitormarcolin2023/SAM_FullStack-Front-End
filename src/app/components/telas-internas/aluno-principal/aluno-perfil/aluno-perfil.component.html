@@ -1,54 +1,82 @@
-<div class="content-wrapper">
-<div class="container-centralizado">
-  @if (aluno && !isLoading) {
-    <div class="profile-card">
-      
-      <div class="profile-header">
-        <div class="avatar-placeholder">
-          <i class="fas fa-user-graduate"></i>
-        </div>
-        <div class="profile-identity">
-          <h2 class="profile-name">{{ aluno.nome }}</h2>
-          <p class="profile-course">{{ aluno.curso.nome }}</p>
-        </div>
-      </div>
+<app-sidebar></app-sidebar>
 
-      <div class="profile-body">
-        <h3 class="section-title">Detalhes Acadêmicos</h3>
-        
-        <ul class="info-list">
-          <li class="info-item">
-            <span class="info-icon"><i class="fas fa-id-card"></i></span>
-            <div class="info-text">
-              <span class="info-label">RA (Registro Acadêmico)</span>
-              <span class="info-value">{{ aluno.ra }}</span>
-            </div>
-          </li>
-          <li class="info-item">
-            <span class="info-icon"><i class="fas fa-envelope"></i></span>
-            <div class="info-text">
-              <span class="info-label">E-mail</span>
-              <span class="info-value">{{ aluno.email }}</span>
-            </div>
-          </li>
-          </ul>
-      </div>
+<div class="container-fluid background p-4">
 
-      <div class="profile-actions">
-        <button class="btn btn-primary" (click)="editarPerfil()">
-          <i class="fas fa-pencil-alt"></i> Editar Perfil
-        </button>
+  @if (isLoading) {
+    <div class="text-center mt-5">
+      <div class="spinner-border text-success"></div>
+      <p class="mt-2">Carregando seu perfil...</p>
+    </div>
+
+  } @else if (aluno) {
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <!-- CARD PRINCIPAL -->
+        <div class="card p-4 shadow-sm border-0 perfil-card">
+
+          <!-- FOTO + NOME -->
+          <div class="d-flex align-items-center">
+
+            <!-- Foto -->
+            <div class="photo-container me-4">
+              <div class="photo-placeholder">
+                <img src="/perfil.jpeg" alt="Foto do Aluno" class="perfil-foto" />
+              </div>
+
+              <i class="fa-solid fa-camera upload-icon"></i>
+              <input type="file" hidden />
+            </div>
+
+            <!-- NOME + CURSO -->
+            <div>
+              <h4 class="fw-bold">{{ aluno.nome }}</h4>
+
+              <div class="d-flex align-items-center mb-1 text-muted">
+                @if (aluno.curso) {
+                  <p class="mb-0 me-3">{{ aluno.curso.nome }}</p>
+                } @else {
+                  <p class="mb-0 me-3 fst-italic">Curso não informado</p>
+                }
+              </div>
+
+            </div> <!-- FIM div nome+curso -->
+
+          </div> <!-- FIM FOTO + NOME -->
+
+          <!-- LINHA -->
+          <div class="linha"></div>
+
+          <!-- INFORMAÇÕES ACADÊMICAS -->
+          <div class="card-item info-bloco">
+          <h5 class="fw-bold titulo-bloco">Informações Acadêmicas</h5>
+
+          <p class="text-muted mb-1">RA: {{ aluno.ra }}</p>
+           <p class="text-muted mb-1">Curso: {{ aluno.curso.nome}}</p>
+          <p class="text-muted mb-1">E-mail: {{ aluno.email }}</p>
+        </div>
+
+          <!-- LINHA -->
+          <div class="linha"></div>
+
+          <!-- BOTÕES -->
+          <div class="botoes">
+            <button class="btn-editar" (click)="editarPerfil()">
+              Editar informações
+            </button>
+          </div>
+
+        </div>
       </div>
     </div>
+
   } @else {
-    <div class="state-message">
-      @if (isLoading) {
-        <div class="spinner"></div>
-        <p class="lead">Carregando seu perfil...</p>
-      } @else {
-        <p class="lead">Não foi possível carregar o perfil.</p>
-      }
+
+    <div class="text-center mt-5">
+      <p class="lead">Não foi possível carregar seu perfil.</p>
     </div>
+
   }
-</div>
+
 </div>
