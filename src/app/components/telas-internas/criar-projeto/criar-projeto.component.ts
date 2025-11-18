@@ -6,6 +6,7 @@ import {
   ValidatorFn,
   AbstractControl,
   ValidationErrors,
+  FormsModule,
 } from '@angular/forms';
 import { Projeto } from '../../../models/projeto/projeto';
 import { MentorService } from '../../../services/mentores/mentores.service';
@@ -32,6 +33,7 @@ import { Professor } from '../../../models/professor/professor';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     NavbarTelasInternasComponent,
     SidebarComponent,
   ],
@@ -40,6 +42,7 @@ export class CriarProjetoComponent implements OnInit {
   formProjeto!: FormGroup;
   modoEdicao = false;
   carregando = false;
+  modalAberto = false;
   idProjeto: number | null = null;
 
   mentores: Mentor[] = [];
@@ -48,6 +51,8 @@ export class CriarProjetoComponent implements OnInit {
   professores: any[] = [];
   professoresFiltrados: Professor[] = [];
   professoresSelecionados: Professor[] = [];
+  mentoresFiltradosModal: Mentor[] = [];
+  areaSelecionadaNoModal: AreaDeAtuacao | null = null;
 
 
   periodosDisponiveis: string[] = [
@@ -307,6 +312,40 @@ export class CriarProjetoComponent implements OnInit {
 trackByProfessorId(index: number, professor: Professor): number {
   return professor.id ?? index;
 }
+
+abrirModalMentor(): void {
+  this.modalAberto = true;
+
+  const areaForm = this.formProjeto.get('areaDeAtuacao')?.value;
+  this.areaSelecionadaNoModal = areaForm || null;
+  this.atualizarMentoresModal();
+
+}
+
+  fecharModalMentor(): void {
+    this.modalAberto = false;
+  }
+
+  atualizarMentoresModal(): void {
+    if (this.areaSelecionadaNoModal && this.areaSelecionadaNoModal.id != null) {
+    this.mentorService.findByAreaDeAtuacao(this.areaSelecionadaNoModal.id).subscribe((mentores) => {
+      this.mentoresFiltradosModal = mentores;
+    });
+  } else {
+    this.mentoresFiltradosModal = [];
+  }
+  }
+  filtrarMentoresModal(event: Event): void {
+    const termo = (event.target as HTMLInputElement).value.toLowerCase();
+  this.mentoresFiltradosModal = this.mentoresFiltradosModal.filter(m => m.nome.toLowerCase().includes(termo));
+  }
+
+  selecionarMentor(mentor: Mentor): void{
+  this.formProjeto.get('mentor')?.setValue(mentor);
+  this.modalAberto = false;
+  }
+
+
 
   onSubmit() {
     if (this.formProjeto.valid) {
