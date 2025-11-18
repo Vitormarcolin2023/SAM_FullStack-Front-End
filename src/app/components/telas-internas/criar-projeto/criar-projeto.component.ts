@@ -48,12 +48,13 @@ export class CriarProjetoComponent implements OnInit {
   mentores: Mentor[] = [];
   areasDeAtuacao: AreaDeAtuacao[] = [];
   grupos: any[] = [];
-  professores: any[] = [];
+  professores: Professor[] = [];
   professoresFiltrados: Professor[] = [];
   professoresSelecionados: Professor[] = [];
   mentoresFiltradosModal: Mentor[] = [];
   areaSelecionadaNoModal: AreaDeAtuacao | null = null;
 
+  semGrupo = false;
 
   periodosDisponiveis: string[] = [
     '1º Período',
@@ -82,8 +83,8 @@ export class CriarProjetoComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.carregarDadosIniciais();
     this.carregarGrupos();
+    this.carregarDadosIniciais();
     this.monitorarAreaDeAtuacao();
     this.monitorarDataInicio();
     this.carregarProfessores();
@@ -176,6 +177,7 @@ export class CriarProjetoComponent implements OnInit {
         this.mentores = [];
         mentorControl?.reset();
 
+
         if (areaSelecionada && areaSelecionada.id) {
           mentorControl?.enable();
           this.mentorService
@@ -210,11 +212,41 @@ export class CriarProjetoComponent implements OnInit {
           const grupoCorrespondente = this.grupos.find(g => g.id === grupoDoAluno.id);
           if (grupoCorrespondente) {
             this.formProjeto.patchValue({ grupo: grupoCorrespondente });
+            this.semGrupo = false;
+            this.formProjeto.enable();
           }
+        }else {
+          this.semGrupo = true;
+          this.formProjeto.disable();
+        
+          setTimeout(() => {
+            this.exibirAlertaSemGrupo();
+          }, 0);
         }
       },
       error: (err) => {
         console.error('Nenhum grupo encontrado para o aluno logado.', err);
+          this.semGrupo = true;
+          this.formProjeto.disable();
+         
+          setTimeout(() => {
+          this.exibirAlertaSemGrupo();
+        }, 0);
+      }
+    });
+  }
+
+  exibirAlertaSemGrupo(): void {
+    Swal.fire({
+      title: 'Você não está em um grupo',
+      text: 'Para criar um projeto, é necessário estar em um grupo.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Criar grupo',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.router.navigate(['/grupo/criar-grupo']);
       }
     });
   }
@@ -290,6 +322,7 @@ export class CriarProjetoComponent implements OnInit {
       return new Date(inicio) > new Date(fim) ? { dataInvalida: true } : null;
     };
   }
+  
   onAreaDeAtuacaoChange(): void{
      const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
 
@@ -309,6 +342,7 @@ export class CriarProjetoComponent implements OnInit {
     }
   });
 }
+
 trackByProfessorId(index: number, professor: Professor): number {
   return professor.id ?? index;
 }
@@ -348,6 +382,18 @@ abrirModalMentor(): void {
 
 
   onSubmit() {
+
+    if(this.semGrupo) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Não é possivel criar projeto',
+        text: 'Você precisa estar em um grupo para criarum projeto.'
+      });
+      return;
+    }
+
+
+
     if (this.formProjeto.valid) {
       const projeto: Projeto = this.formProjeto.value;
 
