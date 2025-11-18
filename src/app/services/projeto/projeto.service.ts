@@ -26,6 +26,12 @@ export class ProjetoService {
     return this.http.get<Projeto[]>(`${this.API}/buscar-por-atuacao?areaDeAtuacao=${areaDeAtuacaoId}`);
   }
 
+  buscarPorPeriodo(periodo: string): Observable<Projeto[]> {
+  return this.http.get<Projeto[]>(`${this.API}/buscar-por-periodo`, {
+    params: { periodo } 
+  });
+}
+
   save(projeto: Projeto): Observable<Projeto> {
     return this.http.post<Projeto>(`${this.API}/save`, projeto);
     
