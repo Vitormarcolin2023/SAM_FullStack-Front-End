@@ -7,9 +7,9 @@ export class Projeto {
   nomeDoProjeto!: string;
   descricao!: string;
   areaDeAtuacao!: AreaDeAtuacao;
-  dataInicioProjeto!: string; // ou Date
-  dataFinalProjeto!: string; // ou Date
-  periodo!: string;
+  dataInicioProjeto!: string; 
+  dataFinalProjeto!: string; 
+  periodo!: String;
   mentor?: Mentor;
   statusProjeto?: string;
   grupo?: Grupo;
@@ -21,7 +21,7 @@ export class Projeto {
     areaDeAtuacao: AreaDeAtuacao = {} as AreaDeAtuacao,
     dataInicioProjeto: string = '',
     dataFinalProjeto: string = '',
-    periodo: string = '',
+    periodo:  string = '',
     id?: number,
     mentor?: Mentor,
     statusProjeto?: string,
