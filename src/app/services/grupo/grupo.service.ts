@@ -58,4 +58,8 @@ export class GrupoService {
   getGruposArquivados(alunoId: number) : Observable<Grupo[]>{
     return this.http.get<Grupo[]>(`${this.grupoApiUrl}/findByGruposArquivados/${alunoId}`);
   }
+ 
+  findGruposByProfessorId(professorId: number): Observable<Grupo[]> {
+    return this.http.get<Grupo[]>(`${this.grupoApiUrl}/professor/${professorId}`);
+  }
 }
