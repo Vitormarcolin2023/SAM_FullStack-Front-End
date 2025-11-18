@@ -33,6 +33,7 @@ import { AlunoVisualizarMentorComponent } from './components/telas-internas/alun
 import { VisualizarprojetosComponent } from './components/telas-internas/visualizar-projetos/visualizarprojetos.component';
 import { CoordenacaoPrincipalComponent } from './components/telas-internas/coordenacao-principal/coordenacao-principal.component';
 import { CoordenacaoDetaisComponent } from './components/telas-internas/coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
+import { AvaliacoesAlunosComponent } from './components/telas-internas/avaliacoes/avaliacoes-alunos/avaliacoes-alunos.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -63,6 +64,7 @@ export const routes: Routes = [
         path: 'aluno-visualizar-mentor',
         component: AlunoVisualizarMentorComponent,
       },
+      {path: 'aluno-avaliacao-mentor', component: AvaliacoesAlunosComponent},
     ],
   },
   {

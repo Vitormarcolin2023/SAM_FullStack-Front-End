@@ -1,102 +1,113 @@
-<div class="container-grupo">
-  <div class="card-grupo shadow">
-    <h2 class="titulo">Criar Grupo</h2>
+<div class="pagina-container">
+  <div class="card padrao shadow">
+    <h2 class="titulo-pagina">Criar Grupo</h2>
 
-    <div class="form-section">
-      
-      <label for="group-name">Nome do Grupo</label>
-      <input
-        id="group-name"
-        type="text"
-        placeholder="Digite o nome do grupo"
-        [(ngModel)]="nomeGrupo"
-      />
+    <form class="formulario">
+      <!-- Nome do Grupo -->
+      <div class="campo">
+        <label for="group-name">Nome do Grupo</label>
+        <input
+          id="group-name"
+          type="text"
+          placeholder="Digite o nome do grupo"
+          [(ngModel)]="nomeGrupo"
+          name="nomeGrupo"
+        />
+      </div>
 
-      
-      <label for="periodo">Selecione o período</label>
-      <select id="periodo" [(ngModel)]="periodoSelecionado">
-        @for (periodo of periodosDisponiveis; track $index) {
-          <option [value]="periodo">{{ periodo }}</option>
+      <!-- Período -->
+      <div class="campo">
+        <label for="periodo">Selecione o Período</label>
+        <select id="periodo" [(ngModel)]="periodoSelecionado" name="periodo">
+          @for (periodo of periodosDisponiveis; track $index) {
+            <option [value]="periodo">{{ periodo }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Alunos -->
+      <div class="campo">
+        <label>Selecione os Alunos</label>
+
+        @if (alunosSelecionados().length > 0) {
+          <div class="selecionados-container">
+            @for (aluno of alunosSelecionados(); track $index) {
+              <span class="badge-selecionado">
+                {{ aluno.nome }}
+                <button type="button" (click)="toggleAlunoSelecao(aluno)">x</button>
+              </span>
+            }
+          </div>
         }
-      </select>
 
-      
-      <label>Selecione os integrantes</label>
-
-      @if (alunosSelecionados().length > 0) {
-        <div class="selecionados-container">
-          @for (aluno of alunosSelecionados(); track $index) {
-            <span class="badge-selecionado">
-              {{ aluno.nome }}
-              <button (click)="toggleAlunoSelecao(aluno)">x</button>
-            </span>
-          }
+        <div class="campo-pesquisa" (click)="$event.stopPropagation()">
+          <input
+            placeholder="Pesquisar alunos..."
+            [(ngModel)]="alunosPesquisa"
+            (input)="filtrarAlunos()"
+            (focus)="abrirLista('alunos')"
+            name="pesquisaAluno"
+          />
+          <ul
+            class="lista-pesquisa"
+            *ngIf="mostrarListaAlunos && alunosFiltrados.length > 0"
+          >
+            @for (aluno of alunosFiltrados; track $index) {
+              <li
+                (click)="toggleAlunoSelecao(aluno)"
+                [class.selecionado]="isAlunoSelecionado(aluno)"
+              >
+                {{ aluno.nome }}
+              </li>
+            }
+          </ul>
         </div>
-      }
-
-      <div class="campo-pesquisa" (click)="$event.stopPropagation()">
-        <input
-          placeholder="Pesquisar alunos..."
-          [(ngModel)]="alunosPesquisa"
-          (input)="filtrarAlunos()"
-          (focus)="abrirLista('alunos')"
-        />
-        <ul
-          class="lista-pesquisa"
-          *ngIf="mostrarListaAlunos && alunosFiltrados.length > 0"
-        >
-          @for (aluno of alunosFiltrados; track $index) {
-            <li
-              (click)="toggleAlunoSelecao(aluno)"
-              [class.selecionado]="isAlunoSelecionado(aluno)"
-            >
-              {{ aluno.nome }}
-            </li>
-          }
-        </ul>
       </div>
 
-    
-      <label>Selecione os professores</label>
+      <!-- Professores -->
+      <div class="campo">
+        <label>Selecione os Professores</label>
 
-      @if (professoresSelecionados().length > 0) {
-        <div class="selecionados-container">
-          @for (professor of professoresSelecionados(); track $index) {
-            <span class="badge-selecionado">
-              {{ professor.nome }}
-              <button (click)="toggleProfessorSelecao(professor)">x</button>
-            </span>
-          }
+        @if (professoresSelecionados().length > 0) {
+          <div class="selecionados-container">
+            @for (professor of professoresSelecionados(); track $index) {
+              <span class="badge-selecionado">
+                {{ professor.nome }}
+                <button type="button" (click)="toggleProfessorSelecao(professor)">x</button>
+              </span>
+            }
+          </div>
+        }
+
+        <div class="campo-pesquisa" (click)="$event.stopPropagation()">
+          <input
+            placeholder="Pesquisar professores..."
+            [(ngModel)]="professoresPesquisa"
+            (input)="filtrarProfessores()"
+            (focus)="abrirLista('professores')"
+            name="pesquisaProfessor"
+          />
+          <ul
+            class="lista-pesquisa"
+            *ngIf="mostrarListaProfessores && professoresFiltrados.length > 0"
+          >
+            @for (professor of professoresFiltrados; track $index) {
+              <li
+                (click)="toggleProfessorSelecao(professor)"
+                [class.selecionado]="isProfessorSelecionado(professor)"
+              >
+                {{ professor.nome }}
+              </li>
+            }
+          </ul>
         </div>
-      }
-
-      <div class="campo-pesquisa" (click)="$event.stopPropagation()">
-        <input
-          placeholder="Pesquisar professores..."
-          [(ngModel)]="professoresPesquisa"
-          (input)="filtrarProfessores()"
-          (focus)="abrirLista('professores')"
-        />
-        <ul
-          class="lista-pesquisa"
-          *ngIf="mostrarListaProfessores && professoresFiltrados.length > 0"
-        >
-          @for (professor of professoresFiltrados; track $index) {
-            <li
-              (click)="toggleProfessorSelecao(professor)"
-              [class.selecionado]="isProfessorSelecionado(professor)"
-            >
-              {{ professor.nome }}
-            </li>
-          }
-        </ul>
       </div>
 
-  
+      <!-- Botões -->
       <div class="botoes">
-        <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
-        <button class="btn-criar" (click)="criarGrupo()">Criar</button>
+        <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+        <button type="button" class="btn-salvar" (click)="criarGrupo()">Criar Grupo</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
