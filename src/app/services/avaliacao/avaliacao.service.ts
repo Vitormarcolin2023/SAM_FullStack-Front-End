@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Avaliacao } from '../../models/avaliacao/avaliacao';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class AvaliacaoService {
   }
   */
 
-  private api = 'http://localhost:8080/avaliacoes';
+  private api = environment.SERVIDOR + '/avaliacoes';
   private http = inject(HttpClient);
 
   saveAvaliacao(avaliacao: Avaliacao): Observable<Avaliacao>{

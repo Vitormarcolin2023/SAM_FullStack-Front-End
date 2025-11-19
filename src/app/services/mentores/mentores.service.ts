@@ -4,12 +4,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mentor } from '../../models/mentor/mentor';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MentorService {
-  private apiUrl = 'http://localhost:8080/mentores';
+  private apiUrl = environment.SERVIDOR + '/mentores';
 
   constructor(private http: HttpClient) {}
 
