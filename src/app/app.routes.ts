@@ -33,6 +33,7 @@ import { AlunoVisualizarMentorComponent } from './components/telas-internas/alun
 import { VisualizarprojetosComponent } from './components/telas-internas/visualizar-projetos/visualizarprojetos.component';
 import { CoordenacaoPrincipalComponent } from './components/telas-internas/coordenacao-principal/coordenacao-principal.component';
 import { CoordenacaoDetaisComponent } from './components/telas-internas/coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
+import { CriarReuniaoComponent } from './components/telas-internas/reuniao/criar-reuniao/criar-reuniao.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -63,6 +64,7 @@ export const routes: Routes = [
         path: 'aluno-visualizar-mentor',
         component: AlunoVisualizarMentorComponent,
       },
+      { path: 'solicitar-reuniao', component: CriarReuniaoComponent },
     ],
   },
   {
@@ -148,6 +150,7 @@ export const routes: Routes = [
     component: MentorPerfilComponent,
     canActivate: [mentorStatusGuard],
   },
+
 
   // Fallback (rota não encontrada)
 

@@ -1,0 +1,155 @@
+@if (isLoading) {
+<div class="state-message">
+  <div class="spinner"></div>
+  <p class="lead">Carregando dados para o agendamento...</p>
+</div>
+} @if (!isLoading) {
+<div class="container">
+  <form #reuniaoForm="ngForm" (ngSubmit)="salvarReuniao()">
+    <div class="card">
+      <div class="card-body">
+        <div class="container-centralizado">
+          <h3>Agendar Reunião</h3>
+
+          <h4 class="section-title">Informações da Reunião</h4>
+
+          <div class="mb-3">
+            <label class="form-label" for="assunto">Assunto</label>
+            <textarea
+              id="assunto"
+              placeholder="Digite o assunto da reunião"
+              class="form-control"
+              [(ngModel)]="reuniao.assunto"
+              required
+              #assunto="ngModel"
+              rows="3"
+            ></textarea>
+            @if (assunto.invalid && assunto.touched) {
+            <div class="text-danger small mt-1">O assunto é obrigatório.</div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="data">Data</label>
+            <input
+              id="data"
+              name="data"
+              type="date"
+              class="form-control"
+              [(ngModel)]="reuniao.data"
+              required
+              #data="ngModel"
+            />
+            @if (data.invalid && data.touched) {
+            <div class="text-danger small mt-1">Selecione uma data válida.</div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="hora">Hora</label>
+            <input
+              id="hora"
+              name="hora"
+              type="time"
+              class="form-control"
+              [(ngModel)]="reuniao.hora"
+              required
+              #hora="ngModel"
+            />
+            @if (hora.invalid && hora.touched) {
+            <div class="text-danger small mt-1">Informe um horário válido.</div>
+            }
+          </div>
+
+          <hr />
+
+          <h4 class="section-title">Seleções</h4>
+
+          <div class="mb-3">
+            <label class="form-label" for="formato">Formato da Reunião</label>
+            <select
+              id="formato"
+              name="formato"
+              class="form-control"
+              [(ngModel)]="reuniao.formatoReuniao"
+              required
+              #formato="ngModel"
+            >
+              <option [ngValue]="undefined" disabled selected>
+                Selecione…
+              </option>
+              <option value="PRESENCIAL">Presencial</option>
+              <option value="ONLINE">Online</option>
+            </select>
+            @if (formato.invalid && formato.touched) {
+            <div class="text-danger small mt-1">Selecione um formato.</div>
+            }
+          </div>
+
+          <hr />
+
+          <h4 class="section-title">Vínculos</h4>
+
+          <div class="mb-3">
+            <label class="form-label" for="mentor">Mentor Responsável</label>
+            <select
+              id="mentor"
+              name="mentor"
+              class="form-control"
+              [(ngModel)]="reuniao.mentor"
+              required
+              #mentor="ngModel"
+            >
+              <option [ngValue]="undefined" disabled>Selecione…</option>
+              <option *ngFor="let m of mentores" [ngValue]="m">
+                {{ m.nome }}
+              </option>
+            </select>
+            @if (mentor.invalid && mentor.touched) {
+            <div class="text-danger small mt-1">Selecione um mentor.</div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="grupo">Grupo</label>
+            <select
+              id="grupo"
+              name="grupo"
+              class="form-control"
+              [(ngModel)]="reuniao.grupo"
+              required
+              #grupo="ngModel"
+            >
+              <option [ngValue]="undefined" disabled>Selecione…</option>
+              @if (role == "MENTOR") {
+              <option *ngFor="let g of grupos" [ngValue]="g">
+                {{ g.nome }}
+              </option>
+              }
+              @if (role == "ALUNO") {
+                
+              }
+            </select>
+            @if (grupo.invalid && grupo.touched) {
+            <div class="text-danger small mt-1">Selecione um grupo.</div>
+            }
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button type="button" class="btn btn-secondary" (click)="voltar()">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="reuniaoForm.invalid"
+          >
+            <i class="fas fa-save"></i> Solicitar reunião
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+}
