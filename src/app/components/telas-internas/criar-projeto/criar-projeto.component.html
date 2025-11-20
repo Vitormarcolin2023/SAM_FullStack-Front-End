@@ -4,132 +4,56 @@
   <div class="form-box">
     <form [formGroup]="formProjeto" (ngSubmit)="onSubmit()">
       <div class="form-scroll-content">
+
         <div class="form-step">
           <h2>{{ modoEdicao ? "Editar Projeto" : "Criar Projeto" }}</h2>
 
+          <!-- NOME DO PROJETO -->
           <label for="nomeDoProjeto">Nome do Projeto</label>
           <input
             id="nomeDoProjeto"
             type="text"
             formControlName="nomeDoProjeto"
-            [class.is-invalid]="hasError('nomeDoProjeto','required')"
             placeholder="Digite o nome do projeto"
-            aria-describedby="nomeDoProjetoError"
-            [attr.aria-invalid]="hasError('nomeDoProjeto', 'required')"
           />
-          <small
-            *ngIf="hasError('nomeDoProjeto', 'required')"
-            class="error-message"
-            id="nomeDoProjetoError"
-            aria-live="assertive"
-          >
-            Nome do projeto é obrigatório.
-          </small>
 
+          <!-- DESCRIÇÃO -->
           <label for="descricao">Descrição</label>
           <textarea 
             id="descricao" 
             formControlName="descricao"
-            [class.is-invalid]="hasError('descricao','required')"
             placeholder="Digite a descrição do projeto"
-            aria-describedby="descricaoError"
-            [attr.aria-invalid]="hasError('descricao', 'required')"
           ></textarea>
-          
-          <small
-            *ngIf="hasError('descricao', 'required')"
-            class="error-message"
-            id="descricaoError"
-            aria-live="assertive"
-          >
-            Descrição é obrigatória.
-          </small>
 
+          <!-- PERÍODO -->
           <label for="periodo">Período</label>
-          <select 
-            id="periodo" 
-            formControlName="periodo"
-            [class.is-invalid]="hasError('periodo','required')"
-            aria-describedby="periodoError"
-            [attr.aria-invalid]="hasError('periodo', 'required')"
-          >
+          <select id="periodo" formControlName="periodo">
             <option [ngValue]="null" disabled>Selecione o período</option>
             <option *ngFor="let p of periodosDisponiveis" [value]="p">
               {{ p }}
             </option>
           </select>
-          <small 
-            *ngIf="hasError('periodo', 'required')" 
-            class="error-message"
-            id="periodoError"
-            aria-live="assertive"
-          >
-            Período é obrigatório.
-          </small>
         </div>
 
+        
         <div class="form-step">
           <h3>Datas</h3>
 
           <label for="dataInicioProjeto">Data de Início</label>
-          <input
-            id="dataInicioProjeto"
-            type="date"
-            formControlName="dataInicioProjeto"
-            [class.is-invalid]="hasError('dataInicioProjeto', 'required')" 
-            aria-describedby="dataInicioProjetoError"
-            [attr.aria-invalid]="hasError('dataInicioProjeto', 'required')"
-          />
-          <small
-            *ngIf="hasError('dataInicioProjeto', 'required')"
-            class="error-message"
-            id="dataInicioProjetoError"
-            aria-live="assertive"
-          >
-            Data de início é obrigatória.
-          </small>
+          <input id="dataInicioProjeto" type="date" formControlName="dataInicioProjeto"/>
 
-          <label for="dataFinalProjeto">Data de Final</label>
-          <input
-            id="dataFinalProjeto"
-            type="date"
-            formControlName="dataFinalProjeto"
-            [class.is-invalid]="
-              hasError('dataFinalProjeto', 'required') ||
-              (formProjeto.hasError('dataInvalida') &&
-                formProjeto.get('dataFinalProjeto')?.touched)
-            "
-            aria-describedby="dataFinalError"
-            [attr.aria-invalid]="
-              hasError('dataFinalProjeto', 'required') ||
-              (formProjeto.hasError('dataInvalida') &&
-                formProjeto.get('dataFinalProjeto')?.touched)
-            "
-          />
-          <small
-            *ngIf="hasError('dataFinalProjeto', 'required')"
-            class="error-message"
-            id="dataFinalError"
-            aria-live="assertive"
-          >
-            Data final é obrigatória.
-          </small>
-          <small
-            *ngIf="
-              formProjeto.hasError('dataInvalida') &&
-              formProjeto.get('dataFinalProjeto')?.touched
-            "
-            class="error-message"
-          >
-            A data final deve ser posterior à data de início.
-          </small>
+          <label for="dataFinalProjeto">Data Final</label>
+          <input id="dataFinalProjeto" type="date" formControlName="dataFinalProjeto"/>
         </div>
 
+        
         <div class="form-step">
           <h3>Relacionamentos</h3>
 
+          <!-- ÁREA DE ATUAÇÃO -->
           <label for="areaDeAtuacao">Área de Atuação</label>
 
+        
           <div *ngIf="!modoEdicao">
             <input
               id="areaDeAtuacao"
@@ -138,191 +62,173 @@
               [value]="formProjeto.get('areaDeAtuacao')?.value?.nome || 'Carregando...'"
               readonly
             />
-            <small class="form-text text-muted">
-              A área de atuação é definida automaticamente com base no seu curso.
-            </small>
           </div>
 
+          
           <div *ngIf="modoEdicao">
-            <select 
-              id="areaDeAtuacao" 
-              formControlName="areaDeAtuacao"
-              [class.is-invalid]="hasError('areaDeAtuacao', 'required')"
-              aria-describedby="areaDeAtuacaoError"
-              [attr.aria-invalid]="hasError('areaDeAtuacao', 'required')"
-              (change)="onAreaDeAtuacaoChange()"
-            >
-              <option [ngValue]="null" disabled aria-disabled="true">Selecione a área</option>
+            <select id="areaDeAtuacao" formControlName="areaDeAtuacao" (change)="onAreaDeAtuacaoChange()">
+              <option [ngValue]="null" disabled>Selecione a área</option>
               <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">
                 {{ area.nome }}
               </option>
             </select>
           </div>
 
-          <small
-            *ngIf="hasError('areaDeAtuacao', 'required')"
-            class="error-message"
-            id="areaDeAtuacaoError"
-            aria-live="assertive"
-          >
-            Área de atuação é obrigatória.
-          </small>
-
+          <!-- MENTOR -->
           <div class="mb-3">
-          <label for="mentor" class="form-label">Mentor</label>
-          <div class="d-flex">
-          <input
-            id="mentor" 
-            type="text"
-            [value]="formProjeto.get('mentor')?.value?.nome || ''"
-            placeholder="Selecione um mentor"
-            readonly
-            [class.is-invalid] = "hasError('mentor', 'required')"
-          />
-            <button type="button" class="btn btn-outline-primary ms-2" (click)="abrirModalMentor()">Selecionar></button>
-            </div>
-            <div *ngIf="hasError('mentor', 'required')" class="text-danger mt-1">Mentor é obrigatório.</div>
-            </div>
+            <label for="mentor" class="form-label">Mentor</label>
 
-            <!--Modal do Mentor-->
+            <div class="d-flex">
+              <input
+                id="mentor"
+                type="text"
+                [value]="formProjeto.get('mentor')?.value?.nome || ''"
+                placeholder="Selecione um mentor"
+                readonly
+              />
 
-              <div class="modal" tabindex="-1" [ngClass]="{'show d-block': modalAberto}" *ngIf="modalAberto">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Selecione o Mentor </h5>
-                    <button type="button" class="btn-close" (click)="fecharModalMentor()"></button>
-                    </div>
-                    <div class="modal-body">
-
-                      <!-- Área de atuação dentro do modal -->
-                <div class="mb-3">
-                <label for="areaModal" class="form-label">Área de Atuação</label>
-                <select id="areaModal" [(ngModel)]="areaSelecionadaNoModal" (change)="atualizarMentoresModal()" class="form-select">
-                      <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">{{area.nome}}</option>
-                    </select>
-                  </div>
-                  <!-- Campo de pesquisa -->
-                <input type="text" class="form-control mb-2" placeholder="Pesquisar mentor" (input)="filtrarMentoresModal($event)">
-
-                    <!-- Lista de mentores -->
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-action" *ngFor="let mentor of mentoresFiltradosModal" (click)="selecionarMentor(mentor)">
-                  {{mentor.nome}} - {{mentor.tempoDeExperiencia}}
-                </li>
-              </ul>
-              </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="fecharModalMentor()">Fechar</button>
+              <button type="button" class="btn-selecionar ms-2" (click)="abrirModalMentor()">
+                Selecionar
+              </button>
             </div>
           </div>
-        </div>
-      </div>
 
-      <label for="grupo">Grupo</label>
+          <!-- MODAL MENTOR -->
+          <div class="modal-overlay" *ngIf="modalAberto">
+            <div class="modal-box">
 
-      <div *ngIf="!modoEdicao">
-        <input
-          id="grupo"
-          type="text"
-          class="form-control-readonly"
-          [value]="formProjeto.get('grupo')?.value?.nome || 'Carregando...'"
-          readonly
-        />
-        <small class="form-text text-muted">
-          O grupo é definido automaticamente com base no seu cadastro.
-        </small>
-      </div>
+              <h3>Selecionar Mentor</h3>
 
-      <div *ngIf="modoEdicao">
-        <select 
-          id="grupo" 
-          formControlName="grupo"
-          [class.is-invalid]="hasError('grupo', 'required')"
-          aria-describedby="grupoError"
-          [attr.aria-invalid]="hasError('grupo', 'required')"
-        >
-          <option [ngValue]="null" disabled aria-disabled="true">Selecione o grupo</option>
-          <option *ngFor="let grupo of grupos" [ngValue]="grupo">
-            {{ grupo.nome }}
-          </option>
-        </select>
-        <small
-          *ngIf="hasError('grupo', 'required')"
-          class="error-message"
-          id="grupoError"
-          aria-live="assertive"
-        >
-          Grupo é obrigatório.
-        </small>
-      </div>
+             <div class="modal-filtros">
+              <input 
+                type="text"
+                placeholder="Pesquisar mentor..."
+                class="modal-input"
+                (input)="filtrarMentoresModal($event)"
+                [(ngModel)]="filtroNome"
+              />
 
-      <label for="professores-ids">Selecione os professores</label>
-      
-      <div *ngIf="professoresSelecionados.length > 0" class="professores-selecionados-container">
-        <span 
-          *ngFor="let professor of professoresSelecionados; let i = index"
-          class="badge-professor-selecionado"
-        >
-          {{professor.nome}}
-          <button
-            type="button"
-            (click)="toggleProfessorSelecao(professor)"
-            class="btn-remover-professor"
-            [attr.aria-label]="'Remover ' + professor.nome"
-          >
-            x
-          </button>
-        </span>
-      </div>
+              <select class="modal-input" [(ngModel)]="filtroArea" (change)="filtrarMentoresModal()">
+                <option value="">Todas as áreas</option>
+                <option *ngFor="let area of areasDeAtuacao" [value]="area.nome">
+                  {{ area.nome }}
+                </option>
+              </select>
+              </div>
 
-      <div class="professores">
-        <input
-          class="swall2-input"
-          id="input-professores"
-          placeholder="Digite os nomes dos professores"
-          (input)="pesquisarProfessores($event)"
-          aria-autocomplete="list"
-          aria-controls="list-professores"
-          aria-haspopup="listbox"
-          aria-expanded="true"
-        />
-      </div>
+              <ul class="mentor-list">
+                <li
+                  *ngFor="let mentor of mentoresFiltradosModal"
+                  (click)="selecionarMentor(mentor)"
+                  class="mentor-item"
+                >
+                  <div><strong>Nome:</strong> {{ mentor.nome }}</div>
+                  <div><strong>Email:</strong> {{ mentor.email }}</div>
+                  <div><strong>Telefone:</strong> {{ mentor.telefone }}</div>
+                  <div *ngIf="mentor.formacaoDoMentor">
+                    <strong>Formação:</strong> {{ mentor.formacaoDoMentor }}
+                  </div>
+                  <div><strong>Área:</strong> {{ mentor.areaDeAtuacao.nome }}</div>
+                </li>
 
-      <div class="list-professores" id="list-professores" role="listbox" aria-label="Lista de professores">
-        <ul class="professores-list-container">
-          <li 
-            *ngFor="let professor of professoresFiltrados; trackBy: trackByProfessorId"
-            (click)="toggleProfessorSelecao(professor)"
-            [class.professor-selecionado]="isProfessorSelecionado(professor)"
-            role="option"
-            [attr.aria-selected]="isProfessorSelecionado(professor)"
-            tabindex="0"
-          >
-            {{professor.nome}}
-          </li>
-        </ul>
-        
-        <div *ngIf="professoresFiltrados.length === 0" class="no-results">
-          Nenhum professor encontrado.
-        </div>
-      </div>
+                <li *ngIf="mentoresFiltradosModal.length === 0" class="mentor-item no-results">
+                  Nenhum mentor encontrado.
+                </li>
+              </ul>
 
-      <div class="form-buttons-container">
-        <div class="buttons-row">
-          <button type="button" class="btn-back" (click)="voltar()">
-            Voltar
-          </button>
-          <button type="submit" [disabled]="formProjeto.invalid || carregando">
-            <span *ngIf="!carregando">
-              {{ modoEdicao ? "Atualizar Projeto" : "Salvar Projeto" }}
+              <div class="modal-footer-row">
+              <button class="btn-fechar" (click)="fecharModalMentor()">Fechar</button>
+            </div>
+          </div>
+          </div>
+
+          <!-- GRUPO -->
+          <label for="grupo">Grupo</label>
+
+          <div *ngIf="!modoEdicao">
+            <input
+              id="grupo"
+              type="text"
+              class="form-control-readonly"
+              [value]="formProjeto.get('grupo')?.value?.nome || 'Carregando...'"
+              readonly
+            />
+          </div>
+
+          <div *ngIf="modoEdicao">
+            <select id="grupo" formControlName="grupo">
+              <option [ngValue]="null" disabled>Selecione o grupo</option>
+              <option *ngFor="let grupo of grupos" [ngValue]="grupo">
+                {{ grupo.nome }}
+              </option>
+            </select>
+          </div>
+
+          <!-- PROFESSORES -->
+          <label for="professores-ids">Selecione os professores</label>
+          
+          <div *ngIf="professoresSelecionados.length > 0" class="professores-selecionados-container">
+            <span 
+              *ngFor="let professor of professoresSelecionados; let i = index"
+              class="badge-professor-selecionado"
+            >
+              {{ professor.nome }}
+              <button
+                type="button"
+                (click)="toggleProfessorSelecao(professor)"
+                class="btn-remover-professor"
+              >
+              </button>
             </span>
-            <span *ngIf="carregando">
-              Salvando...
-            </span>
-          </button>
+          </div>
+
+          <div class="professores">
+            <input
+              class="swall2-input"
+              id="input-professores"
+              placeholder="Digite os nomes dos professores"
+              (input)="pesquisarProfessores($event)"
+            />
+          </div>
+
+          <div class="list-professores">
+            <ul class="professores-list-container">
+              <li 
+                *ngFor="let professor of professoresFiltrados; trackBy: trackByProfessorId"
+                (click)="toggleProfessorSelecao(professor)"
+                [class.professor-selecionado]="isProfessorSelecionado(professor)"
+              >
+                {{ professor.nome }}
+              </li>
+            </ul>
+            
+            <div *ngIf="professoresFiltrados.length === 0" class="no-results">
+              Nenhum professor encontrado.
+            </div>
+          </div>
+
+          <!-- BOTÕES -->
+          <div class="form-buttons-container">
+            <div class="buttons-row">
+              <button type="button" class="btn-back" (click)="voltar()">
+                Voltar
+              </button>
+
+              <button type="submit" [disabled]="formProjeto.invalid || carregando">
+                <span *ngIf="!carregando">
+                  {{ modoEdicao ? "Atualizar Projeto" : "Salvar Projeto" }}
+                </span>
+
+                <span *ngIf="carregando">
+                  Salvando...
+                </span>
+              </button>
+            </div>
+          </div>
+
         </div>
+
       </div>
-    
+    </form>
   </div>
 </div>
