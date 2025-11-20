@@ -13,19 +13,16 @@
 <div class="cadastro-container">
   <div class="form-box">
 
-    <h2>Meus Dados de Aluno</h2>
+    <h2>Alterar Meus Dados</h2>
     <div class="linha"></div>
 
     <!-- FORM -->
     <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
       <div class="form-scroll-content">
 
-        <!-- ========================== -->
-        <!-- ETAPA 1 - DADOS NÃO EDITÁVEIS -->
-        <!-- ========================== -->
-
+        <!--DADOS NÃO EDITÁVEIS -->
         <div class="form-step">
-          <h3 class="section-title">Informações Acadêmicas</h3>
+          <h3 class="section-title">Informações Acadêmicas (Não Editáveis)</h3>
 
           <label>Nome Completo</label>
           <input type="text" [value]="aluno.nome" readonly class="readonly-field" />
@@ -39,10 +36,8 @@
 
         <div class="linha"></div>
 
-        <!-- ========================== -->
-        <!-- ETAPA 2 - CAMPOS EDITÁVEIS -->
-        <!-- ========================== -->
-
+        
+        <!--CAMPOS EDITÁVEIS --> 
         <div class="form-step">
 
           <label for="email">Email</label>
@@ -75,10 +70,7 @@
 
       <div class="linha"></div>
 
-      <!-- ========================== -->
       <!-- BOTÕES -->
-      <!-- ========================== -->
-
       <div class="form-buttons-container">
         <div class="buttons-row">
           <button type="button" class="btn-back" (click)="voltar()">Cancelar</button>
