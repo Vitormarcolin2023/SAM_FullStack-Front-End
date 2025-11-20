@@ -26,22 +26,6 @@
       </ul>
     </li>-->
 
-    <!-- REUNIÃO EM STANDBY POR ENQUANTO
-    <li class="has-submenu">
-      <input type="checkbox" id="meetings-toggle" class="submenu-toggle">
-      <label for="meetings-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-calendar-alt"></i>
-        </span>
-        <span class="text">Reuniões</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li><a href="#">Agendar Reunião</a></li>
-        <li><a href="#">Agendadas</a></li>
-      </ul>
-    </li>
-  -->
     <!--Teste-->
     @if(userRole == 'ALUNO'){
 
@@ -159,6 +143,26 @@
         </li>
         <li>
           <a routerLink="/grupo/grupos-arquivados">Grupos Arquivados</a>
+        </li>
+      </ul>
+    </li>
+  } @if (userRole == 'ALUNO' || userRole == 'MENTOR') {
+    <li class="has-submenu">
+      <input type="checkbox" id="reuniao-toggle" class="submenu-toggle" />
+
+      <label for="reuniao-toggle" class="nav-link">
+        <span class="icon">
+          <i class="fas fa-calendar"></i>
+        </span>
+        <span class="text">Reunião</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+      </label>
+      <ul class="submenu">
+        <li>
+          <a routerLink="/solicitar-reuniao">Solicitar reunião</a>
+        </li>
+        <li>
+          <a>Visualizar reuniões</a>
         </li>
       </ul>
     </li>

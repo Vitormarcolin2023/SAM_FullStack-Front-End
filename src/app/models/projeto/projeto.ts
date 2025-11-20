@@ -1,6 +1,7 @@
 import { Grupo } from "../grupo/grupo";
 import { AreaDeAtuacao, Mentor } from "../mentor/mentor";
 import { Professor } from "../professor/professor";
+import { Reuniao } from "../reuniao/reuniao";
 
 export class Projeto {
   id?: number;
@@ -14,6 +15,7 @@ export class Projeto {
   statusProjeto?: string;
   grupo?: Grupo;
   professores?: Professor[];
+  reunioes?: Reuniao[];
 
   constructor(
     nomeDoProjeto: string = '',
@@ -26,7 +28,8 @@ export class Projeto {
     mentor?: Mentor,
     statusProjeto?: string,
     grupo?: Grupo,
-    professores?: Professor[]
+    professores?: Professor[],
+    reunioes?: Reuniao[]
   ) {
     this.id = id;
     this.nomeDoProjeto = nomeDoProjeto;
@@ -39,5 +42,6 @@ export class Projeto {
     this.statusProjeto = statusProjeto;
     this.grupo = grupo;
     this.professores = professores;
+    this.reunioes = reunioes;
   }
 }

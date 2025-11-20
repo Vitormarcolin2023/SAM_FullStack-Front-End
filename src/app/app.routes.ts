@@ -64,7 +64,6 @@ export const routes: Routes = [
         path: 'aluno-visualizar-mentor',
         component: AlunoVisualizarMentorComponent,
       },
-      { path: 'solicitar-reuniao', component: CriarReuniaoComponent },
     ],
   },
   {
@@ -119,6 +118,8 @@ export const routes: Routes = [
       },
     ],
   },
+
+  { path: 'solicitar-reuniao', component: CriarReuniaoComponent },
 
   //Rota da Coordenação
   {
