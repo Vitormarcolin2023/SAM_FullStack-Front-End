@@ -6,6 +6,7 @@ import {
   ValidatorFn,
   AbstractControl,
   ValidationErrors,
+  FormsModule,
 } from '@angular/forms';
 import { Projeto } from '../../../models/projeto/projeto';
 import { MentorService } from '../../../services/mentores/mentores.service';
@@ -32,6 +33,7 @@ import { Professor } from '../../../models/professor/professor';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     NavbarTelasInternasComponent,
     SidebarComponent,
   ],
@@ -40,7 +42,9 @@ export class CriarProjetoComponent implements OnInit {
   formProjeto!: FormGroup;
   modoEdicao = false;
   carregando = false;
+  modalAberto = false;
   idProjeto: number | null = null;
+  
 
   mentores: Mentor[] = [];
   areasDeAtuacao: AreaDeAtuacao[] = [];
@@ -48,6 +52,12 @@ export class CriarProjetoComponent implements OnInit {
   professores: Professor[] = [];
   professoresFiltrados: Professor[] = [];
   professoresSelecionados: Professor[] = [];
+  mentoresFiltradosModal: Mentor[] = [];
+  areaSelecionadaNoModal: AreaDeAtuacao | null = null;
+  listaOriginalMentoresModal: Mentor[] = [];
+
+  filtroNome: string = '';
+  filtroArea: string = '';
 
   semGrupo = false;
 
@@ -74,6 +84,7 @@ export class CriarProjetoComponent implements OnInit {
     private grupoService: GrupoService,
     private alunoService: AlunoService,
     private professorService: ProfessorService,
+    
   ){}
 
   ngOnInit(): void {
@@ -89,9 +100,7 @@ export class CriarProjetoComponent implements OnInit {
       if (id) {
         this.modoEdicao = true;
         this.idProjeto = +id;
-        if (!this.formProjeto.get('areaDeAtuacao')?.value) {
           this.carregarProjeto(this.idProjeto);
-        }
       }
     });
   }
@@ -342,6 +351,51 @@ trackByProfessorId(index: number, professor: Professor): number {
   return professor.id ?? index;
 }
 
+abrirModalMentor(): void {
+  this.modalAberto = true;
+  this.areaSelecionadaNoModal = this.formProjeto.get('areaDeAtuacao')?.value || null;
+  this.trocarAreaNoModal();
+
+}
+
+  fecharModalMentor(): void {
+    this.modalAberto = false;
+  }
+
+  trocarAreaNoModal(): void {
+  if (!this.areaSelecionadaNoModal || !this.areaSelecionadaNoModal.id) {
+    this.mentoresFiltradosModal = [];
+    return;
+  }
+
+  this.mentorService
+    .findByAreaDeAtuacao(this.areaSelecionadaNoModal.id)
+    .subscribe((mentores) => {
+      this.listaOriginalMentoresModal = mentores.filter(
+        (m) => m.statusMentor === 'ATIVO'
+      );
+     this.filtrarMentoresModal();
+    });
+}
+  filtrarMentoresModal(event?: Event): void {
+    if(event) {
+      this.filtroNome = (event.target as HTMLInputElement).value
+      .toLowerCase()
+      .trim();
+    }
+     this.mentoresFiltradosModal = this.listaOriginalMentoresModal.filter(m =>
+    m.nome.toLowerCase().includes(this.filtroNome ?? "")
+  );
+}
+
+
+  selecionarMentor(mentor: Mentor): void{
+  this.formProjeto.get('mentor')?.setValue(mentor);
+  this.modalAberto = false;
+  }
+
+
+
   onSubmit() {
 
     if(this.semGrupo) {
@@ -355,7 +409,15 @@ trackByProfessorId(index: number, professor: Professor): number {
 
 
 
-    if (this.formProjeto.valid) {
+    if (!this.formProjeto.valid) {
+      this.formProjeto.markAllAsTouched();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Formulário inválido',
+        text: 'Por favor, preencha todos os campos obrigatórios corretamente.',
+      });
+      return;
+    }
       const projeto: Projeto = this.formProjeto.value;
 
       this.carregando = true;
@@ -386,19 +448,9 @@ trackByProfessorId(index: number, professor: Professor): number {
             title: this.modoEdicao ? 'Erro ao Atualizar' : 'Erro ao Salvar',
             text: err.error?.message || 'Erro desconhecido.',
           });
-          console.error(err);
         },
       });
-    } else {
-      this.formProjeto.markAllAsTouched();
-      Swal.fire({
-        icon: 'warning',
-        title: 'Formulário inválido',
-        text: 'Por favor, preencha todos os campos obrigatórios corretamente antes de continuar.',
-      });
-      console.warn('❌ Formulário inválido, botão clicado mas não enviado.');
     }
-  }
 
   hasError(campo: string, erro: string): boolean {
     const controle = this.formProjeto.get(campo);

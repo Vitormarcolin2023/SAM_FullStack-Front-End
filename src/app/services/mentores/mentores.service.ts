@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mentor } from '../../models/mentor/mentor';
 import { environment } from '../../../environments/environment';
+import { Projeto } from '../../models/projeto/projeto';
 
 @Injectable({
   providedIn: 'root',
