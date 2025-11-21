@@ -13,7 +13,7 @@
   background-color: $background-geral;
 
   @media (min-width: 992px) {
-    padding-left: 200px; /* espaço da sidebar */
+    padding-left: 120px; /* espaço da sidebar */
   }
 }
 
@@ -47,14 +47,13 @@ h3 {
   text-align: center;
   font-size: clamp(1.4rem, 2vw, 1.8rem);
   font-weight: 700;
-  margin-bottom: 1.5rem;
   color: $titulos-verde;
 }
 
 .section-title {
   font-size: 1.3rem;
   font-weight: 600;
-  color: $tabelas-mdb;
+  color: $titulos-verde;
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 10px;
@@ -66,7 +65,7 @@ h3 {
 */
 .form-label {
   font-weight: 600;
-  color: #333;
+  color: #4c5854;
   margin-bottom: 4px;
 }
 
@@ -334,4 +333,10 @@ textarea {
   .mentor-list {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 2px;
+  border-color: #00995E;
 }

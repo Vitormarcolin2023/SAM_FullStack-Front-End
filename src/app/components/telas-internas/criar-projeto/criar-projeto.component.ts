@@ -34,7 +34,6 @@ import { Professor } from '../../../models/professor/professor';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NavbarTelasInternasComponent,
     SidebarComponent,
   ],
 })

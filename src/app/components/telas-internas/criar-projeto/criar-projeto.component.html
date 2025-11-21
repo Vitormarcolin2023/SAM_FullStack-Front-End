@@ -7,11 +7,13 @@
         <div class="container-centralizado">
 
           <h3>{{ modoEdicao ? "Editar Projeto" : "Criar Projeto" }}</h3>
+          <div class="linha"></div>
 
           <!-- 
                INFORMAÇÕES DO PROJETO
            -->
           <h4 class="section-title">Informações do Projeto</h4>
+          
 
           <div class="mb-3">
             <label for="nomeDoProjeto" class="form-label">Nome do Projeto</label>
@@ -36,9 +38,9 @@
           </div>
 
           <div class="mb-3">
-            <label for="periodo" class="form-label">Período</label>
+            <label for="periodo" class="form-label" >Período</label>
             <select id="periodo" class="form-control" formControlName="periodo">
-              <option [ngValue]="null" disabled>Selecione o período</option>
+               <option value="" disabled>Selecione a área de atuação</option>
               <option *ngFor="let p of periodosDisponiveis" [value]="p">
                 {{ p }}
               </option>
