@@ -132,7 +132,7 @@ textarea {
 
 .btn-primary {
   background-color: $btn-acao;
-  color: $btn-color-verde;
+  color: #00995E;
 
   &:hover {
     background-color: $btn-hover;
@@ -339,4 +339,8 @@ textarea {
   width: 100%;
   border-bottom: solid 2px;
   border-color: #00995E;
+}
+
+textarea {
+  resize: none;
 }
