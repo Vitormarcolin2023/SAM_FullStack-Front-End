@@ -1,149 +1,114 @@
-.content-wrapper {
-  margin-top: 100px;
-  padding-left: 20px;
-  padding-right: 20px;
-  width: 100%;
 
-  @media (min-width: 992px) {
-    margin-left: 280px;
-    width: calc(100% - 280px);
-  }
+/* ------ CONTAINER GERAL ------ */
+.background {
+  min-height: 100vh;
+  background-color: #dedede;
+  padding-bottom: 40px;
+}
 
+.perfil-card {
+   font-family: 'Segoe UI', sans-serif;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  border: 1px solid;
+  padding: 32px;
+  margin-top: 20px;
+  max-width: 900px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ------ FOTO DO ALUNO ------ */
+.photo-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid;
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.card {
+.photo-placeholder {
   width: 100%;
-  max-width: 900px;
-  background-color: #dedede;
-  border-radius: 12px;
-  padding: 24px 28px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  margin: 0;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-    margin: 20px 12px;
-    border-radius: 8px;
-  }
+  height: 100%;
 }
 
-.card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* Título da seção */
-.card h3.card-title {
-  text-align: center;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #00995e;
-}
-
-.table-responsive {
+.perfil-foto {
   width: 100%;
-  overflow-x: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
-.table {
+.upload-icon {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: #ffffffee;
+  padding: 6px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.upload-icon:hover {
+  background:#00E88F;
+  color: #fff;
+}
+
+/* ------ INFORMAÇÕES DO ALUNO ------ */
+.titulo-bloco{
+  color:  #146c43;
+  padding-top: 10px;
+}
+
+.linha{
   width: 100%;
-  margin-bottom: 0;
-  color: #222;
-  font-size: 0.95rem;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-bottom: solid 2px;
+  margin-bottom: 15px;
+  border-color: #00995E;
 }
 
-.table th,
-.table td {
-  padding: 12px;
-  text-align: left;
-  border-top: 1px solid #c4c4c4;
+.text-muted {
+  color: #333 !important;
 }
 
-.table thead th {
-  background-color: #00995e;
-  color: white;
-  font-weight: 600;
-  border-top: none;
-}
-
-.table tbody tr:nth-of-type(odd) {
-  background-color: #f3f3f3;
-}
-
-.table tbody tr:hover {
-  background-color: #e0e0e0;
-}
-
-/* Arredondamento dos cantos da tabela */
-.table thead th:first-child {
-  border-top-left-radius: 8px;
-}
-
-.table thead th:last-child {
-  border-top-right-radius: 8px;
-}
-
-/* === Estilo dos Botões === */
-.text-end {
+/* ------ BOTÕES ------ */
+.botoes {
   display: flex;
   justify-content: flex-end;
-  gap: 12px; /* Espaço entre os botões */
-  margin-top: 1.5rem;
 }
 
-.btn {
-  padding: 10px 20px;
+.btn-editar {
+  padding: 10px 22px;
+  background-color: #00E88F;
+  color: #146c43;
   border-radius: 8px;
+  border: none;
   font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  transition: 0.2s;
 }
 
-/* Botão de Editar */
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  border: 1px solid #6c757d;
+.btn-editar:hover {
+  background-color: #146c43;
+  color: #fff;
 }
 
-.btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
-  color: white;
-  cursor: pointer;
+/* ------ ESTADOS DE LOADING ------ */
+.spinner-border {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
 }
 
-/* Botão de Cancelar */
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-  border: 1px solid #dc3545;
+/* Mensagem quando falha */
+.lead {
+  color: #333;
 }
 
-.btn-danger:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
-  color: white;
-  cursor: pointer;
-}
 
-/* ==================================== */
-/* === Estilo do Conteúdo Alternativo === */
-/* ==================================== */
-.text-center {
-  width: 100%;
-  max-width: 900px;
-  text-align: center;
-}
 
-.text-center p.lead {
-  font-size: 1.1rem;
-  color: #555;
-  margin-top: 2rem;
-}

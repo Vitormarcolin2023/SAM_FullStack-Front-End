@@ -46,7 +46,7 @@ export class LoginComponent {
               console.log(
                 'AlunoService atualizado. Navegando para a página do aluno...'
               );
-              this.router.navigate(['/aluno/aluno-bem-vindo']);
+              this.router.navigate(['/visual-projeto']);
               this.isLoading = false;
             },
             error: (err) => {
@@ -80,7 +80,7 @@ export class LoginComponent {
     switch (role) {
       case 'MENTOR':
         if (safeStatus === 'ATIVO') {
-          this.router.navigate(['mentor-perfil']);
+          this.router.navigate(['/aprovar-mentoria/painel-de-mentorias']);
         } else if (safeStatus === 'PENDENTE') {
           Swal.fire({
             icon: 'info',

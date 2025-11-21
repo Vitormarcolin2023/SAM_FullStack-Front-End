@@ -1,0 +1,152 @@
+
+.background {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #dedede;
+  min-height: 100vh;
+  padding-top: 20px;
+  position: relative;
+  z-index: 0;
+ 
+}
+
+/* Card padrão para mentor*/
+.perfil-card {
+  border-radius: 1rem;
+  background: #fff;
+
+  margin-left: 145px;
+  margin-right: auto;
+
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  box-sizing: border-box;
+  margin-top: 100px;
+
+
+}
+
+/* Foto do mentor */
+.photo-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9ecef;
+}
+
+.perfil-foto {
+    /* Garante que a imagem ocupe 100% do photo-placeholder (100px x 100px) */
+    width: 100%; 
+    height: 100%;
+    object-fit: cover; 
+    
+    /* Remove a borda padrão se houver */
+    display: block; 
+}
+
+.upload-icon {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  font-size: 0.9rem;
+
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.upload-icon:hover {
+  background:#00E88F;
+  color: #fff;
+}
+
+/* Ícone de edição */
+.edit-icon {
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+/* Títulos dentro do card */
+.perfil-card h6 {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #146c43; /* verde para destacar */
+  margin-bottom: 10px;
+}
+
+.swal2-confirm {
+  background-color: #4caf50 !important;
+}
+
+.swal2-container-modal {
+  z-index: 1200 !important;
+}
+
+.linha {
+  width: 100%;
+  height: 5px;
+  margin-top: 8px;
+  border-bottom: #ccc 1.5px solid;
+}
+
+.infoPessoais,
+.infoProfissional {
+  margin-top: 10px;
+}
+
+.btn-editar {
+  background-color:#00E88F;
+  color:#146c43;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-editar:hover {
+  background-color: #146c43;
+  color:#fff;
+}
+
+.btn-excluir {
+  background-color: rgb(255, 109, 109);
+  color: #fff;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-excluir:hover{
+  background-color: rgb(224, 75, 75);
+  color: #fff;
+}
+
+.botoes{
+  display: flex;
+  justify-content: flex-end; /* Joga tudo para a direita */
+  gap: 1rem; /* Espaço entre os botões */
+  margin-top: 20px;
+}
+
+.swal2-textarea{
+  width: 85%;
+  resize: none;
+  font-size: 16px;
+}

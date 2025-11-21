@@ -1,0 +1,58 @@
+<app-sidebar></app-sidebar>
+
+<div class="container-fluid background p-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card p-4 shadow-sm border-0 perfil-card">
+        
+        @if (usuarioLogado) {
+          <div class="d-flex align-items-start"> <div class="photo-container me-4">
+            <div class="photo-placeholder">
+              <img src="/perfil.jpeg" alt="Foto Coordenador" class="perfil-foto">
+            </div>
+            <i class="fa-solid fa-camera upload-icon"></i>
+            <input style="display: none" />
+            </div>
+            
+            <div class="flex-grow-1"> <h4 class="fw-bold">{{ usuarioLogado.nome }}</h4>
+              
+              <div class="row mt-3">
+                
+                <div class="col-md-6 mb-3 mb-md-0"> <h6 class="fw-bold mb-1">Cursos</h6>
+                  @if(usuarioLogado.cursos && usuarioLogado.cursos.length > 0) {
+                    @for (curso of usuarioLogado.cursos; track curso.id) {
+                      <p class="text-muted mb-1">{{ curso.nome }}</p>
+                    }
+                  } @else {
+                    <p class="text-muted mb-1 fst-italic">Nenhum curso informado</p>
+                  }
+                </div>
+
+                <div class="col-md-6">
+                  <h6 class="fw-bold mb-1">Áreas de Atuação</h6>
+                  @if(areasDeAtuacao && areasDeAtuacao.length > 0) {
+                    @for (area of areasDeAtuacao; track $index) {
+                      <p class="text-muted mb-1">{{ area }}</p>
+                    }
+                  } @else {
+                    <p class="text-muted mb-1 fst-italic">Nenhuma área de atuação informada</p>
+                  }
+                </div>
+
+              </div>
+              
+              <div class="botoes">
+                <button class="btn-editar" (click)="editarInformacoes()">
+                  Editar informações
+                </button>
+                <button class="btn-excluir" (click)="excluirConta()">
+                  Excluir conta
+                </button>
+              </div>
+            </div>
+          </div>
+        } 
+      </div>
+    </div>
+  </div>
+</div>

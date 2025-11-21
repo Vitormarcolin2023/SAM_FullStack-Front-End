@@ -1,0 +1,73 @@
+@use '../../../../../styles/variaveis.scss' as *;
+
+main.conteudo-central {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  min-height: 100vh;
+  padding: 20px; 
+  margin-top: 60px;
+
+ 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.form-box{
+  width: 80%;
+}
+
+.container-titulo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.titulo{
+  color: $titulos-verde;
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 1px $linha;
+  margin-bottom: 30px;
+}
+
+
+.card-body {
+    padding: 1rem;
+    border: 0.2px solid #00995e66;
+    border-radius: 1vh;
+    .card-title {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: $titulos-verde;
+      margin-left: 2rem;
+    }
+
+    .card-text {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+  }
+
+  #container{
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  #container:hover{
+    border-radius: 1vh;
+    transform: translateY(-5px);
+
+  }
+
+
+

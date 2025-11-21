@@ -11,10 +11,8 @@ import { MentorPerfilComponent } from './components/telas-internas/mentor/mentor
 import { mentorStatusGuard } from './guards/mentor-status.guard';
 import { CriarGrupoComponent } from './components/telas-internas/grupo/criar-grupo/criar-grupo.component';
 
-import { VisualizarprojetosComponent } from './components/funcionarios/visualizarprojetos/visualizarprojetos.component';
 import { GrupoDetailsComponent } from './components/telas-internas/grupo/grupo-details/grupo-details.component';
 import { AlunoPrincipalComponent } from './components/telas-internas/aluno-principal/aluno-principal.component';
-import { AlunoBemVindoComponent } from './components/telas-internas/aluno-principal/aluno-bem-vindo/aluno-bem-vindo.component';
 import { AlunoPerfilComponent } from './components/telas-internas/aluno-principal/aluno-perfil/aluno-perfil.component';
 import { AlunoDetaisComponent } from './components/telas-internas/aluno-principal/aluno-detais/aluno-detais.component';
 import { MentorEditComponent } from './components/telas-internas/mentor/mentor-edit/mentor-edit.component';
@@ -24,10 +22,22 @@ import { VisualProjetoComponent } from './components/telas-internas/visual-proje
 import { CriarProjetoComponent } from './components/telas-internas/criar-projeto/criar-projeto.component';
 import { ProjetoDetalhesComponent } from './components/telas-internas/projeto-detalhes/projeto-detalhes.component';
 import { ProjetosMentorComponent } from './components/telas-internas/mentor/projetos-mentor/projetos-mentor.component';
-import { FuncionarioComponent } from './components/funcionarios/perfil/funcionario-perfil.component';
-import { CadastroProfessorComponent } from './components/funcionarios/cadastro-professor/cadastro-professor.component';
-import { CadastroCoordenacaoComponent } from './components/funcionarios/cadastro-coordenacao/cadastro-coordenacao.component';
-import { ListarMentorComponent } from './components/funcionarios/listarmentor/listarmentor.component';
+import { FuncionarioComponent } from './components/telas-internas/perfil/funcionario-perfil.component';
+import { CadastroProfessorComponent } from './components/telas-internas/professor/cadastro-professor.component';
+import { ListarMentorComponent } from './components/telas-internas/listarmentor/listarmentor.component';
+import { AprovarMentorComponent } from './components/telas-internas/mentor/aprovar-mentor/aprovar-mentor.component';
+import { AceiteDeMentoriaPerfilComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-perfil/aceite-de-mentoria-perfil.component';
+import { AceiteDeMentoriaDetaisComponent } from './components/telas-internas/mentor/aprovar-mentor/aceite-de-mentoria-detais/aceite-de-mentoria-detais.component';
+import { GruposArquivadosComponent } from './components/telas-internas/grupo/grupos-arquivados/grupos-arquivados.component';
+import { AlunoVisualizarMentorComponent } from './components/telas-internas/aluno-principal/aluno-visualizar-mentor/aluno-visualizar-mentor.component';
+import { VisualizarprojetosComponent } from './components/telas-internas/visualizar-projetos/visualizarprojetos.component';
+import { CoordenacaoPrincipalComponent } from './components/telas-internas/coordenacao-principal/coordenacao-principal.component';
+import { CoordenacaoDetaisComponent } from './components/telas-internas/coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
+import { ProfessorPrincipalComponent } from './components/telas-internas/professor-principal/professor-principal.component';
+import { ProfessorVisualizarGruposComponent } from './components/telas-internas/professor-principal/professor-visualizar-grupos/professor-visualizar-grupos.component';
+import { AvaliacoesAlunosComponent } from './components/telas-internas/avaliacoes/avaliacoes-alunos/avaliacoes-alunos.component';
+
+import { CriarReuniaoComponent } from './components/telas-internas/reuniao/criar-reuniao/criar-reuniao.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -46,13 +56,19 @@ export const routes: Routes = [
     ],
   },
   { path: 'mentor-perfil', component: MentorPerfilComponent },
+
+  // Rotas do Aluno
   {
     path: 'aluno',
     component: AlunoPrincipalComponent,
     children: [
-      { path: 'aluno-bem-vindo', component: AlunoBemVindoComponent },
       { path: 'aluno-perfil', component: AlunoPerfilComponent },
       { path: 'aluno-editar/:email', component: AlunoDetaisComponent },
+      {
+        path: 'aluno-visualizar-mentor',
+        component: AlunoVisualizarMentorComponent,
+      },
+      {path: 'aluno-avaliacao-mentor', component: AvaliacoesAlunosComponent},
     ],
   },
   {
@@ -67,6 +83,11 @@ export const routes: Routes = [
       {
         path: 'criar-grupo',
         component: CriarGrupoComponent,
+      },
+
+      {
+        path: 'grupos-arquivados',
+        component: GruposArquivadosComponent,
       },
     ],
   },
@@ -83,27 +104,75 @@ export const routes: Routes = [
   },
 
   {
-    path: "mentor/visualizar-projetos",
-    component: ProjetosMentorComponent
+    path: 'mentor/visualizar-projetos',
+    component: ProjetosMentorComponent,
   },
 
-  { path: 'cadastro-coordenacao/:email', component: CadastroCoordenacaoComponent},
-  { path: 'cadastro-coordenacao', component: CadastroCoordenacaoComponent },
-  { path: 'cadastro-professor/:email', component: CadastroProfessorComponent },
-  { path: 'cadastro-professor', component: CadastroProfessorComponent},
-  { path: 'funcionario-perfil', component: FuncionarioComponent},
+  //Aceite de mentoria
+  {
+    path: 'aprovar-mentoria',
+    component: AprovarMentorComponent,
+    children: [
+      {
+        path: 'painel-de-mentorias',
+        component: AceiteDeMentoriaPerfilComponent,
+      },
+      {
+        path: 'detalhes-do-projeto',
+        component: AceiteDeMentoriaDetaisComponent,
+      },
+    ],
+  },
 
- {path: 'visual-projeto', component: VisualProjetoComponent},
- {path: 'criar-projeto', component: CriarProjetoComponent},
- {path: 'projeto-detalhes', component: ProjetoDetalhesComponent},
- { path: 'projetos/:id', component: ProjetoDetalhesComponent },
- { path: 'editar-projeto/:id', component: CriarProjetoComponent },
+  { path: 'solicitar-reuniao', component: CriarReuniaoComponent },
+
+  //Rota da Coordenação
+  {
+    path: 'coordenacao',
+    component: CoordenacaoPrincipalComponent,
+    children: [
+      {
+        path: 'coordenacao-editar/:email',
+        component: CoordenacaoDetaisComponent,
+      },
+      //{ path: 'aluno-editar/:email', component: },
+      //{
+      //  path: 'aluno-visualizar-mentor',
+      //component: AlunoVisualizarMentorComponent,
+      //},
+    ],
+  },
+
+  { path: 'cadastro-professor/:email', component: CadastroProfessorComponent },
+  { path: 'cadastro-professor', component: CadastroProfessorComponent },
+  { path: 'funcionario-perfil', component: FuncionarioComponent },
+
+  { path: 'visual-projeto', component: VisualProjetoComponent },
+  { path: 'criar-projeto', component: CriarProjetoComponent },
+  { path: 'projeto-detalhes', component: ProjetoDetalhesComponent },
+  { path: 'projetos/:id', component: ProjetoDetalhesComponent },
+  { path: 'editar-projeto/:id', component: CriarProjetoComponent },
+
+  //Rota para professor
+  {
+    path: 'professor',
+    component: ProfessorPrincipalComponent,
+    children: [
+      {
+        path: 'visualizar-grupos',
+        component: ProfessorVisualizarGruposComponent,
+      },
+    ],
+  },
 
   // Rota protegida pelo mentorStatusGuard
-  { path: 'mentor-perfil', component: MentorPerfilComponent, canActivate: [mentorStatusGuard] },
-  
+  {
+    path: 'mentor-perfil',
+    component: MentorPerfilComponent,
+    canActivate: [mentorStatusGuard],
+  },
 
- 
+
   // Fallback (rota não encontrada)
 
   // Fallback (rota não encontrada) //nao adicionar paginas embaixo dessa linha se nao nao funciona

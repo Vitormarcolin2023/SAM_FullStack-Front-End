@@ -1,65 +1,89 @@
-<app-navbar-telas-internas></app-navbar-telas-internas>
 <app-sidebar></app-sidebar>
 
 <main class="conteudo-central">
-    <div class="form-box">
- 
-       <!-- Campo de busca -->
-  <section class="row mb-4">
-    <div class="col-md-6">
-      <div class="input-group">
-        <input 
-          id="busca-projeto"
-          type="text" 
-          class="form-control" 
-          placeholder="Buscar por nome" 
-          [formControl]="filtroNome"
-          aria-label="Buscar por nome"
-          aria-describedby="icone-buscar"
-        >
-        <span class="input-group-text" id="icone-buscar">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </span>
-      </div>
-    </div>
-  </section>
+  <div class="form-box">
 
-  <!-- Lista de projetos -->
-  <section class="row">
-    <ng-container *ngIf="projetos.length > 0; else vazioTemplate">
-      
+    <!-- Campo de busca -->
+    <section class="row mb-4">
+
+      <!-- Campo de Nome -->
+      <div class="col-md-6">
+        <div class="input-group">
+          <input 
+            id="busca-projeto"
+            type="text" 
+            class="form-control" 
+            placeholder="Buscar por nome" 
+            [formControl]="filtroNome"
+          >
+          <span class="input-group-text" id="icone-buscar">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Campo de Período -->
+      <div class="col-md-3">
+        <select id="filtro-periodo"
+                class="form-select"
+                [formControl]="filtroPeriodo">
+
+          <option value="">Todos os períodos</option>
+
+          <option *ngFor="let p of periodosDisponiveis" [value]="p.value">
+            {{ p.label }}
+          </option>
+
+        </select>
+      </div>
+
+    </section>
+
+    <!-- Lista de Projetos -->
+    <section class="row">
+      <ng-container *ngIf="projetos.length > 0; else vazioTemplate">
+
         <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex"
-         *ngFor="let projeto of projetos">
-          <div 
-              class="card h-100 shadow-sm card-pequeno w-100"
-              style="cursor: pointer;"
-              (click)="abrirModalDetalhes(projeto)"
-            >
-            <div class="card h-100 shadow-sm card-pequeno">
-              <img 
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" 
-                class="card-img-top" 
-                alt="Imagem do Projeto"
-              >
-              <div class="card-body">
-                <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
-                <p class="card-text">{{ projeto.descricao || 'Sem descrição.' }}</p>
-              </div>
-              </div>
-            </div>
-            </div>
-          </ng-container>
-     
+             *ngFor="let projeto of projetos; trackBy: trackByProjetoId">
 
-    <!-- Template quando não há projetos -->
-     <ng-template #vazioTemplate>
-      <div class="col-12 text-center mt-4">
-        <a [routerLink]="'/criar-projeto'" class="btn btn-outline-success">
-          <span class="fs-3 me-2">+</span>
-          Adicionar novo projeto
-        </a>
-      </div>
-    </ng-template>
-  </section>
+          <div class="card h-100 shadow-sm card-pequeno w-100"
+               style="cursor: pointer;"
+               (click)="abrirModalDetalhes(projeto)">
+
+            <img 
+              src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" 
+              class="card-img-top" 
+              alt="Imagem do Projeto">
+
+            <div class="card-body">
+
+              <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
+
+              <p class="card-text">{{ projeto.descricao || 'Sem descrição.' }}</p>
+
+              <!-- Exibir Período -->
+              <p class="card-text">
+                <strong>Período:</strong> {{ projeto.periodo }}
+              </p>
+
+            </div>
+
+          </div>
+        </div>
+
+      </ng-container>
+
+      <!-- Quando não há projetos -->
+      <ng-template #vazioTemplate>
+        <div class="col-12 text-center mt-4">
+          <a [routerLink]="'/criar-projeto'" class="btn btn-outline-success">
+            <span class="fs-3 me-2">+</span>
+            Adicionar novo projeto
+          </a>
+        </div>
+      </ng-template>
+
+    </section>
+
   </div>
 </main>

@@ -26,6 +26,12 @@ export class ProjetoService {
     return this.http.get<Projeto[]>(`${this.API}/buscar-por-atuacao?areaDeAtuacao=${areaDeAtuacaoId}`);
   }
 
+  buscarPorPeriodo(periodo: string): Observable<Projeto[]> {
+  return this.http.get<Projeto[]>(`${this.API}/buscar-por-periodo`, {
+    params: { periodo } 
+  });
+}
+
   save(projeto: Projeto): Observable<Projeto> {
     return this.http.post<Projeto>(`${this.API}/save`, projeto);
     
@@ -45,5 +51,13 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
 
   buscarPorProfessor(professorId: number): Observable<Projeto[]> {
     return this.http.get<Projeto[]>(`${this.API}/professor/${professorId}`);
+  }
+
+  buscarProjetoAtivo(alunoId: number): Observable<Projeto>{
+    return this.http.get<Projeto>(`${this.API}/buscar-projeto-ativo/${alunoId}`);
+  }
+
+  buscarProjetosAtivos(mentorId: number): Observable<Projeto[]> {
+    return this.http.get<Projeto[]>(`${this.API}/buscar-projetos-ativos-mentor/${mentorId}`);
   }
 }

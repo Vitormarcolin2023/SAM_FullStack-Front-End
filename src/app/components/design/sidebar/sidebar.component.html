@@ -1,7 +1,5 @@
 <nav class="sidebar">
-   <div class="logo">
-      SAM
-    </div>
+  <div class="logo">SAM</div>
   <ul class="nav-links">
     <li>
       <div class="menu-item">
@@ -11,15 +9,6 @@
         <span class="text">Menu</span>
       </div>
     </li>
-    <li>
-      <a href="#" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-home"></i>
-        </span>
-        <span class="text">Início</span>
-      </a>
-    </li>
-
     <!--<li class="has-submenu">
       <input type="checkbox" id="profile-toggle" class="submenu-toggle">
       <label for="profile-toggle" class="nav-link">
@@ -35,22 +24,6 @@
       </ul>
     </li>-->
 
-    <!-- REUNIÃO EM STANDBY POR ENQUANTO
-    <li class="has-submenu">
-      <input type="checkbox" id="meetings-toggle" class="submenu-toggle">
-      <label for="meetings-toggle" class="nav-link">
-        <span class="icon">
-          <i class="fas fa-calendar-alt"></i>
-        </span>
-        <span class="text">Reuniões</span>
-        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-      </label>
-      <ul class="submenu">
-        <li><a href="#">Agendar Reunião</a></li>
-        <li><a href="#">Agendadas</a></li>
-      </ul>
-    </li>
-  -->
     <!--Teste-->
     @if(userRole == 'ALUNO'){
     <li class="has-submenu">
@@ -86,6 +59,29 @@
         </li>
       </ul>
     </li>
+    <li class="has-submenu">
+      <input type="checkbox" id="mentors-toggle" class="submenu-toggle" />
+      <label for="mentors-toggle" class="nav-link">
+        <span class="icon">
+          <i class="fas fa-user-tie"></i>
+        </span>
+        <span class="text">Mentores</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+      </label>
+
+      <ul class="submenu">
+        <li>
+          <a
+            routerLink="/aluno/aluno-visualizar-mentor"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            <span class="icon"><i class="fas fa-users"></i></span>
+            <span class="text">Portal</span>
+          </a>
+        </li>
+      </ul>
+    </li>
     }
 
     <!-- campo de grupos  -->
@@ -107,7 +103,7 @@
         </li>
       </ul>
     </li>
-    @if (userRole == 'COORDENADOR' || userRole == 'PROFESSOR') {
+    @if (userRole == 'COORDENADOR' ) {
     <li>
       <a href="/tela-inicial/listar-mentor" class="nav-link">
         <span class="icon"> <i class="fas fa-user-plus"></i> </span>
@@ -119,6 +115,20 @@
       <a (click)="visualizarProjetos()" class="nav-link">
         <span class="icon"> <i class="fas fa-project-diagram"></i> </span>
         <span class="text">Visualizar Projetos</span>
+      </a>
+    </li>
+    }
+
+    <!-- LINK DE GRUPOS PROFESSOR -->
+    @if (userRole == 'PROFESSOR') {
+    <li>
+      <a
+        routerLink="/professor/visualizar-grupos"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <span class="icon"> <i class="fas fa-users"></i> </span>
+        <span class="text">Meus Grupos</span>
       </a>
     </li>
     }
@@ -141,6 +151,29 @@
         </li>
         <li>
           <a routerLink="/grupo/grupo-details">Visualizar Grupo</a>
+        </li>
+        <li>
+          <a routerLink="/grupo/grupos-arquivados">Grupos Arquivados</a>
+        </li>
+      </ul>
+    </li>
+  } @if (userRole == 'ALUNO' || userRole == 'MENTOR') {
+    <li class="has-submenu">
+      <input type="checkbox" id="reuniao-toggle" class="submenu-toggle" />
+
+      <label for="reuniao-toggle" class="nav-link">
+        <span class="icon">
+          <i class="fas fa-calendar"></i>
+        </span>
+        <span class="text">Reunião</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+      </label>
+      <ul class="submenu">
+        <li>
+          <a routerLink="/solicitar-reuniao">Solicitar reunião</a>
+        </li>
+        <li>
+          <a>Visualizar reuniões</a>
         </li>
       </ul>
     </li>

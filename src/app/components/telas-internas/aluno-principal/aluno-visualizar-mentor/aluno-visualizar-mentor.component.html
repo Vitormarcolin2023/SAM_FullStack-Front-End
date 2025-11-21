@@ -1,0 +1,81 @@
+<div class="content-wrapper">
+  <div class="container-centralizado">
+    <div class="mentor-header">
+      <h2 class="section-title">Encontre seu Mentor</h2>
+      <p class="section-subtitle">
+        Navegue pelos especialistas e conecte-se com o mentor ideal para seu
+        projeto.
+      </p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Buscar por nome ou área de atuação..."
+          [(ngModel)]="termoBusca"
+          (input)="filtrarMentores()"
+        />
+      </div>
+    </div>
+
+    <div class="mentor-content">
+      @if (isLoading) {
+      <div class="state-message">
+        <div class="spinner"></div>
+        <p class="lead">Carregando mentores...</p>
+      </div>
+      } @if (!isLoading && mentoresFiltrados.length === 0) {
+      <div class="state-message empty-state">
+        <i class="fas fa-ghost empty-icon"></i>
+        <p class="lead">Nenhum mentor encontrado.</p>
+        @if (termoBusca) {
+        <p class="lead-small">Tente ajustar seus termos de busca.</p>
+        }
+      </div>
+      } @if (!isLoading && mentoresFiltrados.length > 0) {
+      <div class="mentor-grid">
+        @for (mentor of mentoresFiltrados; track mentor.id) {
+        <div class="mentor-card" (click)="verPerfil(mentor.id)">
+          <div class="card-header">
+            <div class="avatar-placeholder">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="mentor-identity">
+              <h4 class="mentor-name">{{ mentor.nome }}</h4>
+              <span class="mentor-location">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ mentor.endereco?.cidade || "Local não informado" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h5 class="area-title">
+              {{ mentor.areaDeAtuacao?.nome || "Área não definida" }}
+            </h5>
+            <p class="mentor-formation">
+              {{ mentor.formacaoDoMentor || "Formação não informada" }}
+            </p>
+          </div>
+
+          <div class="card-footer">
+            <div class="mentor-tags">
+              <span class="tag tag-xp">
+                <i class="fas fa-briefcase"></i>
+                {{ mentor.tempoDeExperiencia || "N/D" }}
+              </span>
+              <span class="tag tag-vinculo">
+                <i class="fas fa-handshake"></i> {{ mentor.tipoDeVinculo }}
+              </span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+@use '../../../../styles/variaveis.scss' as *;
+
+.tabela-card {
+  /* Centralização */
+  max-width: 900px; 
+  margin: 10px auto; /* Centraliza horizontalmente o elemento de bloco */
+
+  /* Estilos Existentes/Mantidos */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 10px;
+}
+
+.tabela-card-interna {
+  width: 100%;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+.tabela-card-interna th,
+.tabela-card-interna td {
+  text-align: left !important;
+  padding: 15px 0;
+}
+
+.tabela-card-interna thead th {
+  background-color: #fff;
+  color: $tabelas-mdb;
+  font-weight: 600;
+  border-bottom: 2px solid $fundo-elemento;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.tabela-card-interna tbody td {
+  background-color: #fff;
+  border-bottom: 1px solid $fundo-elemento;
+  color: $tabelas-mdb;
+}
+
+.tabela-card-interna tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.tabela-card-interna tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status-header {
+  background-color: $fundo-elemento;
+  td {
+    padding: 10px 0;
+  }
+  h3 {
+    color: $titulos-verde;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.status-ativo {
+  background-color: $btn-acao;
+  color: #fff;
+}
+
+.status-inativo {
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.status-pendente {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.btn-ativar-mentor {
+  background-color: $btn-acao;
+  color:  #006e44;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  margin-right: 10px;
+
+  &:hover {
+    background-color: $btn-hover;
+    transform: translateY(-2px);
+    color: #fff;
+  }
+}
+
+.btn-desativar-mentor {
+  background-color: #ccc;
+  color:  #333;
+  border: 1px ;
+  padding: 8px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #dc3545;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 2px;
+  margin-bottom: 15px;
+  border-color: #00995E;
+}

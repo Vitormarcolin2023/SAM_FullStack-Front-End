@@ -1,136 +1,127 @@
-// ALTERAÇÃO: Agora usamos o caminho relativo para encontrar o arquivo de variáveis,
-// exatamente como no seu exemplo da sidebar.
-// O caminho sobe 5 níveis de pasta para chegar até a pasta 'styles'.
-@use '../../../../../styles/variaveis.scss' as *;
-
-
-/* ======================================================= */
-/* === ESTILO DO HOST (Para Centralização) === */
-/* ======================================================= */
-:host {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  min-height: 100vh;
-  padding: 100px 20px 50px 20px;
-  background-color: $background-geral;
-
-  @media (min-width: 992px) {
-    padding-left: 280px;
-  }
+/* === CONTAINER CENTRAL (MESMA ESTRUTURA DO MENTOR) === */
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 50px;
+    width: 100%;
 }
 
-/* ==================================== */
-/* === Estrutura Principal da Página === */
-/* ==================================== */
-.container {
-  width: 100%;
-  max-width: 900px;
+/* CAIXA BRANCA */
+.form-box {
+    padding: 20px;
+    max-width: 700px;
+    width: 75%;
 }
 
-/* ==================================== */
-/* === Card Principal === */
-/* ==================================== */
-.card {
-  background-color: $fundo-elemento;
-  border-radius: 12px;
-  padding: 24px 28px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  border: none;
-  width: 100%;
+/* TÍTULO */
+h2 {
+    text-align: center;
+    color: #00995E;
 }
 
-.card-body {
-  padding: 0;
+/* DIVISÃO ENTRE SEÇÕES */
+.form-step {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 25px;
+}
+.form-step:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
 }
 
-h3 {
-  text-align: center;
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: $titulos-verde;
+/* INPUTS E SELECTS */
+input,
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
-/* ==================================== */
-/* === Estilo do Formulário === */
-/* ==================================== */
-.form-label {
-  font-weight: 600;
-  color: #333;
-}
-
-.form-control {
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-  &:focus {
-    border-color: $titulos-verde;
-    box-shadow: 0 0 0 3px rgba($titulos-verde, 0.2);
-    outline: none;
-  }
-
-  &[readonly] {
-    background-color: #e9ecef;
+/* CAMPOS SOMENTE LEITURA (NÃO EDITÁVEIS) */
+.readonly-field {
+    background-color: #f1f1f1;
+    color: #555;
     cursor: not-allowed;
-    &:focus {
-      box-shadow: none;
-    }
-  }
 }
 
-hr {
-  border-top: 1px solid #c4c4c4;
-  margin: 2rem 0;
+/* TEXTAREA */
+textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: none;
 }
 
-.text-muted {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1.5rem;
+/* LABELS */
+label {
+    color: #00995E;
+    font-weight: 500;
 }
 
-/* ==================================== */
-/* === Botão de Ação === */
-/* ==================================== */
-.btn-primary {
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  background-color: $btn-acao;
-  color: $btn-color-verde;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: $btn-hover;
-    color: white;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: $btn-acao;
-    color: $btn-color-verde;
-  }
+/* LINHA VERDE */
+.linha {
+    width: 100%;
+    border-bottom: solid 2px;
+    margin-bottom: 15px;
+    border-color: #00995E;
 }
 
-/* ==================================== */
-/* === Estado de Carregamento === */
-/* ==================================== */
-.spinner-border {
-  color: $titulos-verde;
+/* MENSAGENS DE ERRO */
+.error-message,
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: -6px;
+    margin-bottom: 6px;
 }
 
-.text-center p {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 1rem;
+/* BOTÕES */
+.buttons-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
+
+.buttons-row button {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    width: auto;
+}
+
+/* BOTÃO PRINCIPAL */
+.buttons-row button:not(.btn-back) {
+    background-color: #00E88F;
+    color: #006e44;
+}
+.buttons-row button:not(.btn-back):hover {
+    background-color: #00995E;
+    color: #fff;
+}
+
+/* BOTÃO VOLTAR */
+.buttons-row .btn-back {
+    background-color: #ccc;
+    color: #333;
+}
+.buttons-row .btn-back:hover {
+    background-color: #999;
+    color: #fff;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00995E;
+    margin-bottom: 10px;
+}
+

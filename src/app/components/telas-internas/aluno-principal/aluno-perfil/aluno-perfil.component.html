@@ -1,39 +1,79 @@
-<div class="content-wrapper">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        @if (aluno) {
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">Informações do Aluno</h3>
-            <div class="table-responsive">
-              <table class="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th>Aluno</th>
-                    <th>Email</th>
-                    <th>RA</th>
-                    <th>Curso</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{{ aluno.nome }}</td>
-                    <td>{{ aluno.email }}</td>
-                    <td>{{ aluno.ra }}</td>
-                    <td>{{ aluno.curso.nome }}</td>
-                  </tr>
-                </tbody>
-              </table>
+<app-sidebar></app-sidebar>
+
+<div class="container-fluid background p-4">
+
+  @if (isLoading) {
+    <div class="text-center mt-5">
+      <div class="spinner-border text-success"></div>
+      <p class="mt-2">Carregando seu perfil...</p>
+    </div>
+
+  } @else if (aluno) {
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <!-- CARD PRINCIPAL -->
+        <div class="card p-4 shadow-sm border-0 perfil-card">
+
+          <!-- FOTO + NOME -->
+          <div class="d-flex align-items-center">
+
+            <!-- Foto -->
+            <div class="photo-container me-4">
+              <div class="photo-placeholder">
+                <img src="/perfil.jpeg" alt="Foto do Aluno" class="perfil-foto" />
+              </div>
+
+              <i class="fa-solid fa-camera upload-icon"></i>
+              <input type="file" hidden />
             </div>
+
+            <!-- NOME + CURSO -->
+            <div>
+              <h4 class="fw-bold">{{ aluno.nome }}</h4>
+
+              <div class="d-flex align-items-center mb-1 text-muted">
+                @if (aluno.curso) {
+                  <p class="mb-0 me-3">{{ aluno.curso.nome }}</p>
+                } @else {
+                  <p class="mb-0 me-3 fst-italic">Curso não informado</p>
+                }
+              </div>
+
+            </div> <!-- FIM div nome+curso -->
+
+          </div> <!-- FIM FOTO + NOME -->
+
+          <!-- LINHA -->
+
+          <!-- INFORMAÇÕES ACADÊMICAS -->
+          <div class="card-item info-bloco">
+          <h5 class="fw-bold titulo-bloco">Informações Acadêmicas</h5>
+          <div class="linha"></div>
+
+          <p class="text-muted mb-1"><b>RA: </b>{{ aluno.ra }}</p>
+           <p class="text-muted mb-1"><b>Curso:</b> {{ aluno.curso.nome}}</p>
+          <p class="text-muted mb-1"><b>E-mail:</b> {{ aluno.email }}</p>
+        </div>
+
+          <!-- BOTÕES -->
+          <div class="botoes">
+            <button class="btn-editar" (click)="editarPerfil()">
+              Editar informações
+            </button>
           </div>
+
         </div>
-        } @else {
-        <div class="text-center mt-5">
-          <p class="lead">Aguardando identificação do aluno...</p>
-        </div>
-        }
       </div>
     </div>
-  </div>
+
+  } @else {
+
+    <div class="text-center mt-5">
+      <p class="lead">Não foi possível carregar seu perfil.</p>
+    </div>
+
+  }
+
 </div>

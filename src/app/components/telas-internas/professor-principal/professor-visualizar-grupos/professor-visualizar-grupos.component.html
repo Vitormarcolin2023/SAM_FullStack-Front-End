@@ -1,0 +1,113 @@
+<div class="content-wrapper">
+  <div class="container-centralizado">
+    <!-- Cabeçalho da Seção -->
+    <div class="grupo-header">
+      <h2 class="section-title">Meus Grupos Associados</h2>
+      <p class="section-subtitle">
+        Visualize todos os grupos que estão vinculados a você como orientador ou
+        co-orientador.
+      </p>
+    </div>
+
+    <!-- BARRA DE FILTRO POR SEMESTRE (NOVA FUNCIONALIDADE) -->
+    <div class="filter-section shadow-sm">
+      <div class="filter-controls">
+        <!-- Dropdown de Filtro -->
+        <div class="filter-item">
+          <label for="periodoSelect" class="filter-label">
+            <i class="fas fa-calendar-alt"></i> Filtrar por Semestre
+          </label>
+
+          <div class="select-container">
+            <select
+              id="periodoSelect"
+              [(ngModel)]="periodoSelecionado"
+              (change)="filtrarPorPeriodo()"
+              class="custom-select"
+              [disabled]="isLoading"
+            >
+              <option value="">Todos os Semestres</option>
+              @for (periodo of periodosDisponiveis; track $index) {
+              <option [value]="periodo">{{ periodo }}</option>
+              }
+            </select>
+            <i class="fas fa-chevron-down select-icon"></i>
+          </div>
+        </div>
+
+        <!-- Contador de Resultados -->
+        <div class="result-count" *ngIf="!isLoading">
+          <span class="count-number">{{ gruposFiltrados.length }}</span>
+          <span class="count-text">grupos encontrados</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="grupo-content">
+      <!-- Estado de Carregamento -->
+      @if (isLoading) {
+      <div class="state-message">
+        <div class="spinner"></div>
+        <p class="lead">Carregando grupos...</p>
+      </div>
+      }
+
+      <!-- Estado Vazio -->
+      @if (!isLoading && gruposFiltrados.length === 0) {
+      <div class="state-message empty-state">
+        <i class="fas fa-ghost empty-icon"></i>
+        <p class="lead">Nenhum grupo encontrado.</p>
+        <p class="lead-small">Você ainda não foi associado a nenhum grupo.</p>
+      </div>
+      }
+
+      <!-- Grid de Grupos -->
+      @if (!isLoading && gruposFiltrados.length > 0) {
+      <div class="grupo-grid">
+        @for (grupo of gruposFiltrados; track grupo.id) {
+        <div class="grupo-card" (click)="verDetalhesGrupo(grupo.id)">
+          <!-- Cabeçalho do Card -->
+          <div class="card-header">
+            <div class="avatar-placeholder">
+              <!-- Ícone de grupo -->
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="grupo-identity">
+              <h4 class="grupo-name">{{ grupo.nome }}</h4>
+              <span class="grupo-admin">
+                <!-- Admin do grupo -->
+                <i class="fas fa-user-shield"></i>
+                Admin: {{ grupo.alunoAdmin?.nome || "Não definido" }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Corpo do Card -->
+          <div class="card-body">
+            <h5 class="periodo-title">
+              {{ grupo.periodo || "Período não definido" }}
+            </h5>
+            <p class="grupo-status">Status: {{ grupo.statusGrupo || "N/D" }}</p>
+          </div>
+
+          <!-- Rodapé do Card (Tags) -->
+          <div class="card-footer">
+            <div class="grupo-tags">
+              <span class="tag tag-membros">
+                <i class="fas fa-user-friends"></i>
+                {{ grupo.alunos?.length || 0 }} Integrantes
+              </span>
+              <span class="tag tag-projetos">
+                <i class="fas fa-project-diagram"></i>
+                {{ grupo.projetos?.length || 0 }} Projetos
+              </span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+</div>
