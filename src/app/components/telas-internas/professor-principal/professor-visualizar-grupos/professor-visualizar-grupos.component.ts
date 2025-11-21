@@ -1,25 +1,38 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; 
 import Swal from 'sweetalert2';
 import { Grupo } from '../../../../models/grupo/grupo';
 import { GrupoService } from '../../../../services/grupo/grupo.service';
 import { ProfessorService } from '../../../../services/professor/professor.service';
 
+
 @Component({
   selector: 'app-professor-visualizar-grupos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './professor-visualizar-grupos.component.html',
   styleUrls: ['./professor-visualizar-grupos.component.scss'],
 })
 export class ProfessorVisualizarGruposComponent implements OnInit {
-  // Variáveis para guardar os grupos
-  gruposCompletos: Grupo[] = []; // Guarda a lista original
-  gruposFiltrados: Grupo[] = []; // Lista para exibir na tela
+  
+  // Dados
+  gruposCompletos: Grupo[] = []; // Cópia de segurança com todos os dados
+  gruposFiltrados: Grupo[] = []; // Lista que é exibida na tela
+  
   isLoading = true;
 
-  // Injeção dos serviços
+  // --- LÓGICA DO FILTRO ---
+  // Lista fixa do 1º ao 10º Período
+  periodosDisponiveis: string[] = [
+    '1º Período', '2º Período', '3º Período', '4º Período', '5º Período',
+    '6º Período', '7º Período', '8º Período', '9º Período', '10º Período'
+  ];
+  
+  periodoSelecionado: string = ''; // Vazio representa "Todos"
+
+  // Injeção de dependências
   private grupoService = inject(GrupoService);
   private professorService = inject(ProfessorService);
   private router = inject(Router);
@@ -31,70 +44,72 @@ export class ProfessorVisualizarGruposComponent implements OnInit {
   carregarProfessorEGrupos(): void {
     this.isLoading = true;
 
-    // 1. Obter o perfil do professor logado
-    // (Estou assumindo que você tenha um método 'getMyProfile' no ProfessorService,
-    // similar ao que existe no AlunoService)
     this.professorService.getMyProfile().subscribe({
       next: (professor) => {
         if (!professor || !professor.id) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro de Autenticação',
-            text: 'Não foi possível identificar o professor logado.',
-            confirmButtonColor: 'rgb(255, 0, 0)',
-          });
-          this.isLoading = false;
+          this.mostrarErro('Erro de Autenticação', 'Não foi possível identificar o professor logado.');
           return;
         }
 
-        // 2. Buscar os grupos associados a esse professor
-        // (Estou assumindo que você criará este método no seu GrupoService,
-        // que busca grupos pelo ID do professor)
         this.grupoService.findGruposByProfessorId(professor.id).subscribe({
           next: (grupos) => {
             this.gruposCompletos = grupos;
-            this.gruposFiltrados = this.gruposCompletos; // Sem filtro, a lista é a mesma
+            
+            // Aplica o filtro inicial (que mostrará todos se periodoSelecionado for vazio)
+            this.filtrarPorPeriodo(); 
+            
             this.isLoading = false;
           },
           error: (err) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Falha ao Carregar Grupos',
-              text: 'Não foi possível buscar os grupos associados a você.',
-              confirmButtonColor: 'rgb(255, 0, 0)',
-            });
-            console.error('Erro ao buscar grupos por professor:', err);
+            this.mostrarErro('Falha ao Carregar Grupos', 'Não foi possível buscar os grupos associados a você.');
+            console.error(err);
             this.isLoading = false;
-            this.gruposFiltrados = []; // Garante que a mensagem de "vazio" apareça
+            this.gruposFiltrados = [];
           },
         });
       },
       error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro de Autenticação',
-          text: 'Falha ao obter o perfil do professor. Faça login novamente.',
-          confirmButtonColor: 'rgb(255, 0, 0)',
-        });
-        console.error('Erro ao obter perfil do professor:', err);
+        this.mostrarErro('Erro de Autenticação', 'Falha ao obter o perfil do professor.');
+        console.error(err);
         this.isLoading = false;
       },
     });
   }
 
-  // Função para ver detalhes do grupo (se necessário)
+  // Função acionada sempre que o usuário muda o dropdown
+  filtrarPorPeriodo(): void {
+    if (!this.periodoSelecionado || this.periodoSelecionado === '') {
+      // Se "Todos" estiver selecionado, restaura a lista completa
+      this.gruposFiltrados = this.gruposCompletos;
+    } else {
+      // Filtra apenas os grupos que correspondem exatamente ao período
+      this.gruposFiltrados = this.gruposCompletos.filter(
+        grupo => grupo.periodo === this.periodoSelecionado
+      );
+    }
+  }
+
   verDetalhesGrupo(id: number | undefined): void {
     if (!id) return;
-
-    // Você pode navegar para uma rota de detalhes do grupo específica para professor
-    // this.router.navigate(['/professor/grupo-details', id]);
-
+    // Exemplo de navegação futura
+    // this.router.navigate(['/professor/detalhes-grupo', id]);
+    
     Swal.fire({
       title: 'VEM AÍ!',
-      text: `A funcionalidade de ver os detalhes do grupo (${id}) ainda será implementada.`,
+      text: `Detalhes do grupo ID: ${id}`,
       icon: 'info',
       confirmButtonText: 'Entendido',
       confirmButtonColor: 'rgb(28, 232, 151)',
     });
+  }
+
+  private mostrarErro(titulo: string, texto: string) {
+    Swal.fire({
+      icon: 'error',
+      title: titulo,
+      text: texto,
+      confirmButtonColor: 'rgb(255, 0, 0)',
+    });
+    this.isLoading = false;
   }
 }

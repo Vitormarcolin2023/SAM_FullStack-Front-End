@@ -37,6 +37,7 @@ import { ProfessorPrincipalComponent } from './components/telas-internas/profess
 import { ProfessorVisualizarGruposComponent } from './components/telas-internas/professor-principal/professor-visualizar-grupos/professor-visualizar-grupos.component';
 import { AvaliacoesAlunosComponent } from './components/telas-internas/avaliacoes/avaliacoes-alunos/avaliacoes-alunos.component';
 
+import { CriarReuniaoComponent } from './components/telas-internas/reuniao/criar-reuniao/criar-reuniao.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -123,6 +124,8 @@ export const routes: Routes = [
     ],
   },
 
+  { path: 'solicitar-reuniao', component: CriarReuniaoComponent },
+
   //Rota da Coordenação
   {
     path: 'coordenacao',
@@ -168,6 +171,7 @@ export const routes: Routes = [
     component: MentorPerfilComponent,
     canActivate: [mentorStatusGuard],
   },
+
 
   // Fallback (rota não encontrada)
 

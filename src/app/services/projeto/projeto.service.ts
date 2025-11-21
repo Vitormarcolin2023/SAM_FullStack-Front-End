@@ -52,4 +52,12 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
   buscarPorProfessor(professorId: number): Observable<Projeto[]> {
     return this.http.get<Projeto[]>(`${this.API}/professor/${professorId}`);
   }
+
+  buscarProjetoAtivo(alunoId: number): Observable<Projeto>{
+    return this.http.get<Projeto>(`${this.API}/buscar-projeto-ativo/${alunoId}`);
+  }
+
+  buscarProjetosAtivos(mentorId: number): Observable<Projeto[]> {
+    return this.http.get<Projeto[]>(`${this.API}/buscar-projetos-ativos-mentor/${mentorId}`);
+  }
 }

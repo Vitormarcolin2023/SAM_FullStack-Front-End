@@ -11,7 +11,6 @@ export class Mentor {
   tipoDeVinculo!: TipoDeVinculo;
   areaDeAtuacao!: AreaDeAtuacao;
   endereco!: Endereco;
-  reunioes?: any[];
   resumo?: string;
 }
 
