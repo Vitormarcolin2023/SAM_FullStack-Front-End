@@ -41,4 +41,9 @@ export class ProfessorService {
       const url = `${this.API}/getById/${id}`;
       return this.http.get<Professor>(url);
   }
+
+  getMyProfile(): Observable<Professor> {
+    const url = `${this.API}/me`;
+    return this.http.get<Professor>(url);
+  }
 }

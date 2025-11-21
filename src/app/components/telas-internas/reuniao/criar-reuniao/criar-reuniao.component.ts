@@ -211,9 +211,10 @@ export class CriarReuniaoComponent {
         icon: 'success',
         title: res, 
         confirmButtonColor: 'rgb(0,128,0)',
+      }).then (() => {
+        this.router.navigate(['/visual-projeto']);
       });
-      this.router.navigate(['/visual-projeto']);
-    },
+    }, 
     error: (err: HttpErrorResponse) => {
       console.error('Erro ao salvar:', err);
       Swal.fire({

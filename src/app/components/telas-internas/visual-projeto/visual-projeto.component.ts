@@ -9,10 +9,11 @@ import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
 
+
 @Component({
   selector: 'app-visual-projeto',
   templateUrl: './visual-projeto.component.html',
-  styleUrls: ['./visual-projeto.component.scss'], 
+  styleUrls: ['./visual-projeto.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -20,40 +21,88 @@ import { Router, RouterModule } from '@angular/router';
     ReactiveFormsModule,
     NavbarTelasInternasComponent,
     SidebarComponent,
-    MdbModalModule, 
+    MdbModalModule,
   ],
 })
 export class VisualProjetoComponent implements OnInit {
-  projetoService = inject(ProjetoService);
-  router = inject(Router);
-  modalService = inject(MdbModalService);
+  private projetoService = inject(ProjetoService);
+  private router = inject(Router);
+  private modalService = inject(MdbModalService);
 
   projetos: Projeto[] = [];
-  filtroNome = new FormControl('');
+  filtroNome = new FormControl('');              
+  filtroPeriodo = new FormControl<string | null>(null);
+
+  periodosDisponiveis = [
+  { value: '1º Período', label: '1º Período' },
+  { value: '2º Período', label: '2º Período' },
+  { value: '3º Período', label: '3º Período' },
+  { value: '4º Período', label: '4º Período' },
+  { value: '5º Período', label: '5º Período' },
+  { value: '6º Período', label: '6º Período' },
+  { value: '7º Período', label: '7º Período' },
+  { value: '8º Período', label: '8º Período' },
+  { value: '9º Período', label: '9º Período' },
+  { value: '10º Período', label: '10º Período' },
+];
+
   modalRef: MdbModalRef<ProjetoDetalhesComponent> | null = null;
 
   ngOnInit() {
     this.carregarProjetos();
 
-    this.filtroNome.valueChanges.subscribe((nome) => {
-      if (nome && nome.length >= 3) {
-        this.projetoService.buscarPorNome(nome).subscribe((projs) => (this.projetos = projs));
-      } else if (nome === '') {
-        this.carregarProjetos();
-      }
-    });
+    this.filtroNome.valueChanges.subscribe(() => this.aplicarFiltros());
+    this.filtroPeriodo.valueChanges.subscribe(() => this.aplicarFiltros());
   }
 
   carregarProjetos() {
     this.projetoService.findAll().subscribe((projs) => (this.projetos = projs));
   }
 
-   abrirModalDetalhes(projeto: Projeto) {
+  aplicarFiltros() {
+    const nome = this.filtroNome.value?.trim() || '';
+    const periodo = this.filtroPeriodo.value;
+
+    // Somente período
+    if (periodo && !nome) {
+      this.projetoService.buscarPorPeriodo(periodo)
+        .subscribe(projs => this.projetos = projs);
+      return;
+    }
+
+    // Somente nome
+    if (nome && !periodo) {
+      this.projetoService.buscarPorNome(nome)
+        .subscribe(projs => this.projetos = projs);
+      return;
+    }
+
+    // Nome + período
+    if (nome && periodo) {
+      this.projetoService.buscarPorPeriodo(periodo)
+        .subscribe(projs => {
+          this.projetos = projs.filter(p =>
+            p.nomeDoProjeto.toLowerCase().includes(nome.toLowerCase())
+          );
+        });
+      return;
+    }
+
+    // Sem filtro
+    this.carregarProjetos();
+  }
+
+  abrirModalDetalhes(projeto: Projeto) {
     this.modalRef = this.modalService.open(ProjetoDetalhesComponent, {
       data: { projeto },
       modalClass: 'modal-lg',
-    
     });
+  }
+
+  limparFiltros() {
+    this.filtroNome.setValue('');
+    this.filtroPeriodo.setValue(null); 
+    this.carregarProjetos();
   }
 
   trackByProjetoId(index: number, projeto: Projeto): number | undefined {

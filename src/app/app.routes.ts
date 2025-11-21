@@ -33,6 +33,10 @@ import { AlunoVisualizarMentorComponent } from './components/telas-internas/alun
 import { VisualizarprojetosComponent } from './components/telas-internas/visualizar-projetos/visualizarprojetos.component';
 import { CoordenacaoPrincipalComponent } from './components/telas-internas/coordenacao-principal/coordenacao-principal.component';
 import { CoordenacaoDetaisComponent } from './components/telas-internas/coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
+import { ProfessorPrincipalComponent } from './components/telas-internas/professor-principal/professor-principal.component';
+import { ProfessorVisualizarGruposComponent } from './components/telas-internas/professor-principal/professor-visualizar-grupos/professor-visualizar-grupos.component';
+import { AvaliacoesAlunosComponent } from './components/telas-internas/avaliacoes/avaliacoes-alunos/avaliacoes-alunos.component';
+
 import { CriarReuniaoComponent } from './components/telas-internas/reuniao/criar-reuniao/criar-reuniao.component';
 
 export const routes: Routes = [
@@ -64,6 +68,7 @@ export const routes: Routes = [
         path: 'aluno-visualizar-mentor',
         component: AlunoVisualizarMentorComponent,
       },
+      {path: 'aluno-avaliacao-mentor', component: AvaliacoesAlunosComponent},
     ],
   },
   {
@@ -126,11 +131,14 @@ export const routes: Routes = [
     path: 'coordenacao',
     component: CoordenacaoPrincipalComponent,
     children: [
-      { path: 'coordenacao-editar/:email', component: CoordenacaoDetaisComponent },
+      {
+        path: 'coordenacao-editar/:email',
+        component: CoordenacaoDetaisComponent,
+      },
       //{ path: 'aluno-editar/:email', component: },
       //{
       //  path: 'aluno-visualizar-mentor',
-        //component: AlunoVisualizarMentorComponent,
+      //component: AlunoVisualizarMentorComponent,
       //},
     ],
   },
@@ -144,6 +152,18 @@ export const routes: Routes = [
   { path: 'projeto-detalhes', component: ProjetoDetalhesComponent },
   { path: 'projetos/:id', component: ProjetoDetalhesComponent },
   { path: 'editar-projeto/:id', component: CriarProjetoComponent },
+
+  //Rota para professor
+  {
+    path: 'professor',
+    component: ProfessorPrincipalComponent,
+    children: [
+      {
+        path: 'visualizar-grupos',
+        component: ProfessorVisualizarGruposComponent,
+      },
+    ],
+  },
 
   // Rota protegida pelo mentorStatusGuard
   {

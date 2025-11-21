@@ -9,8 +9,6 @@
         <span class="text">Menu</span>
       </div>
     </li>
-    <li>
-
     <!--<li class="has-submenu">
       <input type="checkbox" id="profile-toggle" class="submenu-toggle">
       <label for="profile-toggle" class="nav-link">
@@ -28,7 +26,6 @@
 
     <!--Teste-->
     @if(userRole == 'ALUNO'){
-
     <li class="has-submenu">
       <input type="checkbox" id="projects-toggle" class="submenu-toggle" />
       <label for="projects-toggle" class="nav-link">
@@ -106,7 +103,7 @@
         </li>
       </ul>
     </li>
-    @if (userRole == 'COORDENADOR' || userRole == 'PROFESSOR') {
+    @if (userRole == 'COORDENADOR' ) {
     <li>
       <a href="/tela-inicial/listar-mentor" class="nav-link">
         <span class="icon"> <i class="fas fa-user-plus"></i> </span>
@@ -118,6 +115,20 @@
       <a (click)="visualizarProjetos()" class="nav-link">
         <span class="icon"> <i class="fas fa-project-diagram"></i> </span>
         <span class="text">Visualizar Projetos</span>
+      </a>
+    </li>
+    }
+
+    <!-- LINK DE GRUPOS PROFESSOR -->
+    @if (userRole == 'PROFESSOR') {
+    <li>
+      <a
+        routerLink="/professor/visualizar-grupos"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <span class="icon"> <i class="fas fa-users"></i> </span>
+        <span class="text">Meus Grupos</span>
       </a>
     </li>
     }
