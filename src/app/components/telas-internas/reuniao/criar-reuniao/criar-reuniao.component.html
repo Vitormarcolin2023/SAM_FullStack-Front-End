@@ -1,0 +1,142 @@
+<app-sidebar></app-sidebar>
+
+@if (isLoading) {
+  <div class="state-message">
+    <div class="spinner"></div>
+    <p class="lead">Carregando dados para o agendamento...</p>
+  </div>
+}
+
+@if (!isLoading) {
+  <div class="container">
+    <form #reuniaoForm="ngForm" (ngSubmit)="salvarReuniao()">
+      <div class="card">
+        <div class="card-body">
+          <div class="container-centralizado">
+            <h3>Agendar Reunião</h3>
+
+            <!-- Informações da Reunião -->
+            <h4 class="section-title">Informações da Reunião</h4>
+
+            <div class="mb-3">
+              <label class="form-label" for="assunto">Assunto</label>
+              <textarea
+                id="assunto"
+                placeholder="Digite o assunto da reunião"
+                class="form-control"
+                [(ngModel)]="reuniaoDto.assunto"
+                name="assunto"
+                required
+                #assunto="ngModel"
+                rows="3"
+              ></textarea>
+              @if (assunto.invalid && assunto.touched) {
+                <div class="text-danger small mt-1">O assunto é obrigatório.</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="data">Data</label>
+              <input
+                id="data"
+                name="data"
+                type="date"
+                class="form-control"
+                [(ngModel)]="reuniaoDto.data"
+                required
+                #data="ngModel"
+              />
+              @if (data.invalid && data.touched) {
+                <div class="text-danger small mt-1">Selecione uma data válida.</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="hora">Hora</label>
+              <input
+                id="hora"
+                name="hora"
+                type="time"
+                class="form-control"
+                [(ngModel)]="reuniaoDto.hora"
+                required
+                #hora="ngModel"
+              />
+              @if (hora.invalid && hora.touched) {
+                <div class="text-danger small mt-1">Informe um horário válido.</div>
+              }
+            </div>
+
+            <hr />
+
+            <!-- Seleções -->
+            <h4 class="section-title">Seleções</h4>
+
+            <div class="mb-3">
+              <label class="form-label" for="formato">Formato da Reunião</label>
+              <select
+                id="formato"
+                name="formato"
+                class="form-control"
+                [(ngModel)]="reuniaoDto.formatoReuniao"
+                required
+                #formato="ngModel"
+              >
+                <option [ngValue]="null" disabled selected>Selecione…</option>
+                <option [ngValue]="'PRESENCIAL'">Presencial</option>
+                <option [ngValue]="'ONLINE'">Online</option>
+              </select>
+              @if (formato.invalid && formato.touched) {
+                <div class="text-danger small mt-1">Selecione um formato.</div>
+              }
+            </div>
+
+            <hr />
+
+            <!-- Vínculos -->
+            <h4 class="section-title">Vínculos</h4>
+
+            <div class="mb-3">
+              <label class="form-label" for="projeto">Projeto</label>
+
+              @if (role == "MENTOR") {
+                <select
+                  id="projeto"
+                  name="projeto"
+                  class="form-control"
+                  [(ngModel)]="reuniaoDto.projeto_id"
+                  required
+                  #projeto="ngModel"
+                >
+                  <option [ngValue]="null" disabled selected>Selecione…</option>
+                  @for (projeto of projetosMentor; track $index) {
+                    <option [ngValue]="projeto.id">{{ projeto.nomeDoProjeto }}</option>
+                  }
+                </select>
+              }
+
+              @if (role == 'ALUNO' && projetoAluno) {
+                <input
+                  type="text"
+                  id="projeto"
+                  class="form-control"
+                  [value]="projetoAluno.nomeDoProjeto"
+                  readonly
+                />
+              }
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-secondary" (click)="voltar()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Solicitar reunião
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+}

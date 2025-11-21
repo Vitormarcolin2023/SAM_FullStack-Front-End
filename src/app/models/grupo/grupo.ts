@@ -20,7 +20,6 @@ export class Grupo {
     statusGrupo?: string,
     alunoAdmin?: Aluno,
     alunos?: Aluno[],
-    reunioes?: Reuniao[],
     projetos?: Projeto[],
     professores?: Professor[],
     periodo?: string
@@ -30,7 +29,6 @@ export class Grupo {
     this.statusGrupo = statusGrupo;
     this.alunoAdmin = alunoAdmin;
     this.alunos = alunos;
-    this.reunioes = reunioes;
     this.projetos = projetos;
     this.professores = professores;
     this.periodo = periodo;
