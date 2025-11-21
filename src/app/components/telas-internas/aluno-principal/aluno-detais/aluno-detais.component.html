@@ -1,4 +1,6 @@
-<!-- Estado de Carregamento Moderno -->
+<app-sidebar></app-sidebar>
+
+<!-- ESTADO DE CARREGAMENTO -->
 @if (isLoading) {
 <div class="state-message">
   <div class="spinner"></div>
@@ -6,98 +8,76 @@
 </div>
 }
 
-<!-- Formulário (só aparece quando o loading termina) -->
+<!-- FORMULÁRIO NO PADRÃO DO CADASTRO DE MENTOR -->
 @if (!isLoading && aluno.id) {
-<div class="container">
-  <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
-    <div class="card">
-      <div class="card-body">
-        <div class="container-centralizado">
-          <h3>Alterar Meus Dados</h3>
+<div class="cadastro-container">
+  <div class="form-box">
 
-          <!-- === 1. SEÇÃO DE DADOS NÃO EDITÁVEIS === -->
-          <h4 class="section-title">Informações Acadêmicas (Não Editáveis)</h4>
-          <ul class="info-list">
-            <li class="info-item">
-              <span class="info-icon"><i class="fas fa-user"></i></span>
-              <div class="info-text">
-                <span class="info-label">Nome Completo</span>
-                <span class="info-value">{{ aluno.nome }}</span>
-              </div>
-            </li>
-            <li class="info-item">
-              <span class="info-icon"><i class="fas fa-id-card"></i></span>
-              <div class="info-text">
-                <span class="info-label">RA</span>
-                <span class="info-value">{{ aluno.ra }}</span>
-              </div>
-            </li>
-            <li class="info-item">
-              <span class="info-icon"
-                ><i class="fas fa-graduation-cap"></i
-              ></span>
-              <div class="info-text">
-                <span class="info-label">Curso</span>
-                <span class="info-value">{{ aluno.curso.nome }}</span>
-              </div>
-            </li>
-          </ul>
+    <h2>Alterar Meus Dados</h2>
+    <div class="linha"></div>
 
-          <hr />
+    <!-- FORM -->
+    <form #alunoForm="ngForm" (ngSubmit)="atualizar()">
+      <div class="form-scroll-content">
 
-          <!-- === 2. SEÇÃO DE DADOS EDITÁVEIS === -->
-          <h4 class="section-title">Campos Editáveis</h4>
+        <!--DADOS NÃO EDITÁVEIS -->
+        <div class="form-step">
+          <h3 class="section-title">Informações Acadêmicas (Não Editáveis)</h3>
 
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input
-              type="email"
-              id="email"
-              class="form-control"
-              [(ngModel)]="aluno.email"
-              name="email"
-              required
-              #email="ngModel"
-            />
-            @if (email.invalid && email.touched) {
-            <div class="text-danger small mt-1">
-              O e-mail é obrigatório e precisa ser válido.
-            </div>
-            }
-          </div>
+          <label>Nome Completo</label>
+          <input type="text" [value]="aluno.nome" readonly class="readonly-field" />
 
-          <div class="mb-3">
-            <label for="senha" class="form-label">Nova Senha</label>
-            <input
-              type="password"
-              id="senha"
-              class="form-control"
-              [(ngModel)]="aluno.senha"
-              name="senha"
-              placeholder="Deixe em branco para não alterar"
-            />
-            <div class="form-text">
-              Sua senha atual não será alterada a menos que você digite uma nova
-              aqui.
-            </div>
-          </div>
+          <label>RA</label>
+          <input type="text" [value]="aluno.ra" readonly class="readonly-field" />
+
+          <label>Curso</label>
+          <input type="text" [value]="aluno.curso.nome" readonly class="readonly-field" />
         </div>
 
-        <!-- === 3. AÇÕES DO FORMULÁRIO === -->
-        <div class="card-footer">
-          <button type="button" class="btn btn-secondary" (click)="voltar()">
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="alunoForm.invalid"
-          >
-            <i class="fas fa-save"></i> Salvar Alterações
-          </button>
+        <div class="linha"></div>
+
+        
+        <!--CAMPOS EDITÁVEIS --> 
+        <div class="form-step">
+
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="aluno.email"
+            name="email"
+            class="form-control"
+            required
+            #email="ngModel"
+          />
+          @if (email.invalid && email.touched) {
+          <small class="error-message">O e-mail é obrigatório e deve ser válido.</small>
+          }
+
+          <label for="senha">Nova Senha</label>
+          <input
+            id="senha"
+            type="password"
+            [(ngModel)]="aluno.senha"
+            name="senha"
+            placeholder="Deixe em branco para manter a senha atual"
+          />
+          <small class="text-muted">
+            A senha só será alterada se você preencher este campo.
+          </small>
         </div>
       </div>
-    </div>
-  </form>
+
+      <div class="linha"></div>
+
+      <!-- BOTÕES -->
+      <div class="form-buttons-container">
+        <div class="buttons-row">
+          <button type="button" class="btn-back" (click)="voltar()">Cancelar</button>
+          <button type="submit" [disabled]="alunoForm.invalid">Salvar Alterações</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 }
