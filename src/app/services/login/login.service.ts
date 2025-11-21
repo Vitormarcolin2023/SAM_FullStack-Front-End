@@ -3,14 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginDto } from '../../models/login/login-dto';
 import { Mentor } from '../../models/mentor/mentor';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:8080/auth';
+  private apiUrl = environment.SERVIDOR + '/auth';
   // URL base para os endpoints de mentor
-  private mentorApiUrl = 'http://localhost:8080/mentores';
+  private mentorApiUrl = environment.SERVIDOR + '/mentores';
   http = inject(HttpClient);
 
   login(loginDto: LoginDto): Observable<any> {

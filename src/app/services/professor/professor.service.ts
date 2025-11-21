@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Professor } from '../../models/professor/professor';
 import { Curso } from '../../models/curso/curso';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfessorService {
   private http = inject(HttpClient);
-  private readonly API = 'http://localhost:8080/api/professor'; 
+  private readonly API = environment.SERVIDOR + '/api/professor'; 
 
   constructor() {}
 
