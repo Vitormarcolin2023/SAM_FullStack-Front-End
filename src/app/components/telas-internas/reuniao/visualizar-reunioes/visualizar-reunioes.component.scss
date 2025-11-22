@@ -125,7 +125,7 @@ h3 {
 }
 
 .status-ativo {
-  background-color: $btn-acao;
+  background-color: #28a745; 
 }
 
 .status-inativo {
@@ -138,32 +138,44 @@ h3 {
 
 /* BOTÕES */
 .btn-visualizar,
-.btn-editar {
-  padding: 6px 14px;
+.btn-recusar,
+.btn-aceitar {
+  padding: 3px 7px;
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 500;
+  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-left: 5px;
 }
 
 .btn-visualizar {
-  background-color: $btn-acao;
-  color: white;
-
-  &:hover {
-    background-color: $btn-hover;
-    transform: translateY(-2px);
-  }
-}
-
-.btn-editar {
-  background-color: #ccc;
+  background-color: #dee1e3;
   color: #333;
 
   &:hover {
-    background-color: #0d6efd;
+    background-color: #bdbdbd;
+    color: #333;
+  }
+}
+
+.btn-recusar {
+  background-color: #f85f6fc9;
+  color: #333;
+
+  &:hover {
+    background-color: #dc3545;
     color: white;
-    transform: translateY(-2px);
+  }
+}
+
+.btn-aceitar{
+  color: #333;
+  background-color: $btn-acao;
+
+  &:hover{
+    background-color: $btn-hover;
+    color: white;
   }
 }
 
@@ -195,6 +207,10 @@ h3 {
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 16px;
+}
+
+.swal2-textarea{
+  resize: none; 
 }
 
 @keyframes spin {

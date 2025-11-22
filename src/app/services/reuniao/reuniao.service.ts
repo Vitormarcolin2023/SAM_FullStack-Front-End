@@ -19,4 +19,12 @@ export class ReuniaoService {
   buscarReunioesPorProjeto(projetoId: number): Observable<Reuniao[]>{
     return this.http.get<Reuniao[]>(`${this.API}/findByProjeto/${projetoId}`);
   }
+
+  updateReuniao(reuniaoId: number, reuniaoAtualizada: Reuniao): Observable<string> {
+    return this.http.put<string>(`${this.API}/update/${reuniaoId}`, reuniaoAtualizada, { responseType: 'text' as 'json'});
+  }
+
+  aceitarReuniao(reuniaoId: number, statusReuniao: string, motivoRecusa: string): Observable<string>{
+    return this.http.put<string>(`${this.API}/confirmarReuniao/${reuniaoId}/status/${statusReuniao}/motivo-cancelamento${motivoRecusa}`, null, {responseType: 'text' as 'json'});
+  }
 }
