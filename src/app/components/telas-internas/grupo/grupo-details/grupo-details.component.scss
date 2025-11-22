@@ -46,25 +46,24 @@ h5 i {
 
 /*  HEADER COM BOTÃO*/
 .header-com-botao {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 1rem;
+   display: flex;
+  align-items: center;
+  gap: 8px; // espaço entre o nome e o ícone
 }
 
 /*BOTÕES PADRÃO DO SISTEMA*/
-.btn-primary {
-  background-color: $btn-acao;
-  color: $btn-color-verde;
-  border: 1px solid $btn-border;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 8px;
-  transition: 0.25s ease;
+/* Ícone de edição */
+.edit-icon {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color:  rgb(28, 232, 151);
+  transition: color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 1rem;
 
   &:hover {
-    background-color: $btn-hover;
-    color: white;
+    color: var(--primary-color); /* verde padrão do mentor */
+    transform: scale(1.12);
   }
 }
 
@@ -88,7 +87,8 @@ h5 i {
   background-color: #f3f3f3 !important;
   color: #555;
   border-radius: 8px;
-  padding: 6px 14px;
+  padding: 7px 14px;
+  margin-left: 20rem;
 }
 .btn-arquivar:hover {
   background-color: #e0e0e0 !important;
