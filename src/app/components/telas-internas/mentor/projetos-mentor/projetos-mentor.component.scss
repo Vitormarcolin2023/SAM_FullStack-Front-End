@@ -1,66 +1,162 @@
 @use "../../../../../styles/variaveis.scss" as *;
 
-.projetos-card {
-  background-color: #dedede;
-  border-radius: 10px;
+/* 
+   CONTAINER PRINCIPAL (segue padrão do novo)
+*/
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
-  height: 545px;
+  min-height: 100vh;
+  padding: 20px 20px 50px 20px;
+  background-color: $background-geral;
 
-  /* Ajusta o alinhamento para a direita */
-  margin-left: 8%;
-  margin-right: auto;
-
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
-  box-sizing: border-box;
-
-  /* Espaçamento superior do seu código */
-  margin-top: 80px;
+  @media (min-width: 992px) {
+    padding-left: 120px;
+  }
 }
 
-.titulo{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.container {
+  width: 100%;
+  max-width: 1500px;
+  margin-left: 0;
+}
+
+/*
+   CARD PRINCIPAL — adaptado do ".projetos-card"
+*/
+.projetos-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  border: 1px solid $linha;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+/* Conteúdo interno */
+.projetos-card-body {
+  padding: 24px 28px;
+}
+
+/*
+   TÍTULO + LINHA
+*/
+.titulo {
+  width: 100%;
+  display: flex;
+ //justify-content: center;
+  color: #00995e;
+
+  h3 {
+    //text-align: center;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 700;
+  }
 }
 
 .linha {
   width: 100%;
-  height: 5px;
-  border-bottom: #ccc 1.5px solid;
+  height: 1px;
+  margin-top: 10px;
+  background-color: $linha;
 }
 
-.msg-projeto{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+/*
+   MENSAGEM 
+*/
+.msg-projeto {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4c5854;
 }
 
-.table, th, tr, td{
-    background-color: #d5d5d5;
+/* 
+   TABELA NO PADRÃO NOVO
+*/
+.table {
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid $linha;
+
+  thead {
+    background: $fundo-elemento;
+  }
+
+  th {
+    padding: 10px;
+    background: $fundo-elemento;
+    color: $titulos-verde;
+    font-weight: 700;
+    border-bottom: 1px solid $linha;
+  }
+
+  td {
+    padding: 10px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  tr:hover td {
+    background-color: #f4f4f4;
+  }
 }
 
-.table{
-    margin-top: 20px;
+/*
+   BOTÕES NO PADRÃO NOVO
+*/
+.btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.25s ease;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 6px;
+  }
 }
 
-.btn{
-    display: flex;
-    align-items: center;
-    background-color: $btn-acao;
-    border-radius: 8px;
-    height: 30px;
-    font-size: 11px;
-    text-align: center;
-}
+.btn-primary,
+.btn {
+  background-color: $btn-acao;
+  color: $btn-color-verde;
 
-.btn:hover{
+  &:hover {
     background-color: $btn-hover;
     color: white;
+  }
+}
+
+/*
+   RESPONSIVO
+*/
+@media (max-width: 768px) {
+  .projetos-card-body {
+    padding: 20px;
+  }
+
+  .table td,
+  .table th {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
