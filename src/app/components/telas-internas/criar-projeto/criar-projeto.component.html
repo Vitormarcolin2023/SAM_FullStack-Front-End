@@ -1,234 +1,205 @@
 <app-sidebar></app-sidebar>
 
-<div class="cadastro-container">
-  <div class="form-box">
-    <form [formGroup]="formProjeto" (ngSubmit)="onSubmit()">
-      <div class="form-scroll-content">
+<div class="container">
+  <form [formGroup]="formProjeto" (ngSubmit)="onSubmit()">
+    <div class="card">
+      <div class="card-body">
+        <div class="container-centralizado">
 
-        <div class="form-step">
-          <h2>{{ modoEdicao ? "Editar Projeto" : "Criar Projeto" }}</h2>
+          <h3>{{ modoEdicao ? "Editar Projeto" : "Criar Projeto" }}</h3>
+          <div class="linha"></div>
 
-          <!-- NOME DO PROJETO -->
-          <label for="nomeDoProjeto">Nome do Projeto</label>
-          <input
-            id="nomeDoProjeto"
-            type="text"
-            formControlName="nomeDoProjeto"
-            placeholder="Digite o nome do projeto"
-          />
+          <!-- 
+               INFORMAÇÕES DO PROJETO
+           -->
+          <h4 class="section-title">Informações do Projeto</h4>
+          
 
-          <!-- DESCRIÇÃO -->
-          <label for="descricao">Descrição</label>
-          <textarea 
-            id="descricao" 
-            formControlName="descricao"
-            placeholder="Digite a descrição do projeto"
-          ></textarea>
-
-          <!-- PERÍODO -->
-          <label for="periodo">Período</label>
-          <select id="periodo" formControlName="periodo">
-            <option [ngValue]="null" disabled>Selecione o período</option>
-            <option *ngFor="let p of periodosDisponiveis" [value]="p">
-              {{ p }}
-            </option>
-          </select>
-        </div>
-
-        
-        <div class="form-step">
-          <h3>Datas</h3>
-
-          <label for="dataInicioProjeto">Data de Início</label>
-          <input id="dataInicioProjeto" type="date" formControlName="dataInicioProjeto"/>
-
-          <label for="dataFinalProjeto">Data Final</label>
-          <input id="dataFinalProjeto" type="date" formControlName="dataFinalProjeto"/>
-        </div>
-
-        
-        <div class="form-step">
-          <h3>Relacionamentos</h3>
-
-          <!-- ÁREA DE ATUAÇÃO -->
-          <label for="areaDeAtuacao">Área de Atuação</label>
-
-        
-          <div *ngIf="!modoEdicao">
+          <div class="mb-3">
+            <label for="nomeDoProjeto" class="form-label">Nome do Projeto</label>
             <input
-              id="areaDeAtuacao"
+              id="nomeDoProjeto"
               type="text"
-              class="form-control-readonly"
-              [value]="formProjeto.get('areaDeAtuacao')?.value?.nome || 'Carregando...'"
-              readonly
+              class="form-control"
+              formControlName="nomeDoProjeto"
+              placeholder="Digite o nome do projeto"
             />
           </div>
 
-          
-          <div *ngIf="modoEdicao">
-            <select id="areaDeAtuacao" formControlName="areaDeAtuacao" (change)="onAreaDeAtuacaoChange()">
-              <option [ngValue]="null" disabled>Selecione a área</option>
-              <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">
-                {{ area.nome }}
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <textarea
+              id="descricao"
+              class="form-control"
+              formControlName="descricao"
+              placeholder="Digite a descrição do projeto"
+              
+              rows="2"
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="periodo" class="form-label" >Período</label>
+            <select id="periodo" class="form-control" formControlName="periodo">
+               <option value="" disabled>Selecione a área de atuação</option>
+              <option *ngFor="let p of periodosDisponiveis" [value]="p">
+                {{ p }}
               </option>
             </select>
           </div>
 
+          <!--
+               DATAS
+          -->
+          <h4 class="section-title">Datas</h4>
+
+          <div class="mb-3">
+            <label class="form-label" for="dataInicioProjeto">Data de Início</label>
+            <input
+              id="dataInicioProjeto"
+              type="date"
+              class="form-control"
+              formControlName="dataInicioProjeto"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="dataFinalProjeto">Data Final</label>
+            <input
+              id="dataFinalProjeto"
+              type="date"
+              class="form-control"
+              formControlName="dataFinalProjeto"
+            />
+          </div>
+
+          <!-- 
+               RELACIONAMENTOS
+           -->
+          <h4 class="section-title">Relacionamentos</h4>
+
+          <!-- ÁREA DE ATUAÇÃO -->
+          <div class="mb-3">
+            <label for="areaDeAtuacao" class="form-label">Área de Atuação</label>
+
+            <ng-container *ngIf="!modoEdicao; else editarArea">
+              <input
+                id="areaDeAtuacao"
+                type="text"
+                class="form-control"
+                [value]="formProjeto.get('areaDeAtuacao')?.value?.nome || 'Carregando...'"
+                readonly
+              />
+            </ng-container>
+
+            <ng-template #editarArea>
+              <select
+                id="areaDeAtuacao"
+                class="form-control"
+                formControlName="areaDeAtuacao"
+                (change)="onAreaDeAtuacaoChange()"
+              >
+                <option [ngValue]="null" disabled>Selecione a área</option>
+                <option *ngFor="let area of areasDeAtuacao" [ngValue]="area">
+                  {{ area.nome }}
+                </option>
+              </select>
+            </ng-template>
+          </div>
+
           <!-- MENTOR -->
           <div class="mb-3">
-            <label for="mentor" class="form-label">Mentor</label>
-
+            <label class="form-label" for="mentor">Mentor</label>
             <div class="d-flex">
               <input
                 id="mentor"
                 type="text"
+                class="form-control"
                 [value]="formProjeto.get('mentor')?.value?.nome || ''"
-                placeholder="Selecione um mentor"
                 readonly
               />
-
-              <button type="button" class="btn-selecionar ms-2" (click)="abrirModalMentor()">
+              <button type="button" class="btn btn-primary ms-2" (click)="abrirModalMentor()">
                 Selecionar
               </button>
             </div>
           </div>
 
-          <!-- MODAL MENTOR -->
-          <div class="modal-overlay" *ngIf="modalAberto">
-            <div class="modal-box">
+          <!-- GRUPO -->
+          <div class="mb-3">
+            <label class="form-label" for="grupo">Grupo</label>
 
-              <h3>Selecionar Mentor</h3>
-
-             <div class="modal-filtros">
-              <input 
+            <ng-container *ngIf="!modoEdicao; else editarGrupo">
+              <input
+                id="grupo"
                 type="text"
-                placeholder="Pesquisar mentor..."
-                class="modal-input"
-                (input)="filtrarMentoresModal($event)"
-                [(ngModel)]="filtroNome"
+                class="form-control"
+                readonly
+                [value]="formProjeto.get('grupo')?.value?.nome || 'Carregando...'"
               />
+            </ng-container>
 
-              <select class="modal-input" [(ngModel)]="filtroArea" (change)="filtrarMentoresModal()">
-                <option value="">Todas as áreas</option>
-                <option *ngFor="let area of areasDeAtuacao" [value]="area.nome">
-                  {{ area.nome }}
+            <ng-template #editarGrupo>
+              <select id="grupo" class="form-control" formControlName="grupo">
+                <option [ngValue]="null" disabled>Selecione o grupo</option>
+                <option *ngFor="let grupo of grupos" [ngValue]="grupo">
+                  {{ grupo.nome }}
                 </option>
               </select>
-              </div>
-
-              <ul class="mentor-list">
-                <li
-                  *ngFor="let mentor of mentoresFiltradosModal"
-                  (click)="selecionarMentor(mentor)"
-                  class="mentor-item"
-                >
-                  <div><strong>Nome:</strong> {{ mentor.nome }}</div>
-                  <div><strong>Email:</strong> {{ mentor.email }}</div>
-                  <div><strong>Telefone:</strong> {{ mentor.telefone }}</div>
-                  <div *ngIf="mentor.formacaoDoMentor">
-                    <strong>Formação:</strong> {{ mentor.formacaoDoMentor }}
-                  </div>
-                  <div><strong>Área:</strong> {{ mentor.areaDeAtuacao.nome }}</div>
-                </li>
-
-                <li *ngIf="mentoresFiltradosModal.length === 0" class="mentor-item no-results">
-                  Nenhum mentor encontrado.
-                </li>
-              </ul>
-
-              <div class="modal-footer-row">
-              <button class="btn-fechar" (click)="fecharModalMentor()">Fechar</button>
-            </div>
-          </div>
-          </div>
-
-          <!-- GRUPO -->
-          <label for="grupo">Grupo</label>
-
-          <div *ngIf="!modoEdicao">
-            <input
-              id="grupo"
-              type="text"
-              class="form-control-readonly"
-              [value]="formProjeto.get('grupo')?.value?.nome || 'Carregando...'"
-              readonly
-            />
-          </div>
-
-          <div *ngIf="modoEdicao">
-            <select id="grupo" formControlName="grupo">
-              <option [ngValue]="null" disabled>Selecione o grupo</option>
-              <option *ngFor="let grupo of grupos" [ngValue]="grupo">
-                {{ grupo.nome }}
-              </option>
-            </select>
+            </ng-template>
           </div>
 
           <!-- PROFESSORES -->
-          <label for="professores-ids">Selecione os professores</label>
-          
-          <div *ngIf="professoresSelecionados.length > 0" class="professores-selecionados-container">
-            <span 
-              *ngFor="let professor of professoresSelecionados; let i = index"
-              class="badge-professor-selecionado"
+          <h4 class="section-title">Professores</h4>
+
+          <div *ngIf="professoresSelecionados.length > 0" class="mb-2">
+            <span
+              *ngFor="let professor of professoresSelecionados"
+              class="badge bg-primary me-1"
+              style="cursor: pointer;"
+              (click)="toggleProfessorSelecao(professor)"
             >
-              {{ professor.nome }}
-              <button
-                type="button"
-                (click)="toggleProfessorSelecao(professor)"
-                class="btn-remover-professor"
-              >
-              </button>
+              {{ professor.nome }} ✕
             </span>
           </div>
 
-          <div class="professores">
+          <div class="mb-3">
             <input
-              class="swall2-input"
-              id="input-professores"
-              placeholder="Digite os nomes dos professores"
+              class="form-control"
+              placeholder="Pesquisar professores"
               (input)="pesquisarProfessores($event)"
             />
           </div>
 
-          <div class="list-professores">
-            <ul class="professores-list-container">
-              <li 
-                *ngFor="let professor of professoresFiltrados; trackBy: trackByProfessorId"
-                (click)="toggleProfessorSelecao(professor)"
-                [class.professor-selecionado]="isProfessorSelecionado(professor)"
-              >
-                {{ professor.nome }}
-              </li>
-            </ul>
-            
-            <div *ngIf="professoresFiltrados.length === 0" class="no-results">
+          <ul class="list-group mb-3">
+            <li
+              class="list-group-item"
+              *ngFor="let professor of professoresFiltrados; trackBy: trackByProfessorId"
+              [class.active]="isProfessorSelecionado(professor)"
+              (click)="toggleProfessorSelecao(professor)"
+              style="cursor: pointer;"
+            >
+              {{ professor.nome }}
+            </li>
+
+            <li *ngIf="professoresFiltrados.length === 0" class="list-group-item text-center">
               Nenhum professor encontrado.
-            </div>
-          </div>
-
-          <!-- BOTÕES -->
-          <div class="form-buttons-container">
-            <div class="buttons-row">
-              <button type="button" class="btn-back" (click)="voltar()">
-                Voltar
-              </button>
-
-              <button type="submit" [disabled]="formProjeto.invalid || carregando">
-                <span *ngIf="!carregando">
-                  {{ modoEdicao ? "Atualizar Projeto" : "Salvar Projeto" }}
-                </span>
-
-                <span *ngIf="carregando">
-                  Salvando...
-                </span>
-              </button>
-            </div>
-          </div>
+            </li>
+          </ul>
 
         </div>
-
       </div>
-    </form>
-  </div>
+
+      <!-- FOOTER -->
+      <div class="card-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="voltar()">Voltar</button>
+
+        <button type="submit" class="btn btn-primary" [disabled]="formProjeto.invalid || carregando">
+          <span *ngIf="!carregando">
+            {{ modoEdicao ? "Atualizar Projeto" : "Salvar Projeto" }}
+          </span>
+          <span *ngIf="carregando">Salvando...</span>
+        </button>
+      </div>
+    </div>
+  </form>
 </div>
