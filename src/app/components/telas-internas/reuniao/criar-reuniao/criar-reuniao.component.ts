@@ -14,6 +14,8 @@ import { TokenDecode } from '../../../../models/token/token-decode';
 import { MentorService } from '../../../../services/mentores/mentores.service';
 import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Grupo } from '../../../../models/grupo/grupo';
+import { GrupoService } from '../../../../services/grupo/grupo.service';
 
 @Component({
   standalone: true,
@@ -27,16 +29,17 @@ export class CriarReuniaoComponent {
   form!: FormGroup;
 
   aluno: Aluno | null = null;
+  grupoAtivoALuno!: Grupo;
   mentor: any = null;
   projetoAluno: Projeto | null = null;
   projetosMentor: Projeto[] = [];
 
   reuniaoDto: ReuniaoDto = {
     assunto: '',
-    data: '', 
-    hora: '', 
-    formatoReuniao: null!, 
-    projeto_id: 0, 
+    data: '',
+    hora: '',
+    formatoReuniao: null!,
+    projeto_id: 0,
     solicitadoPor: '',
   };
 
@@ -46,6 +49,7 @@ export class CriarReuniaoComponent {
   projetoService = inject(ProjetoService);
   alunoService = inject(AlunoService);
   mentorService = inject(MentorService);
+  grupoService = inject(GrupoService);
   tokenDecode = inject(TokenDecode);
 
   fb = inject(FormBuilder);
@@ -122,11 +126,27 @@ export class CriarReuniaoComponent {
     this.alunoService.getMyProfile().subscribe({
       next: (aluno) => {
         this.aluno = aluno;
-        if (aluno.id) {
-          this.carregaProjetoAtivoAluno(aluno.id);
-        } else {
-          this.isLoading = false;
-        }
+
+        this.grupoService.findGrupoByAlunoLogado().subscribe({
+          next: (grupo) => {
+            this.grupoAtivoALuno = grupo;
+            if (aluno.id) {
+              this.carregaProjetoAtivoAluno(aluno.id);
+            } else {
+              this.isLoading = false;
+            }
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Aluno não possui grupo ativo',
+              text: 'Você deve estar em um grupo para prosseguir',
+              confirmButtonColor: 'rgb(255, 0, 0)',
+            }).then(() => {
+              this.router.navigate(['/grupo/criar-grupo']);
+            });
+          },
+        });
       },
       error: () => {
         Swal.fire({
@@ -143,9 +163,20 @@ export class CriarReuniaoComponent {
   carregaProjetoAtivoAluno(id: number) {
     this.projetoService.buscarProjetoAtivo(id).subscribe({
       next: (response) => {
-        this.projetoAluno = response;
-        if (response.id) {
-          this.reuniaoDto.projeto_id = response.id; // já popula para o aluno
+        if (response.grupo?.id === this.grupoAtivoALuno.id) {
+          this.projetoAluno = response;
+          if (response.id) {
+            this.reuniaoDto.projeto_id = response.id;
+          }
+        } else {
+          Swal.fire({
+          icon: 'error',
+          title: 'Aluno não possui projeto ativo.',
+          text: 'Assim que tiver um projeto ativo, poderá agendar reuniões com seu mentor.',
+          confirmButtonColor: 'rgb(255, 0, 0)',
+        }).then(() => {
+          this.router.navigate(["/visual-projeto"]);
+        });
         }
         this.isLoading = false;
       },
@@ -162,71 +193,69 @@ export class CriarReuniaoComponent {
   }
 
   salvarReuniao() {
-  if (
-    !this.reuniaoDto.assunto ||
-    !this.reuniaoDto.data ||
-    !this.reuniaoDto.hora ||
-    !this.reuniaoDto.formatoReuniao ||
-    (this.role === 'MENTOR' && !this.reuniaoDto.projeto_id)
-  ) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Preencha todos os campos',
-      confirmButtonColor: 'rgb(255,0,0)',
-    });
-    return;
-  }
-
-
-  const dataSelecionada = new Date(this.reuniaoDto.data);
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0); 
-  if (dataSelecionada < hoje) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Data inválida',
-      text: 'A data da reunião não pode ser anterior à data atual.',
-      confirmButtonColor: 'rgb(255,0,0)',
-    });
-    return;
-  }
-
-  const horaRegex = /^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/;
-  if (!horaRegex.test(this.reuniaoDto.hora)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Hora inválida',
-      text: 'Insira uma hora válida no formato HH:mm ou HH:mm:ss.',
-      confirmButtonColor: 'rgb(255,0,0)',
-    });
-    return;
-  }
-
-  this.reuniaoDto.hora = this.parseHora(this.reuniaoDto.hora);
-  this.reuniaoDto.solicitadoPor = this.tokenDecode.getRole();
-
-  this.reuniaoService.salvarReuniao(this.reuniaoDto).subscribe({
-    next: (res: string) => {
-      Swal.fire({
-        icon: 'success',
-        title: res, 
-        confirmButtonColor: 'rgb(0,128,0)',
-      }).then (() => {
-        this.router.navigate(['/visual-projeto']);
-      });
-    }, 
-    error: (err: HttpErrorResponse) => {
-      console.error('Erro ao salvar:', err);
+    if (
+      !this.reuniaoDto.assunto ||
+      !this.reuniaoDto.data ||
+      !this.reuniaoDto.hora ||
+      !this.reuniaoDto.formatoReuniao ||
+      (this.role === 'MENTOR' && !this.reuniaoDto.projeto_id)
+    ) {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao salvar a reunião',
-        text: err.error || err.message,
+        title: 'Preencha todos os campos',
         confirmButtonColor: 'rgb(255,0,0)',
       });
-    },
-  });
-}
+      return;
+    }
 
+    const dataSelecionada = new Date(this.reuniaoDto.data);
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    if (dataSelecionada < hoje) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Data inválida',
+        text: 'A data da reunião não pode ser anterior à data atual.',
+        confirmButtonColor: 'rgb(255,0,0)',
+      });
+      return;
+    }
+
+    const horaRegex = /^([01]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/;
+    if (!horaRegex.test(this.reuniaoDto.hora)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Hora inválida',
+        text: 'Insira uma hora válida no formato HH:mm ou HH:mm:ss.',
+        confirmButtonColor: 'rgb(255,0,0)',
+      });
+      return;
+    }
+
+    this.reuniaoDto.hora = this.parseHora(this.reuniaoDto.hora);
+    this.reuniaoDto.solicitadoPor = this.tokenDecode.getRole();
+
+    this.reuniaoService.salvarReuniao(this.reuniaoDto).subscribe({
+      next: (res: string) => {
+        Swal.fire({
+          icon: 'success',
+          title: res,
+          confirmButtonColor: 'rgb(0,128,0)',
+        }).then(() => {
+          this.router.navigate(['/visual-projeto']);
+        });
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Erro ao salvar:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao salvar a reunião',
+          text: err.error || err.message,
+          confirmButtonColor: 'rgb(255,0,0)',
+        });
+      },
+    });
+  }
 
   parseHora(horaStr: string): string {
     return horaStr?.length === 5 ? `${horaStr}:00` : horaStr;
