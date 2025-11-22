@@ -124,6 +124,37 @@
             </div>
           </div>
 
+          <!-- MODAL DO MENTOR -->
+        <div class="modal-overlay" *ngIf="modalAberto">
+          <div class="modal-box">
+
+            <h3>Selecionar Mentor</h3>
+            <div class="linha"></div>
+
+            <input
+              type="text"
+              class="modal-input"
+              placeholder="Pesquisar mentor..."
+              (input)="filtrarMentoresModal($event)"
+            />
+
+            <ul class="mentor-list">
+              <li
+                class="mentor-item"
+                *ngFor="let mentor of mentoresFiltradosModal"
+                (click)="selecionarMentor(mentor)"
+              >
+                <strong>{{ mentor.nome }}</strong><br />
+                <small>{{ mentor.email }}</small>
+              </li>
+            </ul>
+
+            <div style="text-align: right; margin-top: 20px;">
+              <button class="btn-fechar" (click)="fecharModalMentor()">Fechar</button>
+            </div>
+          </div>
+        </div>
+
           <!-- GRUPO -->
           <div class="mb-3">
             <label class="form-label" for="grupo">Grupo</label>
