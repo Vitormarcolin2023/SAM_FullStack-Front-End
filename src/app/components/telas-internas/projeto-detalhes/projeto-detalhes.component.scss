@@ -20,7 +20,7 @@
   width: 100%;
   background-color: #fff;
   border-radius: 12px;
-  padding: 28px 32px 90px;
+  padding: 20px 28px 60px;
   margin: 0 auto;
   position: relative;
 
@@ -36,8 +36,8 @@
 
 /*  BLOCO DE INFORMAÇÕES */
 .info-row {
-  margin-bottom: 18px;
-  padding-bottom: 16px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
   border-bottom: 1px solid $linha;
 
   .icon-label {
@@ -47,7 +47,6 @@
     font-weight: 600;
     color: $titulos-verde;
     font-size: 15px;
-    margin-bottom: 4px;
 
     i {
       font-size: 18px;
@@ -58,7 +57,7 @@
   .linha-titulo {
     width: 60px;
     border-top: 2px solid $linha;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .info-content {
@@ -69,7 +68,7 @@
 }
 
 hr {
-  margin: 30px 0;
+  margin: 5px 0;
   border-color: $fundo-elemento;
 }
 
@@ -80,7 +79,7 @@ hr {
     color: $titulos-verde;
     border-bottom: 1px solid $titulos-verde;
     display: inline-block;
-    margin-bottom: 12px;
+    margin-bottom: 5px;
 
     i {
       color: #4c5854;
@@ -92,20 +91,20 @@ hr {
     font-size: 14px;
     line-height: 1.5;
     color: #4c5854;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
   }
 }
 
 /*PROFESSORES */
 .professores {
-  margin-top: 20px;
+  margin-top: 10px;
 
   strong {
     font-weight: 700;
     color: $titulos-verde;
     border-bottom: 1px solid $titulos-verde;
     display: inline-block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 
     i {
       color: #4c5854;
