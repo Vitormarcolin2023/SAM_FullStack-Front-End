@@ -20,7 +20,7 @@ import { GrupoService } from '../../../../services/grupo/grupo.service';
 @Component({
   standalone: true,
   selector: 'app-criar-reuniao',
-  imports: [FormsModule, CommonModule, SidebarComponent],
+  imports: [FormsModule, CommonModule],
   templateUrl: './criar-reuniao.component.html',
   styleUrls: ['./criar-reuniao.component.scss'],
 })
