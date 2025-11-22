@@ -53,6 +53,11 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
     return this.http.get<Projeto[]>(`${this.API}/professor/${professorId}`);
   }
 
+  arquivarProjeto(id: number): Observable<any> {
+    return this.http.put(`/projetos/${id}/arquivar`, {});
+  }
+
+
   buscarProjetoAtivo(alunoId: number): Observable<Projeto>{
     return this.http.get<Projeto>(`${this.API}/buscar-projeto-ativo/${alunoId}`);
   }
