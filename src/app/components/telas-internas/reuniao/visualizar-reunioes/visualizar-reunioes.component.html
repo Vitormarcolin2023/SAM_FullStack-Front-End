@@ -1,0 +1,110 @@
+@if (isLoading) {
+  <div class="state-message">
+    <div class="spinner"></div>
+    <p class="lead">Carregando reuniões...</p>
+  </div>
+}
+
+@if (!isLoading) {
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h3>Reuniões</h3>
+
+        <!-- FILTROS -->
+        <div class="filtros-container">
+          <!-- Filtro por status -->
+          <label for="statusSelect">Filtrar por status:</label>
+          <select
+            id="statusSelect"
+            class="form-control filtro-status"
+            [(ngModel)]="statusSelecionado"
+            (change)="filtrarPorStatus()"
+          >
+            <option value="PENDENTE">Pendentes</option>
+            <option value="ACEITO">Aceitas</option>
+            <option value="RECUSADO">Recusadas</option>
+            <option value="CANCELADO">Canceladas</option>
+          </select>
+
+          <!-- Filtro por projeto (apenas para mentores) -->
+          @if (role === 'MENTOR') {
+            <label for="projetoSelect">Filtrar por projeto:</label>
+            <select
+              id="projetoSelect"
+              class="form-control filtro-projeto"
+              [(ngModel)]="projeto"
+              (change)="filtrarPorProjeto(projeto)"
+            >
+              <option [ngValue]="null" disabled selected>Selecione…</option>
+              @for (projetoMentor of projetos; track $index) {
+                <option [ngValue]="projetoMentor">
+                  {{ projetoMentor.nomeDoProjeto }}
+                </option>
+              }
+            </select>
+          }
+        </div>
+
+        <!-- TABELA -->
+        <div class="tabela-card">
+          <table class="table tabela-card-interna">
+            <thead>
+              <tr>
+                <th>Assunto</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Formato</th>
+                <th>Projeto</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (reuniao of reunioesFiltradas; track reuniao.id) {
+                <tr>
+                  <td>{{ reuniao.assunto }}</td>
+                  <td>{{ reuniao.data | date : "dd/MM/yyyy" }}</td>
+                  <td>{{ reuniao.hora }}</td>
+                  <td>{{ reuniao.formatoReuniao }}</td>
+                  <td>{{ reuniao.projeto?.nomeDoProjeto }}</td>
+
+                  <td>
+                    <span
+                      class="status-badge {{
+                        reuniao.statusReuniao === 'PENDENTE'
+                          ? 'status-pendente'
+                          : reuniao.statusReuniao === 'ACEITO'
+                          ? 'status-ativo'
+                          : reuniao.statusReuniao === 'RECUSADO'
+                          ? 'status-inativo'
+                          : 'status-cancelado'
+                      }}"
+                    >
+                      {{ reuniao.statusReuniao }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <button class="btn-visualizar" (click)="visualizarReuniao()">
+                      Visualizar
+                    </button>
+
+                    <button class="btn-editar" (click)="editarReuniao()">
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn btn-secondary" (click)="voltar()">Voltar</button>
+      </div>
+    </div>
+  </div>
+}

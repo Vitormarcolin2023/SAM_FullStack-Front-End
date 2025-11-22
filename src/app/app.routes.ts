@@ -38,6 +38,8 @@ import { ProfessorVisualizarGruposComponent } from './components/telas-internas/
 import { AvaliacoesAlunosComponent } from './components/telas-internas/avaliacoes/avaliacoes-alunos/avaliacoes-alunos.component';
 
 import { CriarReuniaoComponent } from './components/telas-internas/reuniao/criar-reuniao/criar-reuniao.component';
+import { ReuniaoComponent } from './components/telas-internas/reuniao/reuniao.component';
+import { VisualizarReunioesComponent } from './components/telas-internas/reuniao/visualizar-reunioes/visualizar-reunioes.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -124,7 +126,21 @@ export const routes: Routes = [
     ],
   },
 
-  { path: 'solicitar-reuniao', component: CriarReuniaoComponent },
+
+  {
+    path: 'reuniao',
+    component: ReuniaoComponent,
+    children: [
+      { 
+        path: 'solicitar-reuniao', 
+        component: CriarReuniaoComponent, 
+      },
+      {
+        path: 'visualizar-reunioes',
+        component: VisualizarReunioesComponent,
+      },
+    ],
+  },
 
   //Rota da Coordenação
   {
