@@ -1,5 +1,11 @@
 @use "../../../../../styles/variaveis.scss" as *;
 
+/*background da página*/
+.min-vh-100 {
+  background-color: #dedede;  // sua cor
+  width: 100%;
+}
+
 /* LAYOUT DO CARD*/
 .card {
   width: 100%;
@@ -14,13 +20,9 @@
 
 /* Área interna do card */
 .card-body {
-  padding: 24px 28px;
+  padding: 18px 22px;
 }
 
-/* ALTURA MINIMA DO CONTAINER*/
-.min-vh-100 {
-  min-height: 100vh;
-}
 
 /*  TÍTULOS */
 h4, h5 {
@@ -88,7 +90,7 @@ h5 i {
   color: #555;
   border-radius: 8px;
   padding: 7px 14px;
-  margin-left: 20rem;
+  margin-left: 21rem;
 }
 .btn-arquivar:hover {
   background-color: #e0e0e0 !important;
