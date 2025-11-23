@@ -1,10 +1,11 @@
-/* === CONTAINER CENTRAL (MESMA ESTRUTURA DO MENTOR) === */
+/*  CONTAINER CENTRAL  */
 .cadastro-container {
     display: flex;
     justify-content: center;
     padding: 10px;
-    margin-top: 50px;
     width: 100%;
+    background: #dedede;
+    min-height: 100vh; 
 }
 
 /* CAIXA BRANCA */
@@ -12,12 +13,16 @@
     padding: 20px;
     max-width: 700px;
     width: 75%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* TÍTULO */
+/* TÍTULO PRINCIPAL */
 h2 {
     text-align: center;
     color: #00995E;
+    margin-bottom: 10px;
 }
 
 /* DIVISÃO ENTRE SEÇÕES */
@@ -41,7 +46,7 @@ select {
     margin-bottom: 10px;
 }
 
-/* CAMPOS SOMENTE LEITURA (NÃO EDITÁVEIS) */
+/* CAMPOS SOMENTE LEITURA */
 .readonly-field {
     background-color: #f1f1f1;
     color: #555;
@@ -81,7 +86,7 @@ label {
     margin-bottom: 6px;
 }
 
-/* BOTÕES */
+/* BOTÕES — PADRÃO GERAL */
 .buttons-row {
     display: flex;
     gap: 10px;
@@ -118,6 +123,7 @@ label {
     color: #fff;
 }
 
+/* TÍTULO DE SEÇÕES */
 .section-title {
     font-size: 18px;
     font-weight: 600;
@@ -125,3 +131,8 @@ label {
     margin-bottom: 10px;
 }
 
+/* ÁREA DE SCROLL INTERNA DO FORM (SEM AFETAR O FUNDO) */
+.form-scroll-content {
+    max-height: auto;
+    overflow: visible;
+}
