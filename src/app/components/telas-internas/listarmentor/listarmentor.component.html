@@ -1,5 +1,5 @@
-
-<div class="tabela-card" style="margin-top: 80px; margin-left: 230px">
+<div class="pagina-fundo">
+<div class="tabela-card">
   <table class="table tabela-card-interna">
     <thead>
       <tr>
@@ -13,8 +13,10 @@
         }
       </tr>
     </thead>
+
     <tbody>
       @for (mentor of mentores; track mentor.id) {
+
         @if ($index === 0 || mentores[$index - 1].statusMentor !== mentor.statusMentor) {
           <tr class="status-header">
             <td [attr.colspan]="userRole === 'COORDENADOR' ? 7 : 6">
@@ -27,20 +29,22 @@
                   <div class="linha"></div>
                 } @else {
                   Inativos
+                  <div class="linha"></div>
                 }
               </h3>
             </td>
           </tr>
         }
+
         <tr>
           <td>{{ mentor.nome }}</td>
           <td>{{ mentor.email }}</td>
           <td>{{ mentor.telefone }}</td>
           <td>{{ mentor.areaDeAtuacao.nome }}</td>
+
           <td>
             <span
-              class="status-badge 
-              {{
+              class="status-badge {{
                 mentor.statusMentor === 'PENDENTE'
                   ? 'status-pendente'
                   : mentor.statusMentor === 'ATIVO'
@@ -53,20 +57,22 @@
               {{ mentor.statusMentor }}
             </span>
           </td>
-          
+
           @if (userRole === 'COORDENADOR') {
             <td>
-              @if (mentor.statusMentor === 'PENDENTE' ) {
+              @if (mentor.statusMentor === 'PENDENTE') {
                 <button class="btn-ativar-mentor" (click)="ativarMentor(mentor.id)">
                   Ativar Mentor
                 </button>
-                
-              } @if(mentor.statusMentor === 'ATIVO') {
+              }
+
+              @if (mentor.statusMentor === 'ATIVO') {
                 <button class="btn-desativar-mentor" (click)="desativarMentor(mentor.id)">
                   Desativar Mentor
                 </button>
               }
-              @if (mentor.statusMentor === 'INATIVO'){
+
+              @if (mentor.statusMentor === 'INATIVO') {
                 <button class="btn-reativar-mentor" (click)="reativarMentor(mentor.id)">
                   Reativar Mentor
                 </button>
@@ -74,7 +80,9 @@
             </td>
           }
         </tr>
+
       }
     </tbody>
   </table>
+</div>
 </div>

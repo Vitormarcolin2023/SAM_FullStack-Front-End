@@ -1,0 +1,141 @@
+@if (reuniaoSelecionada) {
+<div class="modal-overlay">
+  <div class="modal-card p-4 shadow-sm">
+    @if (isLoading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Carregando informações da reunião...</p>
+    </div>
+    } @if (!isLoading && reuniaoSelecionada) {
+    <div class="header-com-botao">
+      <h4>
+        {{
+          reuniaoSelecionada.assunto.length > 30
+            ? (reuniaoSelecionada.assunto | slice : 0 : 30) + "..."
+            : reuniaoSelecionada.assunto
+        }}
+      </h4>
+
+      <div>
+        <span
+          class="status-badge"
+          [ngClass]="{
+            'status-pendente': reuniaoSelecionada.statusReuniao === 'PENDENTE',
+            'status-ativo': reuniaoSelecionada.statusReuniao === 'ACEITO',
+            'status-inativo': reuniaoSelecionada.statusReuniao === 'RECUSADO',
+            'status-cancelado': reuniaoSelecionada.statusReuniao === 'CANCELADO'
+          }"
+        >
+          {{ reuniaoSelecionada.statusReuniao }}
+        </span>
+
+        @if (reuniaoSelecionada.statusReuniao === 'PENDENTE' &&
+        reuniaoSelecionada.solicitadoPor != role) {
+        <button
+          class="btn btn-primary btn-sm btn-editar"
+          (click)="habilitarEdicao()"
+        >
+          <i class="fas fa-pencil-alt me-2"></i> Editar
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="info-section mt-3">
+      <div class="info-content">
+        <label>Assunto</label>
+        <textarea
+          type="text"
+          class="form-control"
+          style="resize: none"
+          [(ngModel)]="reuniaoSelecionada.assunto"
+          [readonly]="!editar"
+          rows="3"
+        ></textarea>
+      </div>
+    </div>
+
+    @if(reuniaoSelecionada.statusReuniao == 'RECUSADO'){
+    <div class="info-section mt-3">
+      <div class="info-content">
+        <label>Motivo da recusa</label>
+        <textarea
+          rows="3"
+          type="text"
+          class="form-control"
+          [value]="reuniaoSelecionada.motivoRecusa"
+          readonly
+          style="resize: none"
+        ></textarea>
+      </div>
+    </div>
+    }
+
+    <div class="info-section mt-3">
+      <div class="info-content">
+        <label>Data</label>
+        <input
+          type="date"
+          class="form-control"
+          [class.is-invalid]="dataInvalida"
+          [(ngModel)]="reuniaoSelecionada.data"
+          [readonly]="!editar"
+        />
+
+        @if (dataInvalida) {
+        <small class="text-danger">A data não pode ser anterior a hoje.</small>
+        }
+      </div>
+      <div class="info-content">
+        <label>Hora</label>
+        <input
+          type="time"
+          class="form-control"
+          [(ngModel)]="reuniaoSelecionada.hora"
+          [readonly]="!editar"
+        />
+      </div>
+    </div>
+
+    <div class="info-section mt-3">
+      <div class="info-content">
+        <label>Formato</label>
+        <select
+          class="form-control"
+          [(ngModel)]="reuniaoSelecionada.formatoReuniao"
+          [disabled]="!editar"
+        >
+          @for (formato of ['PRESENCIAL', 'ONLINE']; track $index) {
+          <option value="{{ formato }}">{{ formato }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="info-section mt-3">
+      <div class="info-content">
+        <label>Projeto</label>
+        <input
+          type="text"
+          class="form-control"
+          [value]="reuniaoSelecionada.projeto.nomeDoProjeto"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end gap-2">
+      <button class="btn btn-secondary" (click)="voltar()">Fechar</button>
+      @if (editar) {
+      <button class="btn btn-primary btn-color" (click)="salvarEdicao()">
+        Salvar
+      </button>
+      <button class="btn btn-danger" (click)="cancelarEdicao()">
+        Cancelar
+      </button>
+      }
+    </div>
+    }
+  </div>
+</div>
+}
