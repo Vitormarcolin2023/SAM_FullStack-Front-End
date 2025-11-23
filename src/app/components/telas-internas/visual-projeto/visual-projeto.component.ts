@@ -8,7 +8,14 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
+import { TokenDecode } from '../../../models/token/token-decode';
 
+export enum StatusProjeto {
+  ATIVO = 'ATIVO',
+  NAO_ACEITO = 'NAO_ACEITO',
+  ARQUIVADO = 'ARQUIVADO',
+  EM_APROVACAO = 'EM_APROVACAO',
+}
 
 @Component({
   selector: 'app-visual-projeto',
@@ -29,66 +36,121 @@ export class VisualProjetoComponent implements OnInit {
   private router = inject(Router);
   private modalService = inject(MdbModalService);
 
-  projetos: Projeto[] = [];
-  filtroNome = new FormControl('');              
-  filtroPeriodo = new FormControl<string | null>(null);
+  tokenService = inject(TokenDecode)
 
-  periodosDisponiveis = [
-  { value: '1º Período', label: '1º Período' },
-  { value: '2º Período', label: '2º Período' },
-  { value: '3º Período', label: '3º Período' },
-  { value: '4º Período', label: '4º Período' },
-  { value: '5º Período', label: '5º Período' },
-  { value: '6º Período', label: '6º Período' },
-  { value: '7º Período', label: '7º Período' },
-  { value: '8º Período', label: '8º Período' },
-  { value: '9º Período', label: '9º Período' },
-  { value: '10º Período', label: '10º Período' },
-];
+  projetos: Projeto[] = [];
+  projetosOriginais: Projeto[] = [];
+  filtroNome = new FormControl('');              
+  filtroStatus = new FormControl<string | null>(null);
 
   modalRef: MdbModalRef<ProjetoDetalhesComponent> | null = null;
 
+   statusDisponiveis: string[] = [
+    'ATIVO',
+    'NAO_ACEITO',
+    'ARQUIVADO',
+    'EM_APROVACAO',
+  ];
+
+  
   ngOnInit() {
     this.carregarProjetos();
 
     this.filtroNome.valueChanges.subscribe(() => this.aplicarFiltros());
-    this.filtroPeriodo.valueChanges.subscribe(() => this.aplicarFiltros());
+    this.filtroStatus.valueChanges.subscribe(() => this.aplicarFiltros());
   }
 
   carregarProjetos() {
-    this.projetoService.findAll().subscribe((projs) => (this.projetos = projs));
+  const role = this.tokenService.getRole();
+  const userId = this.tokenService.getId();
+
+  if (!userId){
+    console.error('Usuário não identificado');
+    return
   }
+
+  const ordenarProjetos = (projetos: Projeto[], statusPrioritario: StatusProjeto) => {
+    return [...projetos].sort((a, b) => {
+      if (a.statusProjeto === statusPrioritario && b.statusProjeto !== statusPrioritario) return -1;
+      if (a.statusProjeto !== statusPrioritario && b.statusProjeto === statusPrioritario) return 1;
+      return 0;
+    });
+  };
+
+  
+  switch (role) {
+
+    case 'ALUNO':
+    this.projetoService.buscarProjetosDoAluno(userId)
+        .subscribe(res => {
+          const filtrados = res.filter(p => p.statusProjeto === StatusProjeto.ATIVO);
+          this.projetos = ordenarProjetos(filtrados, StatusProjeto.ATIVO);
+        });
+          break;
+
+       case 'ALUNO_ADMIN':
+       this.projetoService.buscarProjetosDoAluno(userId)
+        .subscribe(res => {
+          const filtrados = res.filter(p =>
+            [StatusProjeto.ATIVO, StatusProjeto.ARQUIVADO, StatusProjeto.EM_APROVACAO].includes(p.statusProjeto as StatusProjeto)
+          );
+          this.projetos = ordenarProjetos(filtrados, StatusProjeto.ATIVO);
+        });
+        break;
+
+       case 'PROFESSOR':
+       this.projetoService.buscarPorProfessor(userId)
+        .subscribe(res => {
+          this.projetos = ordenarProjetos(res, StatusProjeto.ATIVO);
+        });
+      break;
+
+        case 'COORDENADOR':
+       this.projetoService.findAll()
+        .subscribe(res => {
+          this.projetos = ordenarProjetos(res, StatusProjeto.ATIVO);
+        });
+      break;
+
+      case 'MENTOR':
+      this.projetoService.buscarProjetosAtivos(userId)
+        .subscribe(res => {
+          const emAprovacao = res.filter(p => p.statusProjeto === StatusProjeto.EM_APROVACAO);
+          const outros = res.filter(p =>
+            [StatusProjeto.ATIVO, StatusProjeto.ARQUIVADO].includes(p.statusProjeto as StatusProjeto)
+          );
+          const todos = [...emAprovacao, ...outros];
+          this.projetos = ordenarProjetos(todos, StatusProjeto.EM_APROVACAO);
+        });
+    break;
+
+
+      default: 
+      console.warn('Usuário desconhecido');
+      this.projetos = [];
+      break;
+  }
+}
 
   aplicarFiltros() {
     const nome = this.filtroNome.value?.trim() || '';
-    const periodo = this.filtroPeriodo.value;
+    const status = this.filtroStatus.value;
 
-    // Somente período
-    if (periodo && !nome) {
-      this.projetoService.buscarPorPeriodo(periodo)
-        .subscribe(projs => this.projetos = projs);
-      return;
+    let projetosFiltrados = [...this.projetos];
+
+    if (nome) {
+      projetosFiltrados = projetosFiltrados.filter(p =>
+        p.nomeDoProjeto.toLowerCase().includes(nome.toLowerCase())
+      );
     }
 
-    // Somente nome
-    if (nome && !periodo) {
-      this.projetoService.buscarPorNome(nome)
-        .subscribe(projs => this.projetos = projs);
-      return;
+    if (status) {
+      projetosFiltrados = projetosFiltrados.filter(p =>
+        p.statusProjeto === status
+      );
     }
 
-    // Nome + período
-    if (nome && periodo) {
-      this.projetoService.buscarPorPeriodo(periodo)
-        .subscribe(projs => {
-          this.projetos = projs.filter(p =>
-            p.nomeDoProjeto.toLowerCase().includes(nome.toLowerCase())
-          );
-        });
-      return;
-    }
 
-    // Sem filtro
     this.carregarProjetos();
   }
 
@@ -101,7 +163,7 @@ export class VisualProjetoComponent implements OnInit {
 
   limparFiltros() {
     this.filtroNome.setValue('');
-    this.filtroPeriodo.setValue(null); 
+    this.filtroStatus.setValue(null); 
     this.carregarProjetos();
   }
 

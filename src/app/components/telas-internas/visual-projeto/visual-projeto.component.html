@@ -27,12 +27,12 @@
       <div class="period-wrapper">
         <select id="filtro-periodo"
                 class="form-select filter-select"
-                [formControl]="filtroPeriodo">
+                [formControl]="filtroStatus">
 
-          <option value="">Todos os períodos</option>
+          <option value="">Todos os status</option>
 
-          <option *ngFor="let p of periodosDisponiveis" [value]="p.value">
-            {{ p.label }}
+          <option *ngFor="let s of statusDisponiveis" [value]="s">
+            {{ s }}
           </option>
 
         </select>
@@ -73,7 +73,7 @@
               </p>
 
               <p class="card-text mt-2">
-                <strong>Período:</strong> {{ projeto.periodo }}
+                <strong>Status:</strong> {{ projeto.statusProjeto || '-' }}
               </p>
             </div>
 

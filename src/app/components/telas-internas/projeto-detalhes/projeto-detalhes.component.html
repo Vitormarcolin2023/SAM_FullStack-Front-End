@@ -74,13 +74,13 @@
     <i class="fas fa-arrow-left"></i> Voltar
   </button>
 
-  <ng-container *ngIf="userRole === 'alunoAdmin'">
-    <button class="btn editar" (click)="editarProjeto()">
-      <i class="fas fa-edit"></i> Atualizar Projeto
-    </button>
+  <ng-container>
+<button *ngIf="userRole === 'ALUNO_ADMIN' || userRole === 'COORDENADOR'"
+        (click)="editarProjeto()">Editar</button>
 
-    <button class="btn deletar" (click)="deletarProjeto()">
-      <i class="fas fa-trash-alt"></i> Deletar Projeto
-    </button>
+<button *ngIf="userRole === 'ALUNO_ADMIN' || userRole === 'COORDENADOR'"
+        (click)="deletarProjeto()">Arquivar</button>
+
   </ng-container>
+ 
 </div>

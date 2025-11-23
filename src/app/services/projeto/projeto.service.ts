@@ -22,9 +22,10 @@ export class ProjetoService {
     return this.http.get<Projeto[]>(`${this.API}/buscar-por-nome?nome=${nome}`);
   }
 
-  buscarPorArea(areaDeAtuacaoId: number): Observable<Projeto[]> {
+   buscarPorArea(areaDeAtuacaoId: number): Observable<Projeto[]> {
     return this.http.get<Projeto[]>(`${this.API}/buscar-por-atuacao?areaDeAtuacao=${areaDeAtuacaoId}`);
   }
+
 
   buscarPorPeriodo(periodo: string): Observable<Projeto[]> {
   return this.http.get<Projeto[]>(`${this.API}/buscar-por-periodo`, {
@@ -45,24 +46,31 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
     return this.http.delete(`${this.API}/delete/${id}`);
   }
 
+
   findByMentor(id: number): Observable<Projeto[]>{
     return this.http.get<Projeto[]>(`${this.API}/mentor/${id}`);
+  }
+
+  buscarProjetosAtivos(mentorId: number): Observable<Projeto[]> {
+    return this.http.get<Projeto[]>(`${this.API}/buscar-projetos-ativos-mentor/${mentorId}`);
   }
 
   buscarPorProfessor(professorId: number): Observable<Projeto[]> {
     return this.http.get<Projeto[]>(`${this.API}/professor/${professorId}`);
   }
 
+  buscarProjetosDoAluno(id: number): Observable<Projeto[]> {
+    return this.http.get<Projeto[]>(`${this.API}/aluno/${id}`);
+  }
+
+   buscarProjetoAtivo(alunoId: number): Observable<Projeto> {
+    return this.http.get<Projeto>(`${this.API}/buscar-projeto-ativo/${alunoId}`);
+  }
+
+
   arquivarProjeto(id: number): Observable<any> {
     return this.http.put(`/projetos/${id}/arquivar`, {});
   }
 
-
-  buscarProjetoAtivo(alunoId: number): Observable<Projeto>{
-    return this.http.get<Projeto>(`${this.API}/buscar-projeto-ativo/${alunoId}`);
-  }
-
-  buscarProjetosAtivos(mentorId: number): Observable<Projeto[]> {
-    return this.http.get<Projeto[]>(`${this.API}/buscar-projetos-ativos-mentor/${mentorId}`);
-  }
+  
 }
