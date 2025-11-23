@@ -27,6 +27,6 @@ export class AvaliacaoService {
   private http = inject(HttpClient);
 
   saveAvaliacao(avaliacao: Avaliacao): Observable<Avaliacao>{
-    return this.http.post<Avaliacao>(`${this.api}/${avaliacao.projeto.id}`, avaliacao);
+    return this.http.post<Avaliacao>(`${this.api}/projeto/${avaliacao.projeto.id}`, avaliacao);
   }
 }
