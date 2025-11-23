@@ -1,16 +1,21 @@
 @use '../../../../styles/variaveis.scss' as *;
 
 .tabela-card {
+  /* Centralização */
+  max-width: 900px; 
+  margin: 10px auto; /* Centraliza horizontalmente o elemento de bloco */
+
+  /* Estilos Existentes/Mantidos */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 30px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 10px 10px;
 }
 
 .tabela-card-interna {
   width: 100%;
   border-collapse: collapse;
+  padding: 10px;
 }
 
 .tabela-card-interna th,
@@ -84,33 +89,42 @@
 
 .btn-ativar-mentor {
   background-color: $btn-acao;
-  color: #fff;
+  color:  #006e44;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-weight: 600;
+  margin-right: 10px;
 
   &:hover {
     background-color: $btn-hover;
     transform: translateY(-2px);
+    color: #fff;
   }
 }
 
 .btn-desativar-mentor {
-  background-color: transparent;
-  color: $btn-color-verde;
-  border: 1px solid $btn-color-verde;
-  padding: 8px 16px;
+  background-color: #ccc;
+  color:  #333;
+  border: 1px ;
+  padding: 8px 8px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease, transform 0.2s ease;
   font-weight: 600;
 
   &:hover {
-    background-color: $btn-color-verde;
+    background-color: #dc3545;
     color: #fff;
     transform: translateY(-2px);
   }
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 2px;
+  margin-bottom: 15px;
+  border-color: #00995E;
 }

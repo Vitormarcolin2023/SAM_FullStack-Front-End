@@ -12,16 +12,12 @@
         <div class="info-content">
           <div class="header-com-botao">
             <h4>{{ grupo.nome }}</h4>
-            <div>
-              <button
+            <i
                 *ngIf="isUserAdmin()"
+                class="fa-solid fa-pen text-muted edit-icon"
                 (click)="abrirModalEdicao()"
-                type="button"
-                class="btn btn-primary btn-sm"
-                mdbRipple
-              >
-                <i class="fas fa-pencil-alt me-2"></i> Editar
-              </button>
+              ></i>
+            <div class>
               <button *ngIf="isUserAdmin()"
                 type="button"
                 class="btn btn-primary btn-sm btn-arquivar"

@@ -1,186 +1,357 @@
 @use '../../../../styles/variaveis' as *;
 
-.cadastro-container {
+/* 
+   CONTAINER PRINCIPAL
+*/
+:host {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Mantém o card no topo quando houver scroll */
-  min-height: 100vh;
-  padding: 20px; 
-  margin-top: 60px;
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
-
-.form-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 5px;
-  width: 80%;
-  max-width: 800px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-
-  display: flex;
-  flex-direction: column;
-
-  min-height: 400px;
-  max-height: 90vh; 
-  overflow-y: auto; 
-}
-
-/* Container de rolagem para o conteúdo */
-.form-scroll-content {
-  flex-grow: 1; 
-  overflow-y: auto; 
-  padding-right: 15px; 
-  margin-bottom: 10px; 
-}
-
-
-.form-scroll-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.form-scroll-content::-webkit-scrollbar-track {
-  background: $fundo-elemento;
-  border-radius: 4px;
-}
-
-.form-scroll-content::-webkit-scrollbar-thumb {
-  background-color: $titulos-verde;
-  border-radius: 4px;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: $titulos-verde;
-}
-
-h3 {
-  color: $titulos-verde;
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-.form-step {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 25px;
-}
-
-.form-step:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-input,
-select,
-textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  align-items: flex-start;
   width: 100%;
-  font-size: 14px;
-  margin-bottom: 10px;
+  min-height: 100vh;
+  padding: 20px 20px 50px 20px;
+  background-color: $background-geral;
+
+  @media (min-width: 992px) {
+    padding-left: 120px; /* espaço da sidebar */
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1500px;
+  margin-left: 0; /* corrigido */
+}
+
+/* 
+   CARD PRINCIPAL
+*/
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  border: 1px solid $linha;
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-body {
+  padding: 24px 28px;
+}
+
+/* 
+   TÍTULOS
+*/
+h3 {
+  text-align: center;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  color: $titulos-verde;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: $titulos-verde;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $linha;
+}
+
+/* 
+   INPUTS E FORM CONTROLS
+*/
+.form-label {
+  font-weight: 600;
+  color: #4c5854;
+  margin-bottom: 4px;
+}
+
+.form-control {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    border-color: $btn-acao;
+    box-shadow: 0 0 0 3px rgba($btn-acao, 0.2);
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #f1f1f1;
+  }
+}
+
+select {
+  background: white;
+  border-radius: 8px;
 }
 
 textarea {
-  resize: vertical; 
+  resize: vertical;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: -10px;
-  margin-bottom: 5px;
+/* 
+   ERROS
+*/
+.text-danger {
+  font-size: 0.85rem;
 }
 
-.form-buttons-container {
-  padding-top: 15px;
-}
-
-.buttons-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.buttons-row button {
-  flex: 1;
-  padding: 7px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.buttons-row button:not(.btn-back) {
-  background-color: $btn-acao;
-  color: $btn-color-verde;
-}
-
-.buttons-row button:not(.btn-back):hover {
-  background-color: $btn-hover;
-  color: #fff;
-}
-
-.buttons-row button.btn-back {
+/* 
+   FOOTER DO CARD
+*/
+.card-footer {
   background-color: $fundo-elemento;
-  color: #333;
+  padding: 20px 28px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid $linha;
 }
 
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.25s ease;
+
+  i {
+    margin-right: 6px;
+  }
+}
+
+.btn-primary {
+  background-color: $btn-acao;
+  color: #00995E;
+
+  &:hover {
+    background-color: $btn-hover;
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+
+  &:hover {
+    background-color: #5a6268;
+  }
+}
+
+/* 
+   PROFESSORES SELECIONADOS
+*/
 .professores-selecionados-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 10px;
 }
+
 .badge-professor-selecionado {
   background-color: $titulos-verde;
-  color: white;
-  padding: 5px 5px;
-  border-radius: 15px;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   font-size: 13px;
 }
+
 .btn-remover-professor {
   background: transparent;
   border: none;
-  margin-left: 8px;
-  color: white;
-  font-weight: bold;
+  color: #fff;
+  margin-left: 6px;
   cursor: pointer;
-   font-size: 14px;
+  font-weight: bold;
+  font-size: 16px;
   line-height: 1;
 }
+
+/* 
+   LISTA DE PROFESSORES
+*/
 .list-professores {
-  max-height: 120px;
+  max-height: 150px;
   overflow-y: auto;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
   background: white;
-   margin-top: 5px;
+  margin-top: 5px;
 }
+
 .professores-list-container {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .professores-list-container li {
-  padding: 3px;
+  padding: 8px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
-  transition: background-color 0.2s;
-}
-.professores-list-container li:hover {
-  background-color: #f0f0f0;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: #f4f4f4;
+  }
 }
 
 .professor-selecionado {
   background-color: lighten($titulos-verde, 40%);
+}
+
+/* 
+   BOTÃO SELECIONAR
+*/
+.btn-selecionar {
+  background-color: $btn-acao;
+  color: $btn-color-verde;
+  border: 1px solid $btn-border;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+
+  &:hover {
+    background-color: $btn-hover;
+    color: #fff;
+  }
+}
+
+/* 
+   MODAL DE MENTOR
+*/
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: white;
+  width: 750px;
+  max-width: 95%;
+  padding: 25px;
+  border-radius: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-box::-webkit-scrollbar-thumb {
+  background: #7ab97a;
+  border-radius: 4px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 7px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}
+
+.mentor-list {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mentor-item {
+  background: $fundo-elemento;
+  border: 1px solid $btn-border;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: lighten($fundo-elemento, 5%);
+  }
+}
+
+.btn-fechar {
+  padding: 8px 16px;
+  background: $btn-acao;
+  color: $btn-color-verde;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid $btn-border;
+
+  &:hover {
+    background: $btn-hover;
+    color: white;
+  }
+}
+
+/*modal mentor*/
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px; /* AQUI CRIA ESPAÇO */
+  font-size: 14px;
+}
+
+
+/* 
+   RESPONSIVO
+*/
+@media (max-width: 768px) {
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .mentor-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.linha{
+  width: 100%;
+  border-bottom: solid 2px;
+  border-color: #00995E;
+}
+
+textarea {
+  resize: none;
 }

@@ -1,5 +1,5 @@
-import { Grupo } from "../grupo/grupo";
-import { Mentor } from "../mentor/mentor";
+import { Time } from "@angular/common";
+import { Projeto } from "../projeto/projeto";
 
 
 export enum FormatoReuniao {
@@ -21,8 +21,9 @@ export class Reuniao {
   hora: string;
   formatoReuniao: FormatoReuniao;
   statusReuniao: StatusReuniao;
-  mentor?: Mentor;
-  grupo?: Grupo;
+  projeto: Projeto;
+  solicitadoPor: string;
+  motivoRecusa: string;
 
   constructor(
     assunto: string,
@@ -30,9 +31,10 @@ export class Reuniao {
     hora: string,
     formatoReuniao: FormatoReuniao,
     statusReuniao: StatusReuniao,
+    solicitadoPor: string,
+    projeto: Projeto,
+    motivoRecusa: string,
     id?: number,
-    mentor?: Mentor,
-    grupo?: Grupo
   ) {
     this.id = id;
     this.assunto = assunto;
@@ -40,7 +42,17 @@ export class Reuniao {
     this.hora = hora;
     this.formatoReuniao = formatoReuniao;
     this.statusReuniao = statusReuniao;
-    this.mentor = mentor;
-    this.grupo = grupo;
+    this.projeto = projeto;
+    this.solicitadoPor = solicitadoPor;
+    this.motivoRecusa = motivoRecusa;
   }
+}
+
+export interface ReuniaoDto {
+  assunto: string;
+  data: string;
+  hora: string;
+  formatoReuniao: FormatoReuniao;
+  projeto_id: number;
+  solicitadoPor: any;
 }

@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Mentor } from '../../../models/mentor/mentor';
 import { MentorService } from '../../../services/mentores/mentores.service';
 import { CoordenadorService } from '../../../services/coordenacao/coordenador.service';
@@ -35,6 +36,7 @@ export class ListarMentorComponent implements OnInit {
     const token = localStorage.getItem('token');
     if (token) {
       try {
+        // Decodificação do payload do JWT
         const payload = JSON.parse(atob(token.split('.')[1]));
         return payload.email ?? payload.sub ?? '';
       } catch (e) {
@@ -86,7 +88,7 @@ export class ListarMentorComponent implements OnInit {
           this.usuario = professor;
           
           if (professor.cursos && professor.cursos.length > 0) {
-             this.areasDeAtuacao = professor.cursos
+              this.areasDeAtuacao = professor.cursos
                .map((curso: Curso) => curso.areaDeAtuacao?.nome)
                .filter((nome: string | undefined): nome is string => !!nome);
           }
@@ -121,7 +123,7 @@ export class ListarMentorComponent implements OnInit {
           } else if (this.userRole === 'COORDENADOR') {
             console.warn('[COORDENADOR] Nenhuma área de atuação definida para filtragem.');
           } else {
-             console.warn('[PROFESSOR] Nenhuma área de atuação definida para filtragem.');
+              console.warn('[PROFESSOR] Nenhuma área de atuação definida para filtragem.');
           }
         } else {
           mentoresFiltrados = [];
@@ -143,23 +145,51 @@ export class ListarMentorComponent implements OnInit {
     });
   }
 
-  private showAlert(message: string): void {
-    console.warn(`Notificação (Substituir por Modal/Toast): ${message}`);
+  /**
+   * Exibe um alerta/notificação usando SweetAlert2.
+   * @param message A mensagem a ser exibida.
+   * @param icon O ícone da mensagem ('success', 'error', 'warning', 'info', 'question').
+   */
+  private showAlert(message: string, icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'warning'): void {
+    Swal.fire({
+      icon: icon,
+      title: message,
+      // Se preferir um toast, pode usar as seguintes opções (e remover o 'title'):
+      // toast: true,
+      // position: 'top-end',
+      // showConfirmButton: false,
+      // timer: 3000,
+    });
   }
   
+  /**
+   * Exibe um modal de confirmação usando SweetAlert2.
+   * @param message A mensagem de confirmação.
+   * @returns Promise<boolean> que resolve para true se confirmado, false caso contrário.
+   */
   private showConfirmationModal(message: string): Promise<boolean> {
-    console.warn(`Confirmação (Substituir por Modal): ${message}`);
-    return Promise.resolve(true); 
+    return Swal.fire({
+        title: message,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: ' #00995E',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, confirmar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result: SweetAlertResult) => {
+        return result.isConfirmed; 
+    });
   }
-  
+
+  //Ativar Mentor (Usado para status PENDENTE)
   ativarMentor(mentorId: number | undefined): void {
     if (this.userRole !== 'COORDENADOR') {
-      this.showAlert('Apenas Coordenadores podem ativar mentores.');
+      this.showAlert('Apenas Coordenadores podem ativar mentores.', 'error');
       return;
     }
     
     if (mentorId === undefined) {
-      this.showAlert('Não foi possível ativar o mentor. ID não encontrado.');
+      this.showAlert('Não foi possível ativar o mentor. ID não encontrado.', 'error');
       return;
     }
 
@@ -167,26 +197,52 @@ export class ListarMentorComponent implements OnInit {
       if (confirmarAtivacao) {
         this.coordenadorService.ativarMentor(mentorId).subscribe({
           next: () => {
-            console.log('Mentor ativado com sucesso!');
+            this.showAlert('Mentor ativado com sucesso!', 'success');
             this.loadMentors(); 
           },
           error: (erro) => {
             console.error('Erro ao ativar mentor:', erro);
-            this.showAlert('Ocorreu um erro e o mentor não pôde ser ativado.');
+            this.showAlert('Ocorreu um erro e o mentor não pôde ser ativado.', 'error');
           },
         });
       }
     });
   }
 
+  //Reativar Mentor (Usado para status INATIVO)
+  reativarMentor(mentorId: number | undefined): void {
+    if (this.userRole !== 'COORDENADOR' || mentorId === undefined) {
+      this.showAlert('Apenas Coordenadores podem reativar mentores.', 'error');
+      return;
+    }
+
+    // Mensagem diferente: Reativar
+    this.showConfirmationModal('Você tem certeza que deseja REATIVAR este mentor?').then(confirmarReativacao => {
+      if (confirmarReativacao) {
+          // Chama o mesmo serviço de ativação 
+          this.coordenadorService.ativarMentor(mentorId).subscribe({
+              next: () => {
+                  this.showAlert('Mentor reativado com sucesso!', 'success');
+                  this.loadMentors(); 
+              },
+              error: (erro) => {
+                  console.error('Erro ao reativar mentor:', erro);
+                  this.showAlert('Ocorreu um erro e o mentor não pôde ser reativado.', 'error');
+              },
+          });
+      }
+    });
+  }
+
+  //Desativar Mentor
   desativarMentor(mentorId: number | undefined): void {
     if (this.userRole !== 'COORDENADOR') {
-      this.showAlert('Apenas Coordenadores podem desativar mentores.');
+      this.showAlert('Apenas Coordenadores podem desativar mentores.', 'error');
       return;
     }
     
     if (mentorId === undefined) {
-      this.showAlert('Não foi possível desativar o mentor. ID não encontrado.');
+      this.showAlert('Não foi possível desativar o mentor. ID não encontrado.', 'error');
       return;
     }
 
@@ -194,12 +250,12 @@ export class ListarMentorComponent implements OnInit {
       if (confirmarDesativacao) {
         this.coordenadorService.inativarMentor(mentorId).subscribe({
           next: () => {
-            console.log('Mentor desativado com sucesso!');
+            this.showAlert('Mentor desativado com sucesso!', 'success');
             this.loadMentors(); 
           },
           error: (erro) => {
             console.error('Erro ao desativar mentor:', erro);
-            this.showAlert('Ocorreu um erro e o mentor não pôde ser desativado.');
+            this.showAlert('Ocorreu um erro e o mentor não pôde ser desativado.', 'error');
           },
         });
       }

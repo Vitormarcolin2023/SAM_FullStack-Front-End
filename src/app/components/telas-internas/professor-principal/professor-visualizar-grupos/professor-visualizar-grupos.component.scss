@@ -1,0 +1,369 @@
+@use "../../../../../styles/variaveis.scss" as *;
+
+// Importação do Font Awesome
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $background-geral; // Aplicado
+}
+
+.content-wrapper {
+  width: 100%;
+  padding: 2.5rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.container-centralizado {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho */
+.grupo-header {
+  text-align: center;
+  margin-bottom: 1.5rem; /* Reduzido o margin-bottom para dar espaço ao filtro */
+  padding: 0 1rem;
+
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: $titulos-verde; // Aplicado
+    margin-bottom: 0.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: $tabelas-mdb; // Aplicado
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+/* --- BARRA DE FILTRO ESTILIZADA (NOVA SEÇÃO) --- */
+.filter-section {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid $linha;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  .filter-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Alinha o contador de resultados com o seletor */
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .filter-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: $tabelas-mdb;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: $icons;
+      }
+    }
+
+    .select-container {
+      position: relative;
+      width: 250px;
+
+      .custom-select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid $btn-border;
+        border-radius: 8px;
+        background-color: $fundo-elemento;
+        color: $tabelas-mdb;
+        appearance: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: $icons;
+          background-color: #fff;
+          box-shadow: 0 0 0 3px rgba($icons, 0.15);
+        }
+      }
+
+      .select-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $icons;
+        pointer-events: none; /* Garante que o clique passe para o select */
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .result-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: lighten($icons, 55%);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+
+    .count-number {
+      font-weight: 800;
+      color: darken($icons, 10%);
+      font-size: 1.1rem;
+    }
+
+    .count-text {
+      font-size: 0.9rem;
+      color: $tabelas-mdb;
+    }
+  }
+}
+/* FIM DA BARRA DE FILTRO */
+
+/* Conteúdo (Grid e Estados) */
+.grupo-content {
+  width: 100%;
+}
+
+/* Grid */
+.grupo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.75rem;
+  padding: 0.5rem;
+}
+
+/* Card do Grupo */
+.grupo-card {
+  background-color: #ffffff; // Mantido branco para contraste com $background-geral
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid $linha; // Aplicado
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: $icons;
+  }
+
+  /* Cabeçalho do Card */
+  .card-header {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid $linha; // Aplicado
+    background-color: #fafafa;
+
+    .avatar-placeholder {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      // Cor de fundo mais clara baseada na sua variável de ícone
+      background-color: lighten($icons, 40%);
+      color: $icons; // Aplicado
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .grupo-identity {
+      overflow: hidden;
+      .grupo-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: $tabelas-mdb; // Aplicado
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .grupo-admin {
+        font-size: 0.85rem;
+        color: #777;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-top: 0.25rem;
+
+        i {
+          font-size: 0.8rem;
+          color: $icons;
+        }
+      }
+    }
+  }
+
+  /* Corpo do Card */
+  .card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    border-bottom: 1px dashed lighten($linha, 5%);
+
+    .periodo-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $titulos-verde; // Aplicado
+      margin-bottom: 0.5rem;
+    }
+
+    .grupo-status {
+      font-size: 0.9rem;
+      color: $tabelas-mdb; // Aplicado
+      line-height: 1.5;
+    }
+  }
+
+  /* Rodapé do Card */
+  .card-footer {
+    padding: 1.5rem;
+
+    .grupo-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem; /* Aumentado um pouco o gap */
+
+      .tag {
+        font-size: 0.8rem; /* Aumentado levemente */
+        font-weight: 600; /* Mais negrito */
+        padding: 0.4rem 0.8rem; /* Ajustado o padding */
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex: 1;
+        justify-content: center;
+
+        i {
+          font-size: 0.9rem;
+        }
+      }
+
+      .tag-membros {
+        background-color: lighten($icons, 40%); // Aplicado
+        color: darken($icons, 10%); /* Mais contraste */
+      }
+
+      .tag-projetos {
+        background-color: lighten($btn-color-verde, 50%); // Aplicado
+        color: darken($btn-color-verde, 10%); /* Mais contraste */
+      }
+    }
+  }
+}
+
+/* Estados (Loading e Vazio) */
+.state-message {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: $tabelas-mdb; // Aplicado
+
+  .lead {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .lead-small {
+    font-size: 1rem;
+  }
+
+  &.empty-state {
+    .empty-icon {
+      font-size: 4rem;
+      color: $btn-border; // Aplicado
+      margin-bottom: 1.5rem;
+    }
+    .lead {
+      color: $tabelas-mdb; // Aplicado
+    }
+  }
+}
+
+/* Spinner (simples) */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid $fundo-elemento; // Aplicado
+  border-top-color: $icons; // Aplicado
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  /* Filtro em mobile */
+  .filter-section {
+    .filter-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .filter-item .select-container {
+      width: 100%;
+    }
+    .result-count {
+      justify-content: center;
+    }
+  }
+
+  .grupo-header {
+    margin-bottom: 1.5rem;
+    .section-title {
+      font-size: 1.8rem;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .grupo-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .grupo-card {
+    .card-header,
+    .card-body,
+    .card-footer {
+      padding: 1rem;
+    }
+    .card-footer .grupo-tags {
+      flex-direction: column;
+    }
+  }
+}

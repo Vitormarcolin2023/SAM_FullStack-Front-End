@@ -1,97 +1,152 @@
 @use '../../../../styles/variaveis' as *;
 
-
+   //LAYOUT PRINCIPAL
 
 main.conteudo-central {
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
-  min-height: 100vh;
-  padding: 20px; 
-  margin-top: 60px;
-
- 
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
-
-.cadastro-container::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(255, 255, 255, 0.4); 
-  z-index: -1;
-}
-
-
-.form-box {
- background: rgba(255, 255, 255, 0.95);
+  align-items: flex-start;
   padding: 20px;
-  border-radius: 5px;
-  width: 80%;
-  max-width: 900px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-
-  display: flex;
-  flex-direction: column;
-
-  min-height: 400px;
-  max-height: 90vh; 
-  overflow-y: auto; 
+  margin-top: 1px;
+  min-height: 100vh;
 }
 
+/* Card principal onde tudo fica */
+.content-card {
+  background: rgba(255, 255, 255, 0.97);
+  width: 90%;
+  max-width: 1200px;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+}
 
-.input-group .form-control {
-  border-color: $btn-acao;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px;
+/* 
+   BARRA DE FILTROS
+*/
+
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px;
+  background: #f8f9fa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+}
+
+/* Caixa de busca */
+.search-wrapper {
+  flex: 1;
+}
+
+.search-input-group {
+  width: 100%;
+}
+
+.search-input {
+  border: 1px solid $btn-acao;
+  border-radius: 25px 0 0 25px;
+  padding-left: 15px;
+  font-size: 15px;
 
   &:focus {
-    box-shadow: 0 0 0 0.2rem rgba(28, 232, 151, 0.25);
     border-color: $btn-acao;
+    box-shadow: 0 0 0 0.2rem rgba(28, 232, 151, 0.25);
   }
 }
 
-.input-group-text {
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  background-color: transparent;
-  color: $titulos-verde;
+.search-icon {
+  border-radius: 0 25px 25px 0;
+  background: none;
   border: 1px solid $btn-acao;
   border-left: none;
+  color: $titulos-verde;
 }
 
+/* Select do período */
+.period-wrapper {
+  width: 220px;
+}
+
+.filter-select {
+  border-radius: 25px;
+  border: 1px solid $btn-acao;
+
+  &:focus {
+    border-color: $btn-acao;
+    box-shadow: 0 0 0 0.2rem rgba(28, 232, 151, 0.25);
+  }
+}
+
+/* Botão adicionar */
+.add-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-btn {
+  border-radius: 25px;
+  padding: 8px 22px;
+  font-weight: 500;
+  background-color: $btn-acao !important;
+  border-color: $btn-acao !important;
+
+  i {
+    margin-right: 6px;
+  }
+}
+
+/* 
+   LISTA DE PROJETOS
+ */
 
 .card-pequeno {
   width: 100%;
-  border-radius: 8px;
-  margin: 0 auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 260px;
+  border-radius: 10px;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.18);
+  }
 
   .card-img-top {
-    height: 140px;
+    height: 150px;
     object-fit: cover;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
   }
 
   .card-body {
-    padding: 0.7rem;
+    padding: 0.9rem;
 
     .card-title {
       font-size: 1rem;
       font-weight: bold;
-      margin-bottom: 0.5rem;
       color: $titulos-verde;
+      margin-bottom: 0.4rem;
     }
 
     .card-text {
       font-size: 0.85rem;
       color: #555;
     }
+  }
+}
+
+/* 
+   EMPTY STATE (sem projetos)
+ */
+
+.empty-state {
+  opacity: 0.7;
+  
+  .empty-img {
+    width: 150px;
+  }
+
+  p {
+    font-size: 1.1rem;
   }
 }

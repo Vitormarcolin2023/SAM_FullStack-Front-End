@@ -1,64 +1,100 @@
 <app-sidebar></app-sidebar>
 
 <main class="conteudo-central">
-    <div class="form-box">
- 
-       <!-- Campo de busca -->
-  <section class="row mb-4">
-    <div class="col-md-6">
-      <div class="input-group">
-        <input 
-          id="busca-projeto"
-          type="text" 
-          class="form-control" 
-          placeholder="Buscar por nome" 
-          [formControl]="filtroNome"
-          aria-label="Buscar por nome"
-          aria-describedby="icone-buscar"
-        >
-        <span class="input-group-text" id="icone-buscar">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </span>
+
+  <div class="content-card shadow-sm">
+
+    <!-- 🔍 Barra de filtros -->
+    <section class="filters-bar mb-3">
+
+      <!-- Campo de Nome -->
+      <div class="search-wrapper">
+        <div class="input-group search-input-group">
+          <input 
+            id="busca-projeto"
+            type="text" 
+            class="form-control search-input" 
+            placeholder="Buscar por nome" 
+            [formControl]="filtroNome"
+          >
+          <span class="input-group-text search-icon" id="icone-buscar">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Lista de projetos -->
-  <section class="row">
-    <ng-container *ngIf="projetos.length > 0; else vazioTemplate">
-      
-        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex"
-         *ngFor="let projeto of projetos">
-          <div 
-              class="card h-100 shadow-sm card-pequeno w-100"
-              style="cursor: pointer;"
-              (click)="abrirModalDetalhes(projeto)"
-            >
-            <div class="card h-100 shadow-sm card-pequeno">
-              <img 
-                src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" 
-                class="card-img-top" 
-                alt="Imagem do Projeto"
-              >
-              <div class="card-body">
-                <h5 class="card-title">{{ projeto.nomeDoProjeto }}</h5>
-                <p class="card-text">{{ projeto.descricao || 'Sem descrição.' }}</p>
-              </div>
-              </div>
-            </div>
-            </div>
-          </ng-container>
-     
+      <!-- Campo de Período -->
+      <div class="period-wrapper">
+        <select id="filtro-periodo"
+                class="form-select filter-select"
+                [formControl]="filtroPeriodo">
 
-    <!-- Template quando não há projetos -->
-     <ng-template #vazioTemplate>
-      <div class="col-12 text-center mt-4">
-        <a [routerLink]="'/criar-projeto'" class="btn btn-outline-success">
-          <span class="fs-3 me-2">+</span>
-          Adicionar novo projeto
+          <option value="">Todos os períodos</option>
+
+          <option *ngFor="let p of periodosDisponiveis" [value]="p.value">
+            {{ p.label }}
+          </option>
+
+        </select>
+      </div>
+
+      <!-- Botão adicionar -->
+      <div class="add-btn-wrapper">
+        <a [routerLink]="'/criar-projeto'" class="btn btn-success add-btn">
+          <i class="fas fa-plus me-2"></i> Novo Projeto
         </a>
       </div>
-    </ng-template>
-  </section>
+
+    </section>
+
+    <!-- Lista de Projetos -->
+    <section class="row mt-4 px-2">
+
+      <ng-container *ngIf="projetos.length > 0; else vazioTemplate">
+
+        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex"
+             *ngFor="let projeto of projetos; trackBy: trackByProjetoId">
+
+          <div class="card h-100 shadow-sm card-pequeno w-100 card-hover"
+               (click)="abrirModalDetalhes(projeto)">
+
+            <img 
+              src="https://mdbcdn.b-cdn.net/img/new/standard/nature/182.webp" 
+              class="card-img-top" 
+              alt="Imagem do Projeto">
+
+            <div class="card-body">
+              <h5 class="card-title mb-2">
+                {{ projeto.nomeDoProjeto }}
+              </h5>
+
+              <p class="card-text text-muted">
+                {{ projeto.descricao || 'Sem descrição.' }}
+              </p>
+
+              <p class="card-text mt-2">
+                <strong>Período:</strong> {{ projeto.periodo }}
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+      
+      <!--Quando não há projetos -->
+      <ng-template #vazioTemplate>
+        <div class="col-12 text-center mt-5 empty-state">
+          <img src="assets/empty.svg" alt="Nada encontrado" class="empty-img mb-3">
+          <p class="text-muted">Nenhum projeto encontrado.</p>
+
+        </div>
+      </ng-template>
+
+    </section>
+
   </div>
+
 </main>

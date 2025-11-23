@@ -33,7 +33,13 @@ import { AlunoVisualizarMentorComponent } from './components/telas-internas/alun
 import { VisualizarprojetosComponent } from './components/telas-internas/visualizar-projetos/visualizarprojetos.component';
 import { CoordenacaoPrincipalComponent } from './components/telas-internas/coordenacao-principal/coordenacao-principal.component';
 import { CoordenacaoDetaisComponent } from './components/telas-internas/coordenacao-principal/coordenacao-detais/coordenacao-detais.component';
+import { ProfessorPrincipalComponent } from './components/telas-internas/professor-principal/professor-principal.component';
+import { ProfessorVisualizarGruposComponent } from './components/telas-internas/professor-principal/professor-visualizar-grupos/professor-visualizar-grupos.component';
 import { AvaliacoesAlunosComponent } from './components/telas-internas/avaliacoes/avaliacoes-alunos/avaliacoes-alunos.component';
+
+import { CriarReuniaoComponent } from './components/telas-internas/reuniao/criar-reuniao/criar-reuniao.component';
+import { ReuniaoComponent } from './components/telas-internas/reuniao/reuniao.component';
+import { VisualizarReunioesComponent } from './components/telas-internas/reuniao/visualizar-reunioes/visualizar-reunioes.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -120,16 +126,35 @@ export const routes: Routes = [
     ],
   },
 
+
+  {
+    path: 'reuniao',
+    component: ReuniaoComponent,
+    children: [
+      { 
+        path: 'solicitar-reuniao', 
+        component: CriarReuniaoComponent, 
+      },
+      {
+        path: 'visualizar-reunioes',
+        component: VisualizarReunioesComponent,
+      },
+    ],
+  },
+
   //Rota da Coordenação
   {
     path: 'coordenacao',
     component: CoordenacaoPrincipalComponent,
     children: [
-      { path: 'coordenacao-editar/:email', component: CoordenacaoDetaisComponent },
+      {
+        path: 'coordenacao-editar/:email',
+        component: CoordenacaoDetaisComponent,
+      },
       //{ path: 'aluno-editar/:email', component: },
       //{
       //  path: 'aluno-visualizar-mentor',
-        //component: AlunoVisualizarMentorComponent,
+      //component: AlunoVisualizarMentorComponent,
       //},
     ],
   },
@@ -144,12 +169,25 @@ export const routes: Routes = [
   { path: 'projetos/:id', component: ProjetoDetalhesComponent },
   { path: 'editar-projeto/:id', component: CriarProjetoComponent },
 
+  //Rota para professor
+  {
+    path: 'professor',
+    component: ProfessorPrincipalComponent,
+    children: [
+      {
+        path: 'visualizar-grupos',
+        component: ProfessorVisualizarGruposComponent,
+      },
+    ],
+  },
+
   // Rota protegida pelo mentorStatusGuard
   {
     path: 'mentor-perfil',
     component: MentorPerfilComponent,
     canActivate: [mentorStatusGuard],
   },
+
 
   // Fallback (rota não encontrada)
 
