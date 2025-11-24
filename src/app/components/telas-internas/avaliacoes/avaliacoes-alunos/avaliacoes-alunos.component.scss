@@ -174,3 +174,16 @@ hr {
     transform: rotate(360deg);
   }
 }
+
+.container-projeto {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+
+
+  label {
+    font-weight: 600;
+    color: $tabelas-mdb;
+  }
+}
