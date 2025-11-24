@@ -29,4 +29,8 @@ export class AvaliacaoService {
   saveAvaliacao(avaliacao: Avaliacao): Observable<Avaliacao>{
     return this.http.post<Avaliacao>(`${this.api}/projeto/${avaliacao.projeto.id}`, avaliacao);
   }
+
+  alunoRespondeuAvaliacao(alunoId: number, projetoId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.api}/verifica-pendencia-aluno/${alunoId}/projeto/${projetoId}`);
+  }
 }

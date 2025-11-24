@@ -34,6 +34,7 @@ export class AvaliacoesAlunosComponent {
   projeto!: Projeto;
   alunos: Aluno[] = [];
   coordenador!: Coordenador;
+  alunoLogado!: Aluno;
 
   projetoService = inject(ProjetoService);
   mentorService = inject(MentorService);
@@ -116,6 +117,7 @@ export class AvaliacoesAlunosComponent {
   carregarProjetoAluno() {
     this.alunoService.getMyProfile().subscribe({
       next: (aluno) => {
+        this.alunoLogado = aluno;
         if (aluno.id) {
           this.projetoService
             .buscarProjetoAguardandoAvaliacaoAluno(aluno.id)
@@ -132,8 +134,8 @@ export class AvaliacoesAlunosComponent {
                   title: 'Aluno não possui projeto a ser avaliado',
                   confirmButtonColor: 'rgb(255,0,0)',
                 }).then(() => {
-                  this.router.navigate(["/visual-projeto"]);
-                })
+                  this.router.navigate(['/visual-projeto']);
+                });
                 this.isLoading = false;
               },
             });
@@ -211,52 +213,51 @@ export class AvaliacoesAlunosComponent {
   enviarAvaliacao() {
     this.avaliacaoTentada = true;
 
-    if (this.role === 'ALUNO') {
-      const todasRespondidas =
-        Object.keys(this.respostas).length === this.perguntas.length &&
-        this.recomendacao !== undefined;
-      if (!todasRespondidas) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Preencha todas as respostas e escolha uma recomendação',
-        });
-        return;
-      }
+    const todasRespondidas =
+      Object.keys(this.respostas).length === this.perguntas.length &&
+      this.recomendacao !== undefined;
 
-      const mentor = this.projeto.mentor;
+    if (!todasRespondidas) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Preencha todas as respostas e escolha uma recomendação',
+      });
+      return;
+    }
 
-      if (mentor && mentor.id) {
-        const avaliacao: Avaliacao = {
-          resposta1: this.respostas[1],
-          resposta2: this.respostas[2],
-          resposta3: this.respostas[3],
-          resposta4: this.respostas[4],
-          resposta5: this.respostas[5],
-          resposta6: this.respostas[6],
-          comentario: this.comentarios,
-          recomendacao: this.recomendacao,
-          projeto: { id: this.projeto.id } as Projeto,
-        };
+    if (this.alunoLogado && this.alunoLogado.id) {
+      const avaliacao: Avaliacao = {
+        resposta1: this.respostas[1],
+        resposta2: this.respostas[2],
+        resposta3: this.respostas[3],
+        resposta4: this.respostas[4],
+        resposta5: this.respostas[5],
+        resposta6: this.respostas[6],
+        comentario: this.comentarios,
+        recomendacao: this.recomendacao,
+        projeto: { id: this.projeto.id } as Projeto,
+        aluno: { id: this.alunoLogado.id } as Aluno,
+      };
 
-        this.avaliacaoService.saveAvaliacao(avaliacao).subscribe({
-          next: (res) => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Avaliação enviada com sucesso!',
-            }).then(() => {
-              this.router.navigate(['/visual-projeto']);
-            })
-            this.avaliacaoEnviada = true;
-          },
-          error: (err) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro ao enviar avaliação',
-              text: 'por favor, tente novamente mais tarde',
-            });
-          },
-        });
-      }
+      this.avaliacaoService.saveAvaliacao(avaliacao).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Avaliação enviada com sucesso!',
+          }).then(() => {
+            this.router.navigate(['/visual-projeto']);
+          });
+          this.avaliacaoEnviada = true;
+        },
+
+        error: () => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao enviar avaliação',
+            text: 'Tente novamente mais tarde.',
+          });
+        },
+      });
     }
   }
 

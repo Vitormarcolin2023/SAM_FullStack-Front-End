@@ -10,6 +10,7 @@ import { LoginService } from '../../../services/login/login.service';
 import { AlunoService } from '../../../services/alunos/alunos.service';
 import { Aluno } from '../../../models/aluno/aluno';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
+import { AvaliacaoService } from '../../../services/avaliacao/avaliacao.service';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ export class LoginComponent {
 
   alunoService = inject(AlunoService);
   projetoService = inject(ProjetoService);
+  avaliacaoService = inject(AvaliacaoService);
 
   constructor() {
     this.loginService.deleteToken();
@@ -48,7 +50,7 @@ export class LoginComponent {
           this.alunoService.autenticarAluno(response.email).subscribe({
             next: (res) => {
               if (res.id) {
-                this.verificavaliacao(res.id);
+                this.verificaAvaliacao(res.id);
               }
               this.isLoading = false;
             },
@@ -111,21 +113,31 @@ export class LoginComponent {
     }
   }
 
-  verificavaliacao(alunoId: number) {
-  this.projetoService
-    .buscarProjetoAguardandoAvaliacaoAluno(alunoId)
-    .subscribe({
-      next: (res) => {
-        this.isAvaliacaoPendente = true;
-        this.router.navigate(['/avaliacao/alunos-mentores']);
-        console.log("tem avaliação pendente");
-      },
-      error: (err) => {
-        this.isAvaliacaoPendente = false;
-        this.router.navigate(['/visual-projeto']);
-        console.log("não tem avaliação pendente");
-      },
-    });
-}
-
+  verificaAvaliacao(alunoId: number) {
+    this.projetoService
+      .buscarProjetoAguardandoAvaliacaoAluno(alunoId)
+      .subscribe({
+        next: (projeto) => {
+          if (projeto.id) {
+            this.avaliacaoService
+              .alunoRespondeuAvaliacao(alunoId, projeto.id)
+              .subscribe({
+                next: (res) => {
+                  if (!res) {
+                    this.isAvaliacaoPendente = true;
+                    this.router.navigate(['/avaliacao/alunos-mentores']);
+                  } else if (res) {
+                    this.isAvaliacaoPendente = false;
+                    this.router.navigate(['/visual-projeto']);
+                  }
+                },
+              });
+          }
+        },
+        error: (err) => {
+          this.isAvaliacaoPendente = false;
+          this.router.navigate(['/visual-projeto']);
+        },
+      });
+  }
 }
