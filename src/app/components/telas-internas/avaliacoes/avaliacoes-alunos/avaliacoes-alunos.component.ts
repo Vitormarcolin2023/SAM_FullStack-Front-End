@@ -240,14 +240,21 @@ export class AvaliacoesAlunosComponent {
       };
 
       this.avaliacaoService.saveAvaliacao(avaliacao).subscribe({
-        next: () => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Avaliação enviada com sucesso!',
-          }).then(() => {
-            this.router.navigate(['/visual-projeto']);
-          });
-          this.avaliacaoEnviada = true;
+        next: (res) => {
+          if (res) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Avaliação enviada com sucesso!',
+            }).then(() => {
+              this.router.navigate(['/visual-projeto']);
+            });
+            this.avaliacaoEnviada = true;
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro ao enviar avaliação',
+            });
+          }
         },
 
         error: () => {
