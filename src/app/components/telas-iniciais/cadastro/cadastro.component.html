@@ -7,7 +7,6 @@
 
     <form [formGroup]="cadastroMentorForm" (ngSubmit)="onSubmit()">
       <div class="form-scroll-content">
-       
         <!-- ETAPA 1: DADOS PESSOAIS -->
         <div class="form-step">
           <label for="nome">Nome</label>
@@ -17,7 +16,12 @@
           }
 
           <label for="cpf">CPF</label>
-          <input id="cpf" type="text" formControlName="cpf" placeholder="Ex: xxx.xxx.xxx-yy" />
+          <input
+            id="cpf"
+            type="text"
+            formControlName="cpf"
+            placeholder="Ex: xxx.xxx.xxx-yy"
+          />
           @if(hasError('cpf', 'required')){
           <small class="error-message">CPF é obrigatório.</small>
           }
@@ -31,10 +35,14 @@
           }
 
           <label for="senha">Senha</label>
-          <input id="senha" type="password" formControlName="senha"  placeholder="Mínimo de 6 caracteres"/>
-          @if(hasError('senha', 'required')){
-          
-          } @if(hasError('senha', 'minlength')){
+          <input
+            id="senha"
+            type="password"
+            formControlName="senha"
+            placeholder="Mínimo de 6 caracteres"
+          />
+          @if(hasError('senha', 'required')){ } @if(hasError('senha',
+          'minlength')){
           <small class="error-message"
             >A senha deve ter no mínimo 6 caracteres.</small
           >
@@ -51,7 +59,6 @@
 
         <!-- ETAPA 2: VÍNCULO -->
         <div class="form-step">
-          
           <label for="tempoExperiencia">Tempo de Experiência</label>
           <input
             id="tempoExperiencia"
@@ -64,7 +71,21 @@
           <select id="tipoVinculo" formControlName="tipoDeVinculo">
             <option value="CLT">CLT</option>
             <option value="PJ">PJ</option>
-            <option value="VOLUNTARIO">Voluntário</option>
+            <option value=" TRABALHADOR_AUTÔNOMO">TRABALHADOR AUTÔNOMO</option>
+            <option value=" TRABALHADOR_TEMPORÁRIO">
+              TRABALHADOR TEMPORÁRIO
+            </option>
+            <option value=" ESTAGIÁRIO">ESTAGIÁRIO</option>
+            <option value=" SERVIDOR_PÚBLICO_ESTATUÁRIO">
+              SERVIDOR PÚBLICO ESTATUÁRIO
+            </option>
+            <option value=" EMPREGADO_PÚBLICO_REGIME_CLT'">
+              EMPREGADO PÚBLICO (REGIME CLT)
+            </option>
+            <option value=" SERVIDOR_PÚBLCIO_TEMPORÁRIO">
+              SERVIDOR PÚBLCIO TEMPORÁRIO
+            </option>
+            <option value=" CARGO_EM_COMISSÃO">CARGO EM COMISSÃO</option>
           </select>
           @if(hasError('tipoDeVinculo', 'required')){
           <small class="error-message">Tipo de vínculo é obrigatório.</small>
@@ -72,19 +93,20 @@
 
           <!--Formação do Mentor-->
           <label for="formacaoDoMentor">Formação do Mentor</label>
-            <textarea
-              id="formacaoDoMentor"
-              formControlName="formacaoDoMentor"
-              rows="3"
-              placeholder="Descreva sua formação acadêmica"
-            ></textarea>
-              @if(formSubmitted && hasError('formacaoDoMentor', 'required')) {
-              <small class="error-message">A formação é obrigatória.</small>
-              <small class="text-muted">Exemplo: Licenciatura em Matemática ou Bacharelado em Engenharia.</small>
+          <textarea
+            id="formacaoDoMentor"
+            formControlName="formacaoDoMentor"
+            rows="3"
+            placeholder="Descreva sua formação acadêmica"
+          ></textarea>
+          @if(formSubmitted && hasError('formacaoDoMentor', 'required')) {
+          <small class="error-message">A formação é obrigatória.</small>
+          <small class="text-muted"
+            >Exemplo: Licenciatura em Matemática ou Bacharelado em
+            Engenharia.</small
+          >
 
           }
-
-
 
           <label for="areaAtuacao">Área de Atuação</label>
           <select id="areaAtuacao" formControlName="areaDeAtuacao">
@@ -99,84 +121,81 @@
         </div>
       </div>
 
-       <div class="linha"></div>
+      <div class="linha"></div>
 
-        <!-- ETAPA 3: ENDEREÇO -->
-        <div class="form-step">
-
-          <label for="cep">CEP</label>
-          <div class="cep-input-group">
-            <input
-              id="cep"
-              type="text"
-              formControlName="cep"
-              (blur)="buscarCep()"
-              maxlength="8"
-              placeholder="Apenas números"
-            />
-            @if(isLoadingCep){
-            <span
-              class="spinner-border spinner-border-sm ms-2"
-              role="status"
-            ></span>
-            }
-          </div>
-          @if(hasError('cep', 'required')){
-          <small class="error-message">CEP é obrigatório.</small>
-          }
-
-          <label for="estado">Estado</label>
+      <!-- ETAPA 3: ENDEREÇO -->
+      <div class="form-step">
+        <label for="cep">CEP</label>
+        <div class="cep-input-group">
           <input
-            id="estado"
+            id="cep"
             type="text"
-            formControlName="estado"
-            [readonly]="true"
+            formControlName="cep"
+            (blur)="buscarCep()"
+            maxlength="8"
+            placeholder="Apenas números"
           />
-          @if(hasError('estado', 'required')){
-          <small class="error-message">Estado é obrigatório.</small>
-          }
-
-          <label for="cidade">Cidade</label>
-          <input
-            id="cidade"
-            type="text"
-            formControlName="cidade"
-            [readonly]="true"
-          />
-          @if(hasError('cidade', 'required')){
-          <small class="error-message">Cidade é obrigatória.</small>
-          }
-
-          <label for="bairro">Bairro</label>
-          <input
-            id="bairro"
-            type="text"
-            formControlName="bairro"
-            [readonly]="isRuaBairroReadonly"
-          />
-          @if(hasError('bairro', 'required')){
-          <small class="error-message">Bairro é obrigatório.</small>
-          }
-
-          <label for="rua">Rua</label>
-          <input
-            id="rua"
-            type="text"
-            formControlName="rua"
-            [readonly]="isRuaBairroReadonly"
-          />
-          @if(hasError('rua', 'required')){
-          <small class="error-message">Rua é obrigatória.</small>
-          }
-
-          <label for="numero">Número</label>
-          <input id="numero" type="text" formControlName="numero" />
-          @if(hasError('numero', 'required')){
-          <small class="error-message">Número é obrigatório.</small>
+          @if(isLoadingCep){
+          <span
+            class="spinner-border spinner-border-sm ms-2"
+            role="status"
+          ></span>
           }
         </div>
+        @if(hasError('cep', 'required')){
+        <small class="error-message">CEP é obrigatório.</small>
+        }
 
-        
+        <label for="estado">Estado</label>
+        <input
+          id="estado"
+          type="text"
+          formControlName="estado"
+          [readonly]="true"
+        />
+        @if(hasError('estado', 'required')){
+        <small class="error-message">Estado é obrigatório.</small>
+        }
+
+        <label for="cidade">Cidade</label>
+        <input
+          id="cidade"
+          type="text"
+          formControlName="cidade"
+          [readonly]="true"
+        />
+        @if(hasError('cidade', 'required')){
+        <small class="error-message">Cidade é obrigatória.</small>
+        }
+
+        <label for="bairro">Bairro</label>
+        <input
+          id="bairro"
+          type="text"
+          formControlName="bairro"
+          [readonly]="isRuaBairroReadonly"
+        />
+        @if(hasError('bairro', 'required')){
+        <small class="error-message">Bairro é obrigatório.</small>
+        }
+
+        <label for="rua">Rua</label>
+        <input
+          id="rua"
+          type="text"
+          formControlName="rua"
+          [readonly]="isRuaBairroReadonly"
+        />
+        @if(hasError('rua', 'required')){
+        <small class="error-message">Rua é obrigatória.</small>
+        }
+
+        <label for="numero">Número</label>
+        <input id="numero" type="text" formControlName="numero" />
+        @if(hasError('numero', 'required')){
+        <small class="error-message">Número é obrigatório.</small>
+        }
+      </div>
 
       <div class="form-buttons-container">
         <div class="buttons-row">
