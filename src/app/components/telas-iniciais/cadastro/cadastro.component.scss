@@ -1,102 +1,130 @@
+@use '../../../../styles/variaveis.scss' as *;
 
+/* --------- CONTAINER GERAL --------- */
 .cadastro-container {
-    display: flex;
-    justify-content: center;
-    padding: 10px; /* Espaço para scroll */
-    margin-top: 50px;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+  background-color: #dedede; // fundo leve e padronizado
+   min-height: 100vh; // garante que o fundo aparece na tela toda
 }
 
+/* --------- CARD DO FORMULÁRIO --------- */
 .form-box {
-    padding: 20px;
-    max-width: 700px;
-    width: 75%;
+  background: #fff;
+  width: 100%;
+  max-width: 700px;
+  padding: 2.5rem 3rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  border: 1px solid $linha;
 }
 
 h2 {
-    text-align: center;
-    color: #00995E;
+  text-align: center;
+  color: $titulos-verde;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
 }
 
-.form-step {
-    border-bottom: 1px solid #eee;
-    margin-bottom: 25px;
-}
-
-.form-step:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-input,
-select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.error {
-    color: red;
-    font-size: 12px;
-    margin-top: -10px;
-    margin-bottom: 5px;
-}
-
-.buttons-row {
-    display: flex;
-    gap: 10px;
-}
-
-.buttons-row button {
-    padding: 6px 15px; /* controla altura e largura */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    width: auto; /* botão fica do tamanho do texto */
-}
-
-.buttons-row button:not(.btn-back) {
-    background-color: #00E88F;
-    color: #006e44;
-}
-
-.buttons-row button:not(.btn-back):hover {
-    background-color: #00995E;
-    color: #fff;
-}
-
-.buttons-row button.btn-back {
-    background-color: #ccc;
-    color: #333;
-}
-
-.buttons-row button.btn-back:hover {
-  background-color: #999; /* cor de fundo ao passar o mouse */
-  color: #fff; /* texto fica branco */
-}
-
-
-.linha{
+.linha {
   width: 100%;
-  border-bottom: solid 2px;
-  margin-bottom: 15px;
-  border-color: #00995E;
+  border-bottom: 2px solid $titulos-verde;
+  margin: 1rem 0 1.8rem 0;
 }
 
-label{
-    color: #00995E;
+/* --------- SEÇÕES DO FORMULÁRIO --------- */
+.form-step {
+  margin-bottom: 2rem;
+}
+
+label {
+  display: block;
+  color: $titulos-verde;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+/* --------- CAMPOS --------- */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+  outline: none;
+  transition: 0.2s ease-in-out;
+
+  &:focus {
+    border-color: $titulos-verde;
+    box-shadow: 0 0 6px rgba(0,153,94,0.25);
+  }
 }
 
 textarea {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
   resize: none;
+}
+
+/* grupo do CEP */
+.cep-input-group {
+  display: flex;
+  align-items: center;
+}
+
+/* --------- MENSAGENS DE ERRO --------- */
+.error-message {
+  color: #d9534f;
+  font-size: 0.8rem;
+  margin-top: -0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+/* --------- BOTÕES --------- */
+.form-buttons-container {
+  margin-top: 2rem;
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.buttons-row button {
+  padding: 0.7rem 1.8rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+/* botão finalizar */
+.buttons-row button:not(.btn-back) {
+  background-color: $btn-acao;
+  color: #006e44;
+
+  &:hover {
+    background-color: $btn-hover;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+}
+
+/* botão voltar */
+.btn-back {
+  background-color: #ccc;
+  color: #333;
+
+  &:hover {
+    background-color: #999;
+    color: #fff;
+    transform: translateY(-2px);
+  }
 }

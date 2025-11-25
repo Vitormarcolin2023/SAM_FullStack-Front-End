@@ -1,112 +1,221 @@
 @if (isLoading) {
-  <div class="state-message">
-    <div class="spinner"></div>
-    <p class="lead">Carregando formulário de avaliação...</p>
-  </div>
-}
+<div class="state-message">
+  <div class="spinner"></div>
+  <p class="lead">Carregando formulário de avaliação...</p>
+</div>
+} @if (!isLoading) {
+<div class="container">
+  <form #avaliacaoForm="ngForm" (ngSubmit)="enviarAvaliacao()">
+    <div class="card">
+      <div class="card-body">
+        <div class="container-centralizado">
+          <h3>Avaliação da Mentoria</h3>
 
-@if (!isLoading) {
-  <div class="container">
-    <form #avaliacaoForm="ngForm" (ngSubmit)="enviarAvaliacao()">
-      <div class="card">
-        <div class="card-body">
-          <div class="container-centralizado">
-            <h3>Avaliação da Mentoria</h3>
+          @if (role == 'ALUNO') {
+          <p class="lead" style="text-align: center; margin-bottom: 1.5rem">
+            Por favor, preencha o questionário sobre sua experiência com o mentor.<br> Após o envio, você será redirecionado ao sistema.
+          </p>
+          } @if (role == 'MENTOR') {
+          <p class="lead" style="text-align: center; margin-bottom: 1.5rem">
+            Sua experiência com o processo de mentoria é crucial para a nossa
+            melhoria contínua.
+            <br />Agradecemos imensamente a sua colaboração!
+          </p>
+          }
 
-            <p class="lead" style="text-align: center; margin-bottom: 1.5rem;">
-              Por favor, avalie sua experiência com o mentor antes de continuar no sistema.
-            </p>
-
-
-            <h4 class="section-title">Perguntas de Avaliação</h4>
-
-            @for (pergunta of perguntas; track pergunta.id) {
-              <div class="mb-4">
-                <label class="form-label">
-                  {{ pergunta.id }} - {{ pergunta.texto }}
-                </label>
-
-                <div class="escala">
-                  @for (nota of opcoes; track nota.valor) {
-                    <label class="opcao">
-                      <input
-                        type="radio"
-                        name="pergunta{{ pergunta.id }}"
-                        [(ngModel)]="respostas[pergunta.id]"
-                        [value]="nota.valor"
-                        required
-                      />
-                      <span>{{ nota.valor }} - {{ nota.label }}</span>
-                    </label>
-                  }
-                </div>
-
-                @if (!respostas[pergunta.id] && avaliacaoTentada) {
-                  <div class="text-danger small mt-1">
-                    Por favor, selecione uma opção.
-                  </div>
-                }
-              </div>
+          <div class="container-projeto">
+            <h4 class="section-title">Projeto:</h4>
+            @if (role == 'ALUNO' && projeto) {
+            <input
+              type="text"
+              id="projeto"
+              class="form-control"
+              [value]="projeto.nomeDoProjeto"
+              readonly
+            />
+            } @if (role === 'MENTOR' && projetosMentor) {
+            <label for="projetoSelect">Filtrar por projeto:</label>
+            <select
+              id="projetoSelect"
+              class="form-control filtro-projeto"
+              [(ngModel)]="projeto"
+              [compareWith]="compararProjetos"
+              (change)="filtrarPorProjeto(projeto)"
+            >
+              <option [ngValue]="null" disabled selected>Selecione…</option>
+              @for (projetoMentor of projetosMentor; track $index) {
+              <option [ngValue]="projetoMentor">
+                {{ projetoMentor.nomeDoProjeto }}
+              </option>
+              }
+            </select>
             }
+          </div>
 
-            <hr />
+          @if (role == "ALUNO") {
+          <h4 class="section-title">Perguntas de Avaliação</h4>
 
-            <h4 class="section-title">Espaço Aberto</h4>
-            <div class="mb-3">
-              <label for="comentarios" class="form-label"
-                >Informações adicionais ao mentor</label
-              >
-              <textarea
-                id="comentarios"
-                class="form-control"
-                rows="3"
-                [(ngModel)]="comentarios"
-                name="comentarios"
-                placeholder="Digite aqui suas observações ou sugestões..."
-              ></textarea>
-            </div>
+          @for (pergunta of perguntas; track pergunta.id) {
+          <div class="mb-4">
+            <label class="form-label">
+              {{ pergunta.id }} - {{ pergunta.texto }}
+            </label>
 
-            <div class="mb-3">
-              <label class="form-label">Você recomendaria o mentor para outros grupos?</label>
-              <div class="escala">
-                <label class="opcao">
-                  <input
-                    type="radio"
-                    name="recomendacao"
-                    required
-                    (click)="isRecomendado(true)"
-                  />
-                  <span>Sim</span>
-                </label>
-                <label class="opcao">
-                  <input
-                    type="radio"
-                    name="recomendacao"
-                    required
-                    (click)="isRecomendado(false)"
-                  />
-                  <span>Não</span>
-                </label>
-              </div>
-              @if (!recomendacao && avaliacaoTentada) {
-                <div class="text-danger small mt-1">
-                  Por favor, selecione uma opção.
-                </div>
+            <div class="escala">
+              @for (nota of opcoes; track nota.valor) {
+              <label class="opcao">
+                <input
+                  type="radio"
+                  name="pergunta{{ pergunta.id }}"
+                  [(ngModel)]="respostas[pergunta.id]"
+                  [value]="nota.valor"
+                  required
+                />
+                <span>{{ nota.valor }} - {{ nota.label }}</span>
+              </label>
               }
             </div>
-          </div>
-        </div>
 
-        <div class="card-footer">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="avaliacaoEnviada"
-          >
-            <i class="fas fa-paper-plane"></i> Enviar Avaliação
-          </button>
+            @if (!respostas[pergunta.id] && avaliacaoTentada) {
+            <div class="text-danger small mt-1">
+              Por favor, selecione uma opção.
+            </div>
+            }
+          </div>
+          }
+
+          <hr />
+
+          <h4 class="section-title">Espaço Aberto</h4>
+          <div class="mb-3">
+            <label for="comentarios" class="form-label"
+              >Informações adicionais ao mentor</label
+            >
+            <textarea
+              id="comentarios"
+              class="form-control"
+              rows="3"
+              [(ngModel)]="comentarios"
+              name="comentarios"
+              placeholder="Digite aqui suas observações ou sugestões..."
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label"
+              >Você recomendaria o mentor para outros grupos?</label
+            >
+            <div class="escala">
+              <label class="opcao">
+                <input
+                  type="radio"
+                  name="recomendacao"
+                  required
+                  (click)="isRecomendado(true)"
+                />
+                <span>Sim</span>
+              </label>
+              <label class="opcao">
+                <input
+                  type="radio"
+                  name="recomendacao"
+                  required
+                  (click)="isRecomendado(false)"
+                />
+                <span>Não</span>
+              </label>
+            </div>
+            @if (!recomendacao && avaliacaoTentada) {
+            <div class="text-danger small mt-1">
+              Por favor, selecione uma opção.
+            </div>
+            }
+          </div>
+          } @if (role == 'MENTOR') {
+          <h4 class="section-title">Avalie sua experiência</h4>
+
+          <div class="mb-4">
+            <label class="form-label">Como foi sua experiência?</label>
+
+            <div class="escala">
+              @for (nota of opcoesMentor; track nota.valor) {
+              <label class="opcao">
+                <input
+                  type="radio"
+                  name="notaMentor"
+                  [(ngModel)]="notaMentor"
+                  [value]="nota.valor"
+                  required
+                />
+                <span>{{ nota.valor }} - {{ nota.label }}</span>
+              </label>
+              }
+            </div>
+
+            @if (!notaMentor && avaliacaoTentada) {
+            <div class="text-danger small mt-1">
+              Por favor, selecione uma nota.
+            </div>
+            }
+          </div>
+
+          <h4 class="section-title">Comentários</h4>
+
+          <div class="mb-3">
+            <label class="form-label">Enviar comentário para:</label>
+            <select
+              class="form-control"
+              [(ngModel)]="destinoComentario"
+              name="destinoComentario"
+              required
+            >
+              <option value="TODOS">Todos</option>
+              <option value="COORDENADOR">Coordenação</option>
+              <option value="GRUPO">Grupo</option>
+              <option
+                *ngFor="let aluno of alunos"
+                [value]="'ALUNO_' + aluno.id"
+              >
+                Somente para: {{ aluno.nome }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Comentário</label>
+            <textarea
+              class="form-control"
+              rows="3"
+              [(ngModel)]="comentarioMentor"
+              name="comentarioMentor"
+              placeholder="Digite seu comentário..."
+            ></textarea>
+          </div>
+
+          }
         </div>
       </div>
-    </form>
-  </div>
+
+      <div class="card-footer">
+        @if (role == 'MENTOR') {
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="dispensarAvaliacao()"
+        >
+          Dispensar Avaliação
+        </button>
+        }
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="avaliacaoEnviada"
+        >
+          <i class="fas fa-paper-plane"></i> Enviar Avaliação
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
 }

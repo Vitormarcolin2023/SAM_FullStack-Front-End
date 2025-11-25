@@ -21,8 +21,9 @@ export class Reuniao {
   hora: string;
   formatoReuniao: FormatoReuniao;
   statusReuniao: StatusReuniao;
-  projeto?: Projeto;
+  projeto: Projeto;
   solicitadoPor: string;
+  motivoRecusa: string;
 
   constructor(
     assunto: string,
@@ -31,8 +32,9 @@ export class Reuniao {
     formatoReuniao: FormatoReuniao,
     statusReuniao: StatusReuniao,
     solicitadoPor: string,
+    projeto: Projeto,
+    motivoRecusa: string,
     id?: number,
-    projeto?: Projeto,
   ) {
     this.id = id;
     this.assunto = assunto;
@@ -42,6 +44,7 @@ export class Reuniao {
     this.statusReuniao = statusReuniao;
     this.projeto = projeto;
     this.solicitadoPor = solicitadoPor;
+    this.motivoRecusa = motivoRecusa;
   }
 }
 

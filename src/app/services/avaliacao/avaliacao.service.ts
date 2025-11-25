@@ -27,7 +27,11 @@ export class AvaliacaoService {
   private api = environment.SERVIDOR + '/avaliacoes';
   private http = inject(HttpClient);
 
-  saveAvaliacao(avaliacao: Avaliacao): Observable<Avaliacao>{
-    return this.http.post<Avaliacao>(`${this.api}/${avaliacao.projeto.id}`, avaliacao);
+  saveAvaliacao(avaliacao: Avaliacao): Observable<boolean>{
+    return this.http.post<boolean>(`${this.api}/projeto/${avaliacao.projeto.id}`, avaliacao);
+  }
+
+  alunoRespondeuAvaliacao(alunoId: number, projetoId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.api}/verifica-pendencia-aluno/${alunoId}/projeto/${projetoId}`);
   }
 }

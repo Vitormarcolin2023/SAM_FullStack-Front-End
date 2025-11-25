@@ -8,6 +8,9 @@ import { LoginDto } from '../../../models/login/login-dto';
 import { NavbarComponent } from '../../design/navbar/navbar.component';
 import { LoginService } from '../../../services/login/login.service';
 import { AlunoService } from '../../../services/alunos/alunos.service';
+import { Aluno } from '../../../models/aluno/aluno';
+import { ProjetoService } from '../../../services/projeto/projeto.service';
+import { AvaliacaoService } from '../../../services/avaliacao/avaliacao.service';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +22,14 @@ import { AlunoService } from '../../../services/alunos/alunos.service';
 export class LoginComponent {
   login: LoginDto = { email: '', senha: '', role: '' };
   isLoading = false;
+  isAvaliacaoPendente = false;
 
   loginService = inject(LoginService);
   router = inject(Router);
 
   alunoService = inject(AlunoService);
+  projetoService = inject(ProjetoService);
+  avaliacaoService = inject(AvaliacaoService);
 
   constructor() {
     this.loginService.deleteToken();
@@ -42,11 +48,10 @@ export class LoginComponent {
 
         if (role === 'ALUNO') {
           this.alunoService.autenticarAluno(response.email).subscribe({
-            next: () => {
-              console.log(
-                'AlunoService atualizado. Navegando para a página do aluno...'
-              );
-              this.router.navigate(['/visual-projeto']);
+            next: (res) => {
+              if (res.id) {
+                this.verificaAvaliacao(res.id);
+              }
               this.isLoading = false;
             },
             error: (err) => {
@@ -106,5 +111,33 @@ export class LoginComponent {
         this.router.navigate(['funcionario-perfil']);
         break;
     }
+  }
+
+  verificaAvaliacao(alunoId: number) {
+    this.projetoService
+      .buscarProjetoAguardandoAvaliacaoAluno(alunoId)
+      .subscribe({
+        next: (projeto) => {
+          if (projeto.id) {
+            this.avaliacaoService
+              .alunoRespondeuAvaliacao(alunoId, projeto.id)
+              .subscribe({
+                next: (res) => {
+                  if (!res) {
+                    this.isAvaliacaoPendente = true;
+                    this.router.navigate(['/avaliacao/alunos-mentores']);
+                  } else if (res) {
+                    this.isAvaliacaoPendente = false;
+                    this.router.navigate(['/visual-projeto']);
+                  }
+                },
+              });
+          }
+        },
+        error: (err) => {
+          this.isAvaliacaoPendente = false;
+          this.router.navigate(['/visual-projeto']);
+        },
+      });
   }
 }

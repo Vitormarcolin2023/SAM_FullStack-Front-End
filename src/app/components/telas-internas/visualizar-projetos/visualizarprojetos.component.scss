@@ -1,66 +1,73 @@
 @use "../../../../styles/variaveis.scss" as *;
 
+/* CARD PRINCIPAL */
 .projetos-card {
-  background-color: #dedede;
-  border-radius: 10px;
   width: 100%;
-  height: 545px;
-
-  /* Ajusta o alinhamento para a direita */
-  margin-left: 8%;
-  margin-right: auto;
-
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
+  max-width: 750px;          /* padronizado com o card anterior */
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 5rem auto 0 auto;  /* centralizado e afastado do topo */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  border: 1px solid $linha;
   box-sizing: border-box;
-
-  /* Espaçamento superior do seu código */
-  margin-top: 80px;
 }
 
-.titulo{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+/* TÍTULO */
+.titulo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #00995E;
 }
 
 .linha {
   width: 100%;
   height: 5px;
-  border-bottom: #ccc 1.5px solid;
+  border-bottom: 1.5px solid #ccc;
+  margin: 1rem 0;
 }
 
-.msg-projeto{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+/* MENSAGEM CENTRALIZADA */
+.msg-projeto {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.3rem;
 }
 
-.table, th, tr, td{
-    background-color: #d5d5d5;
+/* TABELA */
+.table,
+th,
+tr,
+td {
+  background-color: #d5d5d5;
 }
 
-.table{
-    margin-top: 20px;
+.table {
+  margin-top: 1.2rem;
 }
 
-.btn{
-    display: flex;
-    align-items: center;
-    background-color: $btn-acao;
-    border-radius: 8px;
-    height: 30px;
-    font-size: 11px;
-    text-align: center;
+/* BOTÕES */
+.btn {
+  display: flex;
+  align-items: center;
+  background-color: $btn-acao;
+  border-radius: 8px;
+  height: 2rem;
+  font-size: 0.72rem;
+  padding: 0 0.8rem;
+  text-align: center;
 }
 
-.btn:hover{
-    background-color: $btn-hover;
-    color: white;
+.btn:hover {
+  background-color: $btn-hover;
+  color: white;
 }
+
+.background {
+  background-color: #dedede !important; 
+  min-height: 100vh;  /* garante que preenche toda a altura */
+  width: 100%;
+}
+

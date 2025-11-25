@@ -61,4 +61,12 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
   buscarProjetosAtivos(mentorId: number): Observable<Projeto[]> {
     return this.http.get<Projeto[]>(`${this.API}/buscar-projetos-ativos-mentor/${mentorId}`);
   }
+
+  buscarProjetosAguardandoAvaliacaoMentor(mentorId: number): Observable<Projeto[]> {
+    return this.http.get<Projeto[]>(`${this.API}/buscar-projetos-nao-avaliados-mentor/${mentorId}`);
+  }
+
+  buscarProjetoAguardandoAvaliacaoAluno(alunoId: number): Observable<Projeto> {
+    return this.http.get<Projeto>(`${this.API}/buscar-projeto-nao-avaliado-aluno/${alunoId}`);
+  }
 }
