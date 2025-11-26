@@ -42,6 +42,7 @@ import { ReuniaoComponent } from './components/telas-internas/reuniao/reuniao.co
 import { VisualizarReunioesComponent } from './components/telas-internas/reuniao/visualizar-reunioes/visualizar-reunioes.component';
 import { Avaliacao } from './models/avaliacao/avaliacao';
 import { AvaliacoesComponent } from './components/telas-internas/avaliacoes/avaliacoes.component';
+import { VisualizarAvaliacoesComponent } from './components/telas-internas/avaliacoes/visualizar-avaliacoes/visualizar-avaliacoes.component';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -187,6 +188,7 @@ export const routes: Routes = [
     component: AvaliacoesComponent,
     children: [
       {path: 'alunos-mentores', component: AvaliacoesAlunosComponent},
+      {path: 'coordenador/visualizar-avaliacoes', component: VisualizarAvaliacoesComponent},
     ],
   },
 

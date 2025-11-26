@@ -12,6 +12,7 @@ export class Mentor {
   areaDeAtuacao!: AreaDeAtuacao;
   endereco!: Endereco;
   resumo?: string;
+  mediaDeAvaliacoes?: number;
 }
 
 export enum TipoDeVinculo {
