@@ -40,3 +40,18 @@ export class Avaliacao {
         this.aluno = aluno;
     }
 }
+
+export interface avaliacaoDTO {
+    id: number;
+    resposta1: number;
+    resposta2: number;
+    resposta3: number;
+    resposta4: number;
+    resposta5: number;
+    resposta6: number;
+    media: number;
+    comentario: string;
+    recomendacao: boolean;
+    projeto: Projeto;
+    aluno: Aluno;
+}

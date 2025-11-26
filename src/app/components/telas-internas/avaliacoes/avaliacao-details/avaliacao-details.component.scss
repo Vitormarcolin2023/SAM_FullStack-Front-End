@@ -1,0 +1,64 @@
+@use '../../../../../styles/variaveis.scss' as *;
+
+.resposta {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #4c5854;
+  margin-bottom: 5px;
+  strong {
+    color: $titulos-verde;
+  }
+}
+
+.perguntas {
+  margin-bottom: 20px;
+}
+
+.icone-pergunta i {
+  color: #4c5854;
+}
+.icone-media i, .icone-comentario i, .icone-recomendacao i {
+  color: #4c5854;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.info-content {
+    margin-bottom: 5px;
+}
+
+.botoes-rodape {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+
+  .btn.voltar {
+    background-color: $titulos-verde;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+}

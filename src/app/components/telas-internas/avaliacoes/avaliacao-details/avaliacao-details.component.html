@@ -1,0 +1,81 @@
+<div class="modal-overlay">
+  <div class="modal-card">
+    <div class="container mt-4 geral">
+
+      <h2 class="mb-4">Avaliação de {{ avaliacao.aluno.nome || "Aluno" }}</h2>
+
+      <div class="info-row">
+        <div class="icon-label">
+          <span class="icone-projeto">
+            <i class="fas fa-project-diagram"></i>
+          </span>
+          <strong> Projeto</strong>
+        </div>
+        <div class="info-content">
+          {{ avaliacao.projeto.nomeDoProjeto }}
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="perguntas">
+        <div
+          *ngFor="let pergunta of perguntasComRespostas; let i = index"
+          class="info-row"
+        >
+          <div class="icon-label">
+            <span class="icone-pergunta">
+              <i class="fas fa-question-circle"></i>
+            </span>
+            <strong> Pergunta {{ i + 1 }}</strong>
+          </div>
+          <div class="info-content">
+            {{ pergunta.texto }}
+            <div class="resposta">
+              <strong>Resposta:</strong> {{ pergunta.resposta || "—" }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="info-row">
+        <div class="icon-label">
+          <span class="icone-media"><i class="fas fa-chart-line"></i></span>
+          <strong> Média</strong>
+        </div>
+        <div class="info-content">
+          {{ avaliacao.media || "—" }}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="icon-label">
+          <span class="icone-comentario"><i class="fas fa-comment-alt"></i></span>
+          <strong> Comentário</strong>
+        </div>
+        <div class="info-content">
+          {{ avaliacao.comentario || "—" }}
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="icon-label">
+          <span class="icone-recomendacao"><i class="fas fa-thumbs-up"></i></span>
+          <strong> Recomendação</strong>
+        </div>
+        <div class="info-content">
+          {{ avaliacao.recomendacao ? "Sim" : "Não" }}
+        </div>
+      </div>
+
+      <div class="botoes-rodape">
+        <button class="btn voltar" (click)="fecharModal()">
+          <i class="fas fa-times"></i> Fechar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

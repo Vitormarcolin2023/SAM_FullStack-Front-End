@@ -1,49 +1,42 @@
-@if (reuniaoSelecionada) {
+@if(reuniaoSelecionada) {
 <div class="modal-overlay">
-  <div class="modal-card p-4 shadow-sm">
-    @if (isLoading) {
-    <div class="text-center">
-      <div class="spinner-border text-primary" role="status"></div>
-      <p class="mt-2">Carregando informações da reunião...</p>
-    </div>
-    } @if (!isLoading && reuniaoSelecionada) {
-    <div class="header-com-botao">
-      <h4>
-        {{
-          reuniaoSelecionada.assunto.length > 30
-            ? (reuniaoSelecionada.assunto | slice : 0 : 30) + "..."
-            : reuniaoSelecionada.assunto
-        }}
-      </h4>
+  <div class="modal-card">
 
-      <div>
-        <span
-          class="status-badge"
+    <!-- Cabeçalho -->
+    <div class="header-com-botao">
+      <h2> {{ reuniaoSelecionada.assunto.length > 30
+            ? (reuniaoSelecionada.assunto | slice : 0 : 30) + "..."
+            : reuniaoSelecionada.assunto }}</h2>
+
+      @if(reuniaoSelecionada.statusReuniao === 'PENDENTE' && reuniaoSelecionada.solicitadoPor != role) {
+      <button class="btn editar btn-sm" (click)="habilitarEdicao()">
+        <i class="fas fa-pencil-alt me-1"></i> Editar
+      </button>
+      }
+    </div>
+
+    <!-- Status -->
+    <div class="info-row">
+      <div class="icon-label">
+        <span class="icone-status"><i class="fas fa-thumbtack"></i></span>
+        <strong> Status da Reunião</strong>
+      </div>
+      <div class="info-content">
+        <span class="status-badge"
           [ngClass]="{
             'status-pendente': reuniaoSelecionada.statusReuniao === 'PENDENTE',
             'status-ativo': reuniaoSelecionada.statusReuniao === 'ACEITO',
             'status-inativo': reuniaoSelecionada.statusReuniao === 'RECUSADO',
             'status-cancelado': reuniaoSelecionada.statusReuniao === 'CANCELADO'
-          }"
-        >
+          }">
           {{ reuniaoSelecionada.statusReuniao }}
         </span>
-
-        @if (reuniaoSelecionada.statusReuniao === 'PENDENTE' &&
-        reuniaoSelecionada.solicitadoPor != role) {
-        <button
-          class="btn btn-primary btn-sm btn-editar"
-          (click)="habilitarEdicao()"
-        >
-          <i class="fas fa-pencil-alt me-2"></i> Editar
-        </button>
-        }
       </div>
     </div>
 
-    <div class="info-section mt-3">
+     <div class="info-section mt-3">
       <div class="info-content">
-        <label>Assunto</label>
+        <label><i class="fas fa-comment-alt"></i> <strong> Assunto</strong></label>
         <textarea
           type="text"
           class="form-control"
@@ -71,71 +64,73 @@
     </div>
     }
 
-    <div class="info-section mt-3">
-      <div class="info-content">
-        <label>Data</label>
-        <input
-          type="date"
-          class="form-control"
-          [class.is-invalid]="dataInvalida"
-          [(ngModel)]="reuniaoSelecionada.data"
-          [readonly]="!editar"
-        />
-
-        @if (dataInvalida) {
-        <small class="text-danger">A data não pode ser anterior a hoje.</small>
-        }
+    <!-- Data e Hora -->
+    <div class="info-row">
+      <div class="icon-label">
+        <span class="icone-periodo"><i class="fas fa-calendar-alt"></i></span>
+        <strong> Data e Hora</strong>
       </div>
       <div class="info-content">
-        <label>Hora</label>
-        <input
-          type="time"
-          class="form-control"
-          [(ngModel)]="reuniaoSelecionada.hora"
-          [readonly]="!editar"
-        />
+        <input type="date" class="form-control" [(ngModel)]="reuniaoSelecionada.data" [readonly]="!editar"/>
+        <input type="time" class="form-control mt-1" [(ngModel)]="reuniaoSelecionada.hora" [readonly]="!editar"/>
       </div>
     </div>
 
-    <div class="info-section mt-3">
+    <!-- Formato -->
+    <div class="info-row">
+      <div class="icon-label">
+        <span class="icone-formato"><i class="fas fa-video"></i></span>
+        <strong> Formato</strong>
+      </div>
       <div class="info-content">
-        <label>Formato</label>
-        <select
-          class="form-control"
-          [(ngModel)]="reuniaoSelecionada.formatoReuniao"
-          [disabled]="!editar"
-        >
-          @for (formato of ['PRESENCIAL', 'ONLINE']; track $index) {
-          <option value="{{ formato }}">{{ formato }}</option>
+        <select class="form-control" [(ngModel)]="reuniaoSelecionada.formatoReuniao" [disabled]="!editar">
+          @for(formato of ['PRESENCIAL', 'ONLINE']; track $index) {
+            <option value="{{ formato }}">{{ formato }}</option>
           }
         </select>
       </div>
     </div>
 
-    <div class="info-section mt-3">
+    <!-- Motivo da recusa -->
+    @if(reuniaoSelecionada.statusReuniao === 'RECUSADO') {
+    <div class="info-row">
+      <div class="icon-label">
+        <span class="icone-comentario"><i class="fas fa-comment-alt"></i></span>
+        <strong> Motivo da Recusa</strong>
+      </div>
       <div class="info-content">
-        <label>Projeto</label>
-        <input
-          type="text"
-          class="form-control"
-          [value]="reuniaoSelecionada.projeto.nomeDoProjeto"
-          readonly
-        />
+        <textarea class="form-control" rows="3" [value]="reuniaoSelecionada.motivoRecusa" readonly style="resize: none"></textarea>
+      </div>
+    </div>
+    }
+
+    <!-- Projeto relacionado -->
+    <div class="info-row">
+      <div class="icon-label">
+        <span class="icone-projeto"><i class="fas fa-project-diagram"></i></span>
+        <strong> Projeto</strong>
+      </div>
+      <div class="info-content">
+        {{ reuniaoSelecionada.projeto.nomeDoProjeto || '—' }}
       </div>
     </div>
 
-    <div class="mt-4 d-flex justify-content-end gap-2">
-      <button class="btn btn-secondary" (click)="voltar()">Fechar</button>
-      @if (editar) {
-      <button class="btn btn-primary btn-color" (click)="salvarEdicao()">
-        Salvar
+    <!-- Botões Rodapé -->
+    <div class="botoes-rodape">
+      <button class="btn voltar" (click)="voltar()">
+        <i class="fas fa-arrow-left"></i> Voltar
       </button>
-      <button class="btn btn-danger" (click)="cancelarEdicao()">
-        Cancelar
-      </button>
+
+      @if(editar) {
+        <button class="btn salvar" (click)="salvarEdicao()">
+          <i class="fas fa-save"></i> Salvar
+        </button>
+        <button class="btn deletar" (click)="cancelarEdicao()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
       }
     </div>
-    }
+
   </div>
 </div>
 }

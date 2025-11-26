@@ -163,7 +163,7 @@ export class CriarReuniaoComponent {
   carregaProjetoAtivoAluno(id: number) {
     this.projetoService.buscarProjetoAtivo(id).subscribe({
       next: (response) => {
-        if (response.grupo?.id === this.grupoAtivoALuno.id) {
+        if (response.grupo?.id == this.grupoAtivoALuno.id) {
           this.projetoAluno = response;
           if (response.id) {
             this.reuniaoDto.projeto_id = response.id;
