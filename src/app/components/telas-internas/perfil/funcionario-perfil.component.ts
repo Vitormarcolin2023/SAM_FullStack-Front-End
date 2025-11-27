@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { Coordenador } from '../../../models/coordenacao/coordenador';
 import { Professor } from '../../../models/professor/professor';
 import { Curso } from '../../../models/curso/curso';
+import { TokenDecode } from '../../../models/token/token-decode';
 
 type UsuarioPerfil = Coordenador | Professor;
 
@@ -30,6 +31,9 @@ export class FuncionarioComponent implements OnInit {
   coordenadorService = inject(CoordenadorService);
   professorService = inject(ProfessorService);
   userDataService = inject(UserdataService);
+  tokenDecode = inject(TokenDecode);
+
+  role = this.tokenDecode.getRole();
 
   ngOnInit(): void {
     this.buscarDadosDoUsuario();
@@ -57,6 +61,15 @@ export class FuncionarioComponent implements OnInit {
       return;
     }
 
+    if (this.role == "COORDENADOR") {
+      this.carregarDadosCoordenador(emailDoToken);
+    } else if (this.role == "PROFESSOR"){
+      this.buscarDadosProfessor(emailDoToken);
+    }
+
+  }
+
+  carregarDadosCoordenador(emailDoToken: string) {
     this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
       next: (coordenador) => {
         if (coordenador && coordenador.id) {
@@ -71,6 +84,9 @@ export class FuncionarioComponent implements OnInit {
       },
     });
   }
+
+
+
 
   private buscarDadosProfessor(emailDoToken: string): void {
     this.professorService.getProfessorPorEmail(emailDoToken).subscribe({
