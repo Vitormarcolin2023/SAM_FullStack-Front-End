@@ -28,6 +28,7 @@ export class LoginService {
 
   deleteToken() {
     localStorage.removeItem('token');
+    localStorage.clear();
   }
 
   isTokenExpired(): boolean {
