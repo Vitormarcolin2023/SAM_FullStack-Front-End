@@ -98,7 +98,7 @@ export class VisualizarAvaliacoesComponent {
 
   getClasseNota(nota: number): string {
   if (nota <= 2) return 'nota-vermelha';
-  if (nota === 3) return 'nota-laranja';
+  if (nota >= 3 && nota < 4) return 'nota-laranja';
   if (nota >= 4 && nota <= 4.5) return 'nota-amarela';
   if (nota > 4.5) return 'nota-verde';
   return '';

@@ -118,13 +118,13 @@ h3 {
   padding: 3px 7px;
   border-radius: 6px;
   font-weight: 500;
-  background-color: #dee1e3;
+  background-color: $btn-acao;
   color: #333;
   border: none;
 
   &:hover {
-    background-color: #bdbdbd;
-    color: #333;
+    background-color: $btn-hover;
+    color: white;
   }
 }
 
