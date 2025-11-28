@@ -41,9 +41,9 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
     return this.http.put<Projeto>(`${this.API}/update/${id}`, projeto);
   }
 
-   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.API}/delete/${id}`);
-  }
+ arquivar(id: number): Observable<any> {
+  return this.http.put(`${this.API}/arquivar/${id}`, {}); 
+}
 
   findByMentor(id: number): Observable<Projeto[]>{
     return this.http.get<Projeto[]>(`${this.API}/mentor/${id}`);

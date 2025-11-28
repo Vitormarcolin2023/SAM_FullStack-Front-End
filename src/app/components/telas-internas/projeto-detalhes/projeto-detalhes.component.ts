@@ -27,8 +27,10 @@ export class ProjetoDetalhesComponent implements OnInit {
     tokenService = inject(TokenDecode);
    
 ngOnInit(): void {
+  
      this.userRole = this.tokenService.getRole();
     const id = Number(this.route.snapshot.paramMap.get('id'));
+
     if (id) {
       this.projetoService.findById(id).subscribe((res) => {
         this.projeto = res;
@@ -40,20 +42,21 @@ ngOnInit(): void {
     this.modalRef.close();
   }
  
-  deletarProjeto() {
+ arquivarProjeto() {
   const id = this.projeto?.id;
+  console.log("ID que vai ser enviado:", id);
 
-  if (!id) {
-    alert("ID do projeto não encontrado.");
+  if (!id || id <= 0) {
+    alert("ID do projeto inválido.");
     return;
   }
 
-  const confirmado = confirm("Tem certeza que deseja deletar este projeto?");
+  const confirmado = confirm("Tem certeza que deseja arquivar este projeto?");
   if (confirmado) {
-    this.projetoService.delete(id).subscribe({
-      next: () => alert("Projeto deletado com sucesso."),
+    this.projetoService.arquivar(id).subscribe({
+      next: () => alert("Projeto arquivado com sucesso."),
       error: (err) => {
-        alert("Erro ao deletar o projeto.");
+        alert("Erro ao arquivar o projeto.");
         console.error(err);
       }
     });

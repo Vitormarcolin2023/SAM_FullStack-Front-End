@@ -438,7 +438,7 @@ abrirModalMentor(): void {
               : 'O projeto foi salvo com sucesso!',
           });
           this.modoEdicao
-            ? this.router.navigate(['/tela-inicial'])
+            ? this.router.navigate(['/visual-projeto'])
             : this.formProjeto.reset();
         },
         error: (err) => {
@@ -458,6 +458,6 @@ abrirModalMentor(): void {
   }
 
   voltar() {
-    this.router.navigate(['/tela-inicial']);
+    this.router.navigate(['/visual-projeto']);
   }
 }
