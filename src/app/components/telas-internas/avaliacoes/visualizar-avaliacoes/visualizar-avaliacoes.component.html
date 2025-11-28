@@ -1,0 +1,93 @@
+<app-sidebar></app-sidebar>
+@if (isLoading) {
+<div class="state-message">
+  <div class="spinner"></div>
+  <p class="lead">Carregando avaliações...</p>
+</div>
+} @if (!isLoading) {
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h3>Avaliações de Mentororia</h3>
+
+      <!-- FILTROS -->
+      <div class="filtros-container">
+        <!-- Filtro por semestre -->
+        <label for="semestreSelect">Filtrar por semestre:</label>
+        <select
+          id="semestreSelect"
+          class="form-control filtro-status"
+          [(ngModel)]="semestreSelecionado"
+          (change)="filtrarPorSemestre()"
+        >
+          <option value="">Todos</option>
+          @for (s of semestres; track $index) {
+          <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- TABELA -->
+      <div class="tabela-card">
+        <table class="table tabela-card-interna">
+          <thead>
+            <tr>
+              <th>Mentor</th>
+              <th>Avaliado por</th>
+              <th>Semestre</th>
+              <th>Nota</th>
+              <th>Comentários</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (av of avaliacoesFiltradas; track av.id) {
+            <tr>
+              <td>{{ av.projeto.mentor?.nome }}</td>
+              <td>{{ av.aluno.nome }}</td>
+              <td>{{ av.projeto.periodo }}</td>
+
+              <td>
+                <span class="badge-nota" [ngClass]="getClasseNota(av.media)">
+                  {{ av.media }}
+                </span>
+              </td>
+
+              <td>
+                {{
+                  av.comentario.length > 50
+                    ? (av.comentario | slice : 0 : 50) + "..."
+                    : av.comentario
+                }}
+              </td>
+
+              <td>
+                <button
+                  class="btn-visualizar"
+                  (click)="visualizarAvaliacao(av)"
+                >
+                  Visualizar
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        @if (avaliacoesFiltradas.length <= 0) {
+          <div class="aviso">Nenhuma avaliação disponível para o período selecionado.</div>
+        }
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button class="btn btn-secondary" (click)="voltar()">Voltar</button>
+    </div>
+  </div>
+</div>
+} @if (avaliacaoSelecionada) {
+<app-avaliacao-details
+  [avaliacao]="avaliacaoSelecionada"
+  (fechar)="avaliacaoSelecionada = undefined"
+></app-avaliacao-details>
+}

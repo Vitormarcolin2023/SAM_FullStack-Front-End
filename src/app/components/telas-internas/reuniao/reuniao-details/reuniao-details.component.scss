@@ -1,0 +1,82 @@
+@use "../../../../../styles/variaveis.scss" as *;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.header-com-botao {
+  display: flex;
+  justify-content: space-between; // título à esquerda, botão editar à direita
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    color: $titulos-verde;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 700;
+  }
+
+  .btn.editar {
+    background-color: $btn-acao;
+    color: $btn-color-verde;
+    border-radius: 6px;
+    padding: 6px 12px;
+    &:hover { background-color: $btn-hover; color: #fff; }
+  }
+}
+
+.botoes-rodape {
+  display: flex;
+  justify-content: flex-end; // botão "Voltar" no canto direito
+  gap: 12px;
+  margin-top: 20px;
+
+  .btn.voltar {
+    background-color: $fundo-elemento;
+    color: #333;
+    border-radius: 8px;
+    padding: 8px 16px;
+    &:hover { background-color: darken($fundo-elemento, 5%); }
+  }
+
+  .btn.salvar {
+    background-color: $btn-acao;
+    &:hover {
+      background-color: $btn-hover;
+      color: white;
+    }
+  }
+
+  .btn.deletar{
+    background-color: rgb(255, 118, 118);
+    &:hover{
+      background-color: rgb(255, 89, 89);
+      color: white;
+    }
+  }
+}
+
+.info-content {
+  margin-bottom: 15px;
+}

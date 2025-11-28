@@ -1,20 +1,17 @@
-/* ------------------- BOTÕES ------------------- */
-.btn-color {
-  background-color: rgb(28, 232, 151);
-  color: #146c43;
+/*  FUNDO GERAL DA PÁGINA*/
+.background {
+  background-color: #dedede !important;
+  min-height: 100vh;
+  width: 100%;
+  padding-top: 40px;
 }
 
-.btn-color:hover {
-  background-color: #00995e;
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-/* ------------------- CARD ------------------- */
+/*  CARD / CONTAINER PRINCIPAL */
 .perfil-card {
   border-radius: 12px;
   border: 1px solid #00995e;
   width: 75%;
+  max-width: 780px;
   margin: 0 auto;
   padding: 30px 25px;
   background: #fff;
@@ -22,7 +19,7 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
-/* ------------------- TÍTULOS E LINHAS ------------------- */
+/*  TÍTULOS E LINHAS  */
 h3 {
   color: #00995e;
   font-weight: 600;
@@ -36,7 +33,7 @@ h3 {
   margin-bottom: 20px;
 }
 
-/* ------------------- FORMULÁRIOS ------------------- */
+/*  FORMULÁRIOS  */
 .form-label {
   color: #00995e;
   font-weight: 500;
@@ -66,8 +63,7 @@ textarea.form-control:focus {
   background-color: #fff;
 }
 
-/* ------------------- DROPDOWN (Cursos) ------------------- */
-/* Estilização específica do dropdown de cursos */
+/*  DROPDOWN  */
 .form-select {
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -95,7 +91,7 @@ textarea.form-control:focus {
   min-height: 100px;
 }
 
-/* ------------------- ERROS ------------------- */
+/*  ERROS  */
 .error-message {
   color: red;
   font-size: 12px;
@@ -103,25 +99,38 @@ textarea.form-control:focus {
   display: block;
 }
 
-/* ------------------- RESPONSIVIDADE ------------------- */
-@media (max-width: 992px) {
-  .perfil-card {
-    width: 90%;
-  }
-
-  .btn-color,
-  .btn-back {
-    width: 100%;
-  }
-
-  .d-flex {
-    flex-direction: column;
-    gap: 10px;
-  }
+/* BOTÕES */
+.btn-color {
+  background-color: rgb(28, 232, 151);
+  color: #146c43;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  transition: 0.25s ease;
 }
 
-/* ------------------- Acordeon de Cursos ------------------- */
-/* Estrutura geral do collapse */
+.btn-color:hover {
+  background-color: #00995e;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-back {
+  background-color: #ccc;
+  color: #333;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.btn-back:hover {
+  background-color: #999;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ACORDEON CURSOS */
 .collapse-container {
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -161,11 +170,10 @@ textarea.form-control:focus {
 }
 
 .collapse-toggle:checked ~ .collapse-content {
-  max-height: 400px; /* Ajuste conforme o conteúdo */
+  max-height: 400px;
   padding: 10px 16px;
 }
 
-/* Lista de checkboxes */
 .curso-lista {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -180,4 +188,21 @@ textarea.form-control:focus {
 .form-check-label {
   cursor: pointer;
   font-size: 14px;
+}
+
+/*  RESPONSIVIDADE  */
+@media (max-width: 992px) {
+  .perfil-card {
+    width: 90%;
+  }
+
+  .btn-color,
+  .btn-back {
+    width: 100%;
+  }
+
+  .d-flex {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

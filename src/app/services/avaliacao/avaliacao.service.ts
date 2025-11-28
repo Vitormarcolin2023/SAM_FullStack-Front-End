@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Avaliacao } from '../../models/avaliacao/avaliacao';
+import { Avaliacao, avaliacaoDTO } from '../../models/avaliacao/avaliacao';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -26,7 +26,15 @@ export class AvaliacaoService {
   private api = 'http://localhost:8080/avaliacoes';
   private http = inject(HttpClient);
 
-  saveAvaliacao(avaliacao: Avaliacao): Observable<Avaliacao>{
-    return this.http.post<Avaliacao>(`${this.api}/${avaliacao.projeto.id}`, avaliacao);
+  saveAvaliacao(avaliacao: Avaliacao): Observable<boolean>{
+    return this.http.post<boolean>(`${this.api}/projeto/${avaliacao.projeto.id}`, avaliacao);
+  }
+
+  alunoRespondeuAvaliacao(alunoId: number, projetoId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.api}/verifica-pendencia-aluno/${alunoId}/projeto/${projetoId}`);
+  }
+
+  buscarAvaliacoesAreaDeAtuacao(areaId: number[]): Observable<avaliacaoDTO[]> {
+    return this.http.get<avaliacaoDTO[]>(`${this.api}/buscar-todos/area-atuacao/${areaId}`);
   }
 }

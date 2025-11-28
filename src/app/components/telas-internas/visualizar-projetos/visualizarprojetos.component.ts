@@ -11,12 +11,12 @@ import { Professor } from '../../../models/professor/professor';
 import { Projeto } from '../../../models/projeto/projeto';
 import { DatePipe } from '@angular/common';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { TokenDecode } from '../../../models/token/token-decode';
 
 @Component({
   selector: 'app-visualizarprojetos',
   standalone: true,
   imports: [
-    NavbarTelasInternasComponent,
     SidebarComponent,
     DatePipe,
     MdbModalModule,
@@ -32,11 +32,14 @@ export class VisualizarprojetosComponent {
   coordenadorService = inject(CoordenadorService);
   projetoService = inject(ProjetoService);
   professorService = inject(ProfessorService);
+  tokenDecode = inject(TokenDecode);
 
   coordenador!: Coordenador;
   professor!: Professor;
   projetos: Projeto[] = [];
   perfilLogado: 'coordenador' | 'professor' | null = null;
+
+  role = this.tokenDecode.getRole();
 
   ngOnInit() {
     this.carregarDadosDoUsuarioLogado();
@@ -62,6 +65,14 @@ export class VisualizarprojetosComponent {
       return;
     }
 
+    if(this.role == "COORDENADOR") {
+      this.carregarCoordenador(emailDoToken);
+    } else if (this.role == "PROFESSOR") {
+      this.buscarProfessor(emailDoToken);
+    }
+  }
+
+  carregarCoordenador(emailDoToken: string) {
     this.coordenadorService.getCoordenadorPorEmail(emailDoToken).subscribe({
       next: (coordenador) => {
         if (coordenador && coordenador.id) {
@@ -69,18 +80,15 @@ export class VisualizarprojetosComponent {
           this.coordenador = coordenador;
           console.log('Usuário encontrado como Coordenador.');
           this.carregarProjetosDoCoordenador(coordenador);
-        } else {
-          this.buscarProfessor(emailDoToken);
         }
       },
       error: (erro) => {
         console.warn(
           'Busca de Coordenador falhou, tentando buscar como Professor...'
         );
-        this.buscarProfessor(emailDoToken);
       },
     });
-  }
+}
 
   private buscarProfessor(email: string): void {
     this.professorService.getProfessorPorEmail(email).subscribe({

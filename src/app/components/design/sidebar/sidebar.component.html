@@ -170,12 +170,21 @@
       </label>
       <ul class="submenu">
         <li>
-          <a routerLink="/solicitar-reuniao">Solicitar reunião</a>
+          <a routerLink="/reuniao/solicitar-reuniao">Solicitar reunião</a>
         </li>
         <li>
-          <a>Visualizar reuniões</a>
+          <a routerLink="/reuniao/visualizar-reunioes">Visualizar reuniões</a>
         </li>
       </ul>
+    </li>
+    }
+
+    @if (userRole == 'COORDENADOR') {
+       <li>
+      <a href="/avaliacao/coordenador/visualizar-avaliacoes" class="nav-link">
+        <span class="icon"> <i class="fas fa-star"></i> </span>
+        <span class="text">Visualizar Avaliações</span>
+      </a>
     </li>
     }
 

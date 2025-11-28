@@ -16,6 +16,7 @@ export class Projeto {
   grupo?: Grupo;
   professores?: Professor[];
   reunioes?: Reuniao[];
+  avaliadoPorMentor?: boolean;
 
   constructor(
     nomeDoProjeto: string = '',
@@ -29,7 +30,8 @@ export class Projeto {
     statusProjeto?: string,
     grupo?: Grupo,
     professores?: Professor[],
-    reunioes?: Reuniao[]
+    reunioes?: Reuniao[],
+    avaliadoPorMentor?: boolean,
   ) {
     this.id = id;
     this.nomeDoProjeto = nomeDoProjeto;
@@ -43,5 +45,6 @@ export class Projeto {
     this.grupo = grupo;
     this.professores = professores;
     this.reunioes = reunioes;
+    this.avaliadoPorMentor = avaliadoPorMentor;
   }
 }

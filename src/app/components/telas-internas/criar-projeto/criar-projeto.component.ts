@@ -34,7 +34,6 @@ import { Professor } from '../../../models/professor/professor';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NavbarTelasInternasComponent,
     SidebarComponent,
   ],
 })
@@ -217,6 +216,9 @@ export class CriarProjetoComponent implements OnInit {
           if (grupoCorrespondente) {
             this.formProjeto.patchValue({ grupo: grupoCorrespondente });
             this.semGrupo = false;
+
+             this.verificarProjetoDoGrupo(grupoCorrespondente.id);
+
             this.formProjeto.enable();
           }
         }else {
@@ -239,6 +241,36 @@ export class CriarProjetoComponent implements OnInit {
       }
     });
   }
+
+  verificarProjetoDoGrupo(idGrupo: number): void {
+  this.projetoService.findByGrupo(idGrupo).subscribe({
+    next: (projeto) => {
+      if (projeto) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Este grupo já possui um projeto!',
+          text: 'Não é possível criar outro projeto.',
+        });
+        this.formProjeto.disable();
+      }
+    },
+    error: (err) => {
+      console.log("Erro ao verificar projeto do grupo:", err);
+    
+      if (err.status === 400) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Este grupo já possui um projeto!',
+          text: 'Não é possível criar outro projeto.',
+        });
+        this.formProjeto.disable();
+      } else if (err.status !== 404) {
+        console.error('Erro inesperado:', err);
+      }
+    }
+  });
+}
+
 
   exibirAlertaSemGrupo(): void {
     Swal.fire({
@@ -398,6 +430,15 @@ abrirModalMentor(): void {
 
   onSubmit() {
 
+     if (this.formProjeto.disabled) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Ação bloqueada',
+        text: 'Seu grupo já possui um projeto cadastrado.',
+      });
+      return;
+    }
+
     if(this.semGrupo) {
       Swal.fire({
         icon: 'warning',
@@ -439,7 +480,7 @@ abrirModalMentor(): void {
               : 'O projeto foi salvo com sucesso!',
           });
           this.modoEdicao
-            ? this.router.navigate(['/tela-inicial'])
+            ? this.router.navigate(['/visual-projeto'])
             : this.formProjeto.reset();
         },
         error: (err) => {
@@ -459,6 +500,6 @@ abrirModalMentor(): void {
   }
 
   voltar() {
-    this.router.navigate(['/tela-inicial']);
+    this.router.navigate(['/visual-projeto']);
   }
 }
