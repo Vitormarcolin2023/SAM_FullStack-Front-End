@@ -68,4 +68,8 @@ update(id: number, projeto: Projeto): Observable<Projeto> {
   buscarProjetoAguardandoAvaliacaoAluno(alunoId: number): Observable<Projeto> {
     return this.http.get<Projeto>(`${this.API}/buscar-projeto-nao-avaliado-aluno/${alunoId}`);
   }
+
+  findByGrupo(idGrupo: number): Observable<Projeto> {
+    return this.http.get<Projeto>(`${this.API}/grupo/${idGrupo}`);
+  }
 }
