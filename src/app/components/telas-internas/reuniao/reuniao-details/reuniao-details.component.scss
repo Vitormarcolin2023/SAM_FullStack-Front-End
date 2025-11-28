@@ -1,105 +1,82 @@
 @use "../../../../../styles/variaveis.scss" as *;
 
-.card {
-  width: 100%;
-  max-width: 700px;
-  background-color: #dedede;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
-
-.header-com-botao {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.info-section {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 1rem;
-}
-
-.info-content {
-  flex: 1;
-}
-
-input[readonly] {
-  background-color: #f8f9fa;
-  border: 1px solid #ccc;
-}
-
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); // fundo semi-transparente
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.55);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; // garantir que fique acima de tudo
+  z-index: 99999;
 }
 
 .modal-card {
-  background-color: #fff;
+  background: #fff;
   border-radius: 12px;
-  width: 100%;
+  width: 90%;
   max-width: 700px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 25px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.btn-color{
-    background-color: $btn-acao;
-    color: #333;
+.header-com-botao {
+  display: flex;
+  justify-content: space-between; // título à esquerda, botão editar à direita
+  align-items: center;
+  margin-bottom: 20px;
 
-    &:hover{
-        background-color: $btn-hover;
-        color: white;
-    }
-}
+  h2 {
+    color: $titulos-verde;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 700;
+  }
 
-.btn-editar{
+  .btn.editar {
     background-color: $btn-acao;
-    color: #333;
-    margin-left: 5px;
+    color: $btn-color-verde;
     border-radius: 6px;
+    padding: 6px 12px;
+    &:hover { background-color: $btn-hover; color: #fff; }
+  }
+}
 
-    &:hover{
-        background-color: $btn-hover;
-        color: white;
+.botoes-rodape {
+  display: flex;
+  justify-content: flex-end; // botão "Voltar" no canto direito
+  gap: 12px;
+  margin-top: 20px;
+
+  .btn.voltar {
+    background-color: $fundo-elemento;
+    color: #333;
+    border-radius: 8px;
+    padding: 8px 16px;
+    &:hover { background-color: darken($fundo-elemento, 5%); }
+  }
+
+  .btn.salvar {
+    background-color: $btn-acao;
+    &:hover {
+      background-color: $btn-hover;
+      color: white;
     }
+  }
+
+  .btn.deletar{
+    background-color: rgb(255, 118, 118);
+    &:hover{
+      background-color: rgb(255, 89, 89);
+      color: white;
+    }
+  }
 }
 
-input.ng-invalid.ng-dirty {
-  border-color: #dc3545; /* vermelho */
-}
-
-.status-badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: white;
-}
-
-.status-pendente {
-  background-color: #ffc107;
-}
-
-.status-ativo {
-  background-color: #28a745; 
-}
-
-.status-inativo {
-  background-color: #6c757d;
-}
-
-.status-cancelado {
-  background-color: #dc3545;
+.info-content {
+  margin-bottom: 15px;
 }

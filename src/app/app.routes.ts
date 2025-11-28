@@ -42,6 +42,9 @@ import { ReuniaoComponent } from './components/telas-internas/reuniao/reuniao.co
 import { VisualizarReunioesComponent } from './components/telas-internas/reuniao/visualizar-reunioes/visualizar-reunioes.component';
 import { Avaliacao } from './models/avaliacao/avaliacao';
 import { AvaliacoesComponent } from './components/telas-internas/avaliacoes/avaliacoes.component';
+import { VisualizarAvaliacoesComponent } from './components/telas-internas/avaliacoes/visualizar-avaliacoes/visualizar-avaliacoes.component';
+import { AcessoNegadoComponent } from './components/acesso-negado/acesso-negado/acesso-negado.component';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   // Páginas iniciais
@@ -54,6 +57,8 @@ export const routes: Routes = [
   {
     path: 'tela-inicial',
     component: TelaInicialComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['MENTOR', 'COORDENADOR', 'PROFESSOR', 'ALUNO']},
     children: [
       { path: 'listar-mentor', component: ListarMentorComponent },
       { path: 'visualizar-projetos', component: VisualizarprojetosComponent },
@@ -65,6 +70,8 @@ export const routes: Routes = [
   {
     path: 'aluno',
     component: AlunoPrincipalComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO']},
     children: [
       { path: 'aluno-perfil', component: AlunoPerfilComponent },
       { path: 'aluno-editar/:email', component: AlunoDetaisComponent },
@@ -77,6 +84,8 @@ export const routes: Routes = [
   {
     path: 'grupo',
     component: GrupoComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO']},
     children: [
       {
         path: 'grupo-details',
@@ -99,22 +108,30 @@ export const routes: Routes = [
   {
     path: 'mentor-perfil',
     component: MentorPerfilComponent,
-    canActivate: [mentorStatusGuard],
+    canActivate: [roleGuard],
+    data: {roles: ['MENTOR']},
+    
   },
   {
     path: 'editar-mentor',
     component: MentorEditComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['MENTOR']},
   },
 
   {
     path: 'mentor/visualizar-projetos',
     component: ProjetosMentorComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['MENTOR']},
   },
 
   //Aceite de mentoria
   {
     path: 'aprovar-mentoria',
     component: AprovarMentorComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['MENTOR']},
     children: [
       {
         path: 'painel-de-mentorias',
@@ -131,6 +148,8 @@ export const routes: Routes = [
   {
     path: 'reuniao',
     component: ReuniaoComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO', 'MENTOR']},
     children: [
       { 
         path: 'solicitar-reuniao', 
@@ -147,6 +166,8 @@ export const routes: Routes = [
   {
     path: 'coordenacao',
     component: CoordenacaoPrincipalComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['COORDENADOR']},
     children: [
       {
         path: 'coordenacao-editar/:email',
@@ -164,16 +185,40 @@ export const routes: Routes = [
   { path: 'cadastro-professor', component: CadastroProfessorComponent },
   { path: 'funcionario-perfil', component: FuncionarioComponent },
 
-  { path: 'visual-projeto', component: VisualProjetoComponent },
-  { path: 'criar-projeto', component: CriarProjetoComponent },
-  { path: 'projeto-detalhes', component: ProjetoDetalhesComponent },
-  { path: 'projetos/:id', component: ProjetoDetalhesComponent },
-  { path: 'editar-projeto/:id', component: CriarProjetoComponent },
+  { path: 'visual-projeto', component: VisualProjetoComponent, 
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO']},
+  },
+  { 
+    path: 'criar-projeto', 
+    component: CriarProjetoComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO']}, 
+  },
+  { 
+    path: 'projeto-detalhes', 
+    component: ProjetoDetalhesComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO']}, 
+  },
+  { 
+    path: 'projetos/:id', 
+    component: ProjetoDetalhesComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO', 'COORDENADOR', 'MENTOR', 'PROFESSOR']},
+  },
+  { path: 'editar-projeto/:id', 
+    component: CriarProjetoComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['ALUNO']},
+   },
 
   //Rota para professor
   {
     path: 'professor',
     component: ProfessorPrincipalComponent,
+    canActivate: [roleGuard],
+    data: {roles: ['PROFESSOR']},
     children: [
       {
         path: 'visualizar-grupos',
@@ -186,7 +231,8 @@ export const routes: Routes = [
     path: 'avaliacao',
     component: AvaliacoesComponent,
     children: [
-      {path: 'alunos-mentores', component: AvaliacoesAlunosComponent},
+      {path: 'alunos-mentores', component: AvaliacoesAlunosComponent, canActivate: [roleGuard], data: {roles: ['ALUNO']}},
+      {path: 'coordenador/visualizar-avaliacoes', component: VisualizarAvaliacoesComponent, canActivate: [roleGuard], data: {roles: ['COORDENADOR']},},
     ],
   },
 
@@ -198,7 +244,7 @@ export const routes: Routes = [
   },
 
 
-  // Fallback (rota não encontrada)
+  { path: 'acesso-negado', component: AcessoNegadoComponent},
 
   // Fallback (rota não encontrada) //nao adicionar paginas embaixo dessa linha se nao nao funciona
   { path: '**', redirectTo: '' },

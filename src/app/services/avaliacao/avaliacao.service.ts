@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Avaliacao } from '../../models/avaliacao/avaliacao';
+import { Avaliacao, avaliacaoDTO } from '../../models/avaliacao/avaliacao';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
@@ -33,5 +33,9 @@ export class AvaliacaoService {
 
   alunoRespondeuAvaliacao(alunoId: number, projetoId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.api}/verifica-pendencia-aluno/${alunoId}/projeto/${projetoId}`);
+  }
+
+  buscarAvaliacoesAreaDeAtuacao(areaId: number[]): Observable<avaliacaoDTO[]> {
+    return this.http.get<avaliacaoDTO[]>(`${this.api}/buscar-todos/area-atuacao/${areaId}`);
   }
 }

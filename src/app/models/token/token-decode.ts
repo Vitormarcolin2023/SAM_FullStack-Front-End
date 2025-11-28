@@ -32,5 +32,12 @@ export class TokenDecode {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.clear();
   }
+
+  getExpiration(): number | null {
+  const decoded = this.getDecodedToken();
+  return decoded ? decoded.exp : null;
+}
+
 }
