@@ -5,12 +5,11 @@ import { Aluno } from '../../../../models/aluno/aluno';
 import { AlunoService } from '../../../../services/alunos/alunos.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from "../../../design/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-aluno-detais',
   standalone: true,
-  imports: [FormsModule, CommonModule, SidebarComponent],
+  imports: [FormsModule, CommonModule],
   templateUrl: './aluno-detais.component.html',
   styleUrls: ['./aluno-detais.component.scss'],
 })
