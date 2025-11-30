@@ -5,18 +5,15 @@
     <div class="card">
       <div class="card-body">
         <div class="container-centralizado">
-
           <h3>{{ modoEdicao ? "Editar Projeto" : "Criar Projeto" }}</h3>
           <div class="linha"></div>
 
-          <!-- 
-               INFORMAÇÕES DO PROJETO
-           -->
           <h4 class="section-title">Informações do Projeto</h4>
-          
 
           <div class="mb-3">
-            <label for="nomeDoProjeto" class="form-label">Nome do Projeto</label>
+            <label for="nomeDoProjeto" class="form-label"
+              >Nome do Projeto</label
+            >
             <input
               id="nomeDoProjeto"
               type="text"
@@ -33,28 +30,26 @@
               class="form-control"
               formControlName="descricao"
               placeholder="Digite a descrição do projeto"
-              
               rows="2"
             ></textarea>
           </div>
 
           <div class="mb-3">
-            <label for="periodo" class="form-label" >Período</label>
+            <label for="periodo" class="form-label">Período</label>
             <select id="periodo" class="form-control" formControlName="periodo">
-               <option value="" disabled>Selecione a área de atuação</option>
+              <option value="" disabled>Selecione o período</option>
               <option *ngFor="let p of periodosDisponiveis" [value]="p">
                 {{ p }}
               </option>
             </select>
           </div>
 
-          <!--
-               DATAS
-          -->
           <h4 class="section-title">Datas</h4>
 
           <div class="mb-3">
-            <label class="form-label" for="dataInicioProjeto">Data de Início</label>
+            <label class="form-label" for="dataInicioProjeto"
+              >Data de Início</label
+            >
             <input
               id="dataInicioProjeto"
               type="date"
@@ -73,21 +68,22 @@
             />
           </div>
 
-          <!-- 
-               RELACIONAMENTOS
-           -->
           <h4 class="section-title">Relacionamentos</h4>
 
-          <!-- ÁREA DE ATUAÇÃO -->
           <div class="mb-3">
-            <label for="areaDeAtuacao" class="form-label">Área de Atuação</label>
+            <label for="areaDeAtuacao" class="form-label"
+              >Área de Atuação</label
+            >
 
             <ng-container *ngIf="!modoEdicao; else editarArea">
               <input
                 id="areaDeAtuacao"
                 type="text"
                 class="form-control"
-                [value]="formProjeto.get('areaDeAtuacao')?.value?.nome || 'Carregando...'"
+                [value]="
+                  formProjeto.get('areaDeAtuacao')?.value?.nome ||
+                  'Carregando...'
+                "
                 readonly
               />
             </ng-container>
@@ -107,7 +103,6 @@
             </ng-template>
           </div>
 
-          <!-- MENTOR -->
           <div class="mb-3">
             <label class="form-label" for="mentor">Mentor</label>
             <div class="d-flex">
@@ -118,44 +113,48 @@
                 [value]="formProjeto.get('mentor')?.value?.nome || ''"
                 readonly
               />
-              <button type="button" class="btn btn-primary ms-2" (click)="abrirModalMentor()">
+              <button
+                type="button"
+                class="btn btn-primary ms-2"
+                (click)="abrirModalMentor()"
+              >
                 Selecionar
               </button>
             </div>
           </div>
 
-          <!-- MODAL DO MENTOR -->
-        <div class="modal-overlay" *ngIf="modalAberto">
-          <div class="modal-box">
+          <div class="modal-overlay" *ngIf="modalAberto">
+            <div class="modal-box">
+              <h3>Selecionar Mentor</h3>
+              <div class="linha"></div>
 
-            <h3>Selecionar Mentor</h3>
-            <div class="linha"></div>
+              <input
+                type="text"
+                class="modal-input"
+                placeholder="Pesquisar mentor..."
+                (input)="filtrarMentoresModal($event)"
+              />
 
-            <input
-              type="text"
-              class="modal-input"
-              placeholder="Pesquisar mentor..."
-              (input)="filtrarMentoresModal($event)"
-            />
+              <ul class="mentor-list">
+                <li
+                  class="mentor-item"
+                  *ngFor="let mentor of mentoresFiltradosModal"
+                  (click)="selecionarMentor(mentor)"
+                >
+                  <strong>{{ mentor.nome }}</strong
+                  ><br />
+                  <small>{{ mentor.email }}</small>
+                </li>
+              </ul>
 
-            <ul class="mentor-list">
-              <li
-                class="mentor-item"
-                *ngFor="let mentor of mentoresFiltradosModal"
-                (click)="selecionarMentor(mentor)"
-              >
-                <strong>{{ mentor.nome }}</strong><br />
-                <small>{{ mentor.email }}</small>
-              </li>
-            </ul>
-
-            <div style="text-align: right; margin-top: 20px;">
-              <button class="btn-fechar" (click)="fecharModalMentor()">Fechar</button>
+              <div style="text-align: right; margin-top: 20px">
+                <button class="btn-fechar" (click)="fecharModalMentor()">
+                  Fechar
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-          <!-- GRUPO -->
           <div class="mb-3">
             <label class="form-label" for="grupo">Grupo</label>
 
@@ -165,7 +164,9 @@
                 type="text"
                 class="form-control"
                 readonly
-                [value]="formProjeto.get('grupo')?.value?.nome || 'Carregando...'"
+                [value]="
+                  formProjeto.get('grupo')?.value?.nome || 'Carregando...'
+                "
               />
             </ng-container>
 
@@ -179,52 +180,34 @@
             </ng-template>
           </div>
 
-          <!-- PROFESSORES -->
-          <h4 class="section-title">Professores</h4>
-
-          <div *ngIf="professoresSelecionados.length > 0" class="mb-2">
-            <span
-              *ngFor="let professor of professoresSelecionados"
-              class="badge bg-primary me-1"
-              style="cursor: pointer;"
-              (click)="toggleProfessorSelecao(professor)"
-            >
-              {{ professor.nome }} ✕
-            </span>
-          </div>
-
           <div class="mb-3">
+            <label class="form-label">Professor(es) Responsável(is)</label>
+
             <input
+              type="text"
               class="form-control"
-              placeholder="Pesquisar professores"
-              (input)="pesquisarProfessores($event)"
+              [value]="nomesProfessoresFormatados"
+              readonly
+              style="background-color: #e9ecef"
             />
+
+            <small class="text-muted">
+              *Definido automaticamente com base no seu Grupo.
+            </small>
           </div>
-
-          <ul class="list-group mb-3">
-            <li
-              class="list-group-item"
-              *ngFor="let professor of professoresFiltrados; trackBy: trackByProfessorId"
-              [class.active]="isProfessorSelecionado(professor)"
-              (click)="toggleProfessorSelecao(professor)"
-              style="cursor: pointer;"
-            >
-              {{ professor.nome }}
-            </li>
-
-            <li *ngIf="professoresFiltrados.length === 0" class="list-group-item text-center">
-              Nenhum professor encontrado.
-            </li>
-          </ul>
-
         </div>
       </div>
 
-      <!-- FOOTER -->
       <div class="card-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="voltar()">Voltar</button>
+        <button type="button" class="btn btn-secondary" (click)="voltar()">
+          Voltar
+        </button>
 
-        <button type="submit" class="btn btn-primary" [disabled]="formProjeto.invalid || carregando">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="formProjeto.invalid || carregando"
+        >
           <span *ngIf="!carregando">
             {{ modoEdicao ? "Atualizar Projeto" : "Salvar Projeto" }}
           </span>

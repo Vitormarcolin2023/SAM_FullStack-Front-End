@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Coordenador } from '../../models/coordenacao/coordenador';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CoordenadorService {
 
   http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:8080/api/coordenador';
+  private apiUrl = environment.SERVIDOR + '/api/coordenador';
 
 
   ativarMentor(mentorId: number | undefined): Observable<any> {
