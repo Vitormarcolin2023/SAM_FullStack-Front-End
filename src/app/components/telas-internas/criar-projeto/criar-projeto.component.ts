@@ -16,13 +16,11 @@ import { Mentor } from '../../../models/mentor/mentor';
 import { AreaDeAtuacao } from '../../../models/areadeatuacao/areadeatuacao';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
 import Swal from 'sweetalert2';
-import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GrupoService } from '../../../services/grupo/grupo.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlunoService } from '../../../services/alunos/alunos.service';
-import { ProfessorService } from '../../../services/professor/professor.service';
 import { Professor } from '../../../models/professor/professor';
 
 @Component({
@@ -42,16 +40,15 @@ export class CriarProjetoComponent implements OnInit {
   mentores: Mentor[] = [];
   areasDeAtuacao: AreaDeAtuacao[] = [];
   grupos: any[] = [];
-  professores: Professor[] = [];
-  professoresFiltrados: Professor[] = [];
+
+  // Lista apenas para armazenar os professores vindos do grupo (para exibição)
   professoresSelecionados: Professor[] = [];
+
   mentoresFiltradosModal: Mentor[] = [];
   areaSelecionadaNoModal: AreaDeAtuacao | null = null;
   listaOriginalMentoresModal: Mentor[] = [];
 
   filtroNome: string = '';
-  filtroArea: string = '';
-
   semGrupo = false;
 
   periodosDisponiveis: string[] = [
@@ -75,8 +72,7 @@ export class CriarProjetoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private grupoService: GrupoService,
-    private alunoService: AlunoService,
-    private professorService: ProfessorService
+    private alunoService: AlunoService
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +81,6 @@ export class CriarProjetoComponent implements OnInit {
     this.carregarDadosIniciais();
     this.monitorarAreaDeAtuacao();
     this.monitorarDataInicio();
-    this.carregarProfessores();
 
     this.route.params.subscribe((params) => {
       const id = params['id'];
@@ -97,28 +92,31 @@ export class CriarProjetoComponent implements OnInit {
     });
   }
 
+  // --- GETTER PARA O HTML (Exibe os nomes dos professores) ---
+  get nomesProfessoresFormatados(): string {
+    if (
+      !this.professoresSelecionados ||
+      this.professoresSelecionados.length === 0
+    ) {
+      return 'Nenhum professor vinculado ao grupo.';
+    }
+    return this.professoresSelecionados.map((p) => p.nome).join(', ');
+  }
+
   private monitorarDataInicio(): void {
     this.formProjeto
       .get('dataInicioProjeto')
       ?.valueChanges.subscribe((inicio) => {
-        // 1. Se não tiver valor ou se a string for muito curta (ex: usuário ainda digitando), para tudo.
+        // Validação para evitar datas malucas (ex: ano 20226)
         if (!inicio || inicio.length < 10) {
           this.formProjeto.get('dataFinalProjeto')?.setValue('');
           return;
         }
-
         const dataInicio = new Date(inicio);
-
-        // 2. Verifica se é uma data válida (evita o erro do ano 20226)
-        if (isNaN(dataInicio.getTime())) {
-          return;
-        }
+        if (isNaN(dataInicio.getTime())) return;
 
         const dataFinalAutomatico = new Date(dataInicio);
-        // Adiciona 6 meses
         dataFinalAutomatico.setMonth(dataFinalAutomatico.getMonth() + 6);
-
-        // Formata para YYYY-MM-DD
         const dataFinalFormatada = dataFinalAutomatico
           .toISOString()
           .split('T')[0];
@@ -140,7 +138,7 @@ export class CriarProjetoComponent implements OnInit {
         areaDeAtuacao: [null, Validators.required],
         mentor: [{ value: null, disabled: true }, Validators.required],
         grupo: [null, Validators.required],
-        professores: [[], Validators.required],
+        professores: [[], Validators.required], // Inicializa vazio
       },
       {
         validators: [this.validarDatasProjeto()],
@@ -170,10 +168,7 @@ export class CriarProjetoComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error(
-          'Nenhuma área de atuação encontrada para o aluno logado.',
-          err
-        );
+        console.error('Nenhuma área encontrada para o aluno.', err);
       },
     });
   }
@@ -183,7 +178,6 @@ export class CriarProjetoComponent implements OnInit {
       .get('areaDeAtuacao')
       ?.valueChanges.subscribe((areaSelecionada) => {
         const mentorControl = this.formProjeto.get('mentor');
-
         this.mentores = [];
         mentorControl?.reset();
 
@@ -208,9 +202,7 @@ export class CriarProjetoComponent implements OnInit {
           this.preencherGrupoDoAluno();
         }
       },
-      error: (err) => {
-        console.error('Erro ao carregar grupos:', err);
-      },
+      error: (err) => console.error('Erro ao carregar grupos:', err),
     });
   }
 
@@ -221,50 +213,60 @@ export class CriarProjetoComponent implements OnInit {
           const grupoCorrespondente = this.grupos.find(
             (g) => g.id === grupoDoAluno.id
           );
+
           if (grupoCorrespondente) {
+            // 1. Define o Grupo
             this.formProjeto.patchValue({ grupo: grupoCorrespondente });
             this.semGrupo = false;
 
-            this.verificarProjetoDoGrupo(grupoCorrespondente.id);
+            // 2. Define o Período automaticamente (se houver no grupo)
+            if (grupoCorrespondente.periodo) {
+              this.formProjeto.patchValue({
+                periodo: grupoCorrespondente.periodo,
+              });
+            }
 
+            // 3. Define os Professores automaticamente
+            if (
+              grupoCorrespondente.professores &&
+              grupoCorrespondente.professores.length > 0
+            ) {
+              this.professoresSelecionados = grupoCorrespondente.professores;
+              this.formProjeto.patchValue({
+                professores: this.professoresSelecionados,
+              });
+            }
+
+            // Verifica se já tem projeto
+            this.verificarProjetoDoGrupo(grupoCorrespondente.id);
             this.formProjeto.enable();
           }
         } else {
-          this.semGrupo = true;
-          this.formProjeto.disable();
-
-          setTimeout(() => {
-            this.exibirAlertaSemGrupo();
-          }, 0);
+          this.tratarUsuarioSemGrupo();
         }
       },
       error: (err) => {
-        console.error('Nenhum grupo encontrado para o aluno logado.', err);
-        this.semGrupo = true;
-        this.formProjeto.disable();
-
-        setTimeout(() => {
-          this.exibirAlertaSemGrupo();
-        }, 0);
+        console.error('Nenhum grupo encontrado.', err);
+        this.tratarUsuarioSemGrupo();
       },
     });
   }
 
+  private tratarUsuarioSemGrupo() {
+    this.semGrupo = true;
+    this.formProjeto.disable();
+    setTimeout(() => {
+      this.exibirAlertaSemGrupo();
+    }, 0);
+  }
+
   verificarProjetoDoGrupo(idGrupo: number): void {
-    // 1. REGRA DE OURO: Se estamos no Modo Edição, ignoramos a verificação.
-    // É óbvio que o projeto existe se estamos editando ele.
-    if (this.modoEdicao) {
-      return;
-    }
+    // Se estiver editando, não precisa verificar bloqueio
+    if (this.modoEdicao) return;
 
     this.projetoService.findByGrupo(idGrupo).subscribe({
       next: (projeto) => {
-        // 2. Log para você ver no console o que diabos o backend está retornando
-        console.log('Verificando projeto do grupo:', projeto);
-
-        // 3. Verificação Robusta:
-        // Só bloqueia se 'projeto' existir E tiver um ID válido.
-        // Isso evita que objetos vazios {} ou null travem a tela.
+        // Se retornou um projeto válido (não nulo, com ID)
         if (projeto && projeto.id) {
           Swal.fire({
             icon: 'warning',
@@ -277,16 +279,10 @@ export class CriarProjetoComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log('Erro ao verificar projeto:', err);
+        // Se der 404, significa que NÃO tem projeto, então pode criar (Sucesso)
+        if (err.status === 404) return;
 
-        // 4. Se der 404 (Not Found), ISSO É BOM!
-        // Significa que não tem projeto, então o usuário pode criar.
-        if (err.status === 404) {
-          return; // Segue o jogo, libera o cadastro.
-        }
-
-        // Removi o bloqueio do erro 400.
-        // Às vezes o backend joga erro 400 só por validação, não deve bloquear a tela inteira.
+        console.error('Erro ao verificar projeto:', err);
       },
     });
   }
@@ -306,42 +302,6 @@ export class CriarProjetoComponent implements OnInit {
     });
   }
 
-  carregarProfessores(): void {
-    this.professorService.findAll().subscribe({
-      next: (res) => {
-        this.professores = res;
-        this.professoresFiltrados = res;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar professores:', err);
-      },
-    });
-  }
-
-  pesquisarProfessores(event: Event): void {
-    const termo = (event.target as HTMLInputElement).value.toLowerCase();
-    this.professoresFiltrados = this.professores.filter((p) =>
-      p.nome.toLowerCase().includes(termo)
-    );
-  }
-
-  toggleProfessorSelecao(professor: Professor): void {
-    const index = this.professoresSelecionados.findIndex(
-      (p) => p.id === professor.id
-    );
-
-    if (index >= 0) {
-      this.professoresSelecionados.splice(index, 1);
-    } else {
-      this.professoresSelecionados.push(professor);
-    }
-    this.formProjeto.get('professores')?.setValue(this.professoresSelecionados);
-  }
-
-  isProfessorSelecionado(professor: Professor): boolean {
-    return this.professoresSelecionados.some((p) => p.id === professor.id);
-  }
-
   carregarProjeto(id: number) {
     this.projetoService.findById(id).subscribe((projeto) => {
       if (projeto.areaDeAtuacao && projeto.areaDeAtuacao.id) {
@@ -349,6 +309,11 @@ export class CriarProjetoComponent implements OnInit {
           .findByAreaDeAtuacao(projeto.areaDeAtuacao.id)
           .subscribe((mentoresDaArea: Mentor[]) => {
             this.mentores = mentoresDaArea;
+
+            // Carrega professores para exibição no modo edição
+            if (projeto.professores) {
+              this.professoresSelecionados = projeto.professores;
+            }
 
             this.formProjeto.patchValue({
               nomeDoProjeto: projeto.nomeDoProjeto,
@@ -381,7 +346,6 @@ export class CriarProjetoComponent implements OnInit {
 
   onAreaDeAtuacaoChange(): void {
     const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
-
     if (!areaSelecionada) {
       this.mentores = [];
       this.formProjeto.get('mentor')?.reset();
@@ -393,16 +357,11 @@ export class CriarProjetoComponent implements OnInit {
         this.mentores = mentores;
         this.formProjeto.get('mentor')?.enable();
       },
-      error: (err) => {
-        console.error('Erro ao buscar mentores:', err);
-      },
+      error: (err) => console.error('Erro ao buscar mentores:', err),
     });
   }
 
-  trackByProfessorId(index: number, professor: Professor): number {
-    return professor.id ?? index;
-  }
-
+  // --- Lógica do Modal de Mentors ---
   abrirModalMentor(): void {
     this.modalAberto = true;
     this.areaSelecionadaNoModal =
@@ -419,7 +378,6 @@ export class CriarProjetoComponent implements OnInit {
       this.mentoresFiltradosModal = [];
       return;
     }
-
     this.mentorService
       .findByAreaDeAtuacao(this.areaSelecionadaNoModal.id)
       .subscribe((mentores) => {
@@ -429,6 +387,7 @@ export class CriarProjetoComponent implements OnInit {
         this.filtrarMentoresModal();
       });
   }
+
   filtrarMentoresModal(event?: Event): void {
     if (event) {
       this.filtroNome = (event.target as HTMLInputElement).value
@@ -454,16 +413,14 @@ export class CriarProjetoComponent implements OnInit {
       });
       return;
     }
-
     if (this.semGrupo) {
       Swal.fire({
         icon: 'warning',
-        title: 'Não é possivel criar projeto',
-        text: 'Você precisa estar em um grupo para criarum projeto.',
+        title: 'Não é possível criar projeto',
+        text: 'Você precisa estar em um grupo para criar um projeto.',
       });
       return;
     }
-
     if (!this.formProjeto.valid) {
       this.formProjeto.markAllAsTouched();
       Swal.fire({
@@ -473,8 +430,8 @@ export class CriarProjetoComponent implements OnInit {
       });
       return;
     }
-    const projeto: Projeto = this.formProjeto.value;
 
+    const projeto: Projeto = this.formProjeto.value;
     this.carregando = true;
 
     const acao =
@@ -490,7 +447,7 @@ export class CriarProjetoComponent implements OnInit {
             ? 'Projeto Atualizado!'
             : 'Projeto Cadastrado!',
           text: this.modoEdicao
-            ? 'As informações do projeto foram salvas.'
+            ? 'As informações foram salvas.'
             : 'O projeto foi salvo com sucesso!',
         });
         this.modoEdicao
@@ -498,9 +455,10 @@ export class CriarProjetoComponent implements OnInit {
           : this.formProjeto.reset();
       },
       error: (err) => {
+        this.carregando = false; // Importante destravar o botão se der erro
         Swal.fire({
           icon: 'error',
-          title: this.modoEdicao ? 'Erro ao Atualizar' : 'Erro ao Salvar',
+          title: 'Erro',
           text: err.error?.message || 'Erro desconhecido.',
         });
       },
