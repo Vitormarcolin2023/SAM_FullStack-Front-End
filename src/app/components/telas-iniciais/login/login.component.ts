@@ -11,6 +11,9 @@ import { AlunoService } from '../../../services/alunos/alunos.service';
 import { Aluno } from '../../../models/aluno/aluno';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
 import { AvaliacaoService } from '../../../services/avaliacao/avaliacao.service';
+import { MentorPerfilComponent } from '../../telas-internas/mentor/mentor-perfil/mentor-perfil.component';
+
+
 
 @Component({
   selector: 'app-login',
@@ -85,7 +88,7 @@ export class LoginComponent {
     switch (role) {
       case 'MENTOR':
         if (safeStatus === 'ATIVO') {
-          this.router.navigate(['/aprovar-mentoria/painel-de-mentorias']);
+          this.router.navigate(['/mentor-perfil']);
         } else if (safeStatus === 'PENDENTE') {
           Swal.fire({
             icon: 'info',
