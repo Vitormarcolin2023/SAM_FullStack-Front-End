@@ -45,6 +45,7 @@ export class AlunoPerfilComponent implements OnInit {
     this.isLoading = true;
     this.alunoService.getAlunoPorEmail(email).subscribe({
       next: (dados) => {
+        this.aluno = dados;
         this.isLoading = false;
       },
       error: (err) => {
