@@ -144,7 +144,7 @@ export class VisualizarReunioesComponent {
   }
 
   aceitarReuniao(reuniaoId: number) {
-    const motivo = '';
+    const motivo = encodeURIComponent(' ');
 
     this.reuniaoService.aceitarReuniao(reuniaoId, 'ACEITO', motivo).subscribe({
       next: (response) => {
@@ -216,11 +216,10 @@ export class VisualizarReunioesComponent {
   modalLoading: boolean = false;
 
   visualizarReuniao(reuniao: Reuniao) {
-    this.reuniaoSelecionada = { ...reuniao }; // clona para não alterar direto
+    this.reuniaoSelecionada = { ...reuniao }; 
   }
 
   atualizarReuniao(reuniaoEditada: Reuniao) {
-    // chama o serviço para salvar alterações no backend
     this.reuniaoService.updateReuniao(reuniaoEditada.id!, reuniaoEditada).subscribe({
       next: (res) => {
         // atualiza na lista

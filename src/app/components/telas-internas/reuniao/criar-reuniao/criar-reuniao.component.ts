@@ -242,7 +242,11 @@ export class CriarReuniaoComponent {
           title: res,
           confirmButtonColor: 'rgb(0,128,0)',
         }).then(() => {
-          this.router.navigate(['/visual-projeto']);
+          if(this.role == "ALUNO") {
+            this.router.navigate(['/visual-projeto']);
+          } else if(this.role == "MENTOR") {
+            this.router.navigate(['mentor/visualizar-projetos']);
+          } 
         });
       },
       error: (err: HttpErrorResponse) => {
