@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Grupo, GrupoDto } from '../../models/grupo/grupo';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GrupoService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = environment.SERVIDOR;
   private grupoApiUrl = `${this.baseUrl}/grupos`;
 
   constructor(private http: HttpClient) {}

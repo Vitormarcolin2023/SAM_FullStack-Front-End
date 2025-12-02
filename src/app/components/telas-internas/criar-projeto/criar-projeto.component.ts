@@ -16,13 +16,11 @@ import { Mentor } from '../../../models/mentor/mentor';
 import { AreaDeAtuacao } from '../../../models/areadeatuacao/areadeatuacao';
 import { ProjetoService } from '../../../services/projeto/projeto.service';
 import Swal from 'sweetalert2';
-import { NavbarTelasInternasComponent } from '../../design/navbar-telas-internas/navbar-telas-internas.component';
 import { SidebarComponent } from '../../design/sidebar/sidebar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GrupoService } from '../../../services/grupo/grupo.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlunoService } from '../../../services/alunos/alunos.service';
-import { ProfessorService } from '../../../services/professor/professor.service';
 import { Professor } from '../../../models/professor/professor';
 
 @Component({
@@ -30,12 +28,7 @@ import { Professor } from '../../../models/professor/professor';
   templateUrl: './criar-projeto.component.html',
   styleUrls: ['./criar-projeto.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SidebarComponent,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, SidebarComponent],
 })
 export class CriarProjetoComponent implements OnInit {
   formProjeto!: FormGroup;
@@ -43,21 +36,19 @@ export class CriarProjetoComponent implements OnInit {
   carregando = false;
   modalAberto = false;
   idProjeto: number | null = null;
-  
 
   mentores: Mentor[] = [];
   areasDeAtuacao: AreaDeAtuacao[] = [];
   grupos: any[] = [];
-  professores: Professor[] = [];
-  professoresFiltrados: Professor[] = [];
+
+  // Lista apenas para armazenar os professores vindos do grupo (para exibição)
   professoresSelecionados: Professor[] = [];
+
   mentoresFiltradosModal: Mentor[] = [];
   areaSelecionadaNoModal: AreaDeAtuacao | null = null;
   listaOriginalMentoresModal: Mentor[] = [];
 
   filtroNome: string = '';
-  filtroArea: string = '';
-
   semGrupo = false;
 
   periodosDisponiveis: string[] = [
@@ -81,10 +72,8 @@ export class CriarProjetoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private grupoService: GrupoService,
-    private alunoService: AlunoService,
-    private professorService: ProfessorService,
-    
-  ){}
+    private alunoService: AlunoService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -92,34 +81,51 @@ export class CriarProjetoComponent implements OnInit {
     this.carregarDadosIniciais();
     this.monitorarAreaDeAtuacao();
     this.monitorarDataInicio();
-    this.carregarProfessores();
 
     this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
         this.modoEdicao = true;
         this.idProjeto = +id;
-          this.carregarProjeto(this.idProjeto);
+        this.carregarProjeto(this.idProjeto);
       }
     });
   }
 
-  private monitorarDataInicio(): void{
-    this.formProjeto.get('dataInicioProjeto')?.valueChanges.subscribe(inicio => {
-      if (!inicio){
-        this.formProjeto.get('dataFinalProjeto')?.setValue('');
-        return;
-      }
-      const dataInicio = new Date(inicio);
-      const dataFinalAutomatico = new Date(dataInicio);
-      dataFinalAutomatico.setMonth(dataFinalAutomatico.getMonth() + 6);
-
-      const dataFinalFormatada = dataFinalAutomatico.toISOString().substring(0,10);
-
-      this.formProjeto.get('dataFinalProjeto')?.setValue(dataFinalFormatada,{emitEvent: false});
-    });
+  // --- GETTER PARA O HTML (Exibe os nomes dos professores) ---
+  get nomesProfessoresFormatados(): string {
+    if (
+      !this.professoresSelecionados ||
+      this.professoresSelecionados.length === 0
+    ) {
+      return 'Nenhum professor vinculado ao grupo.';
+    }
+    return this.professoresSelecionados.map((p) => p.nome).join(', ');
   }
-     
+
+  private monitorarDataInicio(): void {
+    this.formProjeto
+      .get('dataInicioProjeto')
+      ?.valueChanges.subscribe((inicio) => {
+        // Validação para evitar datas malucas (ex: ano 20226)
+        if (!inicio || inicio.length < 10) {
+          this.formProjeto.get('dataFinalProjeto')?.setValue('');
+          return;
+        }
+        const dataInicio = new Date(inicio);
+        if (isNaN(dataInicio.getTime())) return;
+
+        const dataFinalAutomatico = new Date(dataInicio);
+        dataFinalAutomatico.setMonth(dataFinalAutomatico.getMonth() + 6);
+        const dataFinalFormatada = dataFinalAutomatico
+          .toISOString()
+          .split('T')[0];
+
+        this.formProjeto
+          .get('dataFinalProjeto')
+          ?.setValue(dataFinalFormatada, { emitEvent: false });
+      });
+  }
 
   initForm() {
     this.formProjeto = this.fb.group(
@@ -132,8 +138,7 @@ export class CriarProjetoComponent implements OnInit {
         areaDeAtuacao: [null, Validators.required],
         mentor: [{ value: null, disabled: true }, Validators.required],
         grupo: [null, Validators.required],
-        professores: [[], Validators.required],
-      
+        professores: [[], Validators.required], // Inicializa vazio
       },
       {
         validators: [this.validarDatasProjeto()],
@@ -163,10 +168,7 @@ export class CriarProjetoComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error(
-          'Nenhuma área de atuação encontrada para o aluno logado.',
-          err
-        );
+        console.error('Nenhuma área encontrada para o aluno.', err);
       },
     });
   }
@@ -176,10 +178,8 @@ export class CriarProjetoComponent implements OnInit {
       .get('areaDeAtuacao')
       ?.valueChanges.subscribe((areaSelecionada) => {
         const mentorControl = this.formProjeto.get('mentor');
-
         this.mentores = [];
         mentorControl?.reset();
-
 
         if (areaSelecionada && areaSelecionada.id) {
           mentorControl?.enable();
@@ -202,9 +202,7 @@ export class CriarProjetoComponent implements OnInit {
           this.preencherGrupoDoAluno();
         }
       },
-      error: (err) => {
-        console.error('Erro ao carregar grupos:', err);
-      },
+      error: (err) => console.error('Erro ao carregar grupos:', err),
     });
   }
 
@@ -212,65 +210,82 @@ export class CriarProjetoComponent implements OnInit {
     this.grupoService.findGrupoByAlunoLogado().subscribe({
       next: (grupoDoAluno) => {
         if (grupoDoAluno) {
-          const grupoCorrespondente = this.grupos.find(g => g.id === grupoDoAluno.id);
+          const grupoCorrespondente = this.grupos.find(
+            (g) => g.id === grupoDoAluno.id
+          );
+
           if (grupoCorrespondente) {
+            // 1. Define o Grupo
             this.formProjeto.patchValue({ grupo: grupoCorrespondente });
             this.semGrupo = false;
 
-             this.verificarProjetoDoGrupo(grupoCorrespondente.id);
+            // 2. Define o Período automaticamente (se houver no grupo)
+            if (grupoCorrespondente.periodo) {
+              this.formProjeto.patchValue({
+                periodo: grupoCorrespondente.periodo,
+              });
+            }
 
+            // 3. Define os Professores automaticamente
+            if (
+              grupoCorrespondente.professores &&
+              grupoCorrespondente.professores.length > 0
+            ) {
+              this.professoresSelecionados = grupoCorrespondente.professores;
+              this.formProjeto.patchValue({
+                professores: this.professoresSelecionados,
+              });
+            }
+
+            // Verifica se já tem projeto
+            this.verificarProjetoDoGrupo(grupoCorrespondente.id);
             this.formProjeto.enable();
           }
-        }else {
-          this.semGrupo = true;
-          this.formProjeto.disable();
-        
-          setTimeout(() => {
-            this.exibirAlertaSemGrupo();
-          }, 0);
+        } else {
+          this.tratarUsuarioSemGrupo();
         }
       },
       error: (err) => {
-        console.error('Nenhum grupo encontrado para o aluno logado.', err);
-          this.semGrupo = true;
-          this.formProjeto.disable();
-         
-          setTimeout(() => {
-          this.exibirAlertaSemGrupo();
-        }, 0);
-      }
+        console.error('Nenhum grupo encontrado.', err);
+        this.tratarUsuarioSemGrupo();
+      },
     });
   }
 
-  verificarProjetoDoGrupo(idGrupo: number): void {
-  this.projetoService.findByGrupo(idGrupo).subscribe({
-    next: (projeto) => {
-      if (projeto) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Este grupo já possui um projeto!',
-          text: 'Não é possível criar outro projeto.',
-        });
-        this.formProjeto.disable();
-      }
-    },
-    error: (err) => {
-      console.log("Erro ao verificar projeto do grupo:", err);
-    
-      if (err.status === 400) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Este grupo já possui um projeto!',
-          text: 'Não é possível criar outro projeto.',
-        });
-        this.formProjeto.disable();
-      } else if (err.status !== 404) {
-        console.error('Erro inesperado:', err);
-      }
-    }
-  });
-}
+  private tratarUsuarioSemGrupo() {
+    this.semGrupo = true;
+    this.formProjeto.disable();
+    setTimeout(() => {
+      this.exibirAlertaSemGrupo();
+    }, 0);
+  }
 
+  verificarProjetoDoGrupo(idGrupo: number): void {
+    // Se estiver editando, não precisa verificar bloqueio
+    if (this.modoEdicao) return;
+
+    this.projetoService.findByGrupo(idGrupo).subscribe({
+      next: (projeto) => {
+        // Se retornou um projeto válido (não nulo, com ID)
+        if (projeto && projeto.id) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Este grupo já possui um projeto!',
+            text: `Já existe o projeto "${
+              projeto.nomeDoProjeto || 'Desconhecido'
+            }" cadastrado.`,
+          });
+          this.formProjeto.disable();
+        }
+      },
+      error: (err) => {
+        // Se der 404, significa que NÃO tem projeto, então pode criar (Sucesso)
+        if (err.status === 404) return;
+
+        console.error('Erro ao verificar projeto:', err);
+      },
+    });
+  }
 
   exibirAlertaSemGrupo(): void {
     Swal.fire({
@@ -279,47 +294,12 @@ export class CriarProjetoComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Criar grupo',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
-      if(result.isConfirmed) {
+      if (result.isConfirmed) {
         this.router.navigate(['/grupo/criar-grupo']);
       }
     });
-  }
-
-  carregarProfessores(): void{
-    this.professorService.findAll().subscribe({
-      next: (res) => {
-        this.professores = res;
-        this.professoresFiltrados = res;
-      },
-      error: (err) =>{
-        console.error('Erro ao carregar professores:',err);
-      }
-    });
-  }
-
-  pesquisarProfessores(event: Event): void{
-    const termo = (event.target as HTMLInputElement).value.toLowerCase();
-    this.professoresFiltrados = this.professores.filter((p) =>
-    p.nome.toLowerCase().includes(termo)
-    );
-  }
-
-  toggleProfessorSelecao(professor:Professor): void {
-    const index = this.professoresSelecionados.findIndex((p) => p.id === professor.id);
-
-    if(index >= 0) {
-      this.professoresSelecionados.splice(index, 1);
-    } else {
-      this.professoresSelecionados.push(professor);
-    }
-    this.formProjeto.get('professores')?.setValue(this.professoresSelecionados);
-  }
-
-  isProfessorSelecionado(professor: Professor): boolean {
-    return this.professoresSelecionados.some((p) => p.id === professor.id);
-
   }
 
   carregarProjeto(id: number) {
@@ -329,6 +309,11 @@ export class CriarProjetoComponent implements OnInit {
           .findByAreaDeAtuacao(projeto.areaDeAtuacao.id)
           .subscribe((mentoresDaArea: Mentor[]) => {
             this.mentores = mentoresDaArea;
+
+            // Carrega professores para exibição no modo edição
+            if (projeto.professores) {
+              this.professoresSelecionados = projeto.professores;
+            }
 
             this.formProjeto.patchValue({
               nomeDoProjeto: projeto.nomeDoProjeto,
@@ -358,79 +343,69 @@ export class CriarProjetoComponent implements OnInit {
       return new Date(inicio) > new Date(fim) ? { dataInvalida: true } : null;
     };
   }
-  
-  onAreaDeAtuacaoChange(): void{
-     const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
 
-     if (!areaSelecionada) {
-    this.mentores = [];
-    this.formProjeto.get('mentor')?.reset();
-    this.formProjeto.get('mentor')?.disable();
-    return;
-  }
-  this.mentorService.findByAreaDeAtuacao(areaSelecionada.id).subscribe({
-    next: (mentores) => {
-      this.mentores = mentores;
-      this.formProjeto.get('mentor')?.enable();
-    },
-     error: (err) => {
-      console.error('Erro ao buscar mentores:', err);
+  onAreaDeAtuacaoChange(): void {
+    const areaSelecionada = this.formProjeto.get('areaDeAtuacao')?.value;
+    if (!areaSelecionada) {
+      this.mentores = [];
+      this.formProjeto.get('mentor')?.reset();
+      this.formProjeto.get('mentor')?.disable();
+      return;
     }
-  });
-}
+    this.mentorService.findByAreaDeAtuacao(areaSelecionada.id).subscribe({
+      next: (mentores) => {
+        this.mentores = mentores;
+        this.formProjeto.get('mentor')?.enable();
+      },
+      error: (err) => console.error('Erro ao buscar mentores:', err),
+    });
+  }
 
-trackByProfessorId(index: number, professor: Professor): number {
-  return professor.id ?? index;
-}
-
-abrirModalMentor(): void {
-  this.modalAberto = true;
-  this.areaSelecionadaNoModal = this.formProjeto.get('areaDeAtuacao')?.value || null;
-  this.trocarAreaNoModal();
-
-}
+  // --- Lógica do Modal de Mentors ---
+  abrirModalMentor(): void {
+    this.modalAberto = true;
+    this.areaSelecionadaNoModal =
+      this.formProjeto.get('areaDeAtuacao')?.value || null;
+    this.trocarAreaNoModal();
+  }
 
   fecharModalMentor(): void {
     this.modalAberto = false;
   }
 
   trocarAreaNoModal(): void {
-  if (!this.areaSelecionadaNoModal || !this.areaSelecionadaNoModal.id) {
-    this.mentoresFiltradosModal = [];
-    return;
-  }
-
-  this.mentorService
-    .findByAreaDeAtuacao(this.areaSelecionadaNoModal.id)
-    .subscribe((mentores) => {
-      this.listaOriginalMentoresModal = mentores.filter(
-        (m) => m.statusMentor === 'ATIVO'
-      );
-     this.filtrarMentoresModal();
-    });
-}
-  filtrarMentoresModal(event?: Event): void {
-    if(event) {
-      this.filtroNome = (event.target as HTMLInputElement).value
-      .toLowerCase()
-      .trim();
+    if (!this.areaSelecionadaNoModal || !this.areaSelecionadaNoModal.id) {
+      this.mentoresFiltradosModal = [];
+      return;
     }
-     this.mentoresFiltradosModal = this.listaOriginalMentoresModal.filter(m =>
-    m.nome.toLowerCase().includes(this.filtroNome ?? "")
-  );
-}
-
-
-  selecionarMentor(mentor: Mentor): void{
-  this.formProjeto.get('mentor')?.setValue(mentor);
-  this.modalAberto = false;
+    this.mentorService
+      .findByAreaDeAtuacao(this.areaSelecionadaNoModal.id)
+      .subscribe((mentores) => {
+        this.listaOriginalMentoresModal = mentores.filter(
+          (m) => m.statusMentor === 'ATIVO'
+        );
+        this.filtrarMentoresModal();
+      });
   }
 
+  filtrarMentoresModal(event?: Event): void {
+    if (event) {
+      this.filtroNome = (event.target as HTMLInputElement).value
+        .toLowerCase()
+        .trim();
+    }
+    this.mentoresFiltradosModal = this.listaOriginalMentoresModal.filter((m) =>
+      m.nome.toLowerCase().includes(this.filtroNome ?? '')
+    );
+  }
 
+  selecionarMentor(mentor: Mentor): void {
+    this.formProjeto.get('mentor')?.setValue(mentor);
+    this.modalAberto = false;
+  }
 
   onSubmit() {
-
-     if (this.formProjeto.disabled) {
+    if (this.formProjeto.disabled) {
       Swal.fire({
         icon: 'warning',
         title: 'Ação bloqueada',
@@ -438,18 +413,14 @@ abrirModalMentor(): void {
       });
       return;
     }
-
-    if(this.semGrupo) {
+    if (this.semGrupo) {
       Swal.fire({
         icon: 'warning',
-        title: 'Não é possivel criar projeto',
-        text: 'Você precisa estar em um grupo para criarum projeto.'
+        title: 'Não é possível criar projeto',
+        text: 'Você precisa estar em um grupo para criar um projeto.',
       });
       return;
     }
-
-
-
     if (!this.formProjeto.valid) {
       this.formProjeto.markAllAsTouched();
       Swal.fire({
@@ -459,39 +430,40 @@ abrirModalMentor(): void {
       });
       return;
     }
-      const projeto: Projeto = this.formProjeto.value;
 
-      this.carregando = true;
+    const projeto: Projeto = this.formProjeto.value;
+    this.carregando = true;
 
-      const acao =
-        this.modoEdicao && this.idProjeto
-          ? this.projetoService.update(this.idProjeto, projeto)
-          : this.projetoService.save(projeto);
+    const acao =
+      this.modoEdicao && this.idProjeto
+        ? this.projetoService.update(this.idProjeto, projeto)
+        : this.projetoService.save(projeto);
 
-      acao.subscribe({
-        next: () => {
-          Swal.fire({
-            icon: 'success',
-            title: this.modoEdicao
-              ? 'Projeto Atualizado!'
-              : 'Projeto Cadastrado!',
-            text: this.modoEdicao
-              ? 'As informações do projeto foram salvas.'
-              : 'O projeto foi salvo com sucesso!',
-          });
-          this.modoEdicao
-            ? this.router.navigate(['/visual-projeto'])
-            : this.formProjeto.reset();
-        },
-        error: (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: this.modoEdicao ? 'Erro ao Atualizar' : 'Erro ao Salvar',
-            text: err.error?.message || 'Erro desconhecido.',
-          });
-        },
-      });
-    }
+    acao.subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: this.modoEdicao
+            ? 'Projeto Atualizado!'
+            : 'Projeto Cadastrado!',
+          text: this.modoEdicao
+            ? 'As informações foram salvas.'
+            : 'O projeto foi salvo com sucesso!',
+        });
+        this.modoEdicao
+          ? this.router.navigate(['/visual-projeto'])
+          : this.formProjeto.reset();
+      },
+      error: (err) => {
+        this.carregando = false; // Importante destravar o botão se der erro
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: err.error?.message || 'Erro desconhecido.',
+        });
+      },
+    });
+  }
 
   hasError(campo: string, erro: string): boolean {
     const controle = this.formProjeto.get(campo);

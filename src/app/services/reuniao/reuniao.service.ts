@@ -25,6 +25,6 @@ export class ReuniaoService {
   }
 
   aceitarReuniao(reuniaoId: number, statusReuniao: string, motivoRecusa: string): Observable<string>{
-    return this.http.put<string>(`${this.API}/confirmarReuniao/${reuniaoId}/status/${statusReuniao}/motivo-cancelamento${motivoRecusa}`, null, {responseType: 'text' as 'json'});
+    return this.http.put<string>(`${this.API}/confirmarReuniao/${reuniaoId}/status/${statusReuniao}/motivo-cancelamento/${motivoRecusa}`, null, {responseType: 'text' as 'json'});
   }
 }

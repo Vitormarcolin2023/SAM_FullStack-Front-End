@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Aluno } from '../../models/aluno/aluno';
 import { tick } from '@angular/core/testing';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlunoService {
-  private apiUrl = 'http://localhost:8080/alunos';
+  private apiUrl = environment.SERVIDOR + '/alunos';
 
   private alunoLogadoSubject = new BehaviorSubject<Aluno | null>(null);
   public alunoLogado$ = this.alunoLogadoSubject.asObservable();

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router'; // Verifique se o Router está importado
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../../design/sidebar/sidebar.component';
+
 import Swal from 'sweetalert2';
 
 import { Aluno } from '../../../../models/aluno/aluno';
@@ -11,7 +11,7 @@ import { TokenDecode } from '../../../../models/token/token-decode';
 @Component({
   selector: 'app-aluno-perfil',
   standalone: true,
-  imports: [CommonModule, SidebarComponent],
+  imports: [CommonModule],
   templateUrl: './aluno-perfil.component.html',
   styleUrls: ['./aluno-perfil.component.scss'], // Caminho para o NOVO SCSS
 })
@@ -45,6 +45,7 @@ export class AlunoPerfilComponent implements OnInit {
     this.isLoading = true;
     this.alunoService.getAlunoPorEmail(email).subscribe({
       next: (dados) => {
+        this.aluno = dados;
         this.isLoading = false;
       },
       error: (err) => {

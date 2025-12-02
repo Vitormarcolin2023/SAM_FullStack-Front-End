@@ -38,23 +38,18 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-  
-      this.authSubscription = this.alunoService.alunoLogado$.subscribe(
-        (aluno) => {
-          
-          if (aluno && aluno.id) {
-            this.loggedInAlunoId = aluno.id;
-            this.carregarGrupo();
-          } else {
-            this.isLoading = false;
-            this.exibirModalErro(
-              'Não foi possível identificar o usuário. Por favor, faça o login novamente.'
-            );
-          }
-        }
-      );
-  }
 
+    this.authSubscription = this.alunoService.alunoLogado$.subscribe(
+      (aluno) => {
+        if (aluno && aluno.id) {
+          this.loggedInAlunoId = aluno.id;
+          this.carregarGrupo();
+        } else {
+          this.isLoading = false;
+        }
+      }
+    );
+  }
 
   ngOnDestroy(): void {
     this.authSubscription?.unsubscribe();
@@ -69,14 +64,15 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
         this.grupo = data;
         this.isLoading = false;
         if (data == null) {
-          this.isLoading = false;
           this.alunoSemGrupo = true;
-          console.log(data);
+          return;
         }
+
         if (data.id) {
           this.idGrupo = data.id;
         }
       },
+
       error: (err) => {
         if (err.status === 404 || err.status === 400) {
           this.alunoSemGrupo = true;
@@ -221,9 +217,9 @@ export class GrupoDetailsComponent implements OnInit, OnDestroy {
         Swal.fire({
           icon: 'success',
           text: data,
-        }).then( () => {
+        }).then(() => {
           window.location.reload();
-      });
+        });
       },
       error: (err) => {
         console.log(err);
