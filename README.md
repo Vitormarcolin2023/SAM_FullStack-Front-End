@@ -62,7 +62,7 @@ ng serve
 
 4. Acesse `http://localhost:4200/` no seu navegador.
 
-## 👨‍🏫 Orientador do Projeto
+## 👨‍🏫 Orientadores do Projeto
 
 **Willian Bogler da Silva**
 - Mestre em Tecnologia Ambiental e docente do curso de Engenharia de Software.
