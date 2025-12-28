@@ -66,6 +66,7 @@ ng serve
 
 **Willian Bogler da Silva**
 - Mestre em Tecnologia Ambiental e docente do curso de Engenharia de Software.
+- Especialista Edrian Silva e docente do curso de Engenharia de Software.
 
 ## 👨‍🏫 Mentor do Projeto
 
